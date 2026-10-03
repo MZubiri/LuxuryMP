@@ -4,10 +4,10 @@ services:
     command: --default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-LuxuryMachuPicchu_Root_2026!}
+      MYSQL_ROOT_PASSWORD: ${SERVICE_PASSWORD_ROOT}
       MYSQL_DATABASE: ${DB_NAME:-luxury_machupicchu_db}
-      MYSQL_USER: ${DB_USER:-lmp_user}
-      MYSQL_PASSWORD: ${DB_PASSWORD:-lmp_secure_pass_2026!}
+      MYSQL_USER: ${SERVICE_USER_MYSQL}
+      MYSQL_PASSWORD: ${SERVICE_PASSWORD_MYSQL}
     volumes:
       - mysql_data:/var/lib/mysql
     expose:
@@ -27,12 +27,12 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - ASPNETCORE_URLS=http://+:5000
-      - ConnectionStrings__DefaultConnection=Server=db;Port=3306;Database=${DB_NAME:-luxury_machupicchu_db};User=${DB_USER:-lmp_user};Password=${DB_PASSWORD:-lmp_secure_pass_2026!};CharSet=utf8mb4;
+      - ConnectionStrings__DefaultConnection=Server=db;Port=3306;Database=${DB_NAME:-luxury_machupicchu_db};User=${SERVICE_USER_MYSQL};Password=${SERVICE_PASSWORD_MYSQL};CharSet=utf8mb4;
       - AgencySettings__WhatsAppNumber=${WHATSAPP_NUMBER:-51958195840}
       - AgencySettings__Email=${AGENCY_EMAIL:-info@lmptravel.com}
       - AdminSettings__Username=${ADMIN_USERNAME:-concierge@luxurymachupicchu.com}
-      - AdminSettings__Password=${ADMIN_PASSWORD:-MachuPicchuLuxury2026!}
-      - JWT_SECRET_KEY=${JWT_SECRET_KEY:-LuxuryMachupicchuPeru_BelmondInspired_UltraSecureJwtKey_2026_Min32Chars!}
+      - AdminSettings__Password=${SERVICE_PASSWORD_ADMIN}
+      - JWT_SECRET_KEY=${SERVICE_BASE64_JWT}
     expose:
       - 5000
     depends_on:

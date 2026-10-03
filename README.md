@@ -47,20 +47,18 @@ This repository is optimized for one-click deployment via **Coolify** using Dock
    Branch: `main`
 4. Set the **Compose File Location** to `./docker-compose.yml` (default).
 
-### 2. Configure Environment Variables
-Coolify allows setting environment variables in the project settings. You can copy the values from `.env.example`:
+### 2. Automatic Variable Generation (Magic Variables)
+You **do not need to manually configure passwords or secret keys**. The `docker-compose.yml` uses Coolify's native **Magic Variables**:
 
-| Variable | Description | Default / Example |
-| :--- | :--- | :--- |
-| `DB_ROOT_PASSWORD` | Root password for MySQL container | `YourSecureRootPass2026!` |
-| `DB_NAME` | Database schema name | `luxury_machupicchu_db` |
-| `DB_USER` | Application database user | `lmp_user` |
-| `DB_PASSWORD` | Application database user password | `YourSecureUserPass2026!` |
-| `WHATSAPP_NUMBER` | Official concierge WhatsApp | `51958195840` |
-| `AGENCY_EMAIL` | Official concierge inquiry email | `info@lmptravel.com` |
-| `ADMIN_USERNAME` | Backoffice concierge username | `concierge@luxurymachupicchu.com` |
-| `ADMIN_PASSWORD` | Backoffice concierge password | `YourAdminPass2026!` |
-| `JWT_SECRET_KEY` | Min 32-character secret for JWT | *(Set a strong secret key)* |
+- `${SERVICE_PASSWORD_ROOT}`: Coolify automatically generates and persists a cryptographically secure MySQL root password.
+- `${SERVICE_USER_MYSQL}`: Coolify automatically generates the MySQL application username.
+- `${SERVICE_PASSWORD_MYSQL}`: Coolify automatically generates the MySQL application password and shares it with the backend.
+- `${SERVICE_PASSWORD_ADMIN}`: Coolify automatically generates the backoffice admin password.
+- `${SERVICE_BASE64_JWT}`: Coolify automatically generates a secure 64-character base64 key for ASP.NET Core JWT authentication.
+
+You can view the automatically generated credentials at any time in Coolify under **Configuration > Environment Variables**.
+
+*(Optional)* If you wish to override agency contact info, you can set `WHATSAPP_NUMBER` or `AGENCY_EMAIL`.
 
 ### 3. Deploy
 Click **Deploy** in Coolify.
