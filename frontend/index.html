@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="en" data-currency="USD">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Luxury Machupicchu Peru | Haute Couture Andean Travel & Private Expeditions</title>
+  <meta name="description" content="Experience Machu Picchu with unparalleled distinction. Private journeys aboard the Belmond Hiram Bingham, certified archaeologist-led private tours, and seamless luxury travel across the Andes.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Montserrat:wght@200;300;400;500;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="luxury-body">
+
+  <!-- Top Announcement & Pedigree Bar -->
+  <div class="top-pedigree-bar" id="topPedigreeBar">
+    <div class="pedigree-content">
+      <span class="pedigree-tag" data-i18n="topBarTag">OFFICIAL LICENSED OPERATOR</span>
+      <span class="pedigree-separator">•</span>
+      <span data-i18n="topBarRuc">RUC: 20601622492</span>
+      <span class="pedigree-separator">•</span>
+      <span data-i18n="topBarLic">GERCETUR CERTIFIED • MINCETUR AUTHORIZED • ESNNA COMPLIANT</span>
+      <span class="pedigree-separator">•</span>
+      <span class="pedigree-phone">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+        +(51) 958 195 840
+      </span>
+    </div>
+  </div>
+
+  <!-- Primary Haute Couture Navigation -->
+  <header class="luxury-header" id="luxuryHeader">
+    <div class="header-inner">
+      <div class="header-left">
+        <button class="nav-toggle" id="navToggle" onclick="toggleMenu()" aria-label="Toggle Navigation Menu">
+          <span></span>
+          <span></span>
+        </button>
+        <a href="#" class="brand-link" id="brandLogo">
+          <img src="assets/images/logo-travel.png" alt="LMP Travel - Luxury Machupicchu Peru" class="header-logo-img">
+          <div class="brand-text">
+            <span class="brand-title">LUXURY MACHUPICCHU</span>
+            <span class="brand-subtitle">PERU</span>
+          </div>
+        </a>
+      </div>
+
+      <nav class="desktop-nav" id="desktopNav">
+        <a href="#expeditions" class="nav-link" data-i18n="navExpeditions">Expeditions</a>
+        <a href="#rail-journeys" class="nav-link" data-i18n="navRail">Hiram Bingham Rail</a>
+        <a href="#philosophy" class="nav-link" data-i18n="navPhilosophy">The Belmond Distinction</a>
+        <a href="#chronicles" class="nav-link" data-i18n="navChronicles">Guest Chronicles</a>
+        <a href="#contact" class="nav-link" data-i18n="navContact">Concierge</a>
+      </nav>
+
+      <div class="header-right">
+        <!-- Currency Switcher -->
+        <div class="utility-pill" id="currencyPill">
+          <button class="pill-btn active" id="btnUsd" onclick="setCurrency('USD')">USD $</button>
+          <span class="pill-divider">/</span>
+          <button class="pill-btn" id="btnPen" onclick="setCurrency('PEN')">PEN S/.</button>
+        </div>
+
+        <!-- Language Switcher -->
+        <div class="utility-pill" id="langPill">
+          <button class="pill-btn active" id="btnLangEn" onclick="setLanguage('en')">EN</button>
+          <span class="pill-divider">/</span>
+          <button class="pill-btn" id="btnLangEs" onclick="setLanguage('es')">ES</button>
+        </div>
+
+        <!-- Inquire CTA -->
+        <button class="btn-concierge-primary" id="btnHeaderInquire" onclick="openConciergeModal()">
+          <span data-i18n="btnBespokeInquiry">Bespoke Inquiry</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer Backdrop & Menu -->
+  <div class="mobile-drawer-backdrop" id="mobileDrawerBackdrop" onclick="toggleMenu()"></div>
+  <div class="mobile-drawer" id="mobileDrawer">
+    <div class="drawer-header">
+      <div class="drawer-brand">
+        <img src="assets/images/logo-travel.png" alt="LMP Travel" class="drawer-logo-img">
+        <div class="drawer-brand-text">
+          <span class="brand-title">LUXURY MACHUPICCHU</span>
+          <span class="brand-subtitle">PERU</span>
+        </div>
+      </div>
+      <button class="drawer-close" id="drawerClose" onclick="toggleMenu()" aria-label="Close Menu">✕</button>
+    </div>
+    <div class="drawer-links">
+      <a href="#expeditions" onclick="toggleMenu()" data-i18n="navExpeditions">Expeditions</a>
+      <a href="#rail-journeys" onclick="toggleMenu()" data-i18n="navRail">Hiram Bingham Rail</a>
+      <a href="#philosophy" onclick="toggleMenu()" data-i18n="navPhilosophy">The Belmond Distinction</a>
+      <a href="#chronicles" onclick="toggleMenu()" data-i18n="navChronicles">Guest Chronicles</a>
+      <a href="#contact" onclick="toggleMenu()" data-i18n="navContact">Concierge</a>
+    </div>
+    <div class="drawer-footer">
+      <p class="drawer-phone">VIP Concierge: +(51) 958 195 840</p>
+      <p class="drawer-email">info@lmptravel.com</p>
+    </div>
+  </div>
+
+  <!-- Hero Section (Belmond Cinematic Editorial) -->
+  <section class="luxury-hero" id="heroSection">
+    <div class="hero-media-wrapper">
+      <img src="assets/images/hero_machu_picchu.jpg" alt="Machu Picchu Citadel Panoramic Sanctuary" class="hero-media-image" id="heroBgImage">
+      <div class="hero-overlay"></div>
+    </div>
+
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="badge-line"></span>
+        <span class="badge-text" data-i18n="heroBadge">HAUTE COUTURE ANDEAN TRAVEL • EST. 2016</span>
+        <span class="badge-line"></span>
+      </div>
+      <h1 class="hero-headline" data-i18n="heroHeadline">
+        The Art of Andean Wonder
+      </h1>
+      <p class="hero-subhead" data-i18n="heroSubhead">
+        Bespoke journeys aboard the Belmond Hiram Bingham, private tours led by certified master archaeologists, and handcrafted luxury across the Inca empire.
+      </p>
+
+      <div class="hero-action-row">
+        <button class="btn-hero-gold" id="btnHeroExplore" onclick="scrollToSection('expeditions')">
+          <span data-i18n="btnHeroExplore">Explore Our Journeys</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+        <button class="btn-hero-ghost" id="btnHeroConcierge" onclick="openConciergeModal()">
+          <span data-i18n="btnHeroConcierge">Consult Private Concierge</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Editorial Floating Credentials -->
+    <div class="hero-footer-bar">
+      <div class="credential-item">
+        <span class="cred-num">100%</span>
+        <span class="cred-label" data-i18n="cred1">Tailor-Made Private Journeys</span>
+      </div>
+      <div class="credential-divider"></div>
+      <div class="credential-item">
+        <span class="cred-num">VIP</span>
+        <span class="cred-label" data-i18n="cred2">Belmond Preferred Access & Priority Logistics</span>
+      </div>
+      <div class="credential-divider"></div>
+      <div class="credential-item">
+        <span class="cred-num">24/7</span>
+        <span class="cred-label" data-i18n="cred3">Dedicated In-Country Concierge</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Horizontal Booking & Planning Bar (Belmond Inspired) -->
+  <section class="booking-planner-section" id="bookingPlanner">
+    <div class="planner-container">
+      <div class="planner-box">
+        <!-- Destination / Expedition Type -->
+        <div class="planner-col">
+          <label class="planner-label" for="plannerJourney" data-i18n="plannerJourneyLabel">JOURNEY EXPERIENCE</label>
+          <select class="planner-select" id="plannerJourney">
+            <option value="all" data-i18n="optAllJourneys">All Curated Journeys</option>
+            <option value="hiram-bingham" selected data-i18n="optHb">Belmond Hiram Bingham Signature</option>
+            <option value="sanctuary-prive" data-i18n="optSanctuary">Sanctuary Privé & Sunrise Access</option>
+            <option value="sacred-valley" data-i18n="optValley">Sacred Valley & Shamanic Ritual</option>
+            <option value="andean-explorer" data-i18n="optAndean">Belmond Andean Explorer Sleeper</option>
+            <option value="inca-trail-glamping" data-i18n="optGlamping">Inca Trail VIP Glamping</option>
+          </select>
+        </div>
+
+        <div class="planner-divider"></div>
+
+        <!-- Travel Season / Month -->
+        <div class="planner-col">
+          <label class="planner-label" for="plannerDate" data-i18n="plannerDateLabel">TRAVEL DATE</label>
+          <input type="date" class="planner-input" id="plannerDate">
+        </div>
+
+        <div class="planner-divider"></div>
+
+        <!-- Travelers Count -->
+        <div class="planner-col">
+          <label class="planner-label" for="plannerGuests" data-i18n="plannerGuestsLabel">GUESTS</label>
+          <select class="planner-select" id="plannerGuests">
+            <option value="1">1 Guest</option>
+            <option value="2" selected>2 Guests (Couple Privé)</option>
+            <option value="4">4 Guests (Family Suite)</option>
+            <option value="6">6+ Guests (Private Charter)</option>
+          </select>
+        </div>
+
+        <!-- Action Button -->
+        <div class="planner-col planner-cta-col">
+          <button class="planner-submit-btn" id="btnPlannerSearch" onclick="handlePlannerSubmit()">
+            <span data-i18n="btnPlannerSubmit">CHECK AVAILABILITY</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Curated Expeditions Portfolio -->
+  <section class="expeditions-section" id="expeditions">
+    <div class="section-header-editorial">
+      <span class="editorial-kicker" data-i18n="kickerExpeditions">OUR CURATED EXPEDITIONS</span>
+      <h2 class="editorial-title" data-i18n="titleExpeditions">The Andean Collections</h2>
+      <p class="editorial-intro" data-i18n="introExpeditions">
+        Each journey is meticulously orchestrated down to the finest nuance: private collector train carriages, world-renowned Andean culinary pairings, and exclusive sanctuary entries.
+      </p>
+
+      <!-- Category Filter Pills -->
+      <div class="filter-pills-row" id="filterPills">
+        <button class="filter-pill active" data-category="all" onclick="filterTours('all', this)" data-i18n="catAll">All Expeditions</button>
+        <button class="filter-pill" data-category="luxury-rail-journeys" onclick="filterTours('luxury-rail-journeys', this)" data-i18n="catRail">Luxury Rail</button>
+        <button class="filter-pill" data-category="sanctuary-prive" onclick="filterTours('sanctuary-prive', this)" data-i18n="catSanctuary">Sanctuary Privé</button>
+        <button class="filter-pill" data-category="sacred-valley-mysticism" onclick="filterTours('sacred-valley-mysticism', this)" data-i18n="catValley">Sacred Valley & Mysticism</button>
+        <button class="filter-pill" data-category="vip-glamping-expeditions" onclick="filterTours('vip-glamping-expeditions', this)" data-i18n="catGlamping">VIP Glamping</button>
+      </div>
+    </div>
+
+    <!-- Tours Grid Container -->
+    <div class="tours-editorial-grid" id="toursGrid">
+      <!-- Injected Dynamically via app.js -->
+    </div>
+  </section>
+
+  <!-- Belmond Distinction & Curated Heritage Section -->
+  <section class="philosophy-section" id="philosophy">
+    <div class="philosophy-inner">
+      <div class="philosophy-left">
+        <span class="editorial-kicker light" data-i18n="kickerPhilosophy">THE HAUTE COUTURE DIFFERENCE</span>
+        <h2 class="editorial-title light" data-i18n="titlePhilosophy">Unrivalled Exclusivity in the Cloud Forest</h2>
+        <p class="philosophy-body" data-i18n="bodyPhilosophy1">
+          While standard tourism subjects travelers to exhausting queues and crowded buses, Luxury Machupicchu Peru choreographs every arrival with seamless distinction.
+        </p>
+        <p class="philosophy-body" data-i18n="bodyPhilosophy2">
+          From the polished mahogany observation cars of the Belmond Hiram Bingham to champagne toasts at the private panoramic terraces of Belmond Sanctuary Lodge, our guests experience the ancient citadel in supreme tranquility.
+        </p>
+
+        <div class="philosophy-pillars">
+          <div class="pillar-card">
+            <span class="pillar-icon">✦</span>
+            <h4 class="pillar-title" data-i18n="pillar1Title">Private Archaeologist Curation</h4>
+            <p class="pillar-desc" data-i18n="pillar1Desc">Certified master historians and archaeologists who reveal the architectural genius, sacred astronomy, and hidden symbolism in an unhurried private tour.</p>
+          </div>
+          <div class="pillar-card">
+            <span class="pillar-icon">🍷</span>
+            <h4 class="pillar-title" data-i18n="pillar2Title">Michelin-Caliber Gastronomy</h4>
+            <p class="pillar-desc" data-i18n="pillar2Desc">Degustation menus crafted with organic high-altitude harvests, paired with exceptional South American vintages.</p>
+          </div>
+          <div class="pillar-card">
+            <span class="pillar-icon">🛡️</span>
+            <h4 class="pillar-title" data-i18n="pillar3Title">Uncompromised Compliance</h4>
+            <p class="pillar-desc" data-i18n="pillar3Desc">Licensed under RUC 20601622492, verified by GERCETUR and protected by full in-country operational permits.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="philosophy-right">
+        <div class="philosophy-image-frame">
+          <img src="assets/images/philosophy_moray.jpg" alt="Sacred Valley of the Incas - Moray Terraces" class="frame-img-primary">
+          <div class="frame-accent-box">
+            <span class="accent-quote">"True luxury is not merely where you arrive, but the serenity with which you journey."</span>
+            <span class="accent-author">— Luxury Machupicchu Concierge Desk</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Hiram Bingham Spotlight Banner -->
+  <section class="spotlight-banner-section" id="rail-journeys">
+    <div class="spotlight-wrapper">
+      <div class="spotlight-content">
+        <span class="spotlight-badge" data-i18n="spotlightBadge">FEATURED SIGNATURE RAIL JOURNEY</span>
+        <h2 class="spotlight-title" data-i18n="spotlightTitle">The Belmond Hiram Bingham Experience</h2>
+        <p class="spotlight-desc" data-i18n="spotlightDesc">
+          Named after the explorer who reintroduced the citadel to the world, this train embodies the glamorous golden age of 1920s travel. Bar cars with baby grand pianos, fine wines, and privileged citadel access.
+        </p>
+        <div class="spotlight-features">
+          <span>✔ Private Observatory Carriage</span>
+          <span>✔ 4-Course Degustation Brunch & Dinner</span>
+          <span>✔ Sanctuary Lodge Afternoon Tea</span>
+          <span>✔ Pre-Reserved Priority Entry Logistics</span>
+        </div>
+        <div class="spotlight-actions">
+          <a href="tour.html?slug=belmond-hiram-bingham-pinnacle" class="btn-hero-gold" style="text-decoration: none;">
+            <span data-i18n="btnViewHiramBingham">View Complete Itinerary</span>
+          </a>
+          <button class="btn-hero-ghost" onclick="openBookingDrawerForTour('belmond-hiram-bingham-pinnacle')">
+            <span data-i18n="btnBookHiramBingham">Reserve This Train</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Guest Testimonials / Chronicles -->
+  <section class="chronicles-section" id="chronicles">
+    <div class="section-header-editorial">
+      <span class="editorial-kicker" data-i18n="kickerChronicles">GUEST CHRONICLES</span>
+      <h2 class="editorial-title" data-i18n="titleChronicles">Words from Discerning Travelers</h2>
+    </div>
+
+    <div class="chronicles-grid">
+      <div class="chronicle-card">
+        <div class="chronicle-stars">★★★★★</div>
+        <p class="chronicle-quote" data-i18n="review1Text">
+          "The Hiram Bingham excursion organized by Luxury Machupicchu was an absolute triumph. Having our own private archaeologist made the ancient stone structures come alive without a moment in queues."
+        </p>
+        <div class="chronicle-author">
+          <span class="author-name">Sir Jonathan & Lady Cavendish</span>
+          <span class="author-meta">London, United Kingdom • Hiram Bingham Journey</span>
+        </div>
+      </div>
+
+      <div class="chronicle-card">
+        <div class="chronicle-stars">★★★★★</div>
+        <p class="chronicle-quote" data-i18n="review2Text">
+          "Every single detail was breathtaking—from the bespoke champagne greeting at our Sacred Valley hotel to the private Q'ero shaman blessing. True haute couture travel."
+        </p>
+        <div class="chronicle-author">
+          <span class="author-name">Eleanor Vance-Montgomery</span>
+          <span class="author-meta">New York, USA • Sacred Valley Privé</span>
+        </div>
+      </div>
+
+      <div class="chronicle-card">
+        <div class="chronicle-stars">★★★★★</div>
+        <p class="chronicle-quote" data-i18n="review3Text">
+          "The glamping setup on the Inca Trail exceeded five-star hotel standards. Hot showers, heated dome beds, and a private chef serving duck magret at 3,600 meters."
+        </p>
+        <div class="chronicle-author">
+          <span class="author-name">Dr. Marcus & Hélène Weber</span>
+          <span class="author-meta">Zurich, Switzerland • Inca Trail VIP Glamping</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Bespoke Concierge Consultation Form Section -->
+  <section class="concierge-section" id="contact">
+    <div class="concierge-inner">
+      <div class="concierge-intro">
+        <span class="editorial-kicker light" data-i18n="kickerConcierge">BESPOKE ATELIER</span>
+        <h2 class="editorial-title light" data-i18n="titleConcierge">Design Your Private Journey</h2>
+        <p class="concierge-text" data-i18n="descConcierge">
+          Allow our travel architects in Cusco to orchestrate a private itinerary calibrated to your specific desires, schedules, and travel party.
+        </p>
+
+        <div class="concierge-contact-points">
+          <div class="point-row">
+            <span class="point-icon">✦</span>
+            <div>
+              <strong data-i18n="conciergeDesk">Private Concierge Desk</strong>
+              <p>Portal de Panes 123, Plaza de Armas, Cusco, Perú</p>
+            </div>
+          </div>
+          <div class="point-row">
+            <span class="point-icon">☎</span>
+            <div>
+              <strong data-i18n="conciergeDirectLine">VIP Direct Line & WhatsApp</strong>
+              <p>+(51) 958 195 840</p>
+            </div>
+          </div>
+          <div class="point-row">
+            <span class="point-icon">✉</span>
+            <div>
+              <strong data-i18n="conciergeEmail">Official Inquiries</strong>
+              <p>info@lmptravel.com</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="concierge-form-card">
+        <h3 class="form-card-title" data-i18n="formTitle">Request Private Consultation</h3>
+        <p class="form-card-subtitle" data-i18n="formSubtitle">A senior travel architect will reply within 4 hours.</p>
+
+        <form id="conciergeForm" onsubmit="handleConciergeSubmit(event)">
+          <div class="form-group-row">
+            <div class="form-field">
+              <label for="conciergeName" data-i18n="labelFullName">Full Name *</label>
+              <input type="text" id="conciergeName" required placeholder="e.g. Lord Alexander Wright">
+            </div>
+            <div class="form-field">
+              <label for="conciergeEmail" data-i18n="labelEmail">Email Address *</label>
+              <input type="email" id="conciergeEmail" required placeholder="name@domain.com">
+            </div>
+          </div>
+
+          <div class="form-group-row">
+            <div class="form-field">
+              <label for="conciergePhone" data-i18n="labelPhone">Phone / WhatsApp *</label>
+              <input type="text" id="conciergePhone" required placeholder="+1 555 019 283">
+            </div>
+            <div class="form-field">
+              <label for="conciergeDestination" data-i18n="labelDest">Preferred Journey Focus</label>
+              <select id="conciergeDestination">
+                <option value="Hiram Bingham & Machu Picchu">Belmond Hiram Bingham & Citadel</option>
+                <option value="Sacred Valley & Mysticism">Sacred Valley, Maras & Shamanic Blessing</option>
+                <option value="Belmond Andean Explorer">Belmond Andean Explorer Sleeper (Cusco to Puno)</option>
+                <option value="Inca Trail VIP Glamping">Inca Trail VIP Glamping Expedition</option>
+                <option value="Complete Grand Andean Tour">Grand Andean Tour (Lima, Cusco, Sanctuary, Lake Titicaca)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group-row">
+            <div class="form-field">
+              <label for="conciergeTravelers" data-i18n="labelTravelers">Number of Travelers</label>
+              <input type="number" id="conciergeTravelers" min="1" max="25" value="2">
+            </div>
+            <div class="form-field">
+              <label for="conciergeDuration" data-i18n="labelDuration">Estimated Duration</label>
+              <select id="conciergeDuration">
+                <option value="1-2 Days">1 - 2 Days Express Privé</option>
+                <option value="3-5 Days" selected>3 - 5 Days Signature</option>
+                <option value="7+ Days">7+ Days Comprehensive Grand Tour</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-field">
+            <label for="conciergeNotes" data-i18n="labelNotes">Special Wishes or Preferences</label>
+            <textarea id="conciergeNotes" rows="3" placeholder="Preferred travel dates, dietary requests, champagne preferences, luxury train carriage wishes..."></textarea>
+          </div>
+
+          <button type="submit" class="btn-submit-concierge" id="btnSubmitConcierge">
+            <span data-i18n="btnSubmitConcierge">DISPATCH VIP INQUIRY</span>
+          </button>
+          
+          <div class="form-status" id="formStatus"></div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Institutional & Pedigree Footer -->
+  <footer class="luxury-footer">
+    <div class="footer-top">
+      <div class="footer-col brand-col">
+        <span class="brand-crest">✦</span>
+        <span class="brand-title">LUXURY MACHUPICCHU</span>
+        <span class="brand-subtitle">PERU</span>
+        <p class="footer-desc" data-i18n="footerDesc">
+          Official luxury travel atelier dedicated to private, bespoke expeditions through the Sacred Valley, Machu Picchu Sanctuary, and the High Andes.
+        </p>
+        <p class="footer-legal-tag">
+          <strong>Luxury Machupicchu Peru E.I.R.L</strong><br>
+          RUC: 20601622492 • Cusco, Perú
+        </p>
+      </div>
+
+      <div class="footer-col">
+        <h4 class="footer-title" data-i18n="footerExpeditions">Expeditions</h4>
+        <ul class="footer-links">
+          <li><a href="tour.html?slug=belmond-hiram-bingham-pinnacle">Belmond Hiram Bingham</a></li>
+          <li><a href="tour.html?slug=belmond-hiram-bingham-pinnacle">Machu Picchu Sanctuary Privé</a></li>
+          <li><a href="tour.html?slug=sacred-valley-prive-shamanic-ritual">Sacred Valley & Q'ero Shaman</a></li>
+          <li><a href="tour.html?slug=belmond-andean-explorer-cusco-titicaca">Belmond Andean Explorer</a></li>
+          <li><a href="tour.html?slug=classic-inca-trail-vip-glamping">Inca Trail VIP Glamping</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4 class="footer-title" data-i18n="footerCertifications">Certifications</h4>
+        <ul class="footer-links">
+          <li><span class="cert-item">✔ GERCETUR Cusco Licensed</span></li>
+          <li><span class="cert-item">✔ MINCETUR Authorized Operator</span></li>
+          <li><span class="cert-item">✔ ESNNA Code of Conduct</span></li>
+          <li><span class="cert-item">✔ Safe Travels Global Stamp</span></li>
+          <li><span class="cert-item">✔ Personal Data Protection Act</span></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4 class="footer-title" data-i18n="footerConciergeDirect">Direct Contact</h4>
+        <p class="footer-contact-item">
+          <strong>VIP WhatsApp 24/7:</strong><br>
+          <a href="https://wa.me/51958195840" target="_blank" rel="noopener">+(51) 958 195 840</a>
+        </p>
+        <p class="footer-contact-item">
+          <strong>Official Inquiries:</strong><br>
+          <a href="mailto:info@lmptravel.com">info@lmptravel.com</a>
+        </p>
+        <p class="footer-contact-item">
+          <strong>Head Atelier:</strong><br>
+          Portal de Panes 123, Plaza de Armas, Cusco, Perú
+        </p>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="footer-bottom-inner">
+        <p>© 2026 Luxury Machupicchu Peru E.I.R.L. All rights reserved. Not affiliated with Belmond Ltd.; official partner providing verified bookings on Belmond rail journeys.</p>
+        <div class="footer-bottom-links">
+          <a href="#privacy" onclick="openClaimModal('privacy')">Privacy Policy</a>
+          <span>•</span>
+          <a href="#terms" onclick="openClaimModal('terms')">Terms & Conditions</a>
+          <span>•</span>
+          <a href="#claims" onclick="openClaimModal('claims')">Virtual Book of Claims</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Floating VIP WhatsApp Concierge Button -->
+  <a href="https://wa.me/51958195840?text=Hello%20Luxury%20Machupicchu%20Peru%20Concierge%2C%20I%20wish%20to%20inquire%20about%20a%20private%20Machu%20Picchu%20journey." 
+     class="floating-whatsapp-btn" 
+     id="floatingWhatsApp" 
+     target="_blank" 
+     rel="noopener" 
+     aria-label="Direct WhatsApp Concierge">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.79 14.07c-.24.68-1.4 1.34-1.92 1.42-.5.09-1.15.12-1.85-.11-.43-.14-.99-.33-1.71-.65-3.04-1.33-5.01-4.42-5.16-4.63-.16-.2-1.23-1.64-1.23-3.13 0-1.49.78-2.22 1.06-2.52.28-.3.61-.38.81-.38.2 0 .41 0 .58.01.19.01.44-.07.69.53.25.61.85 2.08.93 2.23.08.16.13.35.03.55-.1.2-.15.33-.3.51-.15.18-.32.4-.46.54-.15.15-.31.31-.13.62.18.31.79 1.3 1.69 2.11 1.16 1.03 2.13 1.35 2.44 1.5.31.15.49.13.67-.08.19-.21.79-.92 1-1.24.21-.31.42-.26.7-.16.29.1 1.83.86 2.14 1.02.31.15.52.23.6.36.08.13.08.77-.16 1.45z"/></svg>
+    <span class="whatsapp-floating-tooltip" data-i18n="waTooltip">VIP Concierge 24/7</span>
+  </a>
+
+  <!-- MODAL: Tour Itinerary & Deep Dive -->
+  <div class="luxury-modal" id="tourModal" aria-hidden="true">
+    <div class="modal-backdrop" onclick="closeTourModal()"></div>
+    <div class="modal-dialog">
+      <button class="modal-close-btn" onclick="closeTourModal()" aria-label="Close modal">✕</button>
+      <div class="modal-body" id="tourModalBody">
+        <!-- Injected via JavaScript -->
+      </div>
+    </div>
+  </div>
+
+  <!-- DRAWER: Direct Booking & Custom Quote Drawer -->
+  <div class="booking-drawer" id="bookingDrawer" aria-hidden="true">
+    <div class="drawer-backdrop" onclick="closeBookingDrawer()"></div>
+    <div class="drawer-panel">
+      <div class="drawer-panel-header">
+        <div>
+          <span class="drawer-pretitle" data-i18n="drawerPretitle">RESERVATION DESK</span>
+          <h3 class="drawer-title" id="drawerTourTitle" data-i18n="drawerDefaultTitle">Reserve Your Journey</h3>
+        </div>
+        <button class="drawer-close-btn" onclick="closeBookingDrawer()">✕</button>
+      </div>
+
+      <div class="drawer-panel-body">
+        <div class="live-quote-summary" id="liveQuoteSummary">
+          <div class="summary-line">
+            <span data-i18n="lblPerPerson">Price per Traveler:</span>
+            <strong id="summaryPricePerPerson">$2,150 USD</strong>
+          </div>
+          <div class="summary-line">
+            <span data-i18n="lblEstimatedTotal">Estimated Total:</span>
+            <strong class="total-highlight" id="summaryTotalQuote">$4,300 USD</strong>
+          </div>
+          <span class="tax-inclusive-tag" data-i18n="tagTaxInclusive">Includes all luxury rail permits, sanctuary entries & private archaeologist</span>
+        </div>
+
+        <form id="bookingForm" onsubmit="handleBookingFormSubmit(event)">
+          <input type="hidden" id="bookingTourId" value="1">
+
+          <div class="form-field">
+            <label for="bookingFullName" data-i18n="labelFullName">Lead Traveler Full Name *</label>
+            <input type="text" id="bookingFullName" required placeholder="e.g. Katherine Sterling">
+          </div>
+
+          <div class="form-group-row">
+            <div class="form-field">
+              <label for="bookingEmail" data-i18n="labelEmail">Email Address *</label>
+              <input type="email" id="bookingEmail" required placeholder="name@domain.com">
+            </div>
+            <div class="form-field">
+              <label for="bookingPhone" data-i18n="labelPhone">WhatsApp / Mobile *</label>
+              <input type="text" id="bookingPhone" required placeholder="+1 555 019 283">
+            </div>
+          </div>
+
+          <div class="form-group-row">
+            <div class="form-field">
+              <label for="bookingDate" data-i18n="labelTravelDate">Preferred Travel Date *</label>
+              <input type="date" id="bookingDate" required>
+            </div>
+            <div class="form-field">
+              <label for="bookingGuests" data-i18n="labelGuestsCount">Travelers *</label>
+              <select id="bookingGuests" onchange="recalculateDrawerTotal()">
+                <option value="1">1 Traveler</option>
+                <option value="2" selected>2 Travelers</option>
+                <option value="3">3 Travelers</option>
+                <option value="4">4 Travelers</option>
+                <option value="5">5 Travelers</option>
+                <option value="6">6+ Private Charter</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-field">
+            <label for="bookingTrain" data-i18n="labelTrainService">Train Service Preference</label>
+            <select id="bookingTrain">
+              <option value="Belmond Hiram Bingham">Belmond Hiram Bingham (Gourmet Dining & Acoustic Bar)</option>
+              <option value="Inca Rail 360 First Class">Inca Rail 360 First Class (Observatory Car)</option>
+              <option value="Vistadome Panoramic">Vistadome Panoramic (Scenic Views)</option>
+            </select>
+          </div>
+
+          <div class="form-field">
+            <label for="bookingSpecialRequests" data-i18n="labelSpecialRequests">Bespoke Requirements / Dietary</label>
+            <textarea id="bookingSpecialRequests" rows="2" placeholder="Dietary restrictions, vintage champagne, birthday / anniversary celebrations..."></textarea>
+          </div>
+
+          <div class="booking-drawer-actions">
+            <!-- Priority 1: Instant VIP WhatsApp Dispatch -->
+            <button type="submit" class="btn-drawer-whatsapp" id="btnDrawerWhatsApp">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.79 14.07c-.24.68-1.4 1.34-1.92 1.42-.5.09-1.15.12-1.85-.11-.43-.14-.99-.33-1.71-.65-3.04-1.33-5.01-4.42-5.16-4.63-.16-.2-1.23-1.64-1.23-3.13 0-1.49.78-2.22 1.06-2.52.28-.3.61-.38.81-.38.2 0 .41 0 .58.01.19.01.44-.07.69.53.25.61.85 2.08.93 2.23.08.16.13.35.03.55-.1.2-.15.33-.3.51-.15.18-.32.4-.46.54-.15.15-.31.31-.13.62.18.31.79 1.3 1.69 2.11 1.16 1.03 2.13 1.35 2.44 1.5.31.15.49.13.67-.08.19-.21.79-.92 1-1.24.21-.31.42-.26.7-.16.29.1 1.83.86 2.14 1.02.31.15.52.23.6.36.08.13.08.77-.16 1.45z"/></svg>
+              <span data-i18n="btnConfirmWhatsApp">CONFIRM WITH CONCIERGE VIA WHATSAPP</span>
+            </button>
+
+            <!-- Priority 2: 30% Deposit Preference -->
+            <button type="button" class="btn-drawer-deposit" id="btnDrawerDeposit" onclick="handleDepositCheckout()">
+              <span data-i18n="btnPayDeposit">HOLD WITH 30% DEPOSIT</span>
+            </button>
+          </div>
+
+          <div class="booking-status-box" id="bookingStatusBox"></div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="en" data-currency="USD">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title id="pageTitle">Expedition Details | Luxury Machupicchu Peru</title>
+  <meta name="description" id="pageMetaDesc" content="Detailed luxury expedition itinerary, private archaeologist curation, Belmond train logistics and official sanctuary access with Luxury Machupicchu Peru.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Montserrat:wght@200;300;400;500;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  
+  <!-- Dynamic Schema.org JSON-LD -->
+  <script type="application/ld+json" id="tourSchemaJson"></script>
+</head>
+<body class="tour-detail-page luxury-body">
+
+  <!-- Top Announcement & Pedigree Bar -->
+  <div class="top-pedigree-bar" id="topPedigreeBar">
+    <div class="pedigree-content">
+      <span class="pedigree-tag" data-i18n="topBarTag">OFFICIAL LICENSED OPERATOR</span>
+      <span class="pedigree-separator">•</span>
+      <span data-i18n="topBarRuc">RUC: 20601622492</span>
+      <span class="pedigree-separator">•</span>
+      <span data-i18n="topBarLic">GERCETUR CERTIFIED • MINCETUR AUTHORIZED • ESNNA COMPLIANT</span>
+      <span class="pedigree-separator">•</span>
+      <span class="pedigree-phone">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+        +(51) 958 195 840
+      </span>
+    </div>
+  </div>
+
+  <!-- Primary Haute Couture Navigation -->
+  <header class="luxury-header" id="luxuryHeader">
+    <div class="header-inner">
+      <div class="header-left">
+        <button class="nav-toggle" id="navToggle" onclick="toggleMenu()" aria-label="Toggle Navigation Menu">
+          <span></span>
+          <span></span>
+        </button>
+        <a href="index.html" class="brand-link" id="brandLogo">
+          <img src="assets/images/logo-travel.png" alt="LMP Travel - Luxury Machupicchu Peru" class="header-logo-img">
+          <div class="brand-text">
+            <span class="brand-title">LUXURY MACHUPICCHU</span>
+            <span class="brand-subtitle">PERU</span>
+          </div>
+        </a>
+      </div>
+
+      <nav class="desktop-nav" id="desktopNav">
+        <a href="index.html#expeditions" class="nav-link" data-i18n="navExpeditions">Expeditions</a>
+        <a href="index.html#rail-journeys" class="nav-link" data-i18n="navRail">Hiram Bingham Rail</a>
+        <a href="index.html#philosophy" class="nav-link" data-i18n="navPhilosophy">The Belmond Distinction</a>
+        <a href="index.html#chronicles" class="nav-link" data-i18n="navChronicles">Guest Chronicles</a>
+        <a href="index.html#contact" class="nav-link" data-i18n="navContact">Concierge</a>
+      </nav>
+
+      <div class="header-right">
+        <!-- Currency Switcher -->
+        <div class="utility-pill" id="currencyPill">
+          <button class="pill-btn active" id="btnUsd" onclick="setCurrency('USD')">USD $</button>
+          <span class="pill-divider">/</span>
+          <button class="pill-btn" id="btnPen" onclick="setCurrency('PEN')">PEN S/.</button>
+        </div>
+
+        <!-- Language Switcher -->
+        <div class="utility-pill" id="langPill">
+          <button class="pill-btn active" id="btnLangEn" onclick="setLanguage('en')">EN</button>
+          <span class="pill-divider">/</span>
+          <button class="pill-btn" id="btnLangEs" onclick="setLanguage('es')">ES</button>
+        </div>
+
+        <!-- Inquire CTA -->
+        <button class="btn-concierge-primary" id="btnHeaderInquire" onclick="scrollToBookingCard()">
+          <span data-i18n="btnBespokeInquiry">Bespoke Inquiry</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer Backdrop & Menu -->
+  <div class="mobile-drawer-backdrop" id="mobileDrawerBackdrop" onclick="toggleMenu()"></div>
+  <div class="mobile-drawer" id="mobileDrawer">
+    <div class="drawer-header">
+      <div class="drawer-brand">
+        <img src="assets/images/logo-travel.png" alt="LMP Travel" class="drawer-logo-img">
+        <div class="drawer-brand-text">
+          <span class="brand-title">LUXURY MACHUPICCHU</span>
+          <span class="brand-subtitle">PERU</span>
+        </div>
+      </div>
+      <button class="drawer-close" id="drawerClose" onclick="toggleMenu()" aria-label="Close Menu">✕</button>
+    </div>
+    <div class="drawer-links">
+      <a href="index.html#expeditions" onclick="toggleMenu()" data-i18n="navExpeditions">Expeditions</a>
+      <a href="index.html#rail-journeys" onclick="toggleMenu()" data-i18n="navRail">Hiram Bingham Rail</a>
+      <a href="index.html#philosophy" onclick="toggleMenu()" data-i18n="navPhilosophy">The Belmond Distinction</a>
+      <a href="index.html#chronicles" onclick="toggleMenu()" data-i18n="navChronicles">Guest Chronicles</a>
+      <a href="index.html#contact" onclick="toggleMenu()" data-i18n="navContact">Concierge</a>
+    </div>
+    <div class="drawer-footer">
+      <p class="drawer-phone">VIP Concierge: +(51) 958 195 840</p>
+      <p class="drawer-email">info@lmptravel.com</p>
+    </div>
+  </div>
+
+  <!-- Breadcrumb Navigation Bar -->
+  <div class="tour-breadcrumb-bar">
+    <div class="tour-breadcrumb-inner">
+      <a href="index.html" data-i18n="bcHome">Home</a>
+      <span class="tour-breadcrumb-separator">/</span>
+      <a href="index.html#expeditions" data-i18n="bcExpeditions">Expeditions</a>
+      <span class="tour-breadcrumb-separator">/</span>
+      <span class="tour-breadcrumb-current" id="breadcrumbCurrentTitle">Loading Expedition...</span>
+    </div>
+  </div>
+
+  <!-- Tour Hero Banner -->
+  <section class="tour-detail-hero" id="tourHero">
+    <div class="tour-hero-content">
+      <div class="tour-hero-badges-row" id="heroBadgesRow">
+        <span class="tour-hero-badge" id="heroStyleTag">Signature Journey</span>
+      </div>
+      <h1 class="tour-hero-title" id="heroTourTitle">Expedition Title</h1>
+      <p class="tour-hero-subtitle" id="heroTourSubtitle">Detailed subtitle describing the high-end journey.</p>
+
+      <div class="tour-hero-stats-row">
+        <div class="tour-hero-stat-item">
+          <span class="tour-hero-stat-label" data-i18n="lblDuration">DURATION</span>
+          <span class="tour-hero-stat-val" id="heroDuration">—</span>
+        </div>
+        <div class="tour-hero-stat-item">
+          <span class="tour-hero-stat-label" data-i18n="lblAltitude">MAX ALTITUDE</span>
+          <span class="tour-hero-stat-val" id="heroAltitude">—</span>
+        </div>
+        <div class="tour-hero-stat-item">
+          <span class="tour-hero-stat-label" data-i18n="lblPace">PACE & COMFORT</span>
+          <span class="tour-hero-stat-val" id="heroPace">—</span>
+        </div>
+        <div class="tour-hero-stat-item">
+          <span class="tour-hero-stat-label" data-i18n="lblGuiding">GUIDING CURATION</span>
+          <span class="tour-hero-stat-val" data-i18n="valGuiding">Certified Archaeologist</span>
+        </div>
+        <div class="tour-hero-stat-item">
+          <span class="tour-hero-stat-label" data-i18n="lblCulinary">GASTRONOMY</span>
+          <span class="tour-hero-stat-val" data-i18n="valCulinary">Degustation & Wine Pairing</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Tour Detail Container (Two-Column Editorial Grid) -->
+  <main class="tour-detail-container">
+    
+    <!-- LEFT: Editorial Content, Gallery, Timeline, Hotels, Advisories, Dossier -->
+    <article class="tour-detail-content">
+      
+      <!-- Section 1: Overview & Highlights -->
+      <section class="tour-overview-block">
+        <h2 class="detail-section-title">
+          <span class="title-crest">✦</span>
+          <span data-i18n="titleOverview">Expedition Narrative & Highlights</span>
+        </h2>
+        <p class="tour-narrative-text" id="tourLongNarrative">
+          Every nuance of this journey has been calibrated to deliver unhurried immersion in Andean heritage.
+        </p>
+
+        <!-- Highlights Card -->
+        <div class="detail-highlights-box">
+          <h4 data-i18n="titleHighlights">Key Expedition Privileges</h4>
+          <ul class="detail-highlights-list" id="tourHighlightsList">
+            <!-- Injected via JavaScript -->
+          </ul>
+        </div>
+      </section>
+
+      <!-- Section 2: Photographic Chronicle -->
+      <section class="tour-gallery-block">
+        <h2 class="detail-section-title">
+          <span class="title-crest">✦</span>
+          <span data-i18n="titleGallery">Photographic Chronicle</span>
+        </h2>
+        <div class="detail-gallery-grid" id="tourGalleryGrid">
+          <!-- Injected via JavaScript -->
+        </div>
+      </section>
+
+      <!-- Section: Geographic Location & Altitude Profile -->
+      <!-- GEOGRAPHIC LOCATIONS & ALTITUDE (STATIC) -->
+      <section class="tour-geo-altitude-block" id="tourGeoAltitudeBlock">
+        <h2 class="detail-section-title">
+          <span class="title-crest">✦</span>
+          <span data-i18n="titleGeoAltitude">Geographic Location & Altitude Profile</span>
+        </h2>
+        <p class="tour-narrative-text" data-i18n="descGeoAltitude">
+          Destinations included in this journey, featuring elevation above sea level and ambient oxygen saturation.
+        </p>
+
+        <!-- Static Location Cards Grid -->
+        <div class="tour-locations-static-grid" id="tourLocationsStaticGrid">
+          <!-- Dynamically populated per tour with static map images, names, altitude & oxygen -->
+        </div>
+      </section>
+
+      <!-- Section 3: Day-by-Day Curated Itinerary -->
+      <section class="tour-itinerary-block">
+        <h2 class="detail-section-title">
+          <span class="title-crest">✦</span>
+          <span data-i18n="titleItinerary">Day-by-Day Curated Itinerary</span>
+        </h2>
+        <div class="itinerary-timeline" id="tourItineraryTimeline">
+          <!-- Injected via JavaScript -->
+        </div>
+      </section>
+
+      <!-- Section 4: Inclusions & Discretionary Exclusions -->
+      <section class="tour-inclusions-block">
+        <h2 class="detail-section-title">
+          <span class="title-crest">✦</span>
+          <span data-i18n="titleInclusions">Curated Inclusions & Transparency</span>
+        </h2>
+        <div class="inclusions-comparison-grid">
+          <div class="inclusions-card included">
+            <h3 class="inclusions-card-title">
+              <span class="inc-icon">✔</span>
+              <span data-i18n="titleCuratedInclusions">Included Curations</span>
+            </h3>
+            <ul class="inclusions-ul" id="curatedInclusionsList">
+              <!-- Injected via JavaScript -->
+            </ul>
+          </div>
+
+          <div class="inclusions-card not-included">
+            <h3 class="inclusions-card-title">
+              <span class="not-inc-icon">✕</span>
+              <span data-i18n="titleDiscretionary">Traveler Discretion</span>
+            </h3>
+            <ul class="inclusions-ul" id="discretionaryExclusionsList">
+              <!-- Injected via JavaScript -->
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 5: Associated Luxury Hotel Collection (Improvement 4) -->
+      <section class="tour-hotels-block">
+        <h2 class="detail-section-title">
+          <span class="title-crest">✦</span>
+          <span data-i18n="titleHotels">Curated Partner Hotel Collection</span>
+        </h2>
+        <p class="tour-narrative-text" data-i18n="descHotels">
+          Elevate your Andean stay with our handpicked sanctuary and historic partner properties, where our guests receive preferred check-in, room upgrades subject to availability, and private concierge coordination:
+        </p>
+        <div class="hotels-showcase-grid" id="hotelsShowcaseGrid">
+          <!-- Injected via JavaScript -->
+        </div>
+      </section>
+
+      <!-- Section 6: Curated Travel Advisory & VIP FAQs (Improvement 3) -->
+      <section class="tour-advisory-block">
+        <h2 class="detail-section-title">
+          <span class="title-crest">✦</span>
+          <span data-i18n="titleAdvisory">Travel Advisory & High-Altitude Guidelines</span>
+        </h2>
+        <div class="advisory-cards-grid" id="advisoryCardsGrid">
+          <!-- Injected via JavaScript -->
+        </div>
+      </section>
+
+      <!-- Section 7: Download Private Expedition Dossier (Improvement 1) -->
+      <section class="tour-dossier-block">
+        <div class="dossier-download-box">
+          <div class="dossier-text">
+            <h4 data-i18n="dossierTitle">Private Expedition Dossier (PDF)</h4>
+            <p data-i18n="dossierSubtitle">Generate an elegant, printable dossier of this itinerary with daily schedules, logistical specifications, and partner properties.</p>
+          </div>
+          <button class="btn-dossier-pdf" onclick="window.print()" id="btnPrintDossier">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+            <span data-i18n="btnDossierPrint">Print / Download Dossier (PDF)</span>
+          </button>
+        </div>
+      </section>
+
+    </article>
+
+    <!-- RIGHT: Reservation Desk Card (Non-floating) -->
+    <aside class="tour-detail-sidebar" id="bookingSection">
+      <div class="sidebar-booking-card">
+        <div class="sidebar-price-header">
+          <span class="sidebar-price-from" data-i18n="sidebarPriceFrom">From / Per Traveler</span>
+          <div class="sidebar-price-num" id="sidebarPriceDisplay">$2,150 USD</div>
+          <span class="sidebar-price-note" data-i18n="sidebarGuaranteed">✓ Guaranteed 100% Private Departure</span>
+        </div>
+
+        <form id="sidebarBookingForm" onsubmit="handleSidebarBookingSubmit(event)">
+          <div class="sidebar-form-group">
+            <label class="sidebar-label" for="sidebarDate" data-i18n="labelTravelDate">Preferred Travel Date *</label>
+            <input type="date" id="sidebarDate" class="sidebar-input" required>
+          </div>
+
+          <div class="sidebar-form-group">
+            <label class="sidebar-label" for="sidebarGuests" data-i18n="labelGuestsCount">Travelers *</label>
+            <select id="sidebarGuests" class="sidebar-select" onchange="recalculateSidebarTotal()">
+              <option value="1">1 Traveler</option>
+              <option value="2" selected>2 Travelers</option>
+              <option value="3">3 Travelers</option>
+              <option value="4">4 Travelers</option>
+              <option value="5">5 Travelers</option>
+              <option value="6">6+ Private Charter</option>
+            </select>
+          </div>
+
+          <div class="sidebar-form-group">
+            <label class="sidebar-label" for="sidebarCarriage" data-i18n="lblCarriage">Preferred Service / Carriage</label>
+            <select id="sidebarCarriage" class="sidebar-select">
+              <option value="Pullman Suite Carriage">Belmond Pullman Suite Carriage (Gourmet Dining)</option>
+              <option value="Observatory Carriage">Observation Bar Car & Panoramic Lounge</option>
+              <option value="Presidential / Custom Private">Presidential / Fully Tailored Expedition</option>
+            </select>
+          </div>
+
+          <div class="sidebar-form-group">
+            <label class="sidebar-label" for="sidebarName" data-i18n="labelFullName">Lead Traveler Name *</label>
+            <input type="text" id="sidebarName" class="sidebar-input" required placeholder="e.g. Katherine Sterling">
+          </div>
+
+          <div class="sidebar-form-group">
+            <label class="sidebar-label" for="sidebarPhone" data-i18n="labelPhone">WhatsApp / Mobile *</label>
+            <input type="tel" id="sidebarPhone" class="sidebar-input" required placeholder="+1 555 019 283">
+          </div>
+
+          <div class="sidebar-form-group">
+            <label class="sidebar-label" for="sidebarNotes" data-i18n="labelSpecialRequests">Special Wishes / Dietary</label>
+            <textarea id="sidebarNotes" class="sidebar-textarea" rows="2" placeholder="Anniversary, dietary restrictions, private champagne preferences..."></textarea>
+          </div>
+
+          <!-- Dynamic Quote Box -->
+          <div class="sidebar-quote-box">
+            <span class="quote-label" data-i18n="lblEstimatedTotal">Estimated Total:</span>
+            <span class="quote-amount" id="sidebarTotalQuote">$4,300 USD</span>
+          </div>
+
+          <!-- Direct VIP WhatsApp Action -->
+          <button type="submit" class="btn-sidebar-whatsapp" id="btnSidebarWhatsApp">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.79 14.07c-.24.68-1.4 1.34-1.92 1.42-.5.09-1.15.12-1.85-.11-.43-.14-.99-.33-1.71-.65-3.04-1.33-5.01-4.42-5.16-4.63-.16-.2-1.23-1.64-1.23-3.13 0-1.49.78-2.22 1.06-2.52.28-.3.61-.38.81-.38.2 0 .41 0 .58.01.19.01.44-.07.69.53.25.61.85 2.08.93 2.23.08.16.13.35.03.55-.1.2-.15.33-.3.51-.15.18-.32.4-.46.54-.15.15-.31.31-.13.62.18.31.79 1.3 1.69 2.11 1.16 1.03 2.13 1.35 2.44 1.5.31.15.49.13.67-.08.19-.21.79-.92 1-1.24.21-.31.42-.26.7-.16.29.1 1.83.86 2.14 1.02.31.15.52.23.6.36.08.13.08.77-.16 1.45z"/></svg>
+            <span data-i18n="btnConfirmWhatsApp">CONFIRM WITH CONCIERGE VIA WHATSAPP</span>
+          </button>
+
+          <!-- Bespoke Consultation Trigger -->
+          <button type="button" class="btn-sidebar-custom" onclick="openConciergeModal()">
+            <span data-i18n="btnRequestBespoke">Request Bespoke Customization</span>
+          </button>
+
+          <div class="sidebar-guarantee-box">
+            <p><span>✦</span> <span data-i18n="g1">100% Tailor-Made Private Departures</span></p>
+            <p><span>✦</span> <span data-i18n="g2">Pre-Reserved Official Ministry Tickets</span></p>
+            <p><span>✦</span> <span data-i18n="g3">GERCETUR Certified • RUC: 20601622492</span></p>
+            <p><span>✦</span> <span data-i18n="g4">24/7 Dedicated In-Country Concierge</span></p>
+          </div>
+        </form>
+      </div>
+    </aside>
+
+  </main>
+
+  <!-- Related Expeditions Section -->
+  <section class="related-expeditions-section">
+    <div class="related-expeditions-inner">
+      <div class="related-header">
+        <span class="editorial-kicker" data-i18n="kickerRelated">CURATED ALTERNATIVES</span>
+        <h2 class="editorial-title" data-i18n="titleRelated">Complementary Andean Collections</h2>
+      </div>
+      <div class="related-grid" id="relatedExpeditionsGrid">
+        <!-- Injected via JavaScript -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Haute Couture Footer -->
+  <footer class="luxury-footer" id="contact">
+    <div class="footer-top">
+      <div class="footer-brand-col">
+        <div class="brand-link" style="margin-bottom: 1rem;">
+          <span class="brand-crest">✦</span>
+          <span class="brand-title">LUXURY MACHUPICCHU</span>
+          <span class="brand-subtitle">PERU</span>
+        </div>
+        <p class="footer-brand-desc" data-i18n="footerDesc">
+          Official luxury travel atelier dedicated to private, bespoke expeditions through the Sacred Valley, Machu Picchu Sanctuary, and the High Andes.
+        </p>
+        <div class="footer-legal-badges">
+          <span class="legal-badge">RUC: 20601622492</span>
+          <span class="legal-badge">GERCETUR CERTIFIED</span>
+          <span class="legal-badge">MINCETUR APPROVED</span>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4 class="footer-heading" data-i18n="footerExpeditions">Expeditions</h4>
+        <ul class="footer-links">
+          <li><a href="tour.html?slug=belmond-hiram-bingham-pinnacle">Belmond Hiram Bingham</a></li>
+          <li><a href="tour.html?slug=sacred-valley-prive-shamanic-ritual">Sacred Valley & Shamanic Ritual</a></li>
+          <li><a href="tour.html?slug=belmond-andean-explorer-cusco-titicaca">Belmond Andean Explorer Sleeper</a></li>
+          <li><a href="tour.html?slug=classic-inca-trail-vip-glamping">Classic Inca Trail VIP Glamping</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4 class="footer-heading" data-i18n="footerCertifications">Certifications</h4>
+        <ul class="footer-links">
+          <li><span>GERCETUR Reg: 00482-CUS</span></li>
+          <li><span>MINCETUR Qualified Operator</span></li>
+          <li><span>ESNNA Child Protection Protocol</span></li>
+          <li><span>Sustainable Tourism Alliance</span></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4 class="footer-heading" data-i18n="footerConciergeDirect">Direct Contact</h4>
+        <p class="footer-contact-line"><strong>VIP Concierge:</strong> +(51) 958 195 840</p>
+        <p class="footer-contact-line"><strong>Headquarters:</strong> Portal de Panes 123, Plaza de Armas, Cusco, Peru</p>
+        <p class="footer-contact-line"><strong>Official Email:</strong> info@lmptravel.com</p>
+        <p class="footer-contact-line"><strong>Atelier Hours:</strong> Mon - Sun: 07:00 - 22:00 (PET)</p>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="footer-bottom-inner">
+        <p class="copyright">
+          © 2026 Luxury Machupicchu Peru E.I.R.L. All Rights Reserved. Private Haute Couture Travel Atelier.
+        </p>
+        <div class="footer-legal-links">
+          <a href="#" onclick="openClaimModal('claims')">Libro de Reclamaciones</a>
+          <span class="divider">•</span>
+          <a href="#" onclick="openClaimModal('terms')">Terms & Luxury Conditions</a>
+          <span class="divider">•</span>
+          <a href="#" onclick="openClaimModal('privacy')">Privacy Policy</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Floating VIP WhatsApp Concierge Button -->
+  <a href="https://wa.me/51958195840?text=Hello%20Luxury%20Machupicchu%20Peru%20Concierge%2C%20I%20wish%20to%20inquire%20about%20a%20private%20Machu%20Picchu%20journey." 
+     class="floating-whatsapp-btn" 
+     id="floatingWhatsApp" 
+     target="_blank" 
+     rel="noopener" 
+     aria-label="Direct WhatsApp Concierge">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.79 14.07c-.24.68-1.4 1.34-1.92 1.42-.5.09-1.15.12-1.85-.11-.43-.14-.99-.33-1.71-.65-3.04-1.33-5.01-4.42-5.16-4.63-.16-.2-1.23-1.64-1.23-3.13 0-1.49.78-2.22 1.06-2.52.28-.3.61-.38.81-.38.2 0 .41 0 .58.01.19.01.44-.07.69.53.25.61.85 2.08.93 2.23.08.16.13.35.03.55-.1.2-.15.33-.3.51-.15.18-.32.4-.46.54-.15.15-.31.31-.13.62.18.31.79 1.3 1.69 2.11 1.16 1.03 2.13 1.35 2.44 1.5.31.15.49.13.67-.08.19-.21.79-.92 1-1.24.21-.31.42-.26.7-.16.29.1 1.83.86 2.14 1.02.31.15.52.23.6.36.08.13.08.77-.16 1.45z"/></svg>
+    <span class="whatsapp-floating-tooltip" data-i18n="waTooltip">VIP Concierge 24/7</span>
+  </a>
+
+  <!-- Application Logic for Dedicated Tour Detail Page -->
+  <script src="tour.js"></script>
+</body>
+</html>

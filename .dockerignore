@@ -1,0 +1,11 @@
+.git
+.gitignore
+.env
+.env*.local
+mysql_data/
+**/bin/
+**/obj/
+.vs/
+.vscode/
+node_modules/
+*.log

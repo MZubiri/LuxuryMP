@@ -1,0 +1,38 @@
+# Environment files (Keep .env.example committed)
+.env
+.env*.local
+!.env.example
+
+# Database data directory
+mysql_data/
+*.sqlite
+*.db
+
+# .NET build and user files
+**/bin/
+**/obj/
+.vs/
+*.user
+*.suo
+*.userprefs
+*.ide/
+*.DotSettings.user
+
+# Editor and OS artifacts
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs & temp files
+*.log
+logs/
+temp/
+tmp/
+
+# Node dependencies (if any)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
