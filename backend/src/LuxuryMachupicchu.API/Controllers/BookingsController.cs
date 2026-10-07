@@ -111,7 +111,7 @@ public class BookingsController : ControllerBase
     /// Admin endpoint: lists luxury bookings with filters, search, and pagination.
     /// </summary>
     [HttpGet]
-    [Authorize(Roles = "Administrator")]
+    [Authorize(Roles = "Administrator,Editor")]
     public async Task<ActionResult<PaginatedResponse<AdminBookingDetailDto>>> GetBookings(
         [FromQuery] string? status,
         [FromQuery] string? search,
@@ -197,7 +197,7 @@ public class BookingsController : ControllerBase
     /// Admin endpoint: retrieves full details of a specific booking.
     /// </summary>
     [HttpGet("{id}")]
-    [Authorize(Roles = "Administrator")]
+    [Authorize(Roles = "Administrator,Editor")]
     public async Task<ActionResult<AdminBookingDetailDto>> GetBooking(int id)
     {
         var b = await _context.BookingInquiries

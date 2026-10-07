@@ -1,6 +1,7 @@
 using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
 using LuxuryMachupicchu.Domain.Entities;
+using LuxuryMachupicchu.Infrastructure.Security;
 
 namespace LuxuryMachupicchu.Infrastructure.Data;
 
@@ -548,6 +549,79 @@ public static class DbInitializer
             };
 
             await context.ContactMessages.AddAsync(cm1);
+        }
+
+        // 8. Ensure Users table exists and seed initial application users (Administrator and Editor roles)
+        try
+        {
+            try
+            {
+                var isAutoIncrement = await context.Database.SqlQueryRaw<int>(@"
+                    SELECT COUNT(*) AS Value 
+                    FROM INFORMATION_SCHEMA.COLUMNS 
+                    WHERE TABLE_SCHEMA = DATABASE() 
+                      AND TABLE_NAME = 'Users' 
+                      AND COLUMN_NAME = 'Id' 
+                      AND EXTRA LIKE '%auto_increment%'
+                ").FirstOrDefaultAsync();
+
+                if (isAutoIncrement == 0)
+                {
+                    await context.Database.ExecuteSqlRawAsync("DROP TABLE IF EXISTS `Users`;");
+                }
+            }
+            catch (Exception)
+            {
+                try { await context.Database.ExecuteSqlRawAsync("DROP TABLE IF EXISTS `Users`;"); } catch { }
+            }
+
+            await context.Database.ExecuteSqlRawAsync(@"
+                CREATE TABLE IF NOT EXISTS `Users` (
+                    `Id` int NOT NULL AUTO_INCREMENT,
+                    `Username` varchar(100) CHARACTER SET utf8mb4 NOT NULL,
+                    `Email` varchar(150) CHARACTER SET utf8mb4 NOT NULL,
+                    `FullName` varchar(150) CHARACTER SET utf8mb4 NOT NULL,
+                    `PasswordHash` varchar(256) CHARACTER SET utf8mb4 NOT NULL,
+                    `Role` varchar(50) CHARACTER SET utf8mb4 NOT NULL,
+                    `IsActive` tinyint(1) NOT NULL,
+                    `CreatedAt` datetime(6) NOT NULL,
+                    `LastLoginAt` datetime(6) NULL,
+                    PRIMARY KEY (`Id`),
+                    UNIQUE KEY `IX_Users_Username` (`Username`),
+                    UNIQUE KEY `IX_Users_Email` (`Email`)
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+            ");
+        }
+        catch (Exception)
+        {
+            // Table may already exist or running in-memory provider
+        }
+
+        if (!await context.Users.AnyAsync())
+        {
+            var adminUser = new AppUser
+            {
+                Username = "concierge@luxurymachupicchu.com",
+                Email = "concierge@luxurymachupicchu.com",
+                FullName = "Directorio Concierge Master",
+                Role = "Administrator",
+                PasswordHash = PasswordHasher.HashPassword("MachuPicchuLuxury2026!"),
+                IsActive = true,
+                CreatedAt = DateTime.UtcNow
+            };
+
+            var editorUser = new AppUser
+            {
+                Username = "editor@luxurymachupicchu.com",
+                Email = "editor@luxurymachupicchu.com",
+                FullName = "Editor de Curaduría & Expediciones",
+                Role = "Editor",
+                PasswordHash = PasswordHasher.HashPassword("LuxuryEditor2026!"),
+                IsActive = true,
+                CreatedAt = DateTime.UtcNow
+            };
+
+            await context.Users.AddRangeAsync(adminUser, editorUser);
         }
 
         await context.SaveChangesAsync();

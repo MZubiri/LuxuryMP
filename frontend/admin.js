@@ -38,6 +38,13 @@ const adminState = {
   // Solicitudes Concierge
   conciergeRequests: [],
   
+  // Gestión de Usuarios & Roles
+  users: [],
+  editingUserId: null,
+
+  // Cotizador Bespoke
+  quotationItems: [],
+  
   // Modal de Detalle
   currentBookingDetail: null,
   pendingDeleteAction: null
@@ -338,6 +345,21 @@ function updateUserUI() {
     const initials = adminState.currentUser.fullName.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
     avatarEl.textContent = initials || 'CD';
   }
+
+  applyRolePermissionsUI();
+}
+
+function applyRolePermissionsUI() {
+  const isEditor = adminState.currentUser?.role === 'Editor';
+  const navBtnUsers = document.getElementById('navBtn-users');
+
+  if (navBtnUsers) {
+    navBtnUsers.style.display = isEditor ? 'none' : 'flex';
+  }
+
+  if (isEditor && adminState.activeView === 'users') {
+    switchAdminView('dashboard');
+  }
 }
 
 // Inicializar todas las vistas tras login exitoso
@@ -362,6 +384,7 @@ function setAdminCurrency(currency) {
   if (adminState.activeView === 'dashboard') loadDashboardData();
   if (adminState.activeView === 'bookings') renderBookingsTable();
   if (adminState.activeView === 'payments') updatePaymentsBanner();
+  if (adminState.activeView === 'users') loadUsersData();
   if (adminState.activeView === 'itineraries' && adminState.selectedTourId) {
     renderTourDetail(adminState.selectedTourId);
   }
@@ -396,6 +419,12 @@ function formatMoney(amountUsd, amountPen = null) {
 // NAVEGACIÓN ENTRE VISTAS DEL PANEL
 // ============================================================================
 function switchAdminView(viewName) {
+  // Proteger vista de usuarios para el rol Editor
+  if (viewName === 'users' && adminState.currentUser?.role === 'Editor') {
+    showToast('Acceso restringido: Se requieren privilegios de Administrador para gestionar usuarios.', 'error');
+    return;
+  }
+
   adminState.activeView = viewName;
 
   // Actualizar botones del Sidebar
@@ -413,6 +442,7 @@ function switchAdminView(viewName) {
   if (viewName === 'bookings') loadBookingsData();
   if (viewName === 'itineraries') loadToursData();
   if (viewName === 'concierge') loadConciergeData();
+  if (viewName === 'users') loadUsersData();
   if (viewName === 'payments') {
     loadBookingsData().then(() => updatePaymentsBanner());
   }
@@ -697,10 +727,12 @@ function renderBookingsTable() {
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
             </button>
 
-            <!-- Eliminar -->
-            <button type="button" class="btn-table-action btn-table-delete" onclick="promptDeleteBooking(${b.id}, '${escapeHtml(b.fullName)}')" title="Eliminar Cotización">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
-            </button>
+            <!-- Eliminar (Solo Administrator) -->
+            ${adminState.currentUser?.role !== 'Editor' ? `
+              <button type="button" class="btn-table-action btn-table-delete" onclick="promptDeleteBooking(${b.id}, '${escapeHtml(b.fullName)}')" title="Eliminar Cotización">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+              </button>
+            ` : ''}
           </div>
         </td>
       </tr>
@@ -816,6 +848,20 @@ async function openBookingDetail(id) {
       }
     }
 
+    const isEditor = adminState.currentUser?.role === 'Editor';
+    const statusSelect = document.getElementById('modalEditStatus');
+    const noteTextarea = document.getElementById('modalConciergeNote');
+    const saveBtn = document.getElementById('btnSaveBookingStatus');
+    const noticeEl = document.getElementById('bookingEditorRestrictedNotice');
+
+    if (noticeEl) noticeEl.style.display = isEditor ? 'block' : 'none';
+    if (statusSelect) statusSelect.disabled = isEditor;
+    if (noteTextarea) noteTextarea.disabled = isEditor;
+    if (saveBtn) {
+      saveBtn.disabled = isEditor;
+      saveBtn.style.display = isEditor ? 'none' : 'inline-flex';
+    }
+
     openAdminModal('bookingModal');
   } catch (err) {
     showToast('Error al cargar la información del cliente.', 'error');
@@ -824,6 +870,12 @@ async function openBookingDetail(id) {
 
 async function handleSaveBookingStatus(event) {
   event.preventDefault();
+
+  if (adminState.currentUser?.role === 'Editor') {
+    showToast('Acceso restringido: El rol Editor no tiene permisos para modificar reservas.', 'error');
+    return;
+  }
+
   const id = document.getElementById('modalBookingId').value;
   const newStatus = document.getElementById('modalEditStatus').value;
   const note = document.getElementById('modalConciergeNote').value.trim();
@@ -860,6 +912,11 @@ async function handleSaveBookingStatus(event) {
 
 // Eliminación de Reserva
 function promptDeleteBooking(id, guestName) {
+  if (adminState.currentUser?.role === 'Editor') {
+    showToast('Acceso restringido: El rol Editor no tiene permisos para eliminar reservas.', 'error');
+    return;
+  }
+
   const msgEl = document.getElementById('deleteModalMessage');
   if (msgEl) {
     msgEl.innerHTML = `¿Está seguro de que desea eliminar la cotización <strong>#LMP-${id}</strong> de <strong>${escapeHtml(guestName)}</strong>? Esta acción no se puede deshacer.`;
@@ -2199,13 +2256,22 @@ function renderConciergeGrid(requests, filter) {
             </a>
           ` : ''}
 
-          <button type="button" class="btn-table-action" onclick="toggleConciergeStatus(${r.id}, ${!r.isAddressed})">
-            ${r.isAddressed ? 'Marcar Pendiente' : 'Marcar Atendido'}
+          <!-- Cotizador Bespoke (Disponible para Admin y Editor) -->
+          <button type="button" class="btn-table-action" onclick="openBespokeQuotationModal(${r.id})" title="Abrir Cotizador Bespoke con IGV y Generador de PDF" style="color:var(--admin-gold); border-color:rgba(200,169,107,0.4);">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+            Cotizar Bespoke
           </button>
 
-          <button type="button" class="btn-table-action btn-table-delete" onclick="deleteConciergeInquiry(${r.id})" title="Descartar Solicitud">
-            ✕
-          </button>
+          <!-- Acciones restringidas (Solo Administrator) -->
+          ${adminState.currentUser?.role !== 'Editor' ? `
+            <button type="button" class="btn-table-action" onclick="toggleConciergeStatus(${r.id}, ${!r.isAddressed})">
+              ${r.isAddressed ? 'Marcar Pendiente' : 'Marcar Atendido'}
+            </button>
+
+            <button type="button" class="btn-table-action btn-table-delete" onclick="deleteConciergeInquiry(${r.id})" title="Descartar Solicitud">
+              ✕
+            </button>
+          ` : ''}
         </div>
       </div>
     `;
@@ -2213,6 +2279,11 @@ function renderConciergeGrid(requests, filter) {
 }
 
 async function toggleConciergeStatus(id, newStatus) {
+  if (adminState.currentUser?.role === 'Editor') {
+    showToast('Acceso restringido: El rol Editor no tiene permisos para modificar solicitudes de concierge.', 'error');
+    return;
+  }
+
   try {
     const res = await apiFetch(`/concierge/${id}/addressed`, {
       method: 'PUT',
@@ -2228,6 +2299,11 @@ async function toggleConciergeStatus(id, newStatus) {
 }
 
 async function deleteConciergeInquiry(id) {
+  if (adminState.currentUser?.role === 'Editor') {
+    showToast('Acceso restringido: El rol Editor no tiene permisos para eliminar solicitudes de concierge.', 'error');
+    return;
+  }
+
   if (!confirm(`¿Desea descartar la solicitud de concierge #${id}?`)) return;
 
   try {
@@ -2239,6 +2315,456 @@ async function deleteConciergeInquiry(id) {
   } catch (err) {
     showToast('No se pudo eliminar la solicitud.', 'error');
   }
+}
+
+// ============================================================================
+// VISTA 6: GESTIÓN DE USUARIOS & ROLES (CRUD ADMINISTRATOR)
+// ============================================================================
+async function loadUsersData() {
+  if (adminState.currentUser?.role === 'Editor') {
+    showToast('Acceso restringido: Se requieren privilegios de Administrador para gestionar usuarios.', 'error');
+    switchAdminView('dashboard');
+    return;
+  }
+
+  const tbody = document.getElementById('usersTableBody');
+  if (tbody) {
+    tbody.innerHTML = '<tr><td colspan="9" style="text-align:center; padding: 2.5rem; color: var(--admin-text-dim);">Cargando usuarios del Atelier...</td></tr>';
+  }
+
+  try {
+    const res = await apiFetch('/users');
+    if (!res.ok) throw new Error('Error al consultar usuarios');
+    const users = await res.json();
+    adminState.users = Array.isArray(users) ? users : [];
+    renderUsersTable(adminState.users);
+  } catch (err) {
+    console.error('Error fetching users:', err);
+    showToast('No se pudieron cargar los usuarios del atelier.', 'error');
+    if (tbody) {
+      tbody.innerHTML = '<tr><td colspan="9" style="text-align:center; padding: 2.5rem; color: #ff6b6b;">Error al cargar la lista de usuarios.</td></tr>';
+    }
+  }
+}
+
+function renderUsersTable(users) {
+  const tbody = document.getElementById('usersTableBody');
+  if (!tbody) return;
+
+  if (!users || users.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="9" style="text-align:center; padding: 2.5rem; color: var(--admin-text-dim);">No hay usuarios registrados.</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = users.map(u => {
+    const roleBadge = u.role === 'Administrator' 
+      ? '<span class="badge-tag-mini badge-role-admin">Administrator</span>'
+      : '<span class="badge-tag-mini badge-role-editor">Editor</span>';
+
+    const statusBadge = u.isActive
+      ? '<span class="badge-tag-mini badge-status-active">● Activo</span>'
+      : '<span class="badge-tag-mini badge-status-inactive">✕ Inactivo</span>';
+
+    const isCurrent = adminState.currentUser?.username === u.username;
+
+    return `
+      <tr>
+        <td style="color: var(--admin-text-dim); font-size: 0.8rem;">#${u.id}</td>
+        <td>
+          <strong style="color: #FFFFFF; font-size: 0.85rem;">${escapeHtml(u.username)}</strong>
+          ${isCurrent ? '<span style="font-size:0.7rem; color:var(--admin-gold); margin-left:4px;">(Tú)</span>' : ''}
+        </td>
+        <td style="color: var(--admin-text-main); font-size: 0.85rem;">${escapeHtml(u.fullName || '—')}</td>
+        <td style="color: var(--admin-text-muted); font-size: 0.82rem;">${escapeHtml(u.email)}</td>
+        <td>${roleBadge}</td>
+        <td>${statusBadge}</td>
+        <td style="color: var(--admin-text-dim); font-size: 0.78rem;">${formatDate(u.createdAt)}</td>
+        <td style="color: var(--admin-text-dim); font-size: 0.78rem;">${u.lastLoginAt ? formatDate(u.lastLoginAt) : 'Nunca'}</td>
+        <td style="text-align: right;">
+          <div style="display: flex; gap: 0.35rem; justify-content: flex-end;">
+            <button type="button" class="btn-table-action" onclick="openUserEditModal(${u.id})" title="Editar Credenciales y Permisos">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+            </button>
+            ${!isCurrent ? `
+              <button type="button" class="btn-table-action btn-table-delete" onclick="deleteUserPrompt(${u.id}, '${escapeHtml(u.username)}')" title="Eliminar Usuario">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+              </button>
+            ` : ''}
+          </div>
+        </td>
+      </tr>
+    `;
+  }).join('');
+}
+
+function openUserCreateModal() {
+  adminState.editingUserId = null;
+  document.getElementById('userFormId').value = '';
+  document.getElementById('userFormFullName').value = '';
+  document.getElementById('userFormUsername').value = '';
+  document.getElementById('userFormUsername').disabled = false;
+  document.getElementById('userFormEmail').value = '';
+  document.getElementById('userFormRole').value = 'Editor';
+  document.getElementById('userFormIsActive').checked = true;
+  document.getElementById('userFormPassword').value = '';
+  document.getElementById('userFormPassword').required = true;
+  document.getElementById('userFormPasswordLabel').textContent = 'Contraseña *';
+  document.getElementById('userFormPasswordHelp').textContent = 'Mínimo 6 caracteres para autenticación segura.';
+  document.getElementById('userModalTitle').textContent = 'Crear Nuevo Usuario';
+  document.getElementById('btnSaveUserSubmit').textContent = '💾 Crear Usuario';
+
+  openAdminModal('userEditorModal');
+}
+
+function openUserEditModal(id) {
+  const user = adminState.users.find(u => u.id === id);
+  if (!user) {
+    showToast('Usuario no encontrado', 'error');
+    return;
+  }
+
+  adminState.editingUserId = id;
+  document.getElementById('userFormId').value = user.id;
+  document.getElementById('userFormFullName').value = user.fullName || '';
+  document.getElementById('userFormUsername').value = user.username;
+  document.getElementById('userFormUsername').disabled = true; // username inmutable
+  document.getElementById('userFormEmail').value = user.email;
+  document.getElementById('userFormRole').value = user.role;
+  document.getElementById('userFormIsActive').checked = user.isActive;
+  document.getElementById('userFormPassword').value = '';
+  document.getElementById('userFormPassword').required = false;
+  document.getElementById('userFormPasswordLabel').textContent = 'Nueva Contraseña (Opcional)';
+  document.getElementById('userFormPasswordHelp').textContent = 'Deje en blanco si desea conservar la contraseña actual.';
+  document.getElementById('userModalTitle').textContent = `Editar Usuario: ${user.username}`;
+  document.getElementById('btnSaveUserSubmit').textContent = '💾 Guardar Cambios';
+
+  openAdminModal('userEditorModal');
+}
+
+async function handleUserFormSubmit(event) {
+  event.preventDefault();
+  const id = document.getElementById('userFormId').value;
+  const fullName = document.getElementById('userFormFullName').value.trim();
+  const username = document.getElementById('userFormUsername').value.trim();
+  const email = document.getElementById('userFormEmail').value.trim();
+  const role = document.getElementById('userFormRole').value;
+  const isActive = document.getElementById('userFormIsActive').checked;
+  const password = document.getElementById('userFormPassword').value;
+
+  const btn = document.getElementById('btnSaveUserSubmit');
+  const originalText = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = 'Guardando...';
+
+  try {
+    let res;
+    if (id) {
+      // Editar
+      const payload = {
+        fullName,
+        email,
+        role,
+        isActive,
+        password: password || null
+      };
+      res = await apiFetch(`/users/${id}`, {
+        method: 'PUT',
+        body: JSON.stringify(payload)
+      });
+    } else {
+      // Crear
+      const payload = {
+        username,
+        email,
+        fullName,
+        password,
+        role,
+        isActive
+      };
+      res = await apiFetch('/users', {
+        method: 'POST',
+        body: JSON.stringify(payload)
+      });
+    }
+
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.message || 'Error al procesar la solicitud');
+    }
+
+    closeAdminModal('userEditorModal');
+    showToast(id ? 'Usuario actualizado exitosamente.' : 'Usuario registrado exitosamente.', 'success');
+    await loadUsersData();
+  } catch (err) {
+    console.error('Error saving user:', err);
+    showToast(err.message || 'Error al guardar usuario.', 'error');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = originalText;
+  }
+}
+
+async function deleteUserPrompt(id, username) {
+  if (!confirm(`¿Está seguro de que desea eliminar al usuario "${username}" (#${id})? Esta acción revocará todos sus accesos de manera inmediata.`)) {
+    return;
+  }
+
+  try {
+    const res = await apiFetch(`/users/${id}`, { method: 'DELETE' });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.message || 'Error al eliminar usuario');
+    }
+
+    showToast(`Usuario "${username}" eliminado.`, 'info');
+    await loadUsersData();
+  } catch (err) {
+    console.error('Error deleting user:', err);
+    showToast(err.message || 'No se pudo eliminar el usuario.', 'error');
+  }
+}
+
+// ============================================================================
+// COTIZADOR INTERACTIVO BESPOKE (SOLICITUDES PERSONALIZADAS) & GENERADOR DE PDF
+// ============================================================================
+function openBespokeQuotationModal(requestId) {
+  const req = adminState.conciergeRequests.find(r => r.id === requestId);
+  if (!req) {
+    showToast('Solicitud bespoke no encontrada.', 'error');
+    return;
+  }
+
+  // Jalar datos del cliente que ya fueron registrados
+  document.getElementById('quoteRequestId').value = req.id;
+  const quoteCode = `COT-2026-${String(req.id).padStart(4, '0')}`;
+  document.getElementById('quoteCodeNumber').value = quoteCode;
+  document.getElementById('quoteModalTitle').textContent = `Cotizador Bespoke: ${req.guestName}`;
+
+  document.getElementById('quoteGuestName').value = req.guestName || '';
+  document.getElementById('quoteEmail').value = req.email || '';
+  document.getElementById('quotePhone').value = req.whatsApp || '';
+  document.getElementById('quoteDestination').value = req.destinationFocus || 'Machu Picchu & Valle Sagrado Privé';
+  document.getElementById('quoteTravelers').value = req.travelersCount || 2;
+  document.getElementById('quoteDuration').value = req.journeyDuration || '4 Días / 3 Noches';
+  document.getElementById('quoteNotes').value = req.bespokeNotes || '';
+
+  // Determinar si es nacional o extranjero
+  const isPeruvianPhone = req.whatsApp && (req.whatsApp.startsWith('+51') || req.whatsApp.startsWith('51') || (req.whatsApp.startsWith('9') && req.whatsApp.length === 9));
+  if (isPeruvianPhone) {
+    document.getElementById('taxRegimeNational').checked = true;
+  } else {
+    document.getElementById('taxRegimeNational').checked = true; // Por defecto nacional para visibilizar IGV, modificable con 1 click
+  }
+
+  handleTaxRegimeChange();
+
+  // Precargar desglose de experiencias de alta gama
+  const tbody = document.getElementById('quotationItemsTableBody');
+  tbody.innerHTML = '';
+
+  const travelers = req.travelersCount || 2;
+  const destName = req.destinationFocus || 'Machu Picchu Privé';
+
+  addQuotationItemRow(`Expedición Privada: ${destName} (Logística Bespoke & Guía Arqueólogo Privado)`, travelers, 1650);
+  addQuotationItemRow(`Boleto Belmond Hiram Bingham (Ida & Retorno Clase Lujo)`, travelers, 950);
+  addQuotationItemRow(`Pernocte en Hotel 5★ Gran Lujo (Suite con Desayuno Andino Gourmet)`, 2, 850);
+
+  recalcQuotationTotals();
+  openAdminModal('conciergeQuotationModal');
+}
+
+function addQuotationItemRow(description = '', quantity = 1, unitPrice = 0) {
+  const tbody = document.getElementById('quotationItemsTableBody');
+  if (!tbody) return;
+
+  const tr = document.createElement('tr');
+  tr.className = 'quote-item-row';
+  tr.innerHTML = `
+    <td>
+      <input type="text" class="modal-input quote-item-desc" style="padding: 0.4rem 0.6rem; font-size: 0.82rem;" placeholder="Detalle de experiencia o servicio bespoke" value="${escapeHtml(description)}">
+    </td>
+    <td style="text-align: center;">
+      <input type="number" class="modal-input quote-item-qty" style="padding: 0.4rem 0.5rem; text-align: center; font-size: 0.82rem;" min="1" max="999" value="${quantity}" oninput="recalcQuotationTotals()">
+    </td>
+    <td style="text-align: right;">
+      <input type="number" class="modal-input quote-item-price" style="padding: 0.4rem 0.5rem; text-align: right; font-size: 0.82rem;" min="0" step="10" value="${unitPrice}" oninput="recalcQuotationTotals()">
+    </td>
+    <td style="text-align: right; font-weight: 600; color: #FFFFFF; font-size: 0.85rem;" class="quote-item-subtotal">
+      $0.00
+    </td>
+    <td style="text-align: center;">
+      <button type="button" class="btn-table-action btn-table-delete" onclick="removeQuotationItemRow(this)" title="Quitar Fila" style="padding: 2px 6px;">✕</button>
+    </td>
+  `;
+
+  tbody.appendChild(tr);
+  recalcQuotationTotals();
+}
+
+function removeQuotationItemRow(btn) {
+  const row = btn.closest('tr');
+  if (row) {
+    row.remove();
+    recalcQuotationTotals();
+  }
+}
+
+function handleTaxRegimeChange() {
+  const isNational = document.getElementById('taxRegimeNational')?.checked;
+  const badge = document.getElementById('taxRegimeBadge');
+
+  if (badge) {
+    if (isNational) {
+      badge.textContent = '+18% IGV Aplicado (Huésped Nacional)';
+      badge.style.background = 'rgba(230, 162, 60, 0.2)';
+      badge.style.color = '#ECC38B';
+    } else {
+      badge.textContent = 'Exonerado 0% IGV (Extranjero D.L. 919)';
+      badge.style.background = 'rgba(46, 204, 113, 0.15)';
+      badge.style.color = '#2ECC71';
+    }
+  }
+
+  recalcQuotationTotals();
+}
+
+function recalcQuotationTotals() {
+  const rows = document.querySelectorAll('#quotationItemsTableBody tr.quote-item-row');
+  let netSubtotalUsd = 0;
+
+  rows.forEach(tr => {
+    const qtyInput = tr.querySelector('.quote-item-qty');
+    const priceInput = tr.querySelector('.quote-item-price');
+    const subtotalCell = tr.querySelector('.quote-item-subtotal');
+
+    const qty = Math.max(0, Number(qtyInput?.value) || 0);
+    const unitPrice = Math.max(0, Number(priceInput?.value) || 0);
+    const rowSubtotal = qty * unitPrice;
+
+    netSubtotalUsd += rowSubtotal;
+
+    if (subtotalCell) {
+      subtotalCell.textContent = `$${rowSubtotal.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+    }
+  });
+
+  const isNational = document.getElementById('taxRegimeNational')?.checked;
+  const taxRate = isNational ? 0.18 : 0.00;
+  const taxAmountUsd = netSubtotalUsd * taxRate;
+  const grandTotalUsd = netSubtotalUsd + taxAmountUsd;
+  const exchangeRate = 3.80;
+  const grandTotalPen = grandTotalUsd * exchangeRate;
+  const depositHoldUsd = grandTotalUsd * 0.30;
+
+  const subtotalEl = document.getElementById('quoteDisplaySubtotal');
+  const taxLabelEl = document.getElementById('quoteDisplayTaxLabel');
+  const taxAmountEl = document.getElementById('quoteDisplayTaxAmount');
+  const grandTotalEl = document.getElementById('quoteDisplayGrandTotal');
+  const penEquivEl = document.getElementById('quoteDisplayPenEquiv');
+  const depositEl = document.getElementById('quoteDisplayDeposit');
+
+  if (subtotalEl) subtotalEl.textContent = `$${netSubtotalUsd.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USD`;
+  if (taxLabelEl) taxLabelEl.textContent = isNational ? 'IGV (18% Nacional Perú):' : 'IGV (0% Exonerado D.L. 919):';
+  if (taxAmountEl) taxAmountEl.textContent = `$${taxAmountUsd.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USD`;
+  if (grandTotalEl) grandTotalEl.textContent = `$${grandTotalUsd.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USD`;
+  if (penEquivEl) penEquivEl.textContent = `Equiv: S/. ${grandTotalPen.toLocaleString('es-PE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} PEN`;
+  if (depositEl) depositEl.textContent = `$${depositHoldUsd.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USD`;
+}
+
+function handleQuotationFormSubmit(event) {
+  event.preventDefault();
+  generateQuotationPrintPreview();
+}
+
+function generateQuotationPrintPreview() {
+  const code = document.getElementById('quoteCodeNumber')?.value || 'COT-2026-0001';
+  const guestName = document.getElementById('quoteGuestName')?.value.trim() || 'Huésped Distinguido';
+  const email = document.getElementById('quoteEmail')?.value.trim() || '—';
+  const phone = document.getElementById('quotePhone')?.value.trim() || '—';
+  const dest = document.getElementById('quoteDestination')?.value.trim() || 'Machu Picchu Privé';
+  const travelers = document.getElementById('quoteTravelers')?.value || '2';
+  const duration = document.getElementById('quoteDuration')?.value.trim() || '4 Días / 3 Noches';
+  const terms = document.getElementById('quoteTerms')?.value || '';
+  const isNational = document.getElementById('taxRegimeNational')?.checked;
+
+  const printCode = document.getElementById('printQuoteCode');
+  const printDate = document.getElementById('printQuoteDate');
+  const printGuest = document.getElementById('printQuoteGuest');
+  const printContact = document.getElementById('printQuoteContact');
+  const printDest = document.getElementById('printQuoteDest');
+  const printTravelers = document.getElementById('printQuoteTravelers');
+  const printDuration = document.getElementById('printQuoteDuration');
+  const printTaxRegime = document.getElementById('printQuoteTaxRegime');
+  const printTerms = document.getElementById('printQuoteTerms');
+  const printLegalNotice = document.getElementById('printQuoteLegalNotice');
+
+  if (printCode) printCode.textContent = code;
+  if (printDate) printDate.textContent = new Date().toLocaleDateString('es-PE', { day: '2-digit', month: 'long', year: 'numeric' });
+  if (printGuest) printGuest.textContent = guestName;
+  if (printContact) printContact.textContent = `${email} • WhatsApp: ${phone}`;
+  if (printDest) printDest.textContent = dest;
+  if (printTravelers) printTravelers.textContent = `${travelers} Pasajero(s) de Alta Distinción`;
+  if (printDuration) printDuration.textContent = duration;
+
+  if (printTaxRegime) {
+    printTaxRegime.textContent = isNational 
+      ? '🇵🇪 Régimen Nacional (+18% IGV Gravado)' 
+      : '🌎 Régimen No Domiciliado (Exonerado D.L. 919 - Turismo Receptivo)';
+    printTaxRegime.style.color = isNational ? '#C8A96B' : '#2ECC71';
+  }
+
+  if (printTerms) {
+    printTerms.innerHTML = escapeHtml(terms).replace(/\n/g, '<br>');
+  }
+
+  if (printLegalNotice) {
+    printLegalNotice.textContent = isNational
+      ? 'Aviso Legal: Operación gravada sujeta a Factura / Boleta electrónica con aplicación del 18% del Impuesto General a las Ventas (IGV) de conformidad con el Texto Único Ordenado de la Ley del IGV e ISC del Perú.'
+      : 'Aviso Legal: De conformidad con el Decreto Legislativo N° 919 y normatividad tributaria de la República del Perú, la prestación de servicios turísticos a sujetos no domiciliados califica como exportación de servicios, encontrándose EXONERADA del Impuesto General a las Ventas (IGV 0%). Requiere presentación de pasaporte y TAM virtual vigente.';
+  }
+
+  const printTbody = document.getElementById('printQuoteTableBody');
+  if (printTbody) {
+    const rows = document.querySelectorAll('#quotationItemsTableBody tr.quote-item-row');
+    let netSubtotalUsd = 0;
+    let index = 1;
+
+    printTbody.innerHTML = Array.from(rows).map(tr => {
+      const desc = tr.querySelector('.quote-item-desc')?.value.trim() || 'Servicio Turístico Bespoke';
+      const qty = Math.max(0, Number(tr.querySelector('.quote-item-qty')?.value) || 0);
+      const unitPrice = Math.max(0, Number(tr.querySelector('.quote-item-price')?.value) || 0);
+      const rowSubtotal = qty * unitPrice;
+      netSubtotalUsd += rowSubtotal;
+
+      return `
+        <tr>
+          <td style="text-align: center; color: #888888;">${index++}</td>
+          <td>
+            <strong>${escapeHtml(desc)}</strong>
+          </td>
+          <td style="text-align: center;">${qty}</td>
+          <td style="text-align: right;">$${unitPrice.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
+          <td style="text-align: right; font-weight: 700;">$${rowSubtotal.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
+        </tr>
+      `;
+    }).join('');
+
+    const taxRate = isNational ? 0.18 : 0.00;
+    const taxAmountUsd = netSubtotalUsd * taxRate;
+    const grandTotalUsd = netSubtotalUsd + taxAmountUsd;
+    const exchangeRate = 3.80;
+    const grandTotalPen = grandTotalUsd * exchangeRate;
+    const depositHoldUsd = grandTotalUsd * 0.30;
+
+    document.getElementById('printQuoteSubtotal').textContent = `$${netSubtotalUsd.toLocaleString('en-US', { minimumFractionDigits: 2 })} USD`;
+    document.getElementById('printQuoteTaxLabel').textContent = isNational ? 'IGV (18% Régimen Nacional):' : 'IGV (0% Exonerado D.L. 919):';
+    document.getElementById('printQuoteTax').textContent = `$${taxAmountUsd.toLocaleString('en-US', { minimumFractionDigits: 2 })} USD`;
+    document.getElementById('printQuoteGrandTotal').textContent = `$${grandTotalUsd.toLocaleString('en-US', { minimumFractionDigits: 2 })} USD`;
+    document.getElementById('printQuotePenTotal').textContent = `S/. ${grandTotalPen.toLocaleString('es-PE', { minimumFractionDigits: 2 })} PEN`;
+    document.getElementById('printQuoteDeposit').textContent = `$${depositHoldUsd.toLocaleString('en-US', { minimumFractionDigits: 2 })} USD`;
+  }
+
+  openAdminModal('quotationPrintModal');
 }
 
 // ============================================================================

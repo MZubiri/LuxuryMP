@@ -17,6 +17,7 @@ public class LuxuryMachupicchuDbContext : DbContext
     public DbSet<PrivateConciergeRequest> ConciergeRequests => Set<PrivateConciergeRequest>();
     public DbSet<ContactMessage> ContactMessages => Set<ContactMessage>();
     public DbSet<Testimonial> Testimonials => Set<Testimonial>();
+    public DbSet<AppUser> Users => Set<AppUser>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -95,6 +96,17 @@ public class LuxuryMachupicchuDbContext : DbContext
             entity.HasKey(e => e.Id);
             entity.Property(e => e.GuestName).IsRequired().HasMaxLength(120);
             entity.Property(e => e.OriginCountry).HasMaxLength(120);
+        });
+
+        modelBuilder.Entity<AppUser>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.Username).IsRequired().HasMaxLength(100);
+            entity.HasIndex(e => e.Username).IsUnique();
+            entity.Property(e => e.Email).IsRequired().HasMaxLength(150);
+            entity.Property(e => e.FullName).IsRequired().HasMaxLength(150);
+            entity.Property(e => e.PasswordHash).IsRequired().HasMaxLength(256);
+            entity.Property(e => e.Role).IsRequired().HasMaxLength(50);
         });
     }
 }

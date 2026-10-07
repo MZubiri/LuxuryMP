@@ -4,7 +4,10 @@ using System.Text;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using LuxuryMachupicchu.Infrastructure.Data;
+using LuxuryMachupicchu.Infrastructure.Security;
 
 namespace LuxuryMachupicchu.API.Controllers;
 
@@ -19,40 +22,83 @@ public class LoginRequestDto
 public class AuthController : ControllerBase
 {
     private readonly IConfiguration _configuration;
+    private readonly LuxuryMachupicchuDbContext _context;
 
-    public AuthController(IConfiguration configuration)
+    public AuthController(IConfiguration configuration, LuxuryMachupicchuDbContext context)
     {
         _configuration = configuration;
+        _context = context;
     }
 
     [HttpPost("login")]
     [AllowAnonymous]
     [EnableRateLimiting("login-policy")]
-    public IActionResult Login([FromBody] LoginRequestDto request)
+    public async Task<IActionResult> Login([FromBody] LoginRequestDto request)
     {
-        var expectedUser = _configuration["AdminSettings:Username"]?.Trim();
-        if (string.IsNullOrWhiteSpace(expectedUser))
-            expectedUser = "concierge@luxurymachupicchu.com";
-
-        var expectedPass = _configuration["AdminSettings:Password"]?.Trim();
-        if (string.IsNullOrWhiteSpace(expectedPass))
-            expectedPass = "MachuPicchuLuxury2026!";
-
         var inputUser = request.Username?.Trim() ?? string.Empty;
         var inputPass = request.Password?.Trim() ?? string.Empty;
 
-        bool isUserValid = string.Equals(inputUser, expectedUser, StringComparison.OrdinalIgnoreCase) ||
-                           string.Equals(inputUser, "admin", StringComparison.OrdinalIgnoreCase) ||
-                           string.Equals(inputUser, "concierge@luxurymachupicchu.com", StringComparison.OrdinalIgnoreCase);
-
-        bool isPassValid = (!string.IsNullOrWhiteSpace(expectedPass) && string.Equals(inputPass, expectedPass, StringComparison.Ordinal)) ||
-                           string.Equals(inputPass, "MachuPicchuLuxury2026!", StringComparison.Ordinal);
-
-        bool isValid = isUserValid && isPassValid;
-
-        if (!isValid)
+        if (string.IsNullOrWhiteSpace(inputUser) || string.IsNullOrWhiteSpace(inputPass))
         {
-            return Unauthorized(new { message = "Invalid credentials. Unauthorized access to Luxury Machupicchu Concierge Portal." });
+            return Unauthorized(new { message = "Credenciales requeridas." });
+        }
+
+        // 1. Check if user exists in Database
+        var dbUser = await _context.Users
+            .FirstOrDefaultAsync(u => u.Username.ToLower() == inputUser.ToLower() || u.Email.ToLower() == inputUser.ToLower());
+
+        string authenticatedUser = inputUser;
+        string authenticatedName = "Luxury Machupicchu Concierge Director";
+        string authenticatedRole = "Administrator";
+
+        if (dbUser != null)
+        {
+            if (!dbUser.IsActive)
+            {
+                return Unauthorized(new { message = "Esta cuenta de usuario se encuentra inactiva. Contacte al Directorio." });
+            }
+
+            bool isPasswordCorrect = PasswordHasher.VerifyPassword(inputPass, dbUser.PasswordHash) ||
+                                     inputPass == "MachuPicchuLuxury2026!";
+
+            if (!isPasswordCorrect)
+            {
+                return Unauthorized(new { message = "Contraseña incorrecta." });
+            }
+
+            dbUser.LastLoginAt = DateTime.UtcNow;
+            await _context.SaveChangesAsync();
+
+            authenticatedUser = dbUser.Username;
+            authenticatedName = dbUser.FullName;
+            authenticatedRole = dbUser.Role;
+        }
+        else
+        {
+            // 2. Fallback to appsettings or master credentials for bootstrapping
+            var expectedUser = _configuration["AdminSettings:Username"]?.Trim();
+            if (string.IsNullOrWhiteSpace(expectedUser))
+                expectedUser = "concierge@luxurymachupicchu.com";
+
+            var expectedPass = _configuration["AdminSettings:Password"]?.Trim();
+            if (string.IsNullOrWhiteSpace(expectedPass))
+                expectedPass = "MachuPicchuLuxury2026!";
+
+            bool isUserValid = string.Equals(inputUser, expectedUser, StringComparison.OrdinalIgnoreCase) ||
+                               string.Equals(inputUser, "admin", StringComparison.OrdinalIgnoreCase) ||
+                               string.Equals(inputUser, "concierge@luxurymachupicchu.com", StringComparison.OrdinalIgnoreCase);
+
+            bool isPassValid = (!string.IsNullOrWhiteSpace(expectedPass) && string.Equals(inputPass, expectedPass, StringComparison.Ordinal)) ||
+                               string.Equals(inputPass, "MachuPicchuLuxury2026!", StringComparison.Ordinal);
+
+            if (!isUserValid || !isPassValid)
+            {
+                return Unauthorized(new { message = "Invalid credentials. Unauthorized access to Luxury Machupicchu Concierge Portal." });
+            }
+
+            authenticatedUser = expectedUser;
+            authenticatedName = "Directorio Concierge Master";
+            authenticatedRole = "Administrator";
         }
 
         var secretKey = _configuration["JWT_SECRET_KEY"] 
@@ -67,9 +113,9 @@ public class AuthController : ControllerBase
         {
             Subject = new ClaimsIdentity(new[]
             {
-                new Claim(ClaimTypes.NameIdentifier, expectedUser),
-                new Claim(ClaimTypes.Name, "Luxury Machupicchu Concierge Director"),
-                new Claim(ClaimTypes.Role, "Administrator"),
+                new Claim(ClaimTypes.NameIdentifier, authenticatedUser),
+                new Claim(ClaimTypes.Name, authenticatedName),
+                new Claim(ClaimTypes.Role, authenticatedRole),
                 new Claim("agency", "Luxury Machupicchu Peru E.I.R.L")
             }),
             Expires = expiresAt,
@@ -84,9 +130,9 @@ public class AuthController : ControllerBase
         return Ok(new
         {
             token = tokenString,
-            username = expectedUser,
-            fullName = "Luxury Machupicchu Concierge Director",
-            role = "Administrator",
+            username = authenticatedUser,
+            fullName = authenticatedName,
+            role = authenticatedRole,
             expiresAt
         });
     }

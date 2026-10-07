@@ -153,6 +153,11 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
           <span class="nav-item-text">Caja & Pagos</span>
         </button>
+
+        <button type="button" class="nav-item-btn" id="navBtn-users" onclick="switchAdminView('users')" title="Usuarios & Roles" data-tooltip="Usuarios & Roles">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+          <span class="nav-item-text">Usuarios & Roles</span>
+        </button>
       </nav>
 
       <div class="sidebar-footer">
@@ -587,6 +592,66 @@
         </div>
       </section>
 
+      <!-- ====================================================================
+           VISTA 6: GESTIÓN DE USUARIOS & ROLES
+           ==================================================================== -->
+      <section class="view-section" id="view-users">
+        <div class="view-header">
+          <div>
+            <span class="view-kicker">CONTROL DE ACCESO Y SEGURIDAD</span>
+            <h2 class="view-title">Gestión de Usuarios & Roles del Atelier</h2>
+            <p class="view-subtitle">Administración de credenciales para Directorio (Administrator) y Curaduría (Editor).</p>
+          </div>
+
+          <div style="display: flex; gap: 0.75rem;">
+            <button type="button" class="btn-primary-action" onclick="openUserCreateModal()">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+              + Nuevo Usuario
+            </button>
+            <button type="button" class="btn-refresh" onclick="loadUsersData()">
+              Recargar
+            </button>
+          </div>
+        </div>
+
+        <div class="role-privileges-banner" style="background: rgba(200, 169, 107, 0.08); border: 1px solid rgba(200, 169, 107, 0.25); border-radius: 4px; padding: 1rem 1.25rem; margin-bottom: 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+          <div style="display: flex; gap: 2rem; flex-wrap: wrap;">
+            <div>
+              <span style="display: inline-block; padding: 2px 8px; border-radius: 2px; background: rgba(200, 169, 107, 0.25); color: #ECC38B; font-weight: 600; font-size: 0.75rem;">ADMINISTRATOR</span>
+              <p style="font-size: 0.78rem; color: var(--admin-text-main); margin-top: 4px; margin-bottom: 0;">Acceso irrestricto: Gestión de usuarios, tours, cotizaciones, cambio de estado y eliminación de reservas.</p>
+            </div>
+            <div>
+              <span style="display: inline-block; padding: 2px 8px; border-radius: 2px; background: rgba(102, 177, 255, 0.2); color: #8CC5FF; font-weight: 600; font-size: 0.75rem;">EDITOR</span>
+              <p style="font-size: 0.78rem; color: var(--admin-text-main); margin-top: 4px; margin-bottom: 0;">Consulta y cotizaciones: Puede armar propuestas y ver tours, pero NO puede editar ni eliminar reservas ni solicitudes.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tabla de Usuarios -->
+        <div class="admin-table-container">
+          <table class="admin-data-table">
+            <thead>
+              <tr>
+                <th style="width: 50px;">ID</th>
+                <th>Usuario</th>
+                <th>Nombre Completo</th>
+                <th>Correo Electrónico</th>
+                <th>Rol Asignado</th>
+                <th>Estado</th>
+                <th>Fecha de Alta</th>
+                <th>Último Acceso</th>
+                <th style="text-align: right; width: 120px;">Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="usersTableBody">
+              <tr>
+                <td colspan="9" style="text-align:center; padding: 2.5rem; color: var(--admin-text-dim);">Cargando usuarios...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
     </main>
   </div>
 
@@ -663,6 +728,13 @@
             <label for="modalConciergeNote" class="modal-label">Añadir Nota de Concierge</label>
             <textarea id="modalConciergeNote" class="modal-textarea" placeholder="Ej: Se acordó traslado especial en Mercedes Sprinter privado. Se envió voucher proforma."></textarea>
           </div>
+          <!-- Aviso exclusivo para rol Editor -->
+          <div id="bookingEditorRestrictedNotice" class="modal-field full-width" style="display: none;">
+            <div style="background: rgba(230, 162, 60, 0.12); border: 1px solid rgba(230, 162, 60, 0.35); border-radius: 3px; padding: 0.65rem 0.85rem; font-size: 0.78rem; color: #ECC38B; display: flex; align-items: center; gap: 0.5rem;">
+              <span>🔒</span>
+              <span><strong>Modo de Consulta:</strong> Su rol asignado (<em>Editor</em>) no cuenta con permisos para modificar el estado de las reservas.</span>
+            </div>
+          </div>
         </div>
 
         <div class="modal-actions">
@@ -672,7 +744,7 @@
           <button type="button" class="btn-table-action" onclick="openVoucherForCurrentBooking()">
             Imprimir Voucher
           </button>
-          <button type="submit" class="btn-login-submit" style="width: auto; margin: 0; padding: 0.65rem 1.4rem;">
+          <button type="submit" class="btn-login-submit" id="btnSaveBookingStatus" style="width: auto; margin: 0; padding: 0.65rem 1.4rem;">
             Guardar Cambios
           </button>
         </div>
@@ -1079,6 +1151,381 @@
           </div>
         </div>
       </form>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       MODALES DE USUARIOS Y COTIZADOR BESPOKE
+       ======================================================================== -->
+
+  <!-- MODAL: GESTIÓN DE USUARIOS (CREAR / EDITAR) -->
+  <div class="admin-modal" id="userEditorModal">
+    <div class="admin-modal-backdrop" onclick="closeAdminModal('userEditorModal')"></div>
+    <div class="admin-modal-dialog" style="max-width: 580px;">
+      <button type="button" class="admin-modal-close" onclick="closeAdminModal('userEditorModal')">✕</button>
+      <div class="admin-modal-header">
+        <span class="view-kicker" id="userModalKicker">CONTROL DE ACCESO Y SEGURIDAD</span>
+        <h3 class="admin-modal-title" id="userModalTitle">Crear Nuevo Usuario</h3>
+        <p class="admin-modal-subtitle" id="userModalSubtitle">Defina el nivel de acceso y credenciales de autenticación para el Atelier.</p>
+      </div>
+
+      <form id="userEditorForm" onsubmit="handleUserFormSubmit(event)">
+        <input type="hidden" id="userFormId">
+
+        <div class="modal-form-grid">
+          <div class="modal-field full-width">
+            <label class="modal-label" for="userFormFullName">Nombre Completo *</label>
+            <input type="text" id="userFormFullName" class="modal-input" placeholder="Ej: Marcela Zubiri" required>
+          </div>
+
+          <div class="modal-field">
+            <label class="modal-label" for="userFormUsername">Nombre de Usuario *</label>
+            <input type="text" id="userFormUsername" class="modal-input" placeholder="usuario o email" required>
+          </div>
+
+          <div class="modal-field">
+            <label class="modal-label" for="userFormEmail">Correo Electrónico *</label>
+            <input type="email" id="userFormEmail" class="modal-input" placeholder="correo@luxurymachupicchu.com" required>
+          </div>
+
+          <div class="modal-field">
+            <label class="modal-label" for="userFormRole">Rol en el Atelier *</label>
+            <select id="userFormRole" class="modal-select" required>
+              <option value="Administrator">Administrator (Acceso Total)</option>
+              <option value="Editor">Editor (Sin permisos de eliminar/editar reservas ni solicitudes)</option>
+            </select>
+          </div>
+
+          <div class="modal-field">
+            <label class="modal-label">Estado de la Cuenta</label>
+            <div style="margin-top: 0.65rem; display: flex; align-items: center; gap: 0.5rem;">
+              <input type="checkbox" id="userFormIsActive" style="accent-color: var(--admin-gold); width: 16px; height: 16px; cursor: pointer;" checked>
+              <label for="userFormIsActive" style="font-size: 0.85rem; color: #FFFFFF; cursor: pointer;">Usuario Activo</label>
+            </div>
+          </div>
+
+          <div class="modal-field full-width">
+            <label class="modal-label" id="userFormPasswordLabel" for="userFormPassword">Contraseña *</label>
+            <input type="password" id="userFormPassword" class="modal-input" placeholder="Mínimo 6 caracteres" minlength="6">
+            <span style="font-size: 0.72rem; color: var(--admin-text-dim); display: block; margin-top: 0.25rem;" id="userFormPasswordHelp">
+              Al editar un usuario existente, deje este campo en blanco si no desea alterar la contraseña.
+            </span>
+          </div>
+        </div>
+
+        <div class="modal-actions" style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--admin-border); display: flex; justify-content: flex-end; gap: 0.75rem;">
+          <button type="button" class="btn-cancel" onclick="closeAdminModal('userEditorModal')">Cancelar</button>
+          <button type="submit" class="btn-login-submit" id="btnSaveUserSubmit" style="width: auto; padding: 0.65rem 1.75rem;">💾 Guardar Usuario</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: COTIZADOR INTERACTIVO BESPOKE (SOLICITUDES PERSONALIZADAS) -->
+  <div class="admin-modal" id="conciergeQuotationModal">
+    <div class="admin-modal-backdrop" onclick="closeAdminModal('conciergeQuotationModal')"></div>
+    <div class="admin-modal-dialog modal-wide" style="max-width: 960px;">
+      <button type="button" class="admin-modal-close" onclick="closeAdminModal('conciergeQuotationModal')">✕</button>
+
+      <div class="admin-modal-header" style="margin-bottom: 1.25rem;">
+        <span class="view-kicker" id="quoteModalKicker">ATELIER BESPOKE • COTIZADOR DE EXPEDICIÓN</span>
+        <h3 class="admin-modal-title" id="quoteModalTitle">Cotizador de Propuesta Privada</h3>
+        <p class="admin-modal-subtitle">Estructure una cotización personalizada con cálculo automático de IGV y genere el PDF formal.</p>
+      </div>
+
+      <form id="conciergeQuotationForm" onsubmit="handleQuotationFormSubmit(event)">
+        <input type="hidden" id="quoteRequestId">
+        <input type="hidden" id="quoteCodeNumber">
+
+        <!-- 1. DATOS DEL HUÉSPED (JALADOS DE LA SOLICITUD) -->
+        <div style="background: rgba(18, 19, 22, 0.75); border: 1px solid var(--admin-border); border-radius: 4px; padding: 1.25rem; margin-bottom: 1.5rem;">
+          <div style="font-family:'Montserrat',sans-serif; font-size:0.7rem; letter-spacing:0.1em; color:var(--admin-gold); text-transform:uppercase; margin-bottom:0.75rem; font-weight:600;">
+            1. Información del Huésped & Requerimiento Bespoke
+          </div>
+
+          <div class="form-grid-3col" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem;">
+            <div class="modal-field">
+              <label class="modal-label" for="quoteGuestName">Huésped Titular *</label>
+              <input type="text" id="quoteGuestName" class="modal-input" required>
+            </div>
+
+            <div class="modal-field">
+              <label class="modal-label" for="quoteEmail">Correo Electrónico *</label>
+              <input type="email" id="quoteEmail" class="modal-input" required>
+            </div>
+
+            <div class="modal-field">
+              <label class="modal-label" for="quotePhone">Teléfono / WhatsApp *</label>
+              <input type="text" id="quotePhone" class="modal-input" required>
+            </div>
+
+            <div class="modal-field">
+              <label class="modal-label" for="quoteDestination">Destino / Travesía *</label>
+              <input type="text" id="quoteDestination" class="modal-input" required>
+            </div>
+
+            <div class="modal-field">
+              <label class="modal-label" for="quoteTravelers">Cantidad de Viajeros *</label>
+              <input type="number" id="quoteTravelers" class="modal-input" min="1" max="100" required oninput="recalcQuotationTotals()">
+            </div>
+
+            <div class="modal-field">
+              <label class="modal-label" for="quoteDuration">Duración Estimada</label>
+              <input type="text" id="quoteDuration" class="modal-input" placeholder="Ej: 3 Días / 2 Noches">
+            </div>
+          </div>
+
+          <div class="modal-field" style="margin-top: 0.75rem;">
+            <label class="modal-label" for="quoteNotes">Notas o Preferencias Registradas por el Huésped</label>
+            <textarea id="quoteNotes" class="modal-textarea" rows="2" style="font-size:0.8rem;"></textarea>
+          </div>
+        </div>
+
+        <!-- 2. RÉGIMEN TRIBUTARIO (NACIONAL CON IGV VS EXTRANJERO EXONERADO) -->
+        <div style="background: rgba(18, 19, 22, 0.75); border: 1px solid var(--admin-border); border-radius: 4px; padding: 1.25rem; margin-bottom: 1.5rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+            <div style="font-family:'Montserrat',sans-serif; font-size:0.7rem; letter-spacing:0.1em; color:var(--admin-gold); text-transform:uppercase; font-weight:600;">
+              2. Condición Tributaria del Huésped & Aplicación de IGV
+            </div>
+            <span id="taxRegimeBadge" style="font-size: 0.72rem; padding: 2px 8px; border-radius: 2px; background: rgba(230, 162, 60, 0.2); color: #ECC38B;">
+              +18% IGV Aplicado
+            </span>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <label class="tax-card-option" style="cursor: pointer; border: 1px solid var(--admin-border); border-radius: 4px; padding: 1rem; display: flex; gap: 0.75rem; align-items: flex-start; background: rgba(10, 11, 14, 0.6); transition: all 0.2s ease;">
+              <input type="radio" name="taxRegimeOption" id="taxRegimeNational" value="national" checked onchange="handleTaxRegimeChange()" style="margin-top: 3px; accent-color: var(--admin-gold);">
+              <div>
+                <strong style="color: #FFFFFF; font-size: 0.88rem; display: block;">🇵🇪 Huésped Nacional / Residente en Perú</strong>
+                <p style="font-size: 0.75rem; color: var(--admin-text-muted); margin: 0.25rem 0 0 0; line-height: 1.4;">
+                  Aplica el <strong>18% de IGV</strong> sobre el costo del servicio. Se emitirá comprobante tributario legal conforme a SUNAT.
+                </p>
+              </div>
+            </label>
+
+            <label class="tax-card-option" style="cursor: pointer; border: 1px solid var(--admin-border); border-radius: 4px; padding: 1rem; display: flex; gap: 0.75rem; align-items: flex-start; background: rgba(10, 11, 14, 0.6); transition: all 0.2s ease;">
+              <input type="radio" name="taxRegimeOption" id="taxRegimeForeigner" value="foreigner" onchange="handleTaxRegimeChange()" style="margin-top: 3px; accent-color: var(--admin-gold);">
+              <div>
+                <strong style="color: #FFFFFF; font-size: 0.88rem; display: block;">🌎 Huésped Extranjero / No Domiciliado</strong>
+                <p style="font-size: 0.75rem; color: var(--admin-text-muted); margin: 0.25rem 0 0 0; line-height: 1.4;">
+                  <strong>Exonerado de IGV (0%)</strong> según D.L. 919 (Régimen de Fomento al Turismo Receptivo y Exportación de Servicios).
+                </p>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <!-- 3. DETALLE DE CONCEPTOS Y SERVICIOS A COTIZAR -->
+        <div style="background: rgba(18, 19, 22, 0.75); border: 1px solid var(--admin-border); border-radius: 4px; padding: 1.25rem; margin-bottom: 1.5rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+            <div style="font-family:'Montserrat',sans-serif; font-size:0.7rem; letter-spacing:0.1em; color:var(--admin-gold); text-transform:uppercase; font-weight:600;">
+              3. Desglose de Experiencias & Servicios Incluidos
+            </div>
+            <button type="button" class="btn-table-action" onclick="addQuotationItemRow()" style="font-size: 0.75rem; padding: 0.35rem 0.75rem;">
+              + Añadir Fila de Servicio
+            </button>
+          </div>
+
+          <div style="overflow-x: auto;">
+            <table class="admin-data-table" style="margin-bottom: 0;">
+              <thead>
+                <tr>
+                  <th style="min-width: 280px;">Concepto / Detalle de Experiencia</th>
+                  <th style="width: 100px; text-align: center;">Cantidad</th>
+                  <th style="width: 140px; text-align: right;">Precio Unit. (USD)</th>
+                  <th style="width: 140px; text-align: right;">Subtotal (USD)</th>
+                  <th style="width: 50px; text-align: center;"></th>
+                </tr>
+              </thead>
+              <tbody id="quotationItemsTableBody">
+                <!-- Filas dinámicas -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- 4. TOTALES Y LIQUIDACIÓN -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+          <div>
+            <label class="modal-label" for="quoteTerms">Términos, Inclusiones y Políticas de la Oferta</label>
+            <textarea id="quoteTerms" class="modal-textarea" rows="5" style="font-size: 0.78rem;">• Propuesta de alta costura con validez garantizada por 15 días calendario.
+• Incluye permisos de arqueólogo privado y accesos preferentes a la Ciudadela.
+• Boletos de tren Belmond Hiram Bingham y transfers exclusivos en vehículo ejecutivo.
+• Reserva confirmada mediante el abono del depósito de garantía del 30%.</textarea>
+          </div>
+
+          <div style="background: #14161C; border: 1px solid var(--admin-border-light); border-radius: 4px; padding: 1.25rem;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 0.65rem; font-size: 0.85rem; color: var(--admin-text-main);">
+              <span>Subtotal Neto:</span>
+              <strong id="quoteDisplaySubtotal" style="color: #FFFFFF;">$0.00 USD</strong>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; margin-bottom: 0.65rem; font-size: 0.85rem; color: var(--admin-text-main);">
+              <span id="quoteDisplayTaxLabel">IGV (18% Nacional):</span>
+              <strong id="quoteDisplayTaxAmount" style="color: #ECC38B;">$0.00 USD</strong>
+            </div>
+
+            <div style="border-top: 1px solid var(--admin-border); margin: 0.75rem 0; padding-top: 0.75rem; display: flex; justify-content: space-between; align-items: baseline;">
+              <div>
+                <span style="font-family:'Montserrat',sans-serif; font-size:0.75rem; font-weight:700; color:var(--admin-gold); text-transform:uppercase;">TOTAL COTIZADO:</span>
+                <div style="font-size: 0.75rem; color: var(--admin-text-dim);" id="quoteDisplayPenEquiv">Equiv: S/. 0.00 PEN</div>
+              </div>
+              <div style="font-family:'Montserrat',sans-serif; font-size: 1.4rem; font-weight: 700; color: var(--admin-gold-bright);" id="quoteDisplayGrandTotal">
+                $0.00 USD
+              </div>
+            </div>
+
+            <div style="background: rgba(200, 169, 107, 0.1); border-radius: 3px; padding: 0.5rem 0.75rem; display: flex; justify-content: space-between; font-size: 0.8rem; margin-top: 0.5rem;">
+              <span style="color: var(--admin-text-muted);">Depósito 30% Hold:</span>
+              <strong id="quoteDisplayDeposit" style="color: var(--admin-gold);">$0.00 USD</strong>
+            </div>
+          </div>
+        </div>
+
+        <!-- FOOTER DE ACCIONES -->
+        <div class="modal-actions" style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--admin-border); display: flex; justify-content: space-between; align-items: center;">
+          <button type="button" class="btn-cancel" onclick="closeAdminModal('conciergeQuotationModal')">
+            Cerrar
+          </button>
+          <div style="display: flex; gap: 0.75rem;">
+            <button type="button" class="btn-login-submit" onclick="generateQuotationPrintPreview()" style="width: auto; padding: 0.7rem 1.75rem; display: inline-flex; align-items: center; gap: 0.5rem;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+              🖨️ Generar PDF / Imprimir Cotización
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: DOCUMENTO DE COTIZACIÓN PRINT-READY / GENERADOR DE PDF -->
+  <div class="admin-modal" id="quotationPrintModal">
+    <div class="admin-modal-backdrop" onclick="closeAdminModal('quotationPrintModal')"></div>
+    <div class="admin-modal-dialog" style="max-width: 860px; background: transparent; border: none; box-shadow: none; padding: 1rem;">
+      <button type="button" class="admin-modal-close" style="color: #FFFFFF; font-size: 1.5rem; top: 0; right: 0;" onclick="closeAdminModal('quotationPrintModal')">✕</button>
+
+      <div class="quotation-print-sheet" id="quotationSheet">
+        <!-- Membrete de Lujo -->
+        <div class="quotation-header">
+          <div class="quotation-brand">
+            <div class="quotation-brand-title">LUXURY MACHUPICCHU PERU</div>
+            <div class="quotation-brand-sub">Haute Couture Andean Travel Atelier • Operador Turístico Exclusivo</div>
+            <div class="quotation-brand-tax">R.U.C. 20601622492 • Registro Oficial MINCETUR / GERCETUR • Cusco, Perú</div>
+            <div class="quotation-brand-web">www.luxurymachupicchu.com • concierge@luxurymachupicchu.com</div>
+          </div>
+          <div class="quotation-meta-badge">
+            <div class="quotation-badge-title">Propuesta Técnica Bespoke</div>
+            <div class="quotation-code-number" id="printQuoteCode">COT-2026-0001</div>
+            <div class="quotation-issue-date">Fecha: <span id="printQuoteDate">—</span></div>
+            <div class="quotation-expiry-date">Validez: 15 Días Calendario</div>
+          </div>
+        </div>
+
+        <div class="quotation-doc-title">
+          PROPUESTA DE EXPEDICIÓN PRIVADA & COTIZACIÓN
+        </div>
+
+        <!-- Ficha del Huésped -->
+        <div class="quotation-guest-box">
+          <div class="quotation-guest-grid">
+            <div>
+              <span class="qg-label">Huésped Titular:</span>
+              <strong class="qg-val" id="printQuoteGuest">—</strong>
+            </div>
+            <div>
+              <span class="qg-label">Contacto Registrado:</span>
+              <span class="qg-val" id="printQuoteContact">—</span>
+            </div>
+            <div>
+              <span class="qg-label">Destino / Itinerario:</span>
+              <span class="qg-val" id="printQuoteDest">—</span>
+            </div>
+            <div>
+              <span class="qg-label">Número de Pasajeros:</span>
+              <span class="qg-val" id="printQuoteTravelers">—</span>
+            </div>
+            <div>
+              <span class="qg-label">Duración Estimada:</span>
+              <span class="qg-val" id="printQuoteDuration">—</span>
+            </div>
+            <div>
+              <span class="qg-label">Régimen Tributario:</span>
+              <span class="qg-val" id="printQuoteTaxRegime" style="color: #9E7A4A; font-weight: 700;">—</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tabla de Servicios -->
+        <table class="quotation-print-table">
+          <thead>
+            <tr>
+              <th style="width: 40px; text-align: center;">#</th>
+              <th>Descripción del Servicio / Experiencia Andina</th>
+              <th style="width: 70px; text-align: center;">Cant.</th>
+              <th style="width: 130px; text-align: right;">Precio Unit. (USD)</th>
+              <th style="width: 140px; text-align: right;">Total (USD)</th>
+            </tr>
+          </thead>
+          <tbody id="printQuoteTableBody">
+            <!-- Filas dinámicas -->
+          </tbody>
+        </table>
+
+        <!-- Liquidación Financiera -->
+        <div class="quotation-financial-summary">
+          <div class="quotation-notes-column">
+            <span class="qg-label">TÉRMINOS & CONDICIONES COMERCIALES</span>
+            <div id="printQuoteTerms" class="print-terms-text">
+              —
+            </div>
+            <div class="quotation-tax-legal-notice" id="printQuoteLegalNotice">
+              —
+            </div>
+          </div>
+
+          <div class="quotation-totals-column">
+            <div class="print-total-row">
+              <span>Subtotal Neto:</span>
+              <strong id="printQuoteSubtotal">$0.00 USD</strong>
+            </div>
+            <div class="print-total-row">
+              <span id="printQuoteTaxLabel">IGV (18%):</span>
+              <strong id="printQuoteTax">$0.00 USD</strong>
+            </div>
+            <div class="print-total-row total-highlight">
+              <span>TOTAL COTIZADO:</span>
+              <span id="printQuoteGrandTotal">$0.00 USD</span>
+            </div>
+            <div class="print-total-row pen-sub">
+              <span>Equivalente Aprox.:</span>
+              <span id="printQuotePenTotal">S/. 0.00 PEN</span>
+            </div>
+            <div class="print-total-row deposit-sub">
+              <span>Depósito Sugerido (30% Hold):</span>
+              <strong id="printQuoteDeposit">$0.00 USD</strong>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sello y Firma -->
+        <div class="quotation-footer-seal">
+          <div class="seal-director">
+            <div class="signature-line"></div>
+            <strong>Directorio de Concierge & Expediciones</strong>
+            <div>Luxury Machupicchu Peru Atelier</div>
+          </div>
+          <div class="seal-meta">
+            <div><strong>Asistencia Telefónica VIP 24/7:</strong> +51 958 195 840</div>
+            <div><strong>Portal Oficial:</strong> https://luxurymachupicchu.com</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-actions" style="justify-content: center; margin-top: 1rem;">
+        <button type="button" class="btn-login-submit" onclick="window.print()" style="width: auto; padding: 0.75rem 2.5rem; font-size: 0.9rem;">
+          🖨️ Imprimir / Guardar como PDF
+        </button>
+      </div>
     </div>
   </div>
 

@@ -882,10 +882,10 @@ async function fetchApi(endpoint, options = {}) {
 // Format Price
 function formatPrice(usdPrice, penPrice) {
   if (appState.currentCurrency === 'USD') {
-    return `$${usdPrice.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })} USD`;
+    return `$${usdPrice.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })} USD + IGV`;
   } else {
     const penVal = penPrice || (usdPrice * appState.exchangeRateUsdToPen);
-    return `S/. ${penVal.toLocaleString('es-PE', { minimumFractionDigits: 0, maximumFractionDigits: 0 })} PEN`;
+    return `S/. ${penVal.toLocaleString('es-PE', { minimumFractionDigits: 0, maximumFractionDigits: 0 })} PEN + IGV`;
   }
 }
 

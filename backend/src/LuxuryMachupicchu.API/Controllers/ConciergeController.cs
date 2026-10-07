@@ -88,7 +88,7 @@ public class ConciergeController : ControllerBase
     /// Admin endpoint: lists bespoke concierge leads with search, filter, and pagination.
     /// </summary>
     [HttpGet]
-    [Authorize(Roles = "Administrator")]
+    [Authorize(Roles = "Administrator,Editor")]
     public async Task<ActionResult<PaginatedResponse<ConciergeRequestDto>>> GetConciergeRequests(
         [FromQuery] bool? isAddressed,
         [FromQuery] string? search,
@@ -152,7 +152,7 @@ public class ConciergeController : ControllerBase
     /// Admin endpoint: gets details of a single concierge request.
     /// </summary>
     [HttpGet("{id}")]
-    [Authorize(Roles = "Administrator")]
+    [Authorize(Roles = "Administrator,Editor")]
     public async Task<ActionResult<ConciergeRequestDto>> GetConciergeRequest(int id)
     {
         var r = await _context.ConciergeRequests.FindAsync(id);
