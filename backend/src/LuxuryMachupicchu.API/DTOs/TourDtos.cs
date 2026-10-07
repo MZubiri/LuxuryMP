@@ -54,21 +54,28 @@ public class TourSummaryDto
 {
     public int Id { get; set; }
     public string Title { get; set; } = string.Empty;
+    public string TitleEn { get; set; } = string.Empty;
+    public string TitleEs { get; set; } = string.Empty;
     public string Slug { get; set; } = string.Empty;
     public string Subtitle { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
     
     public int CategoryId { get; set; }
     public string CategoryName { get; set; } = string.Empty;
+    public string CategoryNameEn { get; set; } = string.Empty;
+    public string CategoryNameEs { get; set; } = string.Empty;
     public string CategorySlug { get; set; } = string.Empty;
     
     public string Duration { get; set; } = string.Empty;
+    public string DurationEn { get; set; } = string.Empty;
+    public string DurationEs { get; set; } = string.Empty;
     public int DurationDays { get; set; }
     
     public decimal PriceUsd { get; set; }
     public decimal PricePen { get; set; }
     
     public string Difficulty { get; set; } = string.Empty;
+    public string DifficultyEn { get; set; } = string.Empty;
     public string AltitudeMax { get; set; } = string.Empty;
     public string StartingPoint { get; set; } = string.Empty;
     public string StyleTag { get; set; } = string.Empty;
@@ -76,6 +83,7 @@ public class TourSummaryDto
     public bool Featured { get; set; }
     public bool IsActive { get; set; } = true;
     public int DisplayOrder { get; set; }
+    public int InquiriesCount { get; set; }
     public string MainImageUrl { get; set; } = string.Empty;
     public List<string> Highlights { get; set; } = new();
 }

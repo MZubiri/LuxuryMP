@@ -10,10 +10,8 @@ public static class DbInitializer
     {
         await context.Database.EnsureCreatedAsync();
 
-        if (await context.Categories.AnyAsync())
+        if (!await context.Categories.AnyAsync())
         {
-            return; // Seeded already
-        }
 
         // 1. Categories
         var catTrains = new Category
@@ -429,13 +427,23 @@ public static class DbInitializer
 
         await context.Testimonials.AddRangeAsync(test1, test2);
         await context.SaveChangesAsync();
+        }
 
         // 5. Seed initial sample booking inquiries if table is empty
         if (!await context.BookingInquiries.AnyAsync())
         {
-            var b1 = new BookingInquiry
+            var tourHiramBingham = await context.Tours.FirstOrDefaultAsync(t => t.Slug == "belmond-hiram-bingham-pinnacle") 
+                ?? await context.Tours.FirstOrDefaultAsync();
+            var tourSacredValley = await context.Tours.FirstOrDefaultAsync(t => t.Slug == "sacred-valley-prive-andean-mysticism") 
+                ?? tourHiramBingham;
+            var tourAndeanExplorer = await context.Tours.FirstOrDefaultAsync(t => t.Slug == "andean-explorer-peru-grand-luxury") 
+                ?? tourHiramBingham;
+
+            if (tourHiramBingham != null && tourSacredValley != null && tourAndeanExplorer != null)
             {
-                TourId = tourHiramBingham.Id,
+                var b1 = new BookingInquiry
+                {
+                    TourId = tourHiramBingham.Id,
                 FullName = "Alexander & Charlotte Sterling",
                 Email = "alexander.sterling@mayfairpartners.co.uk",
                 Phone = "+44 7911 123456",
@@ -488,6 +496,7 @@ public static class DbInitializer
             };
 
             await context.BookingInquiries.AddRangeAsync(b1, b2, b3);
+            }
         }
 
         // 6. Seed initial concierge requests if table is empty

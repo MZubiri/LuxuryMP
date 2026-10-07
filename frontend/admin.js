@@ -90,12 +90,17 @@ async function apiFetch(endpoint, options = {}) {
   };
 
   try {
-    // 1. Intentar ruta relativa /api (Producción / Coolify / Nginx)
-    let res = await runRequest('/api');
-    
-    // 2. Si da 404 o falla y estamos en localhost / archivo local, intentar directo al backend :5000
-    if (res.status === 404 && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.protocol === 'file:')) {
+    let res;
+    const isLocalDevCustomPort = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') &&
+                                  window.location.port !== '' && window.location.port !== '80' && window.location.port !== '443' && window.location.port !== '5000';
+
+    if (isLocalDevCustomPort || window.location.protocol === 'file:') {
       res = await runRequest('http://localhost:5000/api');
+    } else {
+      res = await runRequest('/api');
+      if ((res.status === 404 || res.status === 405) && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')) {
+        res = await runRequest('http://localhost:5000/api');
+      }
     }
 
     // Manejo de expiración de sesión (401 Unauthorized)
@@ -845,10 +850,10 @@ function renderToursSidebar(tours) {
     return `
       <div class="tour-card-selector ${isActiveTour ? 'active' : ''}" onclick="selectTourForDetail(${tour.id})">
         <div class="tour-selector-header">
-          <span class="tour-selector-cat">${escapeHtml(tour.categoryNameEn || 'Expedition')}</span>
-          <span style="font-size:0.68rem; color:var(--admin-gold);">${tour.durationEn}</span>
+          <span class="tour-selector-cat">${escapeHtml(tour.categoryNameEn || tour.categoryName || 'Expedition')}</span>
+          <span style="font-size:0.68rem; color:var(--admin-gold);">${tour.durationEn || tour.duration || ''}</span>
         </div>
-        <div class="tour-selector-title">${escapeHtml(tour.titleEn)}</div>
+        <div class="tour-selector-title">${escapeHtml(tour.titleEn || tour.title || 'Untitled Tour')}</div>
         <div class="tour-selector-price">Desde ${priceFormatted}</div>
         <div class="tour-selector-badges">
           <span class="badge-tag-mini ${tour.isActive ? 'badge-active' : 'badge-inactive'}">
@@ -1036,7 +1041,8 @@ async function loadConciergeData() {
     const res = await apiFetch('/concierge');
     if (!res.ok) throw new Error('Error al consultar solicitudes de concierge');
 
-    const requests = await res.json();
+    const data = await res.json();
+    const requests = Array.isArray(data) ? data : (data.items || data.Items || []);
     adminState.conciergeRequests = requests;
 
     renderConciergeGrid(requests, filter);
@@ -1050,11 +1056,12 @@ function renderConciergeGrid(requests, filter) {
   const container = document.getElementById('conciergeRequestsGrid');
   if (!container) return;
 
-  let filtered = requests;
+  const list = Array.isArray(requests) ? requests : [];
+  let filtered = list;
   if (filter === 'pending') {
-    filtered = requests.filter(r => !r.isAddressed);
+    filtered = list.filter(r => !r.isAddressed);
   } else if (filter === 'addressed') {
-    filtered = requests.filter(r => r.isAddressed);
+    filtered = list.filter(r => r.isAddressed);
   }
 
   if (filtered.length === 0) {
