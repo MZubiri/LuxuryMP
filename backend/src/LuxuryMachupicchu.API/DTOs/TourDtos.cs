@@ -97,6 +97,7 @@ public class TourSummaryDto
     public List<string> Highlights { get; set; } = new();
     public List<string> HighlightsEn { get; set; } = new();
     public List<string> HighlightsEs { get; set; } = new();
+    public List<ItineraryDayDto> Itineraries { get; set; } = new();
 }
 
 public class AdminTourDetailDto
@@ -159,7 +160,6 @@ public class TourDetailDto : TourSummaryDto
     public List<string> NotIncludedEs { get; set; } = new();
     public List<string> Locations { get; set; } = new();
     public AltitudeProfileDto? AltitudeProfile { get; set; }
-    public List<ItineraryDayDto> Itineraries { get; set; } = new();
 }
 
 public class AltitudeProfileDto

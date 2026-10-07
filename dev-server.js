@@ -60,7 +60,12 @@ function serveStatic(req, res) {
   }
 
   const safePath = path.normalize(pathname).replace(/^(\.\.[\/\\])+/, '');
-  const filePath = path.join(FRONTEND_DIR, safePath);
+  let filePath = path.join(FRONTEND_DIR, safePath);
+
+  // Clean URLs support: /tour -> tour.html, /admin -> admin.html
+  if (!path.extname(filePath) && fs.existsSync(filePath + '.html')) {
+    filePath = filePath + '.html';
+  }
 
   // Security check: ensure path is within FRONTEND_DIR
   if (!filePath.startsWith(FRONTEND_DIR)) {

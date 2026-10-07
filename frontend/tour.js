@@ -489,16 +489,26 @@ document.addEventListener('DOMContentLoaded', async () => {
       fetchApi(`/tours?lang=${appState.currentLang}`)
     ]);
 
-    if (!tourRes.ok) {
-      throw new Error('Expedition not found in database');
-    }
-
-    const apiTour = await tourRes.json();
-    appState.tour = normalizeTourDetail(apiTour);
-
     if (allToursRes.ok) {
       const allData = await allToursRes.json();
       appState.allTours = Array.isArray(allData) ? allData.map(normalizeTourDetail) : [];
+    }
+
+    if (tourRes.ok) {
+      const apiTour = await tourRes.json();
+      appState.tour = normalizeTourDetail(apiTour);
+    } else if (appState.allTours.length > 0) {
+      // Fallback: If requested slug not found, load first active tour
+      const fallbackTour = appState.allTours[0];
+      const fbRes = await fetchApi(`/tours/${fallbackTour.slug}?lang=${appState.currentLang}`);
+      if (fbRes.ok) {
+        const fbData = await fbRes.json();
+        appState.tour = normalizeTourDetail(fbData);
+      } else {
+        appState.tour = fallbackTour;
+      }
+    } else {
+      throw new Error('Expedition not found in database');
     }
 
     renderTourPage();
@@ -662,26 +672,36 @@ function renderTourPage() {
 
   // 6. Day-by-Day Timeline
   const timelineContainer = document.getElementById('tourItineraryTimeline');
-  if (timelineContainer && tour.itineraries) {
-    timelineContainer.innerHTML = tour.itineraries.map(day => `
-      <article class="itinerary-timeline-day">
-        <div class="itinerary-day-badge-row">
-          <span class="itinerary-day-badge">${dict.dayPrefix} ${day.dayNumber}</span>
-        </div>
-        <h3 class="itinerary-day-heading">${isEs ? day.titleEs : day.titleEn}</h3>
-        <p class="itinerary-day-narrative">${isEs ? day.descEs : day.descEn}</p>
-        <div class="itinerary-day-meta-grid">
-          <div class="meta-item">
-            <strong>${dict.modalDining}</strong>
-            <span>${isEs ? day.diningEs : day.diningEn}</span>
+  if (timelineContainer) {
+    if (tour.itineraries && tour.itineraries.length > 0) {
+      timelineContainer.innerHTML = tour.itineraries.map(day => `
+        <article class="itinerary-timeline-day">
+          <div class="itinerary-day-badge-row">
+            <span class="itinerary-day-badge">${dict.dayPrefix} ${day.dayNumber}</span>
           </div>
-          <div class="meta-item">
-            <strong>${dict.modalTransfer}</strong>
-            <span>${isEs ? day.transferEs : day.transferEn}</span>
+          <h3 class="itinerary-day-heading">${isEs ? day.titleEs : day.titleEn}</h3>
+          <p class="itinerary-day-narrative">${isEs ? day.descEs : day.descEn}</p>
+          <div class="itinerary-day-meta-grid">
+            <div class="meta-item">
+              <strong>${dict.modalDining}</strong>
+              <span>${isEs ? day.diningEs : day.diningEn}</span>
+            </div>
+            <div class="meta-item">
+              <strong>${dict.modalTransfer}</strong>
+              <span>${isEs ? day.transferEs : day.transferEn}</span>
+            </div>
           </div>
+        </article>
+      `).join('');
+    } else {
+      timelineContainer.innerHTML = `
+        <div style="padding: 2.5rem 1.5rem; text-align: center; background: rgba(18, 19, 22, 0.6); border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 6px;">
+          <p style="font-family: var(--font-serif); font-size: 1.15rem; color: var(--color-sand); margin-bottom: 0.5rem;">
+            ${isEs ? 'Itinerario detallado y horarios personalizados coordinados directamente con su Concierge Privado.' : 'Bespoke daily scheduling and personalized logistics orchestrated directly by your Dedicated Concierge.'}
+          </p>
         </div>
-      </article>
-    `).join('');
+      `;
+    }
   }
 
   // 7. Inclusions & Exclusions Lists
@@ -844,8 +864,8 @@ function injectSchemaJsonLd(tour) {
     },
     "itinerary": {
       "@type": "ItemList",
-      "numberOfItems": tour.itineraries.length,
-      "itemListElement": tour.itineraries.map(day => ({
+      "numberOfItems": (tour.itineraries || []).length,
+      "itemListElement": (tour.itineraries || []).map(day => ({
         "@type": "ListItem",
         "position": day.dayNumber,
         "item": {

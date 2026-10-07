@@ -255,7 +255,21 @@ function normalizeTour(t) {
     exclusionsEn: Array.isArray(t.notIncludedEn) ? t.notIncludedEn : (Array.isArray(t.notIncluded) ? t.notIncluded : []),
     exclusionsEs: Array.isArray(t.notIncludedEs) ? t.notIncludedEs : (Array.isArray(t.notIncluded) ? t.notIncluded : []),
     galleryImages: Array.isArray(t.galleryImages) && t.galleryImages.length > 0 ? t.galleryImages : [t.mainImageUrl],
-    itineraries: Array.isArray(t.itineraries) ? t.itineraries : []
+    itineraries: Array.isArray(t.itineraries) ? t.itineraries.map(day => ({
+      id: day.id,
+      dayNumber: day.dayNumber,
+      titleEn: day.titleEn || day.title || '',
+      titleEs: day.titleEs || day.title || '',
+      title: day.title || '',
+      descEn: day.descriptionEn || day.descEn || day.description || '',
+      descEs: day.descriptionEs || day.descEs || day.description || '',
+      descriptionEn: day.descriptionEn || day.descEn || day.description || '',
+      descriptionEs: day.descriptionEs || day.descEs || day.description || '',
+      diningEn: day.gourmetDiningEn || day.diningEn || day.gourmetDining || '',
+      diningEs: day.gourmetDiningEs || day.diningEs || day.gourmetDining || '',
+      transferEn: day.privateTransferEn || day.transferEn || day.privateTransfer || '',
+      transferEs: day.privateTransferEs || day.transferEs || day.privateTransfer || ''
+    })) : []
   };
 }
 
@@ -511,7 +525,7 @@ function renderTours() {
 
     return `
       <article class="tour-card" id="tour-card-${tour.id}">
-        <div class="tour-card-media">
+        <div class="tour-card-media" onclick="openTourModalBySlug('${tour.slug}')" style="cursor: pointer;" title="${isEs ? 'Ver detalles e itinerario' : 'View expedition details & itinerary'}">
           <img src="${tour.mainImageUrl}" alt="${title}" class="tour-card-img" loading="lazy">
           <span class="tour-style-badge">${tour.styleTag}</span>
         </div>
@@ -520,7 +534,7 @@ function renderTours() {
             <span>${duration}</span>
             <span>${tour.altitudeMax}</span>
           </div>
-          <h3 class="tour-title">${title}</h3>
+          <h3 class="tour-title" onclick="openTourModalBySlug('${tour.slug}')" style="cursor: pointer;" title="${isEs ? 'Ver itinerario' : 'View itinerary'}">${title}</h3>
           <p class="tour-subtitle">${subtitle}</p>
 
           <ul class="tour-highlights-list">
@@ -548,14 +562,29 @@ function renderTours() {
 }
 
 // Modal Deep Dive Controller
-function openTourModalBySlug(slug) {
-  const tour = appState.tours.find(t => t.slug === slug);
+async function openTourModalBySlug(slug) {
+  let tour = appState.tours.find(t => t.slug === slug);
   if (!tour) return;
 
   const modal = document.getElementById('tourModal');
   const body = document.getElementById('tourModalBody');
   const isEs = appState.currentLang === 'es';
   const dict = translations[appState.currentLang];
+
+  // If itineraries are missing in summary, asynchronously fetch full tour details
+  if (!tour.itineraries || tour.itineraries.length === 0) {
+    try {
+      const res = await fetchApi(`/tours/${slug}?lang=${appState.currentLang}`);
+      if (res.ok) {
+        const fullData = await res.json();
+        tour = normalizeTour(fullData);
+        const idx = appState.tours.findIndex(t => t.slug === slug);
+        if (idx !== -1) appState.tours[idx] = tour;
+      }
+    } catch (err) {
+      console.warn('Could not fetch full tour for modal:', err);
+    }
+  }
 
   const title = isEs ? tour.titleEs : tour.titleEn;
   const subtitle = isEs ? tour.subtitleEs : tour.subtitleEn;
@@ -607,12 +636,17 @@ function openTourModalBySlug(slug) {
         </div>
       ` : ''}
 
-      <h3 style="font-family: var(--font-serif); font-size: 1.8rem; margin-bottom: 1.25rem;">
-        ${isEs ? 'Itinerario Detallado Día por Día' : 'Day-by-Day Curated Itinerary'}
-      </h3>
+      <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1.25rem;">
+        <h3 style="font-family: var(--font-serif); font-size: 1.8rem; margin: 0;">
+          ${isEs ? 'Itinerario Detallado Día por Día' : 'Day-by-Day Curated Itinerary'}
+        </h3>
+        <a href="tour.html?slug=${tour.slug}" style="color: var(--color-gold); font-size: 0.88rem; text-decoration: none; font-weight: 500;">
+          ${isEs ? 'Ver página completa ↗' : 'Open dedicated dossier ↗'}
+        </a>
+      </div>
 
       <div class="itinerary-days-container">
-        ${tour.itineraries.map(day => `
+        ${(tour.itineraries && tour.itineraries.length > 0) ? tour.itineraries.map(day => `
           <div class="itinerary-day-card">
             <span class="itinerary-day-num">${dict.modalDayPrefix} ${day.dayNumber}</span>
             <h4 class="itinerary-day-title">${isEs ? day.titleEs : day.titleEn}</h4>
@@ -622,7 +656,13 @@ function openTourModalBySlug(slug) {
               <div><span>${dict.modalTransfer}:</span> <strong>${isEs ? day.transferEs : day.transferEn}</strong></div>
             </div>
           </div>
-        `).join('')}
+        `).join('') : `
+          <div style="padding: 2rem; text-align: center; background: rgba(0,0,0,0.03); border-radius: 4px;">
+            <p style="color: var(--color-text-muted); font-size: 0.95rem;">
+              ${isEs ? 'Itinerario detallado y horarios coordinados directamente con su Concierge Privado.' : 'Bespoke daily scheduling and personalized logistics orchestrated directly by your Dedicated Concierge.'}
+            </p>
+          </div>
+        `}
       </div>
 
       <div class="modal-actions-footer">
@@ -632,9 +672,14 @@ function openTourModalBySlug(slug) {
             ${priceDisplay}
           </div>
         </div>
-        <button class="btn-hero-gold" onclick="closeTourModal(); openBookingDrawerForTour('${tour.slug}')">
-          ${dict.modalReserveBtn}
-        </button>
+        <div style="display: flex; gap: 0.75rem;">
+          <a href="tour.html?slug=${tour.slug}" class="btn-hero-ghost" style="text-decoration:none; padding: 0.75rem 1.25rem;">
+            ${dict.btnViewItinerary}
+          </a>
+          <button class="btn-hero-gold" onclick="closeTourModal(); openBookingDrawerForTour('${tour.slug}')">
+            ${dict.modalReserveBtn}
+          </button>
+        </div>
       </div>
     </div>
   `;

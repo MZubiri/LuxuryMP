@@ -34,6 +34,7 @@ public class ToursController : ControllerBase
 
         var query = _context.Tours
             .Include(t => t.Category)
+            .Include(t => t.Itineraries)
             .Where(t => t.IsActive)
             .AsNoTracking()
             .AsQueryable();
@@ -97,7 +98,24 @@ public class ToursController : ControllerBase
             MainImageUrl = t.MainImageUrl,
             Highlights = DeserializeList(isEs ? t.HighlightsJsonEs : t.HighlightsJsonEn),
             HighlightsEn = DeserializeList(t.HighlightsJsonEn),
-            HighlightsEs = DeserializeList(t.HighlightsJsonEs)
+            HighlightsEs = DeserializeList(t.HighlightsJsonEs),
+            Itineraries = t.Itineraries.OrderBy(i => i.DayNumber).Select(i => new ItineraryDayDto
+            {
+                Id = i.Id,
+                DayNumber = i.DayNumber,
+                Title = isEs ? i.TitleEs : i.TitleEn,
+                TitleEn = i.TitleEn,
+                TitleEs = i.TitleEs,
+                Description = isEs ? i.DescriptionEs : i.DescriptionEn,
+                DescriptionEn = i.DescriptionEn,
+                DescriptionEs = i.DescriptionEs,
+                GourmetDining = isEs ? i.GourmetDiningEs : i.GourmetDiningEn,
+                GourmetDiningEn = i.GourmetDiningEn,
+                GourmetDiningEs = i.GourmetDiningEs,
+                PrivateTransfer = isEs ? i.PrivateTransferEs : i.PrivateTransferEn,
+                PrivateTransferEn = i.PrivateTransferEn,
+                PrivateTransferEs = i.PrivateTransferEs
+            }).ToList()
         }).ToList();
 
         return Ok(result);

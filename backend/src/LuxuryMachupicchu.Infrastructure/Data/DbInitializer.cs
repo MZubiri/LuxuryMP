@@ -370,36 +370,136 @@ public static class DbInitializer
         await context.Tours.AddRangeAsync(tourHiramBingham, tourSacredValley, tourAndeanExplorer, tourIncaTrailGlamping);
         await context.SaveChangesAsync();
 
-        // 3. Add Itinerary Days for Hiram Bingham
-        var day1Hb = new ItineraryDay
+        // 3. Add Itinerary Days for all Curated Tours
+        var daysList = new List<ItineraryDay>
         {
-            TourId = tourHiramBingham.Id,
-            DayNumber = 1,
-            TitleEn = "Boarding the Legend & Sunset at the Citadel",
-            TitleEs = "Abordaje de Leyenda y Atardecer en la Ciudadela",
-            DescriptionEn = "Morning departure from Poroy or Ollantaytambo. Brunch is served while cruising through cloud forests. Arrival in Aguas Calientes with VIP bus boarding. Intimate private tour of the main temples and terraces. Sunset champagne cocktail at Sanctuary Lodge.",
-            DescriptionEs = "Salida matutina desde Poroy u Ollantaytambo. Servicio de brunch mientras se desciende por el cañón. Arribo a Aguas Calientes y traslado en bus VIP. Visita guiada privada a los templos y terrazas. Cóctel con champaña al atardecer en Sanctuary Lodge.",
-            GourmetDiningEn = "4-Course Champagne Brunch & Belmond Afternoon Tea",
-            GourmetDiningEs = "Brunch de 4 Tiempos con Champaña y Té de la Tarde Belmond",
-            PrivateTransferEn = "Private luxury sedan to train station + VIP citadel shuttle",
-            PrivateTransferEs = "Sedán de lujo a estación + Bus VIP exclusivo al santuario"
+            // Belmond Hiram Bingham (2 Days)
+            new ItineraryDay
+            {
+                TourId = tourHiramBingham.Id,
+                DayNumber = 1,
+                TitleEn = "Boarding the Legend & Sunset at the Citadel",
+                TitleEs = "Abordaje de Leyenda y Atardecer en la Ciudadela",
+                DescriptionEn = "Morning departure from Poroy or Ollantaytambo. Brunch is served while cruising through cloud forests. Arrival in Aguas Calientes with VIP bus boarding. Intimate private tour of the main temples and terraces. Sunset champagne cocktail at Sanctuary Lodge.",
+                DescriptionEs = "Salida matutina desde Poroy u Ollantaytambo. Servicio de brunch mientras se desciende por el cañón. Arribo a Aguas Calientes y traslado en bus VIP. Visita guiada privada a los templos y terrazas. Cóctel con champaña al atardecer en Sanctuary Lodge.",
+                GourmetDiningEn = "4-Course Champagne Brunch & Belmond Afternoon Tea",
+                GourmetDiningEs = "Brunch de 4 Tiempos con Champaña y Té de la Tarde Belmond",
+                PrivateTransferEn = "Private luxury sedan to train station + VIP citadel shuttle",
+                PrivateTransferEs = "Sedán de lujo a estación + Bus VIP exclusivo al santuario"
+            },
+            new ItineraryDay
+            {
+                TourId = tourHiramBingham.Id,
+                DayNumber = 2,
+                TitleEn = "Sunrise Mystic Energy & Return Gala Dinner",
+                TitleEs = "Amanecer Místico y Cena de Gala al Retorno",
+                DescriptionEn = "Early entry to witness the morning mist lift above the Intihuatana and Temple of the Sun. Optional climb to Huayna Picchu. Midday gourmet lunch. Evening return on the Belmond Hiram Bingham with live band and 4-course banquet dinner.",
+                DescriptionEs = "Ingreso temprano para contemplar el amanecer sobre el Intihuatana y el Templo del Sol. Ascenso opcional a Huayna Picchu. Almuerzo gourmet. Retorno nocturno en el Belmond Hiram Bingham con música en vivo y cena de gala de 4 tiempos.",
+                GourmetDiningEn = "Gourmet lunch at Sanctuary Lodge & 4-Course Gala Dinner on Train",
+                GourmetDiningEs = "Almuerzo en Sanctuary Lodge y Cena de Gala en el Tren",
+                PrivateTransferEn = "Private executive chauffeur to your hotel in Cusco",
+                PrivateTransferEs = "Chofer ejecutivo privado a su hotel en Cusco"
+            },
+
+            // Sacred Valley Privé (1 Day)
+            new ItineraryDay
+            {
+                TourId = tourSacredValley.Id,
+                DayNumber = 1,
+                TitleEn = "Inca Agricultural Wonders & Ancestral Blessing",
+                TitleEs = "Laboratorios Agrícolas y Ceremonia a la Tierra",
+                DescriptionEn = "Depart your hotel for Moray's dramatic amphitheater terraces. Walk the rim with your anthropologist, discovering how the Incas created unique microclimates. Continue to the pink salt pans of Maras, where thousands of hand-carved pools have produced mineral-rich salt since pre-Inca times. In secluded private gardens, join a Q'ero elder for a profound blessing of gratitude to Mother Earth. Conclude with a lavish feast at Hacienda Huayoccari overlooking the Vilcanota range.",
+                DescriptionEs = "Salida hacia los anfiteatros agrícolas de Moray para comprender la ingeniería inca de microclimas. Continuación a las salineras rosadas de Maras, donde miles de pozas artesanales producen sal mineral desde tiempos preincaicos. En los jardines privados de una hacienda, participe en la bendición ancestral a la Pachamama con el maestro Q'ero. Finalice con un banquete en Hacienda Huayoccari con vistas panorámicas al valle.",
+                GourmetDiningEn = "Artisanal 4-course Andean lunch at Hacienda Huayoccari",
+                GourmetDiningEs = "Almuerzo artesanal de 4 tiempos en Hacienda Huayoccari",
+                PrivateTransferEn = "Mercedes-Benz Executive Sprinter with oxygen & amenities",
+                PrivateTransferEs = "Mercedes-Benz Sprinter ejecutiva con oxígeno y amenities"
+            },
+
+            // Belmond Andean Explorer (2 Days)
+            new ItineraryDay
+            {
+                TourId = tourAndeanExplorer.Id,
+                DayNumber = 1,
+                TitleEn = "Cusco to the High Altiplano Plateau",
+                TitleEs = "De Cusco hacia el Altiplano Sagrado",
+                DescriptionEn = "Board at Wanchaq station in Cusco. Settle into your handcrafted suite cabin before savoring an exquisite three-course lunch as the train ascends the Vilcanota valley. Stop to explore the grand Inca Temple of Raqch'i. As twilight settles, gather on the observation deck at La Raya (4,319m) for a sunset champagne celebration followed by a seasonal gala dinner banquet.",
+                DescriptionEs = "Embarque en la estación Wanchaq de Cusco. Acomódese en su suite privada y disfrute de un almuerzo gourmet mientras el tren asciende el valle de Vilcanota. Descienda para una visita guiada privada al templo inca de Raqch'i. Al caer la tarde, reúnase en la terraza mirador de La Raya (4,319 m) para un brindis con champaña y una cena de gala estacional.",
+                GourmetDiningEn = "Degustation menus by celebrated Chef Diego Muñoz",
+                GourmetDiningEs = "Menús de autor diseñados por el chef Diego Muñoz",
+                PrivateTransferEn = "Train station VIP reception and private porterage",
+                PrivateTransferEs = "Recepción VIP en estación y manejo privado de equipaje"
+            },
+            new ItineraryDay
+            {
+                TourId = tourAndeanExplorer.Id,
+                DayNumber = 2,
+                TitleEn = "Sunrise on Lake Titicaca & Private Island Navigation",
+                TitleEs = "Amanecer en el Titicaca y Navegación Privada",
+                DescriptionEn = "Awaken to sunrise breaking over Lake Titicaca. After breakfast served in the dining car, embark on a private yacht excursion across the high-altitude waters. Discover the centuries-old reed construction traditions of the Uros people, followed by a private cultural encounter on Taquile island with an open-air barbecue banquet featuring fresh lake trout.",
+                DescriptionEs = "Despierte con los primeros rayos del sol sobre el Lago Titicaca. Tras un desayuno a la carta en el vagón comedor, aborde un yate privado para surcar las aguas más altas del mundo. Descubra las técnicas ancestrales de las islas flotantes de los Uros y disfrute de un almuerzo campestre privado en Taquile con trucha fresca del lago.",
+                GourmetDiningEn = "Gourmet lakeside barbecue in Taquile with fresh trout",
+                GourmetDiningEs = "Almuerzo campestre con trucha fresca del lago en Taquile",
+                PrivateTransferEn = "Private yacht charter on Lake Titicaca",
+                PrivateTransferEs = "Yate privado exclusivo en el Lago Titicaca"
+            },
+
+            // Classic Inca Trail VIP Glamping (4 Days)
+            new ItineraryDay
+            {
+                TourId = tourIncaTrailGlamping.Id,
+                DayNumber = 1,
+                TitleEn = "Valley of Patallacta & Gentle Ascent",
+                TitleEs = "Valle de Patallacta y Ascenso Suave",
+                DescriptionEn = "Private 4x4 transfer to Km 82 trailhead. Gentle trek along the Urubamba river, overlooking Patallacta archaeological site. Arrival at private luxury camp with welcome massage and hot herbal infusions.",
+                DescriptionEs = "Inicio en el Km 82 tras traslado en 4x4. Caminata suave junto al río con vistas panorámicas a Patallacta. Llegada al campamento exclusivo con masaje de bienvenida y té caliente.",
+                GourmetDiningEn = "Hot 3-course organic lunch and dinner in heated dining tent",
+                GourmetDiningEs = "Almuerzo y cena caliente de 3 tiempos en carpa comedor",
+                PrivateTransferEn = "Private 4x4 overland from Cusco to trailhead",
+                PrivateTransferEs = "Transporte privado 4x4 desde Cusco al punto de inicio"
+            },
+            new ItineraryDay
+            {
+                TourId = tourIncaTrailGlamping.Id,
+                DayNumber = 2,
+                TitleEn = "Dead Woman's Pass (Warmiwañusqa - 4,215m)",
+                TitleEs = "Paso de la Mujer Muerta (4,215 msnm)",
+                DescriptionEn = "Ascent to the highest pass with personal porters and hyperbaric oxygen chambers on standby. Rewarding descent to Pacaymayo private camp for hot showers and restorative massage.",
+                DescriptionEs = "Ascenso al paso más alto con apoyo continuo de porteadores y oxígeno medicinal. Descenso reconfortante al campamento privado de Pacaymayo con duchas calientes y sesión de masaje.",
+                GourmetDiningEn = "High-energy gourmet trail cuisine and hot herbal infusions",
+                GourmetDiningEs = "Cocina energética de alta montaña y calientes infusiones",
+                PrivateTransferEn = "Porterage brigade carrying all personal luggage",
+                PrivateTransferEs = "Brigada de porteadores transportando todo el equipaje"
+            },
+            new ItineraryDay
+            {
+                TourId = tourIncaTrailGlamping.Id,
+                DayNumber = 3,
+                TitleEn = "Cloud Forests of Wiñay Wayna",
+                TitleEs = "Bosque de Nubes y Wiñay Wayna",
+                DescriptionEn = "Traverse magnificent Inca staircases, tunnel passages, and orchid forests to the terraces of Wiñay Wayna. Gala celebration dinner crafted by your private chef in the high cloud forest.",
+                DescriptionEs = "Paso por escalinatas incas, túneles tallados en roca y orquídeas hacia Wiñay Wayna. Cena de gala de celebración preparada por su chef privado en medio del bosque nuboso.",
+                GourmetDiningEn = "Gala trail celebration feast with chef's specialty Andean lamb",
+                GourmetDiningEs = "Cena de gala en la montaña con especialidad de cordero andino",
+                PrivateTransferEn = "Private camp setup with hot showers",
+                PrivateTransferEs = "Campamento privado exclusivo con duchas calientes"
+            },
+            new ItineraryDay
+            {
+                TourId = tourIncaTrailGlamping.Id,
+                DayNumber = 4,
+                TitleEn = "Inti Punku Sun Gate & Machu Picchu Sanctuary",
+                TitleEs = "Puerta del Sol (Inti Punku) y Machu Picchu",
+                DescriptionEn = "Sunrise hike to the Sun Gate for the iconic first glimpse of Machu Picchu. Private tour of the Citadel followed by luxury return on the Hiram Bingham.",
+                DescriptionEs = "Llegada al amanecer a la Puerta del Sol con vista panorámica de la ciudadela. Tour privado completo y retorno en el tren de lujo Hiram Bingham.",
+                GourmetDiningEn = "Celebration lunch at Sanctuary Lodge & dinner on train",
+                GourmetDiningEs = "Almuerzo en Sanctuary Lodge y cena en el tren de lujo",
+                PrivateTransferEn = "Luxury Hiram Bingham train return to Cusco",
+                PrivateTransferEs = "Retorno en el tren Belmond Hiram Bingham a Cusco"
+            }
         };
 
-        var day2Hb = new ItineraryDay
-        {
-            TourId = tourHiramBingham.Id,
-            DayNumber = 2,
-            TitleEn = "Sunrise Mystic Energy & Return Gala Dinner",
-            TitleEs = "Amanecer Místico y Cena de Gala al Retorno",
-            DescriptionEn = "Early entry to witness the morning mist lift above the Intihuatana and Temple of the Sun. Optional climb to Huayna Picchu. Midday gourmet lunch. Evening return on the Belmond Hiram Bingham with live band and 4-course banquet dinner.",
-            DescriptionEs = "Ingreso temprano para contemplar el amanecer sobre el Intihuatana y el Templo del Sol. Ascenso opcional a Huayna Picchu. Almuerzo gourmet. Retorno nocturno en el Belmond Hiram Bingham con música en vivo y cena de gala de 4 tiempos.",
-            GourmetDiningEn = "Gourmet lunch at Sanctuary Lodge & 4-Course Gala Dinner on Train",
-            GourmetDiningEs = "Almuerzo en Sanctuary Lodge y Cena de Gala en el Tren",
-            PrivateTransferEn = "Private executive chauffeur to your hotel in Cusco",
-            PrivateTransferEs = "Chofer ejecutivo privado a su hotel en Cusco"
-        };
-
-        await context.ItineraryDays.AddRangeAsync(day1Hb, day2Hb);
+        await context.ItineraryDays.AddRangeAsync(daysList);
 
         // 4. Testimonials
         var test1 = new Testimonial
@@ -428,6 +528,152 @@ public static class DbInitializer
 
         await context.Testimonials.AddRangeAsync(test1, test2);
         await context.SaveChangesAsync();
+        }
+
+        // 4b. Self-healing check: Ensure all existing tours have complete day-by-day itineraries seeded
+        var existingTours = await context.Tours.Include(t => t.Itineraries).ToListAsync();
+        var missingItineraryDays = new List<ItineraryDay>();
+
+        foreach (var tour in existingTours)
+        {
+            if (tour.Itineraries == null || !tour.Itineraries.Any())
+            {
+                if (tour.Slug == "belmond-hiram-bingham-pinnacle")
+                {
+                    missingItineraryDays.Add(new ItineraryDay
+                    {
+                        TourId = tour.Id,
+                        DayNumber = 1,
+                        TitleEn = "Boarding the Legend & Sunset at the Citadel",
+                        TitleEs = "Abordaje de Leyenda y Atardecer en la Ciudadela",
+                        DescriptionEn = "Morning departure from Poroy or Ollantaytambo. Brunch is served while cruising through cloud forests. Arrival in Aguas Calientes with VIP bus boarding. Intimate private tour of the main temples and terraces. Sunset champagne cocktail at Sanctuary Lodge.",
+                        DescriptionEs = "Salida matutina desde Poroy u Ollantaytambo. Servicio de brunch mientras se desciende por el cañón. Arribo a Aguas Calientes y traslado en bus VIP. Visita guiada privada a los templos y terrazas. Cóctel con champaña al atardecer en Sanctuary Lodge.",
+                        GourmetDiningEn = "4-Course Champagne Brunch & Belmond Afternoon Tea",
+                        GourmetDiningEs = "Brunch de 4 Tiempos con Champaña y Té de la Tarde Belmond",
+                        PrivateTransferEn = "Private luxury sedan to train station + VIP citadel shuttle",
+                        PrivateTransferEs = "Sedán de lujo a estación + Bus VIP exclusivo al santuario"
+                    });
+                    missingItineraryDays.Add(new ItineraryDay
+                    {
+                        TourId = tour.Id,
+                        DayNumber = 2,
+                        TitleEn = "Sunrise Mystic Energy & Return Gala Dinner",
+                        TitleEs = "Amanecer Místico y Cena de Gala al Retorno",
+                        DescriptionEn = "Early entry to witness the morning mist lift above the Intihuatana and Temple of the Sun. Optional climb to Huayna Picchu. Midday gourmet lunch. Evening return on the Belmond Hiram Bingham with live band and 4-course banquet dinner.",
+                        DescriptionEs = "Ingreso temprano para contemplar el amanecer sobre el Intihuatana y el Templo del Sol. Ascenso opcional a Huayna Picchu. Almuerzo gourmet. Retorno nocturno en el Belmond Hiram Bingham con música en vivo y cena de gala de 4 tiempos.",
+                        GourmetDiningEn = "Gourmet lunch at Sanctuary Lodge & 4-Course Gala Dinner on Train",
+                        GourmetDiningEs = "Almuerzo en Sanctuary Lodge y Cena de Gala en el Tren",
+                        PrivateTransferEn = "Private executive chauffeur to your hotel in Cusco",
+                        PrivateTransferEs = "Chofer ejecutivo privado a su hotel en Cusco"
+                    });
+                }
+                else if (tour.Slug == "sacred-valley-prive-shamanic-ritual")
+                {
+                    missingItineraryDays.Add(new ItineraryDay
+                    {
+                        TourId = tour.Id,
+                        DayNumber = 1,
+                        TitleEn = "Inca Agricultural Wonders & Ancestral Blessing",
+                        TitleEs = "Laboratorios Agrícolas y Ceremonia a la Tierra",
+                        DescriptionEn = "Depart your hotel for Moray's dramatic amphitheater terraces. Walk the rim with your anthropologist, discovering how the Incas created unique microclimates. Continue to the pink salt pans of Maras, where thousands of hand-carved pools have produced mineral-rich salt since pre-Inca times. In secluded private gardens, join a Q'ero elder for a profound blessing of gratitude to Mother Earth. Conclude with a lavish feast at Hacienda Huayoccari overlooking the Vilcanota range.",
+                        DescriptionEs = "Salida hacia los anfiteatros agrícolas de Moray para comprender la ingeniería inca de microclimas. Continuación a las salineras rosadas de Maras, donde miles de pozas artesanales producen sal mineral desde tiempos preincaicos. En los jardines privados de una hacienda, participe en la bendición ancestral a la Pachamama con el maestro Q'ero. Finalice con un banquete en Hacienda Huayoccari con vistas panorámicas al valle.",
+                        GourmetDiningEn = "Artisanal 4-course Andean lunch at Hacienda Huayoccari",
+                        GourmetDiningEs = "Almuerzo artesanal de 4 tiempos en Hacienda Huayoccari",
+                        PrivateTransferEn = "Mercedes-Benz Executive Sprinter with oxygen & amenities",
+                        PrivateTransferEs = "Mercedes-Benz Sprinter ejecutiva con oxígeno y amenities"
+                    });
+                }
+                else if (tour.Slug == "belmond-andean-explorer-cusco-titicaca")
+                {
+                    missingItineraryDays.Add(new ItineraryDay
+                    {
+                        TourId = tour.Id,
+                        DayNumber = 1,
+                        TitleEn = "Cusco to the High Altiplano Plateau",
+                        TitleEs = "De Cusco hacia el Altiplano Sagrado",
+                        DescriptionEn = "Board at Wanchaq station in Cusco. Settle into your handcrafted suite cabin before savoring an exquisite three-course lunch as the train ascends the Vilcanota valley. Stop to explore the grand Inca Temple of Raqch'i. As twilight settles, gather on the observation deck at La Raya (4,319m) for a sunset champagne celebration followed by a seasonal gala dinner banquet.",
+                        DescriptionEs = "Embarque en la estación Wanchaq de Cusco. Acomódese en su suite privada y disfrute de un almuerzo gourmet mientras el tren asciende el valle de Vilcanota. Descienda para una visita guiada privada al templo inca de Raqch'i. Al caer la tarde, reúnase en la terraza mirador de La Raya (4,319 m) para un brindis con champaña y una cena de gala estacional.",
+                        GourmetDiningEn = "Degustation menus by celebrated Chef Diego Muñoz",
+                        GourmetDiningEs = "Menús de autor diseñados por el chef Diego Muñoz",
+                        PrivateTransferEn = "Train station VIP reception and private porterage",
+                        PrivateTransferEs = "Recepción VIP en estación y manejo privado de equipaje"
+                    });
+                    missingItineraryDays.Add(new ItineraryDay
+                    {
+                        TourId = tour.Id,
+                        DayNumber = 2,
+                        TitleEn = "Sunrise on Lake Titicaca & Private Island Navigation",
+                        TitleEs = "Amanecer en el Titicaca y Navegación Privada",
+                        DescriptionEn = "Awaken to sunrise breaking over Lake Titicaca. After breakfast served in the dining car, embark on a private yacht excursion across the high-altitude waters. Discover the centuries-old reed construction traditions of the Uros people, followed by a private cultural encounter on Taquile island with an open-air barbecue banquet featuring fresh lake trout.",
+                        DescriptionEs = "Despierte con los primeros rayos del sol sobre el Lago Titicaca. Tras un desayuno a la carta en el vagón comedor, aborde un yate privado para surcar las aguas más altas del mundo. Descubra las técnicas ancestrales de las islas flotantes de los Uros y disfrute de un almuerzo campestre privado en Taquile con trucha fresca del lago.",
+                        GourmetDiningEn = "Gourmet lakeside barbecue in Taquile with fresh trout",
+                        GourmetDiningEs = "Almuerzo campestre con trucha fresca del lago en Taquile",
+                        PrivateTransferEn = "Private yacht charter on Lake Titicaca",
+                        PrivateTransferEs = "Yate privado exclusivo en el Lago Titicaca"
+                    });
+                }
+                else if (tour.Slug == "classic-inca-trail-vip-glamping")
+                {
+                    missingItineraryDays.Add(new ItineraryDay
+                    {
+                        TourId = tour.Id,
+                        DayNumber = 1,
+                        TitleEn = "Valley of Patallacta & Gentle Ascent",
+                        TitleEs = "Valle de Patallacta y Ascenso Suave",
+                        DescriptionEn = "Private 4x4 transfer to Km 82 trailhead. Gentle trek along the Urubamba river, overlooking Patallacta archaeological site. Arrival at private luxury camp with welcome massage and hot herbal infusions.",
+                        DescriptionEs = "Inicio en el Km 82 tras traslado en 4x4. Caminata suave junto al río con vistas panorámicas a Patallacta. Llegada al campamento exclusivo con masaje de bienvenida y té caliente.",
+                        GourmetDiningEn = "Hot 3-course organic lunch and dinner in heated dining tent",
+                        GourmetDiningEs = "Almuerzo y cena caliente de 3 tiempos en carpa comedor",
+                        PrivateTransferEn = "Private 4x4 overland from Cusco to trailhead",
+                        PrivateTransferEs = "Transporte privado 4x4 desde Cusco al punto de inicio"
+                    });
+                    missingItineraryDays.Add(new ItineraryDay
+                    {
+                        TourId = tour.Id,
+                        DayNumber = 2,
+                        TitleEn = "Dead Woman's Pass (Warmiwañusqa - 4,215m)",
+                        TitleEs = "Paso de la Mujer Muerta (4,215 msnm)",
+                        DescriptionEn = "Ascent to the highest pass with personal porters and hyperbaric oxygen chambers on standby. Rewarding descent to Pacaymayo private camp for hot showers and restorative massage.",
+                        DescriptionEs = "Ascenso al paso más alto con apoyo continuo de porteadores y oxígeno medicinal. Descenso reconfortante al campamento privado de Pacaymayo con duchas calientes y sesión de masaje.",
+                        GourmetDiningEn = "High-energy gourmet trail cuisine and hot herbal infusions",
+                        GourmetDiningEs = "Cocina energética de alta montaña y calientes infusiones",
+                        PrivateTransferEn = "Porterage brigade carrying all personal luggage",
+                        PrivateTransferEs = "Brigada de porteadores transportando todo el equipaje"
+                    });
+                    missingItineraryDays.Add(new ItineraryDay
+                    {
+                        TourId = tour.Id,
+                        DayNumber = 3,
+                        TitleEn = "Cloud Forests of Wiñay Wayna",
+                        TitleEs = "Bosque de Nubes y Wiñay Wayna",
+                        DescriptionEn = "Traverse magnificent Inca staircases, tunnel passages, and orchid forests to the terraces of Wiñay Wayna. Gala celebration dinner crafted by your private chef in the high cloud forest.",
+                        DescriptionEs = "Paso por escalinatas incas, túneles tallados en roca y orquídeas hacia Wiñay Wayna. Cena de gala de celebración preparada por su chef privado en medio del bosque nuboso.",
+                        GourmetDiningEn = "Gala trail celebration feast with chef's specialty Andean lamb",
+                        GourmetDiningEs = "Cena de gala en la montaña con especialidad de cordero andino",
+                        PrivateTransferEn = "Private camp setup with hot showers",
+                        PrivateTransferEs = "Campamento privado exclusivo con duchas calientes"
+                    });
+                    missingItineraryDays.Add(new ItineraryDay
+                    {
+                        TourId = tour.Id,
+                        DayNumber = 4,
+                        TitleEn = "Inti Punku Sun Gate & Machu Picchu Sanctuary",
+                        TitleEs = "Puerta del Sol (Inti Punku) y Machu Picchu",
+                        DescriptionEn = "Sunrise hike to the Sun Gate for the iconic first glimpse of Machu Picchu. Private tour of the Citadel followed by luxury return on the Hiram Bingham.",
+                        DescriptionEs = "Llegada al amanecer a la Puerta del Sol con vista panorámica de la ciudadela. Tour privado completo y retorno en el tren de lujo Hiram Bingham.",
+                        GourmetDiningEn = "Celebration lunch at Sanctuary Lodge & dinner on train",
+                        GourmetDiningEs = "Almuerzo en Sanctuary Lodge y cena en el tren de lujo",
+                        PrivateTransferEn = "Luxury Hiram Bingham train return to Cusco",
+                        PrivateTransferEs = "Retorno en el tren Belmond Hiram Bingham a Cusco"
+                    });
+                }
+            }
+        }
+
+        if (missingItineraryDays.Any())
+        {
+            await context.ItineraryDays.AddRangeAsync(missingItineraryDays);
+            await context.SaveChangesAsync();
         }
 
         // 5. Seed initial sample booking inquiries if table is empty
