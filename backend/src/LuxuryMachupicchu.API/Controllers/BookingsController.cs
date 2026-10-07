@@ -1,4 +1,5 @@
 using System.Net;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
@@ -21,8 +22,12 @@ public class BookingsController : ControllerBase
         _configuration = configuration;
     }
 
-    [EnableRateLimiting("contact-policy")]
+    /// <summary>
+    /// Public endpoint: creates a luxury journey inquiry and generates an instant WhatsApp VIP link.
+    /// </summary>
     [HttpPost]
+    [AllowAnonymous]
+    [EnableRateLimiting("contact-policy")]
     public async Task<ActionResult<BookingInquiryResponseDto>> CreateInquiry([FromBody] CreateBookingInquiryDto dto)
     {
         if (!ModelState.IsValid)
@@ -33,7 +38,7 @@ public class BookingsController : ControllerBase
         var tour = await _context.Tours.FindAsync(dto.TourId);
         if (tour == null)
         {
-            return NotFound(new { message = $"Tour with ID {dto.TourId} does not exist." });
+            return NotFound(new { message = $"Expedition with ID {dto.TourId} does not exist." });
         }
 
         var guests = Math.Max(1, dto.NumberOfGuests);
@@ -102,25 +107,281 @@ public class BookingsController : ControllerBase
         });
     }
 
-    [HttpGet("{id}")]
-    public async Task<ActionResult<BookingInquiryResponseDto>> GetInquiry(int id)
+    /// <summary>
+    /// Admin endpoint: lists luxury bookings with filters, search, and pagination.
+    /// </summary>
+    [HttpGet]
+    [Authorize(Roles = "Administrator")]
+    public async Task<ActionResult<PaginatedResponse<AdminBookingDetailDto>>> GetBookings(
+        [FromQuery] string? status,
+        [FromQuery] string? search,
+        [FromQuery] DateTime? fromDate,
+        [FromQuery] DateTime? toDate,
+        [FromQuery] int page = 1,
+        [FromQuery] int pageSize = 20)
     {
-        var inquiry = await _context.BookingInquiries
+        page = Math.Max(1, page);
+        pageSize = Math.Clamp(pageSize, 1, 100);
+
+        var query = _context.BookingInquiries
+            .Include(b => b.Tour)
+            .AsNoTracking()
+            .AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(status))
+        {
+            var s = status.Trim();
+            query = query.Where(b => b.Status.ToLower() == s.ToLower());
+        }
+
+        if (!string.IsNullOrWhiteSpace(search))
+        {
+            var term = search.Trim().ToLower();
+            query = query.Where(b => b.FullName.ToLower().Contains(term) ||
+                                     b.Email.ToLower().Contains(term) ||
+                                     b.Phone.ToLower().Contains(term) ||
+                                     b.Country.ToLower().Contains(term) ||
+                                     (b.Tour != null && (b.Tour.TitleEn.ToLower().Contains(term) || b.Tour.TitleEs.ToLower().Contains(term))));
+        }
+
+        if (fromDate.HasValue)
+        {
+            query = query.Where(b => b.CreatedAt >= fromDate.Value);
+        }
+
+        if (toDate.HasValue)
+        {
+            query = query.Where(b => b.CreatedAt <= toDate.Value);
+        }
+
+        var totalItems = await query.CountAsync();
+
+        var items = await query
+            .OrderByDescending(b => b.CreatedAt)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .Select(b => new AdminBookingDetailDto
+            {
+                Id = b.Id,
+                TourId = b.TourId,
+                TourTitle = b.Tour != null ? b.Tour.TitleEn : "Bespoke Journey",
+                TourSlug = b.Tour != null ? b.Tour.Slug : string.Empty,
+                TourMainImageUrl = b.Tour != null ? b.Tour.MainImageUrl : string.Empty,
+                FullName = b.FullName,
+                Email = b.Email,
+                Phone = b.Phone,
+                Country = b.Country,
+                NumberOfGuests = b.NumberOfGuests,
+                TravelDate = b.TravelDate,
+                TrainPreference = b.TrainPreference,
+                SpecialRequests = b.SpecialRequests,
+                PreferredLanguage = b.PreferredLanguage,
+                EstimatedTotalUsd = b.EstimatedTotalUsd,
+                EstimatedTotalPen = b.EstimatedTotalPen,
+                Status = b.Status,
+                CreatedAt = b.CreatedAt,
+                WhatsAppUrl = BuildGuestWhatsAppUrl(b.Phone, b.FullName, b.Tour != null ? b.Tour.TitleEn : "Bespoke Journey")
+            })
+            .ToListAsync();
+
+        return Ok(new PaginatedResponse<AdminBookingDetailDto>
+        {
+            TotalItems = totalItems,
+            Page = page,
+            PageSize = pageSize,
+            Items = items
+        });
+    }
+
+    /// <summary>
+    /// Admin endpoint: retrieves full details of a specific booking.
+    /// </summary>
+    [HttpGet("{id}")]
+    [Authorize(Roles = "Administrator")]
+    public async Task<ActionResult<AdminBookingDetailDto>> GetBooking(int id)
+    {
+        var b = await _context.BookingInquiries
+            .Include(x => x.Tour)
+            .AsNoTracking()
+            .FirstOrDefaultAsync(x => x.Id == id);
+
+        if (b == null)
+        {
+            return NotFound(new { message = $"Booking inquiry #{id} not found." });
+        }
+
+        var dto = new AdminBookingDetailDto
+        {
+            Id = b.Id,
+            TourId = b.TourId,
+            TourTitle = b.Tour != null ? b.Tour.TitleEn : "Bespoke Journey",
+            TourSlug = b.Tour != null ? b.Tour.Slug : string.Empty,
+            TourMainImageUrl = b.Tour != null ? b.Tour.MainImageUrl : string.Empty,
+            FullName = b.FullName,
+            Email = b.Email,
+            Phone = b.Phone,
+            Country = b.Country,
+            NumberOfGuests = b.NumberOfGuests,
+            TravelDate = b.TravelDate,
+            TrainPreference = b.TrainPreference,
+            SpecialRequests = b.SpecialRequests,
+            PreferredLanguage = b.PreferredLanguage,
+            EstimatedTotalUsd = b.EstimatedTotalUsd,
+            EstimatedTotalPen = b.EstimatedTotalPen,
+            Status = b.Status,
+            CreatedAt = b.CreatedAt,
+            WhatsAppUrl = BuildGuestWhatsAppUrl(b.Phone, b.FullName, b.Tour != null ? b.Tour.TitleEn : "Bespoke Journey")
+        };
+
+        return Ok(dto);
+    }
+
+    /// <summary>
+    /// Admin endpoint: updates booking status (Pending, Contacted, Confirmed, Paid, Cancelled).
+    /// </summary>
+    [HttpPut("{id}/status")]
+    [HttpPatch("{id}/status")]
+    [Authorize(Roles = "Administrator")]
+    public async Task<ActionResult<AdminBookingDetailDto>> UpdateBookingStatus(int id, [FromBody] UpdateBookingStatusDto dto)
+    {
+        if (string.IsNullOrWhiteSpace(dto.Status))
+        {
+            return BadRequest(new { message = "Status is required." });
+        }
+
+        var validStatuses = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+        {
+            "Pending", "Contacted", "Confirmed", "Paid", "Cancelled"
+        };
+
+        var normalizedStatus = char.ToUpper(dto.Status[0]) + dto.Status[1..].ToLower();
+        if (!validStatuses.Contains(dto.Status.Trim()))
+        {
+            return BadRequest(new { message = $"Invalid status '{dto.Status}'. Allowed values: Pending, Contacted, Confirmed, Paid, Cancelled." });
+        }
+
+        var booking = await _context.BookingInquiries
             .Include(b => b.Tour)
             .FirstOrDefaultAsync(b => b.Id == id);
 
-        if (inquiry == null) return NotFound();
-
-        return Ok(new BookingInquiryResponseDto
+        if (booking == null)
         {
-            Id = inquiry.Id,
-            FullName = inquiry.FullName,
-            TourTitle = inquiry.Tour?.TitleEn ?? "Bespoke Journey",
-            EstimatedTotalUsd = inquiry.EstimatedTotalUsd,
-            EstimatedTotalPen = inquiry.EstimatedTotalPen,
-            Status = inquiry.Status,
-            CreatedAt = inquiry.CreatedAt,
-            WhatsAppDirectUrl = string.Empty
+            return NotFound(new { message = $"Booking inquiry #{id} not found." });
+        }
+
+        booking.Status = normalizedStatus;
+        if (!string.IsNullOrWhiteSpace(dto.Notes))
+        {
+            booking.SpecialRequests = string.IsNullOrWhiteSpace(booking.SpecialRequests) 
+                ? $"[Concierge Note: {dto.Notes}]" 
+                : $"{booking.SpecialRequests}\n[Concierge Note: {dto.Notes}]";
+        }
+
+        await _context.SaveChangesAsync();
+
+        return Ok(new AdminBookingDetailDto
+        {
+            Id = booking.Id,
+            TourId = booking.TourId,
+            TourTitle = booking.Tour != null ? booking.Tour.TitleEn : "Bespoke Journey",
+            TourSlug = booking.Tour != null ? booking.Tour.Slug : string.Empty,
+            TourMainImageUrl = booking.Tour != null ? booking.Tour.MainImageUrl : string.Empty,
+            FullName = booking.FullName,
+            Email = booking.Email,
+            Phone = booking.Phone,
+            Country = booking.Country,
+            NumberOfGuests = booking.NumberOfGuests,
+            TravelDate = booking.TravelDate,
+            TrainPreference = booking.TrainPreference,
+            SpecialRequests = booking.SpecialRequests,
+            PreferredLanguage = booking.PreferredLanguage,
+            EstimatedTotalUsd = booking.EstimatedTotalUsd,
+            EstimatedTotalPen = booking.EstimatedTotalPen,
+            Status = booking.Status,
+            CreatedAt = booking.CreatedAt,
+            WhatsAppUrl = BuildGuestWhatsAppUrl(booking.Phone, booking.FullName, booking.Tour != null ? booking.Tour.TitleEn : "Bespoke Journey")
         });
+    }
+
+    /// <summary>
+    /// Admin endpoint: updates full booking details.
+    /// </summary>
+    [HttpPut("{id}")]
+    [Authorize(Roles = "Administrator")]
+    public async Task<ActionResult<AdminBookingDetailDto>> UpdateBooking(int id, [FromBody] UpdateBookingDto dto)
+    {
+        var booking = await _context.BookingInquiries
+            .Include(b => b.Tour)
+            .FirstOrDefaultAsync(b => b.Id == id);
+
+        if (booking == null)
+        {
+            return NotFound(new { message = $"Booking inquiry #{id} not found." });
+        }
+
+        if (!string.IsNullOrWhiteSpace(dto.FullName)) booking.FullName = dto.FullName.Trim();
+        if (!string.IsNullOrWhiteSpace(dto.Email)) booking.Email = dto.Email.Trim().ToLower();
+        if (!string.IsNullOrWhiteSpace(dto.Phone)) booking.Phone = dto.Phone.Trim();
+        if (dto.Country != null) booking.Country = dto.Country.Trim();
+        if (dto.NumberOfGuests.HasValue && dto.NumberOfGuests.Value > 0) booking.NumberOfGuests = dto.NumberOfGuests.Value;
+        if (dto.TravelDate.HasValue) booking.TravelDate = dto.TravelDate.Value;
+        if (!string.IsNullOrWhiteSpace(dto.TrainPreference)) booking.TrainPreference = dto.TrainPreference.Trim();
+        if (dto.SpecialRequests != null) booking.SpecialRequests = dto.SpecialRequests.Trim();
+        if (!string.IsNullOrWhiteSpace(dto.Status)) booking.Status = dto.Status.Trim();
+        if (dto.EstimatedTotalUsd.HasValue) booking.EstimatedTotalUsd = dto.EstimatedTotalUsd.Value;
+        if (dto.EstimatedTotalPen.HasValue) booking.EstimatedTotalPen = dto.EstimatedTotalPen.Value;
+
+        await _context.SaveChangesAsync();
+
+        return Ok(new AdminBookingDetailDto
+        {
+            Id = booking.Id,
+            TourId = booking.TourId,
+            TourTitle = booking.Tour != null ? booking.Tour.TitleEn : "Bespoke Journey",
+            TourSlug = booking.Tour != null ? booking.Tour.Slug : string.Empty,
+            TourMainImageUrl = booking.Tour != null ? booking.Tour.MainImageUrl : string.Empty,
+            FullName = booking.FullName,
+            Email = booking.Email,
+            Phone = booking.Phone,
+            Country = booking.Country,
+            NumberOfGuests = booking.NumberOfGuests,
+            TravelDate = booking.TravelDate,
+            TrainPreference = booking.TrainPreference,
+            SpecialRequests = booking.SpecialRequests,
+            PreferredLanguage = booking.PreferredLanguage,
+            EstimatedTotalUsd = booking.EstimatedTotalUsd,
+            EstimatedTotalPen = booking.EstimatedTotalPen,
+            Status = booking.Status,
+            CreatedAt = booking.CreatedAt,
+            WhatsAppUrl = BuildGuestWhatsAppUrl(booking.Phone, booking.FullName, booking.Tour != null ? booking.Tour.TitleEn : "Bespoke Journey")
+        });
+    }
+
+    /// <summary>
+    /// Admin endpoint: deletes a booking inquiry.
+    /// </summary>
+    [HttpDelete("{id}")]
+    [Authorize(Roles = "Administrator")]
+    public async Task<IActionResult> DeleteBooking(int id)
+    {
+        var booking = await _context.BookingInquiries.FindAsync(id);
+        if (booking == null)
+        {
+            return NotFound(new { message = $"Booking inquiry #{id} not found." });
+        }
+
+        _context.BookingInquiries.Remove(booking);
+        await _context.SaveChangesAsync();
+
+        return Ok(new { success = true, message = $"Booking inquiry #{id} removed successfully." });
+    }
+
+    private static string BuildGuestWhatsAppUrl(string phone, string guestName, string tourTitle)
+    {
+        var cleanPhone = new string(phone.Where(char.IsDigit).ToArray());
+        if (string.IsNullOrWhiteSpace(cleanPhone)) return string.Empty;
+
+        var message = $"Dear {guestName}, greeting from Luxury Machupicchu Peru Concierge regarding your inquiry for {tourTitle}.";
+        return $"https://wa.me/{cleanPhone}?text={WebUtility.UrlEncode(message)}";
     }
 }

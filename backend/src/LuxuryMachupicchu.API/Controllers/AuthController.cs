@@ -1,6 +1,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.IdentityModel.Tokens;
@@ -25,6 +26,7 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("login")]
+    [AllowAnonymous]
     [EnableRateLimiting("login-policy")]
     public IActionResult Login([FromBody] LoginRequestDto request)
     {
@@ -40,10 +42,11 @@ public class AuthController : ControllerBase
 
         if (!isValid)
         {
-            return Unauthorized(new { message = "Invalid credentials." });
+            return Unauthorized(new { message = "Invalid credentials. Unauthorized access to Luxury Machupicchu Concierge Portal." });
         }
 
         var secretKey = _configuration["JWT_SECRET_KEY"] 
+            ?? _configuration["JwtSettings:SecretKey"]
             ?? "LuxuryMachupicchuPeru_BelmondInspired_UltraSecureJwtKey_2026_Min32Chars!";
         var expiresAt = DateTime.UtcNow.AddDays(7);
 
@@ -77,6 +80,27 @@ public class AuthController : ControllerBase
             expiresAt
         });
     }
+
+    [HttpGet("me")]
+    [Authorize]
+    public IActionResult GetCurrentUser()
+    {
+        var username = User.FindFirst(ClaimTypes.NameIdentifier)?.Value 
+            ?? User.Identity?.Name 
+            ?? "concierge@luxurymachupicchu.com";
+        var fullName = User.FindFirst(ClaimTypes.Name)?.Value ?? "Luxury Machupicchu Concierge Director";
+        var role = User.FindFirst(ClaimTypes.Role)?.Value ?? "Administrator";
+        var agency = User.FindFirst("agency")?.Value ?? "Luxury Machupicchu Peru E.I.R.L";
+
+        return Ok(new
+        {
+            authenticated = true,
+            username,
+            fullName,
+            role,
+            agency
+        });
+    }
 }
 
 [ApiController]
@@ -93,6 +117,7 @@ public class PaymentsController : ControllerBase
     }
 
     [HttpPost("create-deposit-preference")]
+    [AllowAnonymous]
     public IActionResult CreateDepositPreference([FromBody] DepositPreferenceRequest request)
     {
         var simPrefId = "LMP-DEP-" + Guid.NewGuid().ToString()[..8].ToUpper();

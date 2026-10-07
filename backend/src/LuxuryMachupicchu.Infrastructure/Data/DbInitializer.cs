@@ -429,5 +429,118 @@ public static class DbInitializer
 
         await context.Testimonials.AddRangeAsync(test1, test2);
         await context.SaveChangesAsync();
+
+        // 5. Seed initial sample booking inquiries if table is empty
+        if (!await context.BookingInquiries.AnyAsync())
+        {
+            var b1 = new BookingInquiry
+            {
+                TourId = tourHiramBingham.Id,
+                FullName = "Alexander & Charlotte Sterling",
+                Email = "alexander.sterling@mayfairpartners.co.uk",
+                Phone = "+44 7911 123456",
+                Country = "United Kingdom",
+                NumberOfGuests = 2,
+                TravelDate = DateTime.UtcNow.AddDays(18),
+                TrainPreference = "Belmond Hiram Bingham",
+                SpecialRequests = "Private citadel archaeologist, vintage champagne upon boarding, anniversary celebration.",
+                PreferredLanguage = "en",
+                EstimatedTotalUsd = tourHiramBingham.PriceUsd * 2,
+                EstimatedTotalPen = tourHiramBingham.PricePen * 2,
+                Status = "Confirmed",
+                CreatedAt = DateTime.UtcNow.AddDays(-2)
+            };
+
+            var b2 = new BookingInquiry
+            {
+                TourId = tourSacredValley.Id,
+                FullName = "Dr. François Dubois",
+                Email = "f.dubois@sorbonne-med.fr",
+                Phone = "+33 6 12 34 56 78",
+                Country = "France",
+                NumberOfGuests = 3,
+                TravelDate = DateTime.UtcNow.AddDays(25),
+                TrainPreference = "Belmond Hiram Bingham",
+                SpecialRequests = "Authentic Q'ero shamanic blessing, private hacienda lunch with Peruvian Paso horses.",
+                PreferredLanguage = "en",
+                EstimatedTotalUsd = tourSacredValley.PriceUsd * 3,
+                EstimatedTotalPen = tourSacredValley.PricePen * 3,
+                Status = "Pending",
+                CreatedAt = DateTime.UtcNow.AddHours(-14)
+            };
+
+            var b3 = new BookingInquiry
+            {
+                TourId = tourAndeanExplorer.Id,
+                FullName = "Isabella Rossi & Matteo Conti",
+                Email = "isabella.rossi@milanodesign.it",
+                Phone = "+39 02 1234567",
+                Country = "Italy",
+                NumberOfGuests = 2,
+                TravelDate = DateTime.UtcNow.AddDays(35),
+                TrainPreference = "Belmond Andean Explorer Suite",
+                SpecialRequests = "Presidential Cabin suite request, Lake Titicaca private island sunset cocktail.",
+                PreferredLanguage = "en",
+                EstimatedTotalUsd = tourAndeanExplorer.PriceUsd * 2,
+                EstimatedTotalPen = tourAndeanExplorer.PricePen * 2,
+                Status = "Paid",
+                CreatedAt = DateTime.UtcNow.AddDays(-5)
+            };
+
+            await context.BookingInquiries.AddRangeAsync(b1, b2, b3);
+        }
+
+        // 6. Seed initial concierge requests if table is empty
+        if (!await context.ConciergeRequests.AnyAsync())
+        {
+            var cr1 = new PrivateConciergeRequest
+            {
+                GuestName = "Countess Maria Von Habsburg",
+                Email = "m.habsburg@vienna-arts.at",
+                WhatsApp = "+43 1 9876543",
+                DestinationFocus = "Cusco, Sacred Valley & Machu Picchu Sanctuary",
+                JourneyDuration = "7-10 Days",
+                TravelersCount = 4,
+                BudgetTier = "Ultra-Luxury Bespoke",
+                BespokeNotes = "Requires presidential suites at Monasterio and Sanctuary Lodge, private helicopter transfers from Cusco airport.",
+                CreatedAt = DateTime.UtcNow.AddDays(-1),
+                IsAddressed = false
+            };
+
+            var cr2 = new PrivateConciergeRequest
+            {
+                GuestName = "Sebastian Chen",
+                Email = "sebastian@chencapital.sg",
+                WhatsApp = "+65 9123 4567",
+                DestinationFocus = "Machu Picchu & Andean Explorer to Lake Titicaca",
+                JourneyDuration = "5-7 Days",
+                TravelersCount = 2,
+                BudgetTier = "High-End Bespoke",
+                BespokeNotes = "Gourmet dining reservations at Central Lima prior to Cusco, private Andean constellation astronomy night.",
+                CreatedAt = DateTime.UtcNow.AddDays(-3),
+                IsAddressed = true
+            };
+
+            await context.ConciergeRequests.AddRangeAsync(cr1, cr2);
+        }
+
+        // 7. Seed initial contact message if table is empty
+        if (!await context.ContactMessages.AnyAsync())
+        {
+            var cm1 = new ContactMessage
+            {
+                Name = "Victoria Thorne",
+                Email = "victoria.thorne@heritageclub.com",
+                Phone = "+1 415 555 0192",
+                Subject = "Chartering Hiram Bingham for Private Family Gathering",
+                Message = "We are exploring a private carriage buyout for an exclusive 25-guest celebration next spring. Please have your Director of Concierge contact me.",
+                CreatedAt = DateTime.UtcNow.AddHours(-6),
+                IsRead = false
+            };
+
+            await context.ContactMessages.AddAsync(cm1);
+        }
+
+        await context.SaveChangesAsync();
     }
 }

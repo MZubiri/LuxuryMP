@@ -115,9 +115,12 @@ LuxuryMP/
 │   │   └── images/                           # High-res location & train photography
 │   ├── index.html                            # Main homepage
 │   ├── tour.html                             # Tour detail page
+│   ├── admin.html                            # Backoffice & Concierge Atelier portal
 │   ├── styles.css                            # Haute couture design system & responsive rules
+│   ├── admin.css                             # Administrative luxury design system & print styles
 │   ├── app.js                                # Catalog rendering, currencies, reservation modal
 │   ├── tour.js                               # Location badges, altitude profile, booking form
+│   ├── admin.js                              # Administrative SPA logic, JWT auth, dashboard & bookings
 │   ├── nginx.conf                            # Reverse proxy configuration
 │   ├── Dockerfile
 │   └── .dockerignore

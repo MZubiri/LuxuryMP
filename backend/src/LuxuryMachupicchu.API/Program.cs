@@ -20,6 +20,7 @@ builder.Services.AddControllers()
 
 // 2. JWT Configuration
 var jwtSecretKey = builder.Configuration["JWT_SECRET_KEY"] 
+    ?? builder.Configuration["JwtSettings:SecretKey"]
     ?? "LuxuryMachupicchuPeru_BelmondInspired_UltraSecureJwtKey_2026_Min32Chars!";
 
 builder.Services.AddAuthentication(options =>
@@ -80,7 +81,7 @@ builder.Services.AddRateLimiter(options =>
 
 // 4. Database Setup (MySQL with Pomelo)
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") 
-    ?? "Server=localhost;Port=3306;Database=luxury_machupicchu_db;User=root;Password=root;CharSet=utf8mb4;";
+    ?? "Server=localhost;Port=3306;Database=luxury_machupicchu_db;User=lmp_user;Password=lmp_secure_pass_2026!;CharSet=utf8mb4;";
 
 var serverVersion = new MySqlServerVersion(new Version(8, 0, 36));
 
@@ -92,8 +93,8 @@ builder.Services.AddDbContext<LuxuryMachupicchuDbContext>(options =>
         mySqlOptions =>
         {
             mySqlOptions.EnableRetryOnFailure(
-                maxRetryCount: 10,
-                maxRetryDelay: TimeSpan.FromSeconds(5),
+                maxRetryCount: 3,
+                maxRetryDelay: TimeSpan.FromSeconds(3),
                 errorNumbersToAdd: null);
         });
 });

@@ -1,0 +1,2030 @@
+/* ==========================================================================
+   LUXURY MACHUPICCHU PERU — ATELIER BACKOFFICE & CONCIERGE SUITE
+   Haute Couture Administrative Styling (Belmond & Orient Express Inspired)
+   ========================================================================== */
+
+/* Variables específicas del panel administrativo */
+:root {
+  --admin-bg: #0F1012;
+  --admin-sidebar-bg: #141619;
+  --admin-card-bg: #1A1C21;
+  --admin-card-hover: #22252C;
+  --admin-border: rgba(197, 164, 126, 0.22);
+  --admin-border-light: rgba(255, 255, 255, 0.08);
+  --admin-text-main: #FBF9F5;
+  --admin-text-muted: #9E9EA7;
+  --admin-text-dim: #6E707A;
+  
+  --admin-gold: #C5A47E;
+  --admin-gold-bright: #D4AF37;
+  --admin-gold-glow: rgba(197, 164, 126, 0.15);
+  --admin-gold-dark: #8F7250;
+
+  --status-pending-bg: rgba(230, 162, 60, 0.15);
+  --status-pending-text: #E6A23C;
+  --status-pending-border: rgba(230, 162, 60, 0.35);
+
+  --status-contacted-bg: rgba(64, 158, 255, 0.15);
+  --status-contacted-text: #66B1FF;
+  --status-contacted-border: rgba(64, 158, 255, 0.35);
+
+  --status-confirmed-bg: rgba(103, 194, 58, 0.15);
+  --status-confirmed-text: #85CE61;
+  --status-confirmed-border: rgba(103, 194, 58, 0.35);
+
+  --status-paid-bg: rgba(197, 164, 126, 0.22);
+  --status-paid-text: #ECC38B;
+  --status-paid-border: rgba(197, 164, 126, 0.5);
+
+  --status-cancelled-bg: rgba(144, 147, 153, 0.12);
+  --status-cancelled-text: #A6A9AD;
+  --status-cancelled-border: rgba(144, 147, 153, 0.25);
+  
+  --shadow-luxe: 0 16px 40px rgba(0, 0, 0, 0.4);
+}
+
+/* Reset y base */
+body.admin-body {
+  background-color: var(--admin-bg);
+  color: var(--admin-text-main);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Tipografía */
+.font-serif { font-family: 'Cormorant Garamond', Georgia, serif; }
+.font-sans { font-family: 'Montserrat', sans-serif; }
+.font-mono { font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace; }
+
+/* ==========================================================================
+   PANTALLA DE ACCESO (LOGIN GATE)
+   ========================================================================== */
+.admin-login-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: radial-gradient(circle at center, #1C1E24 0%, #0A0A0C 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 460px;
+  background: rgba(22, 24, 28, 0.94);
+  border: 1px solid var(--admin-border);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(20px);
+  padding: 3rem 2.5rem;
+  border-radius: 4px;
+  position: relative;
+  text-align: center;
+}
+
+.login-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 20%;
+  right: 20%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--admin-gold), transparent);
+}
+
+.login-brand-img {
+  max-width: 130px;
+  height: auto;
+  margin-bottom: 1rem;
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.5));
+}
+
+.login-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.75rem;
+  font-weight: 500;
+  color: var(--admin-gold);
+  letter-spacing: 0.05em;
+  margin-bottom: 0.25rem;
+  text-transform: uppercase;
+}
+
+.login-subtitle {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.72rem;
+  color: var(--admin-text-muted);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin-bottom: 2rem;
+}
+
+.login-form {
+  text-align: left;
+}
+
+.login-group {
+  margin-bottom: 1.35rem;
+}
+
+.login-label {
+  display: block;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--admin-gold);
+  margin-bottom: 0.45rem;
+  font-weight: 500;
+}
+
+.login-input {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  background: rgba(10, 11, 14, 0.8);
+  border: 1px solid rgba(197, 164, 126, 0.3);
+  border-radius: 2px;
+  color: #FFFFFF;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.92rem;
+  transition: all 0.25s ease;
+  box-sizing: border-box;
+}
+
+.login-input:focus {
+  outline: none;
+  border-color: var(--admin-gold-bright);
+  box-shadow: 0 0 16px rgba(197, 164, 126, 0.25);
+  background: rgba(15, 17, 21, 0.95);
+}
+
+.btn-login-submit {
+  width: 100%;
+  padding: 0.95rem;
+  background: linear-gradient(135deg, #C5A47E 0%, #A8865D 100%);
+  color: #0A0A0C;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.76rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 0.5rem;
+  border-radius: 2px;
+}
+
+.btn-login-submit:hover {
+  background: linear-gradient(135deg, #D4AF37 0%, #B8934E 100%);
+  box-shadow: 0 8px 24px rgba(197, 164, 126, 0.35);
+  transform: translateY(-1px);
+}
+
+.login-demo-helper {
+  margin-top: 1.75rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--admin-border-light);
+  font-size: 0.72rem;
+  color: var(--admin-text-dim);
+  text-align: center;
+}
+
+.btn-demo-autofill {
+  background: transparent;
+  border: 1px dashed rgba(197, 164, 126, 0.4);
+  color: var(--admin-gold);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  padding: 0.4rem 0.8rem;
+  border-radius: 2px;
+  cursor: pointer;
+  margin-top: 0.5rem;
+  transition: all 0.2s ease;
+}
+
+.btn-demo-autofill:hover {
+  background: var(--admin-gold-glow);
+  border-color: var(--admin-gold);
+}
+
+.login-error-alert {
+  display: none;
+  background: rgba(245, 108, 108, 0.15);
+  border: 1px solid rgba(245, 108, 108, 0.4);
+  color: #F89898;
+  padding: 0.75rem 1rem;
+  font-size: 0.78rem;
+  border-radius: 2px;
+  margin-bottom: 1.25rem;
+  text-align: left;
+}
+
+/* ==========================================================================
+   TOP PEDIGREE BAR & HEADER ADMINISTRATIVO
+   ========================================================================== */
+.admin-top-bar {
+  background-color: #0A0A0C;
+  color: var(--admin-gold);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.64rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  padding: 0.32rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(197, 164, 126, 0.18);
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.admin-top-bar-left {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.admin-top-badge {
+  background: rgba(197, 164, 126, 0.2);
+  color: #FFFFFF;
+  padding: 0.1rem 0.45rem;
+  border-radius: 2px;
+  font-size: 0.6rem;
+  letter-spacing: 0.05em;
+}
+
+.admin-api-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: #85CE61;
+}
+
+.api-pulse {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: #85CE61;
+  box-shadow: 0 0 8px #85CE61;
+  display: inline-block;
+}
+
+.admin-top-bar-right {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.admin-currency-switch {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(197, 164, 126, 0.3);
+  border-radius: 2px;
+  padding: 2px 4px;
+  gap: 4px;
+}
+
+.currency-btn {
+  background: transparent;
+  border: none;
+  color: var(--admin-text-dim);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.62rem;
+  font-weight: 600;
+  padding: 0.15rem 0.4rem;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: all 0.2s ease;
+}
+
+.currency-btn.active {
+  background: var(--admin-gold);
+  color: #0A0A0C;
+}
+
+.admin-header {
+  background: rgba(20, 22, 25, 0.98);
+  border-bottom: 1px solid var(--admin-border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  backdrop-filter: blur(12px);
+}
+
+.admin-header-inner {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 0.75rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.admin-brand {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  text-decoration: none;
+}
+
+.admin-brand-logo {
+  height: 38px;
+  width: auto;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.4));
+}
+
+.admin-brand-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--admin-text-main);
+  line-height: 1.1;
+}
+
+.admin-brand-subtitle {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.62rem;
+  letter-spacing: 0.16em;
+  color: var(--admin-gold);
+  text-transform: uppercase;
+  display: block;
+}
+
+.admin-user-menu {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.admin-user-profile {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-align: right;
+}
+
+.admin-user-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #C5A47E 0%, #1A1C21 100%);
+  border: 1px solid var(--admin-gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #0A0A0C;
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+.admin-user-name {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--admin-text-main);
+  display: block;
+}
+
+.admin-user-role {
+  font-size: 0.65rem;
+  color: var(--admin-gold);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.admin-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.btn-header-action {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(197, 164, 126, 0.25);
+  color: var(--admin-text-main);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  padding: 0.45rem 0.9rem;
+  border-radius: 2px;
+  text-decoration: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: all 0.2s ease;
+}
+
+.btn-header-action:hover {
+  background: var(--admin-gold-glow);
+  border-color: var(--admin-gold);
+  color: var(--admin-gold-bright);
+}
+
+.btn-logout {
+  border-color: rgba(245, 108, 108, 0.3);
+  color: #F89898;
+}
+
+.btn-logout:hover {
+  background: rgba(245, 108, 108, 0.15);
+  border-color: #F89898;
+  color: #FFFFFF;
+}
+
+/* ==========================================================================
+   LAYOUT PRINCIPAL: SIDEBAR + CONTENT
+   ========================================================================== */
+.admin-app-layout {
+  display: flex;
+  flex: 1;
+  max-width: 1600px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Sidebar */
+.admin-sidebar {
+  width: 260px;
+  background-color: var(--admin-sidebar-bg);
+  border-right: 1px solid var(--admin-border);
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem 0;
+  flex-shrink: 0;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 0 0.85rem;
+}
+
+.nav-item-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.85rem 1.1rem;
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--admin-text-muted);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.74rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  width: 100%;
+  text-align: left;
+}
+
+.nav-item-btn:hover {
+  background: rgba(197, 164, 126, 0.08);
+  color: var(--admin-text-main);
+  border-color: rgba(197, 164, 126, 0.15);
+}
+
+.nav-item-btn.active {
+  background: linear-gradient(90deg, rgba(197, 164, 126, 0.18) 0%, rgba(197, 164, 126, 0.04) 100%);
+  color: var(--admin-gold-bright);
+  border-left: 3px solid var(--admin-gold);
+  border-top-color: transparent;
+  border-bottom-color: transparent;
+  border-right-color: transparent;
+  font-weight: 600;
+}
+
+.nav-item-btn svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  stroke-width: 1.8;
+}
+
+.nav-badge-count {
+  margin-left: auto;
+  background: var(--admin-gold);
+  color: #0A0A0C;
+  font-size: 0.62rem;
+  font-weight: 700;
+  padding: 0.1rem 0.4rem;
+  border-radius: 10px;
+}
+
+.sidebar-footer {
+  margin-top: auto;
+  padding: 1.5rem 1.25rem 0.5rem;
+  border-top: 1px solid var(--admin-border-light);
+  font-size: 0.68rem;
+  color: var(--admin-text-dim);
+}
+
+.sidebar-footer-title {
+  color: var(--admin-gold);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 0.35rem;
+  display: block;
+}
+
+/* Área de Contenido Principal */
+.admin-main-viewport {
+  flex: 1;
+  padding: 2rem 2.5rem;
+  overflow-y: auto;
+  min-width: 0;
+}
+
+.view-section {
+  display: none;
+  animation: fadeIn 0.3s ease;
+}
+
+.view-section.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Título de Vista */
+.view-header {
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.view-kicker {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.68rem;
+  color: var(--admin-gold);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin-bottom: 0.25rem;
+  display: block;
+}
+
+.view-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 2.2rem;
+  font-weight: 500;
+  color: var(--admin-text-main);
+  line-height: 1.1;
+}
+
+.view-subtitle {
+  font-size: 0.85rem;
+  color: var(--admin-text-muted);
+  margin-top: 0.25rem;
+}
+
+/* ==========================================================================
+   TARJETAS KPI & METRICAS (DASHBOARD)
+   ========================================================================== */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.kpi-card {
+  background: var(--admin-card-bg);
+  border: 1px solid var(--admin-border);
+  padding: 1.5rem;
+  border-radius: 3px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.kpi-card:hover {
+  background: var(--admin-card-hover);
+  border-color: rgba(197, 164, 126, 0.4);
+  transform: translateY(-2px);
+}
+
+.kpi-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3px;
+  height: 100%;
+  background: var(--admin-gold);
+}
+
+.kpi-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+
+.kpi-label {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--admin-text-muted);
+  font-weight: 500;
+}
+
+.kpi-icon-wrap {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--admin-gold-glow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--admin-gold);
+}
+
+.kpi-value {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 2.2rem;
+  font-weight: 600;
+  color: var(--admin-text-main);
+  line-height: 1.1;
+  margin-bottom: 0.35rem;
+}
+
+.kpi-subtext {
+  font-size: 0.74rem;
+  color: var(--admin-text-dim);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.kpi-subtext strong {
+  color: var(--admin-gold);
+}
+
+/* Tarjetas de Desglose por Estado */
+.status-pill-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+}
+
+.status-summary-card {
+  background: rgba(22, 24, 28, 0.7);
+  border: 1px solid var(--admin-border-light);
+  padding: 1.1rem;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.status-summary-card:hover {
+  background: var(--admin-card-bg);
+  border-color: var(--admin-border);
+}
+
+.status-summary-card.active-filter {
+  border-color: var(--admin-gold);
+  background: var(--admin-gold-glow);
+}
+
+.status-dot-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 0.4rem;
+}
+
+.status-indicator-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.status-indicator-dot.pending { background: #E6A23C; }
+.status-indicator-dot.contacted { background: #66B1FF; }
+.status-indicator-dot.confirmed { background: #85CE61; }
+.status-indicator-dot.paid { background: #ECC38B; }
+.status-indicator-dot.cancelled { background: #A6A9AD; }
+
+.status-summary-count {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.7rem;
+  font-weight: 600;
+  color: var(--admin-text-main);
+  line-height: 1;
+}
+
+/* Layout de 2 Columnas para Dashboard */
+.dashboard-split-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+@media (max-width: 1100px) {
+  .dashboard-split-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.dashboard-panel {
+  background: var(--admin-card-bg);
+  border: 1px solid var(--admin-border);
+  border-radius: 3px;
+  padding: 1.75rem;
+}
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.85rem;
+  border-bottom: 1px solid var(--admin-border-light);
+}
+
+.panel-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.35rem;
+  font-weight: 500;
+  color: var(--admin-gold);
+  letter-spacing: 0.04em;
+  margin: 0;
+}
+
+.panel-action-link {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--admin-text-muted);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.panel-action-link:hover {
+  color: var(--admin-gold);
+}
+
+/* Lista de Top Expediciones */
+.top-tours-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.top-tour-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.85rem 1rem;
+  background: rgba(10, 11, 14, 0.4);
+  border: 1px solid var(--admin-border-light);
+  border-radius: 2px;
+  gap: 1rem;
+}
+
+.top-tour-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.top-tour-title {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--admin-text-main);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 0.35rem;
+}
+
+.top-tour-bar-wrap {
+  width: 100%;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.top-tour-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--admin-gold) 0%, var(--admin-gold-bright) 100%);
+}
+
+.top-tour-stats {
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.top-tour-count {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--admin-gold);
+  line-height: 1;
+}
+
+.top-tour-volume {
+  font-size: 0.68rem;
+  color: var(--admin-text-dim);
+}
+
+/* ==========================================================================
+   TABLA DE RESERVAS VIP (LISTADO)
+   ========================================================================== */
+.table-toolbar {
+  background: var(--admin-card-bg);
+  border: 1px solid var(--admin-border);
+  padding: 1.1rem 1.5rem;
+  border-radius: 3px;
+  margin-bottom: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.toolbar-filters {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  flex-wrap: wrap;
+  flex: 1;
+}
+
+.search-box-wrap {
+  position: relative;
+  min-width: 260px;
+}
+
+.search-icon {
+  position: absolute;
+  left: 0.85rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--admin-gold);
+  pointer-events: none;
+}
+
+.table-search-input {
+  width: 100%;
+  padding: 0.65rem 1rem 0.65rem 2.4rem;
+  background: rgba(10, 11, 14, 0.8);
+  border: 1px solid rgba(197, 164, 126, 0.3);
+  border-radius: 2px;
+  color: #FFFFFF;
+  font-size: 0.82rem;
+  box-sizing: border-box;
+}
+
+.table-search-input:focus {
+  outline: none;
+  border-color: var(--admin-gold-bright);
+}
+
+.table-select-filter {
+  padding: 0.65rem 1rem;
+  background: rgba(10, 11, 14, 0.8);
+  border: 1px solid rgba(197, 164, 126, 0.3);
+  border-radius: 2px;
+  color: var(--admin-text-main);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.72rem;
+  cursor: pointer;
+}
+
+.table-select-filter:focus {
+  outline: none;
+  border-color: var(--admin-gold-bright);
+}
+
+.date-filter-group {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.72rem;
+  color: var(--admin-text-dim);
+}
+
+.date-input {
+  padding: 0.55rem 0.75rem;
+  background: rgba(10, 11, 14, 0.8);
+  border: 1px solid rgba(197, 164, 126, 0.3);
+  border-radius: 2px;
+  color: #FFFFFF;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.72rem;
+}
+
+.btn-filter-reset {
+  background: transparent;
+  border: 1px solid var(--admin-border-light);
+  color: var(--admin-text-muted);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.05em;
+  padding: 0.6rem 0.85rem;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-filter-reset:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--admin-text-main);
+}
+
+.btn-refresh {
+  background: var(--admin-gold-glow);
+  border: 1px solid var(--admin-gold);
+  color: var(--admin-gold-bright);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  padding: 0.6rem 1rem;
+  border-radius: 2px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  transition: all 0.2s ease;
+}
+
+.btn-refresh:hover {
+  background: var(--admin-gold);
+  color: #0A0A0C;
+}
+
+/* Tabla Principal */
+.table-responsive-container {
+  background: var(--admin-card-bg);
+  border: 1px solid var(--admin-border);
+  border-radius: 3px;
+  overflow-x: auto;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.25);
+}
+
+.admin-data-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.84rem;
+}
+
+.admin-data-table th {
+  background: rgba(10, 11, 14, 0.7);
+  padding: 1rem 1.15rem;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--admin-gold);
+  border-bottom: 1px solid var(--admin-border);
+  white-space: nowrap;
+}
+
+.admin-data-table td {
+  padding: 1.15rem;
+  border-bottom: 1px solid var(--admin-border-light);
+  color: var(--admin-text-main);
+  vertical-align: middle;
+}
+
+.admin-data-table tr:hover td {
+  background: rgba(197, 164, 126, 0.03);
+}
+
+/* Celdas específicas */
+.guest-primary {
+  font-weight: 600;
+  color: #FFFFFF;
+  margin-bottom: 0.2rem;
+  font-size: 0.88rem;
+}
+
+.guest-meta {
+  font-size: 0.72rem;
+  color: var(--admin-text-muted);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.guest-country-tag {
+  background: rgba(255, 255, 255, 0.08);
+  padding: 0.1rem 0.35rem;
+  border-radius: 2px;
+  font-size: 0.64rem;
+  color: var(--admin-gold);
+}
+
+.tour-cell-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--admin-text-main);
+  margin-bottom: 0.15rem;
+}
+
+.tour-cell-train {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.68rem;
+  color: var(--admin-gold);
+  letter-spacing: 0.04em;
+}
+
+.quote-amount-main {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--admin-gold-bright);
+}
+
+.quote-amount-secondary {
+  font-size: 0.68rem;
+  color: var(--admin-text-dim);
+}
+
+/* Badges de Estado */
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.7rem;
+  border-radius: 20px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.status-pill.pending {
+  background: var(--status-pending-bg);
+  color: var(--status-pending-text);
+  border: 1px solid var(--status-pending-border);
+}
+
+.status-pill.contacted {
+  background: var(--status-contacted-bg);
+  color: var(--status-contacted-text);
+  border: 1px solid var(--status-contacted-border);
+}
+
+.status-pill.confirmed {
+  background: var(--status-confirmed-bg);
+  color: var(--status-confirmed-text);
+  border: 1px solid var(--status-confirmed-border);
+}
+
+.status-pill.paid {
+  background: var(--status-paid-bg);
+  color: var(--status-paid-text);
+  border: 1px solid var(--status-paid-border);
+}
+
+.status-pill.cancelled {
+  background: var(--status-cancelled-bg);
+  color: var(--status-cancelled-text);
+  border: 1px solid var(--status-cancelled-border);
+}
+
+/* Acciones en Tabla */
+.table-actions-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  white-space: nowrap;
+}
+
+.btn-table-action {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--admin-border-light);
+  color: var(--admin-text-main);
+  padding: 0.45rem 0.6rem;
+  border-radius: 2px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+.btn-table-action:hover {
+  background: var(--admin-gold-glow);
+  border-color: var(--admin-gold);
+  color: var(--admin-gold);
+}
+
+.btn-table-whatsapp {
+  border-color: rgba(37, 211, 102, 0.35);
+  color: #25D366;
+}
+
+.btn-table-whatsapp:hover {
+  background: rgba(37, 211, 102, 0.15);
+  border-color: #25D366;
+  color: #FFFFFF;
+}
+
+.btn-table-delete {
+  border-color: rgba(245, 108, 108, 0.3);
+  color: #F89898;
+}
+
+.btn-table-delete:hover {
+  background: rgba(245, 108, 108, 0.18);
+  border-color: #F56C6C;
+  color: #FFFFFF;
+}
+
+/* Paginación */
+.table-pagination-footer {
+  padding: 1.15rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid var(--admin-border-light);
+  font-size: 0.76rem;
+  color: var(--admin-text-muted);
+}
+
+.pagination-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.btn-page-nav {
+  background: rgba(10, 11, 14, 0.8);
+  border: 1px solid var(--admin-border-light);
+  color: var(--admin-text-main);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.72rem;
+  padding: 0.35rem 0.7rem;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-page-nav:hover:not(:disabled) {
+  border-color: var(--admin-gold);
+  color: var(--admin-gold);
+}
+
+.btn-page-nav.active {
+  background: var(--admin-gold);
+  border-color: var(--admin-gold);
+  color: #0A0A0C;
+  font-weight: 600;
+}
+
+.btn-page-nav:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+/* ==========================================================================
+   VISTA: ITINERARIOS & EXPEDICIONES
+   ========================================================================== */
+.tours-layout-grid {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 2rem;
+}
+
+@media (max-width: 1050px) {
+  .tours-layout-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.tours-catalog-sidebar {
+  background: var(--admin-card-bg);
+  border: 1px solid var(--admin-border);
+  border-radius: 3px;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  max-height: calc(100vh - 220px);
+  overflow-y: auto;
+}
+
+.tour-card-selector {
+  background: rgba(10, 11, 14, 0.5);
+  border: 1px solid var(--admin-border-light);
+  border-radius: 2px;
+  padding: 1rem;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  position: relative;
+}
+
+.tour-card-selector:hover {
+  background: var(--admin-card-hover);
+  border-color: rgba(197, 164, 126, 0.4);
+}
+
+.tour-card-selector.active {
+  background: var(--admin-gold-glow);
+  border-color: var(--admin-gold);
+}
+
+.tour-selector-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.35rem;
+}
+
+.tour-selector-cat {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--admin-gold);
+}
+
+.tour-selector-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #FFFFFF;
+  line-height: 1.2;
+  margin-bottom: 0.4rem;
+}
+
+.tour-selector-price {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.72rem;
+  color: var(--admin-text-muted);
+}
+
+.tour-selector-badges {
+  display: flex;
+  gap: 0.4rem;
+  margin-top: 0.5rem;
+}
+
+.badge-tag-mini {
+  padding: 0.1rem 0.4rem;
+  border-radius: 2px;
+  font-size: 0.58rem;
+  font-family: 'Montserrat', sans-serif;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.badge-active { background: rgba(103, 194, 58, 0.15); color: #85CE61; border: 1px solid rgba(103, 194, 58, 0.3); }
+.badge-inactive { background: rgba(144, 147, 153, 0.15); color: #A6A9AD; border: 1px solid rgba(144, 147, 153, 0.3); }
+.badge-featured { background: rgba(197, 164, 126, 0.2); color: var(--admin-gold-bright); border: 1px solid var(--admin-gold); }
+
+/* Detalle de Tour */
+.tour-detail-container {
+  background: var(--admin-card-bg);
+  border: 1px solid var(--admin-border);
+  border-radius: 3px;
+  padding: 2rem;
+}
+
+.tour-detail-hero {
+  position: relative;
+  height: 240px;
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 1.75rem;
+  border: 1px solid var(--admin-border);
+}
+
+.tour-detail-hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.7);
+}
+
+.tour-detail-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(15, 16, 18, 0.2) 0%, rgba(15, 16, 18, 0.95) 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 1.5rem;
+}
+
+.tour-detail-main-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 2rem;
+  font-weight: 600;
+  color: #FFFFFF;
+  margin-bottom: 0.25rem;
+}
+
+.tour-detail-subline {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.72rem;
+  color: var(--admin-gold);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* Specs Bar de Tour */
+.tour-specs-bar {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 1rem;
+  background: rgba(10, 11, 14, 0.6);
+  border: 1px solid var(--admin-border-light);
+  padding: 1rem 1.25rem;
+  border-radius: 2px;
+  margin-bottom: 1.75rem;
+}
+
+.tour-spec-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.tour-spec-label {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--admin-text-dim);
+  margin-bottom: 0.2rem;
+}
+
+.tour-spec-val {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--admin-text-main);
+}
+
+/* Itinerario Día por Día */
+.itinerary-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin-top: 1.5rem;
+}
+
+.itinerary-day-card {
+  background: rgba(10, 11, 14, 0.5);
+  border: 1px solid var(--admin-border-light);
+  border-left: 3px solid var(--admin-gold);
+  border-radius: 2px;
+  padding: 1.35rem;
+  transition: all 0.2s ease;
+}
+
+.itinerary-day-card:hover {
+  background: rgba(10, 11, 14, 0.8);
+  border-color: var(--admin-border);
+}
+
+.itinerary-day-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.6rem;
+}
+
+.day-badge {
+  background: var(--admin-gold);
+  color: #0A0A0C;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  padding: 0.15rem 0.5rem;
+  border-radius: 2px;
+}
+
+.day-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #FFFFFF;
+}
+
+.day-desc {
+  font-size: 0.82rem;
+  color: var(--admin-text-muted);
+  line-height: 1.6;
+  margin-bottom: 0.75rem;
+}
+
+.day-amenities {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  font-size: 0.72rem;
+  color: var(--admin-gold);
+  padding-top: 0.5rem;
+  border-top: 1px dashed var(--admin-border-light);
+}
+
+.amenity-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+/* Conmutadores de Control Rápido de Tour */
+.tour-admin-toggles {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  margin-top: 1.75rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--admin-border-light);
+  flex-wrap: wrap;
+}
+
+.btn-toggle-action {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--admin-border-light);
+  color: var(--admin-text-main);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  padding: 0.6rem 1.1rem;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-toggle-action:hover {
+  border-color: var(--admin-gold);
+  color: var(--admin-gold-bright);
+}
+
+/* ==========================================================================
+   VISTA: CONCIERGE BESPOKE
+   ========================================================================== */
+.concierge-requests-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+  gap: 1.5rem;
+}
+
+.concierge-card {
+  background: var(--admin-card-bg);
+  border: 1px solid var(--admin-border);
+  border-radius: 3px;
+  padding: 1.5rem;
+  position: relative;
+  transition: all 0.25s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.concierge-card:hover {
+  background: var(--admin-card-hover);
+  border-color: rgba(197, 164, 126, 0.4);
+}
+
+.concierge-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--admin-border-light);
+}
+
+.concierge-guest-name {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: #FFFFFF;
+}
+
+.concierge-date {
+  font-size: 0.68rem;
+  color: var(--admin-text-dim);
+}
+
+.concierge-details-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  margin-bottom: 1rem;
+}
+
+.concierge-detail-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.concierge-detail-label {
+  color: var(--admin-text-dim);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+}
+
+.concierge-detail-val {
+  color: var(--admin-text-main);
+  font-weight: 500;
+  text-align: right;
+}
+
+.concierge-notes-box {
+  background: rgba(10, 11, 14, 0.6);
+  border: 1px solid var(--admin-border-light);
+  border-radius: 2px;
+  padding: 0.85rem;
+  font-size: 0.78rem;
+  color: var(--admin-text-muted);
+  font-style: italic;
+  margin-bottom: 1.25rem;
+}
+
+.concierge-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: auto;
+}
+
+/* ==========================================================================
+   VISTA: ESTADOS DE PAGO & CAJA
+   ========================================================================== */
+.payments-summary-banner {
+  background: linear-gradient(135deg, rgba(26, 28, 33, 0.95) 0%, rgba(15, 16, 19, 0.95) 100%);
+  border: 1px solid var(--admin-border);
+  border-radius: 3px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+}
+
+.payment-banner-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.payment-banner-label {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--admin-gold);
+  margin-bottom: 0.35rem;
+}
+
+.payment-banner-value {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 2.2rem;
+  font-weight: 600;
+  color: #FFFFFF;
+  line-height: 1.1;
+}
+
+.payment-banner-sub {
+  font-size: 0.72rem;
+  color: var(--admin-text-dim);
+  margin-top: 0.25rem;
+}
+
+.deposit-generator-card {
+  background: var(--admin-card-bg);
+  border: 1px solid var(--admin-border);
+  border-radius: 3px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+
+.deposit-calc-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-top: 1.25rem;
+}
+
+@media (max-width: 850px) {
+  .deposit-calc-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.calc-box {
+  background: rgba(10, 11, 14, 0.6);
+  border: 1px solid var(--admin-border-light);
+  border-radius: 2px;
+  padding: 1.25rem;
+}
+
+.calc-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.6rem;
+  font-size: 0.82rem;
+}
+
+.calc-row.total {
+  border-top: 1px solid var(--admin-border-light);
+  padding-top: 0.75rem;
+  margin-top: 0.75rem;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--admin-gold-bright);
+}
+
+.checkout-link-result {
+  display: none;
+  background: rgba(197, 164, 126, 0.1);
+  border: 1px solid var(--admin-gold);
+  border-radius: 2px;
+  padding: 1rem;
+  margin-top: 1.25rem;
+}
+
+.checkout-url-input {
+  width: 100%;
+  padding: 0.65rem 0.85rem;
+  background: rgba(10, 11, 14, 0.9);
+  border: 1px solid rgba(197, 164, 126, 0.4);
+  color: var(--admin-gold-bright);
+  font-family: 'SFMono-Regular', Consolas, monospace;
+  font-size: 0.75rem;
+  margin: 0.5rem 0;
+  box-sizing: border-box;
+}
+
+/* ==========================================================================
+   MODALES
+   ========================================================================== */
+.admin-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.admin-modal.active {
+  display: flex;
+}
+
+.admin-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(5, 6, 8, 0.85);
+  backdrop-filter: blur(10px);
+}
+
+.admin-modal-dialog {
+  position: relative;
+  background: #181A1F;
+  border: 1px solid var(--admin-border);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.7);
+  width: 100%;
+  max-width: 650px;
+  max-height: 90vh;
+  overflow-y: auto;
+  border-radius: 3px;
+  padding: 2.25rem;
+  color: var(--admin-text-main);
+  animation: modalScale 0.25s ease;
+}
+
+@keyframes modalScale {
+  from { opacity: 0; transform: scale(0.96); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.admin-modal-close {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  background: transparent;
+  border: none;
+  color: var(--admin-text-muted);
+  font-size: 1.3rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.admin-modal-close:hover {
+  color: var(--admin-gold);
+}
+
+.admin-modal-header {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--admin-border-light);
+}
+
+.admin-modal-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: var(--admin-gold);
+  line-height: 1.1;
+}
+
+.admin-modal-subtitle {
+  font-size: 0.75rem;
+  color: var(--admin-text-muted);
+  margin-top: 0.25rem;
+}
+
+/* Formularios en Modal */
+.modal-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+@media (max-width: 600px) {
+  .modal-form-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.modal-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-field.full-width {
+  grid-column: 1 / -1;
+}
+
+.modal-label {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--admin-gold);
+  margin-bottom: 0.4rem;
+  font-weight: 500;
+}
+
+.modal-input, .modal-select, .modal-textarea {
+  padding: 0.75rem 0.9rem;
+  background: rgba(10, 11, 14, 0.85);
+  border: 1px solid rgba(197, 164, 126, 0.3);
+  border-radius: 2px;
+  color: #FFFFFF;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  box-sizing: border-box;
+}
+
+.modal-input:focus, .modal-select:focus, .modal-textarea:focus {
+  outline: none;
+  border-color: var(--admin-gold-bright);
+}
+
+.modal-textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.modal-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--admin-border-light);
+}
+
+/* ==========================================================================
+   VOUCHER DE VIAJE VIP (FORMATO EDITORIAL / IMPRESION)
+   ========================================================================== */
+.voucher-print-sheet {
+  background: #FFFFFF;
+  color: #121316;
+  padding: 3rem;
+  border-radius: 2px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  font-family: 'Inter', sans-serif;
+  max-width: 750px;
+  margin: 0 auto;
+}
+
+.voucher-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  border-bottom: 2px solid #C5A47E;
+  padding-bottom: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.voucher-brand-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.8rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: #121316;
+}
+
+.voucher-brand-meta {
+  font-size: 0.7rem;
+  color: #6E707A;
+  margin-top: 0.25rem;
+}
+
+.voucher-code-badge {
+  text-align: right;
+}
+
+.voucher-code-number {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #C5A47E;
+}
+
+.voucher-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  font-size: 0.85rem;
+}
+
+.voucher-item-label {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #8F7250;
+  font-weight: 600;
+}
+
+.voucher-item-val {
+  font-weight: 600;
+  color: #121316;
+  margin-top: 0.15rem;
+}
+
+.voucher-pricing-box {
+  background: #FAF8F5;
+  border: 1px solid #E5DBCF;
+  padding: 1.25rem;
+  border-radius: 2px;
+  margin-bottom: 2rem;
+}
+
+.voucher-total-line {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #121316;
+}
+
+.voucher-seal {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid #EAE4D5;
+  padding-top: 1.5rem;
+  font-size: 0.72rem;
+  color: #6E707A;
+}
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  .voucher-print-sheet, .voucher-print-sheet * {
+    visibility: visible;
+  }
+  .voucher-print-sheet {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    max-width: 100%;
+    box-shadow: none;
+    padding: 0;
+  }
+  .admin-modal-close, .modal-actions, .admin-header, .admin-sidebar, .admin-top-bar {
+    display: none !important;
+  }
+}
+
+/* ==========================================================================
+   TOAST NOTIFICATIONS (NOTIFICACIONES FLOTANTES)
+   ========================================================================== */
+.toast-container {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 100000;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.toast {
+  background: rgba(26, 28, 33, 0.96);
+  border: 1px solid var(--admin-border);
+  border-left: 3px solid var(--admin-gold);
+  color: #FFFFFF;
+  padding: 0.9rem 1.25rem;
+  border-radius: 3px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  font-family: 'Inter', sans-serif;
+  font-size: 0.82rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  backdrop-filter: blur(10px);
+  min-width: 280px;
+  animation: slideToast 0.3s ease;
+}
+
+@keyframes slideToast {
+  from { opacity: 0; transform: translateX(20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.toast.success { border-left-color: #85CE61; }
+.toast.error { border-left-color: #F56C6C; }
+.toast.info { border-left-color: #66B1FF; }
+
+/* Responsive Media Queries */
+@media (max-width: 900px) {
+  .admin-app-layout {
+    flex-direction: column;
+  }
+  .admin-sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid var(--admin-border);
+    padding: 0.75rem 0;
+  }
+  .sidebar-nav {
+    flex-direction: row;
+    overflow-x: auto;
+    padding: 0 1rem;
+  }
+  .nav-item-btn {
+    white-space: nowrap;
+    padding: 0.6rem 0.9rem;
+  }
+  .admin-main-viewport {
+    padding: 1.5rem 1rem;
+  }
+}
