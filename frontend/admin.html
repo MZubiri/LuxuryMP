@@ -1259,9 +1259,20 @@
               <input type="text" id="quotePhone" class="modal-input" required>
             </div>
 
-            <div class="modal-field">
-              <label class="modal-label" for="quoteDestination">Destino / Travesía *</label>
-              <input type="text" id="quoteDestination" class="modal-input" required>
+            <div class="modal-field" style="grid-column: span 2;">
+              <label class="modal-label" for="quoteTourSelect">
+                Expedición del Catálogo de Tours *
+                <span style="font-weight: 400; color: var(--admin-gold); margin-left: 6px;">(Selección desde catálogo)</span>
+              </label>
+              <div style="display: flex; gap: 0.5rem; align-items: center;">
+                <select id="quoteTourSelect" class="modal-select" required onchange="handleQuotationTourSelectChange()" style="flex: 1; font-weight: 600; color: #FFFFFF;">
+                  <option value="">-- Cargando tours del catálogo... --</option>
+                </select>
+                <button type="button" class="btn-table-action" onclick="applySelectedTourToQuotation()" title="Actualizar fila de expedición con precio y duración oficial del tour" style="white-space: nowrap; padding: 0.6rem 0.9rem; font-size: 0.76rem; color: var(--admin-gold); border-color: rgba(200, 169, 107, 0.4);">
+                  ⚡ Aplicar al Desglose
+                </button>
+              </div>
+              <input type="text" id="quoteDestination" class="modal-input" placeholder="Nombre de la travesía bespoke" style="margin-top: 0.45rem; font-size: 0.82rem;" required>
             </div>
 
             <div class="modal-field">
@@ -1271,7 +1282,7 @@
 
             <div class="modal-field">
               <label class="modal-label" for="quoteDuration">Duración Estimada</label>
-              <input type="text" id="quoteDuration" class="modal-input" placeholder="Ej: 3 Días / 2 Noches">
+              <input type="text" id="quoteDuration" class="modal-input" placeholder="Ej: 4 Días / 3 Noches">
             </div>
           </div>
 
@@ -1317,13 +1328,21 @@
 
         <!-- 3. DETALLE DE CONCEPTOS Y SERVICIOS A COTIZAR -->
         <div style="background: rgba(18, 19, 22, 0.75); border: 1px solid var(--admin-border); border-radius: 4px; padding: 1.25rem; margin-bottom: 1.5rem;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; flex-wrap: wrap; gap: 0.5rem;">
             <div style="font-family:'Montserrat',sans-serif; font-size:0.7rem; letter-spacing:0.1em; color:var(--admin-gold); text-transform:uppercase; font-weight:600;">
               3. Desglose de Experiencias & Servicios Incluidos
             </div>
-            <button type="button" class="btn-table-action" onclick="addQuotationItemRow()" style="font-size: 0.75rem; padding: 0.35rem 0.75rem;">
-              + Añadir Fila de Servicio
-            </button>
+            <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
+              <select id="quoteAddCatalogTourSelect" class="modal-select" style="font-size: 0.75rem; padding: 0.35rem 0.65rem; max-width: 260px;">
+                <option value="">-- Añadir tour del catálogo --</option>
+              </select>
+              <button type="button" class="btn-table-action" onclick="addCatalogTourAsItemRow()" style="font-size: 0.75rem; padding: 0.35rem 0.75rem; color: var(--admin-gold);">
+                + Añadir Tour a la Lista
+              </button>
+              <button type="button" class="btn-table-action" onclick="addQuotationItemRow()" style="font-size: 0.75rem; padding: 0.35rem 0.75rem;">
+                + Fila Libre
+              </button>
+            </div>
           </div>
 
           <div style="overflow-x: auto;">
@@ -1428,28 +1447,28 @@
         <!-- Ficha del Huésped -->
         <div class="quotation-guest-box">
           <div class="quotation-guest-grid">
-            <div>
-              <span class="qg-label">Huésped Titular:</span>
+            <div class="qg-item">
+              <span class="qg-label">Huésped Titular</span>
               <strong class="qg-val" id="printQuoteGuest">—</strong>
             </div>
-            <div>
-              <span class="qg-label">Contacto Registrado:</span>
+            <div class="qg-item">
+              <span class="qg-label">Contacto Registrado</span>
               <span class="qg-val" id="printQuoteContact">—</span>
             </div>
-            <div>
-              <span class="qg-label">Destino / Itinerario:</span>
+            <div class="qg-item">
+              <span class="qg-label">Destino / Itinerario Oficial</span>
               <span class="qg-val" id="printQuoteDest">—</span>
             </div>
-            <div>
-              <span class="qg-label">Número de Pasajeros:</span>
+            <div class="qg-item">
+              <span class="qg-label">Número de Pasajeros</span>
               <span class="qg-val" id="printQuoteTravelers">—</span>
             </div>
-            <div>
-              <span class="qg-label">Duración Estimada:</span>
+            <div class="qg-item">
+              <span class="qg-label">Duración Estimada</span>
               <span class="qg-val" id="printQuoteDuration">—</span>
             </div>
-            <div>
-              <span class="qg-label">Régimen Tributario:</span>
+            <div class="qg-item">
+              <span class="qg-label">Régimen Tributario Aplicado</span>
               <span class="qg-val" id="printQuoteTaxRegime" style="color: #9E7A4A; font-weight: 700;">—</span>
             </div>
           </div>
@@ -1459,11 +1478,11 @@
         <table class="quotation-print-table">
           <thead>
             <tr>
-              <th style="width: 40px; text-align: center;">#</th>
+              <th style="width: 45px; text-align: center;">#</th>
               <th>Descripción del Servicio / Experiencia Andina</th>
-              <th style="width: 70px; text-align: center;">Cant.</th>
-              <th style="width: 130px; text-align: right;">Precio Unit. (USD)</th>
-              <th style="width: 140px; text-align: right;">Total (USD)</th>
+              <th style="width: 75px; text-align: center;">Cant.</th>
+              <th style="width: 140px; text-align: right;">Precio Unit. (USD)</th>
+              <th style="width: 150px; text-align: right;">Total (USD)</th>
             </tr>
           </thead>
           <tbody id="printQuoteTableBody">
@@ -1474,7 +1493,7 @@
         <!-- Liquidación Financiera -->
         <div class="quotation-financial-summary">
           <div class="quotation-notes-column">
-            <span class="qg-label">TÉRMINOS & CONDICIONES COMERCIALES</span>
+            <span class="qg-label" style="margin-bottom: 0.6rem;">TÉRMINOS & POLÍTICAS COMERCIALES</span>
             <div id="printQuoteTerms" class="print-terms-text">
               —
             </div>
@@ -1511,18 +1530,22 @@
         <div class="quotation-footer-seal">
           <div class="seal-director">
             <div class="signature-line"></div>
-            <strong>Directorio de Concierge & Expediciones</strong>
-            <div>Luxury Machupicchu Peru Atelier</div>
+            <strong style="color: #121316; font-size: 0.82rem;">Directorio de Concierge & Expediciones</strong>
+            <div style="color: #6E707A; margin-top: 2px;">Luxury Machupicchu Peru Atelier</div>
           </div>
           <div class="seal-meta">
-            <div><strong>Asistencia Telefónica VIP 24/7:</strong> +51 958 195 840</div>
-            <div><strong>Portal Oficial:</strong> https://luxurymachupicchu.com</div>
+            <div><strong style="color: #121316;">Atención Telefónica VIP 24/7:</strong> +51 958 195 840</div>
+            <div style="margin-top: 3px;"><strong style="color: #121316;">Portal Oficial:</strong> https://luxurymachupicchu.com</div>
           </div>
         </div>
       </div>
 
-      <div class="modal-actions" style="justify-content: center; margin-top: 1rem;">
-        <button type="button" class="btn-login-submit" onclick="window.print()" style="width: auto; padding: 0.75rem 2.5rem; font-size: 0.9rem;">
+      <div class="modal-actions" style="justify-content: center; margin-top: 1.25rem; gap: 1rem;">
+        <button type="button" class="btn-cancel" onclick="closeAdminModal('quotationPrintModal')">
+          Cerrar Vista Previa
+        </button>
+        <button type="button" class="btn-login-submit" onclick="printQuotationDocument()" style="width: auto; padding: 0.85rem 2.85rem; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 0.6rem;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
           🖨️ Imprimir / Guardar como PDF
         </button>
       </div>

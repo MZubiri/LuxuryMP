@@ -2527,12 +2527,27 @@ async function deleteUserPrompt(id, username) {
 // ============================================================================
 // COTIZADOR INTERACTIVO BESPOKE (SOLICITUDES PERSONALIZADAS) & GENERADOR DE PDF
 // ============================================================================
-function openBespokeQuotationModal(requestId) {
+async function openBespokeQuotationModal(requestId) {
   const req = adminState.conciergeRequests.find(r => r.id === requestId);
   if (!req) {
     showToast('Solicitud bespoke no encontrada.', 'error');
     return;
   }
+
+  // Asegurar que el catálogo de tours esté disponible
+  if (!adminState.tours || adminState.tours.length === 0) {
+    try {
+      const res = await apiFetch('/tours/admin/all');
+      if (res.ok) {
+        adminState.tours = await res.json();
+      }
+    } catch (e) {
+      console.warn('No se pudo precargar catálogo de tours:', e);
+    }
+  }
+
+  // Poblar desplegables de tours desde el catálogo
+  populateQuotationToursDropdowns();
 
   // Jalar datos del cliente que ya fueron registrados
   document.getElementById('quoteRequestId').value = req.id;
@@ -2543,10 +2558,39 @@ function openBespokeQuotationModal(requestId) {
   document.getElementById('quoteGuestName').value = req.guestName || '';
   document.getElementById('quoteEmail').value = req.email || '';
   document.getElementById('quotePhone').value = req.whatsApp || '';
-  document.getElementById('quoteDestination').value = req.destinationFocus || 'Machu Picchu & Valle Sagrado Privé';
   document.getElementById('quoteTravelers').value = req.travelersCount || 2;
-  document.getElementById('quoteDuration').value = req.journeyDuration || '4 Días / 3 Noches';
   document.getElementById('quoteNotes').value = req.bespokeNotes || '';
+
+  // Seleccionar automáticamente el tour en el desplegable
+  const tourSelect = document.getElementById('quoteTourSelect');
+  let matchedTour = null;
+
+  if (adminState.tours && adminState.tours.length > 0) {
+    if (req.destinationFocus) {
+      const focusLow = req.destinationFocus.toLowerCase();
+      matchedTour = adminState.tours.find(t => 
+        t.title.toLowerCase().includes(focusLow) || 
+        focusLow.includes(t.title.toLowerCase()) ||
+        (t.category && focusLow.includes(t.category.toLowerCase()))
+      );
+    }
+    if (!matchedTour) {
+      matchedTour = adminState.tours[0];
+    }
+  }
+
+  if (matchedTour && tourSelect) {
+    tourSelect.value = String(matchedTour.id);
+  } else if (tourSelect) {
+    tourSelect.value = 'custom';
+  }
+
+  handleQuotationTourSelectChange(false);
+
+  // Si el huésped especificó una duración custom, conservarla
+  if (req.journeyDuration) {
+    document.getElementById('quoteDuration').value = req.journeyDuration;
+  }
 
   // Determinar si es nacional o extranjero
   const isPeruvianPhone = req.whatsApp && (req.whatsApp.startsWith('+51') || req.whatsApp.startsWith('51') || (req.whatsApp.startsWith('9') && req.whatsApp.length === 9));
@@ -2558,19 +2602,126 @@ function openBespokeQuotationModal(requestId) {
 
   handleTaxRegimeChange();
 
-  // Precargar desglose de experiencias de alta gama
-  const tbody = document.getElementById('quotationItemsTableBody');
-  tbody.innerHTML = '';
-
-  const travelers = req.travelersCount || 2;
-  const destName = req.destinationFocus || 'Machu Picchu Privé';
-
-  addQuotationItemRow(`Expedición Privada: ${destName} (Logística Bespoke & Guía Arqueólogo Privado)`, travelers, 1650);
-  addQuotationItemRow(`Boleto Belmond Hiram Bingham (Ida & Retorno Clase Lujo)`, travelers, 950);
-  addQuotationItemRow(`Pernocte en Hotel 5★ Gran Lujo (Suite con Desayuno Andino Gourmet)`, 2, 850);
+  // Precargar desglose de experiencias de alta gama basado en el tour
+  populateInitialQuotationItems(matchedTour, req.travelersCount || 2);
 
   recalcQuotationTotals();
   openAdminModal('conciergeQuotationModal');
+}
+
+function populateQuotationToursDropdowns() {
+  const mainSelect = document.getElementById('quoteTourSelect');
+  const addSelect = document.getElementById('quoteAddCatalogTourSelect');
+  const tours = adminState.tours || [];
+
+  const mainOptions = `
+    <option value="">-- Seleccionar Tour del Catálogo --</option>
+    ${tours.map(t => `
+      <option value="${t.id}" data-title="${escapeHtml(t.title)}" data-price="${t.priceUsd}" data-days="${t.durationDays}">
+        #EXP-${t.id} • ${escapeHtml(t.title)} ($${t.priceUsd} USD - ${t.durationDays} Días)
+      </option>
+    `).join('')}
+    <option value="custom" data-title="Expedición Privada Bespoke a la Medida" data-price="2500" data-days="4">
+      ⭐ Experiencia 100% Bespoke a la Medida
+    </option>
+  `;
+
+  const addOptions = `
+    <option value="">-- Añadir tour del catálogo --</option>
+    ${tours.map(t => `
+      <option value="${t.id}" data-title="${escapeHtml(t.title)}" data-price="${t.priceUsd}" data-days="${t.durationDays}">
+        ${escapeHtml(t.title)} ($${t.priceUsd} USD)
+      </option>
+    `).join('')}
+  `;
+
+  if (mainSelect) mainSelect.innerHTML = mainOptions;
+  if (addSelect) addSelect.innerHTML = addOptions;
+}
+
+function handleQuotationTourSelectChange(applyToItems = true) {
+  const select = document.getElementById('quoteTourSelect');
+  if (!select) return;
+
+  const selectedOpt = select.options[select.selectedIndex];
+  if (!selectedOpt || !selectedOpt.value) return;
+
+  const title = selectedOpt.getAttribute('data-title') || 'Expedición Bespoke Machu Picchu';
+  const price = Number(selectedOpt.getAttribute('data-price')) || 2000;
+  const days = Number(selectedOpt.getAttribute('data-days')) || 4;
+  const nights = Math.max(1, days - 1);
+
+  const destInput = document.getElementById('quoteDestination');
+  const durInput = document.getElementById('quoteDuration');
+
+  if (destInput) destInput.value = title;
+  if (durInput) durInput.value = `${days} Días / ${nights} Noches`;
+
+  if (applyToItems) {
+    applySelectedTourToQuotation();
+  }
+}
+
+function applySelectedTourToQuotation() {
+  const select = document.getElementById('quoteTourSelect');
+  if (!select) return;
+
+  const selectedOpt = select.options[select.selectedIndex];
+  if (!selectedOpt || !selectedOpt.value) {
+    showToast('Seleccione un tour del catálogo para aplicar.', 'info');
+    return;
+  }
+
+  const title = selectedOpt.getAttribute('data-title') || 'Expedición Machu Picchu Privé';
+  const price = Number(selectedOpt.getAttribute('data-price')) || 2150;
+  const travelers = Number(document.getElementById('quoteTravelers')?.value) || 2;
+
+  const firstRow = document.querySelector('#quotationItemsTableBody tr.quote-item-row');
+  if (firstRow) {
+    const descInput = firstRow.querySelector('.quote-item-desc');
+    const qtyInput = firstRow.querySelector('.quote-item-qty');
+    const priceInput = firstRow.querySelector('.quote-item-price');
+
+    if (descInput) descInput.value = `Expedición Oficial: ${title} (Logística Prive & Arqueólogo Exclusivo)`;
+    if (qtyInput) qtyInput.value = travelers;
+    if (priceInput) priceInput.value = price;
+  } else {
+    addQuotationItemRow(`Expedición Oficial: ${title} (Logística Prive & Arqueólogo Exclusivo)`, travelers, price);
+  }
+
+  recalcQuotationTotals();
+  showToast(`Tour "${title}" aplicado al desglose ($${price} USD/persona).`, 'success');
+}
+
+function addCatalogTourAsItemRow() {
+  const select = document.getElementById('quoteAddCatalogTourSelect');
+  if (!select || !select.value) {
+    showToast('Seleccione un tour del catálogo para añadir a la lista.', 'info');
+    return;
+  }
+
+  const selectedOpt = select.options[select.selectedIndex];
+  const title = selectedOpt.getAttribute('data-title') || 'Tour Adicional';
+  const price = Number(selectedOpt.getAttribute('data-price')) || 0;
+  const travelers = Number(document.getElementById('quoteTravelers')?.value) || 2;
+
+  addQuotationItemRow(`Programa Adicional: ${title} (Guía y Accesos VIP)`, travelers, price);
+  select.value = '';
+  recalcQuotationTotals();
+  showToast(`Añadido "${title}" a la cotización.`, 'success');
+}
+
+function populateInitialQuotationItems(tour, travelers) {
+  const tbody = document.getElementById('quotationItemsTableBody');
+  if (!tbody) return;
+  tbody.innerHTML = '';
+
+  const tourTitle = tour ? tour.title : 'Machu Picchu Signature Private Expedition';
+  const tourPrice = tour ? tour.priceUsd : 2150;
+
+  addQuotationItemRow(`Expedición Principal: ${tourTitle} (Logística Prive & Guía Arqueólogo Privado)`, travelers, tourPrice);
+  addQuotationItemRow(`Boleto de Tren Belmond Hiram Bingham (Ida & Retorno Clase Lujo)`, travelers, 950);
+  addQuotationItemRow(`Alojamiento 5★ Gran Lujo (Suite con Desayuno Andino Gourmet)`, 2, 850);
 }
 
 function addQuotationItemRow(description = '', quantity = 1, unitPrice = 0) {
@@ -2581,19 +2732,19 @@ function addQuotationItemRow(description = '', quantity = 1, unitPrice = 0) {
   tr.className = 'quote-item-row';
   tr.innerHTML = `
     <td>
-      <input type="text" class="modal-input quote-item-desc" style="padding: 0.4rem 0.6rem; font-size: 0.82rem;" placeholder="Detalle de experiencia o servicio bespoke" value="${escapeHtml(description)}">
+      <input type="text" class="modal-input quote-item-desc" style="padding: 0.45rem 0.65rem; font-size: 0.84rem;" placeholder="Detalle de experiencia o servicio bespoke" value="${escapeHtml(description)}">
     </td>
     <td style="text-align: center;">
-      <input type="number" class="modal-input quote-item-qty" style="padding: 0.4rem 0.5rem; text-align: center; font-size: 0.82rem;" min="1" max="999" value="${quantity}" oninput="recalcQuotationTotals()">
+      <input type="number" class="modal-input quote-item-qty" style="padding: 0.45rem 0.5rem; text-align: center; font-size: 0.84rem;" min="1" max="999" value="${quantity}" oninput="recalcQuotationTotals()">
     </td>
     <td style="text-align: right;">
-      <input type="number" class="modal-input quote-item-price" style="padding: 0.4rem 0.5rem; text-align: right; font-size: 0.82rem;" min="0" step="10" value="${unitPrice}" oninput="recalcQuotationTotals()">
+      <input type="number" class="modal-input quote-item-price" style="padding: 0.45rem 0.5rem; text-align: right; font-size: 0.84rem;" min="0" step="10" value="${unitPrice}" oninput="recalcQuotationTotals()">
     </td>
-    <td style="text-align: right; font-weight: 600; color: #FFFFFF; font-size: 0.85rem;" class="quote-item-subtotal">
+    <td style="text-align: right; font-weight: 600; color: #FFFFFF; font-size: 0.88rem;" class="quote-item-subtotal">
       $0.00
     </td>
     <td style="text-align: center;">
-      <button type="button" class="btn-table-action btn-table-delete" onclick="removeQuotationItemRow(this)" title="Quitar Fila" style="padding: 2px 6px;">✕</button>
+      <button type="button" class="btn-table-action btn-table-delete" onclick="removeQuotationItemRow(this)" title="Quitar Fila" style="padding: 3px 8px;">✕</button>
     </td>
   `;
 
@@ -2713,8 +2864,13 @@ function generateQuotationPrintPreview() {
     printTaxRegime.style.color = isNational ? '#C8A96B' : '#2ECC71';
   }
 
+  // Formato amplio y espaciado para los términos y condiciones
   if (printTerms) {
-    printTerms.innerHTML = escapeHtml(terms).replace(/\n/g, '<br>');
+    const lines = terms.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+    printTerms.innerHTML = lines.map(line => {
+      const cleanLine = line.replace(/^[•\-\*]\s*/, '');
+      return `<div class="print-term-item"><span class="print-term-bullet">◆</span> <span>${escapeHtml(cleanLine)}</span></div>`;
+    }).join('');
   }
 
   if (printLegalNotice) {
@@ -2740,11 +2896,11 @@ function generateQuotationPrintPreview() {
         <tr>
           <td style="text-align: center; color: #888888;">${index++}</td>
           <td>
-            <strong>${escapeHtml(desc)}</strong>
+            <strong style="color: #121316; font-size: 0.9rem;">${escapeHtml(desc)}</strong>
           </td>
           <td style="text-align: center;">${qty}</td>
           <td style="text-align: right;">$${unitPrice.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
-          <td style="text-align: right; font-weight: 700;">$${rowSubtotal.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
+          <td style="text-align: right; font-weight: 700; color: #121316;">$${rowSubtotal.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
         </tr>
       `;
     }).join('');
@@ -2765,6 +2921,13 @@ function generateQuotationPrintPreview() {
   }
 
   openAdminModal('quotationPrintModal');
+}
+
+function printQuotationDocument() {
+  openAdminModal('quotationPrintModal');
+  setTimeout(() => {
+    window.print();
+  }, 150);
 }
 
 // ============================================================================
