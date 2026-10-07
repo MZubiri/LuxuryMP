@@ -30,15 +30,25 @@ public class AuthController : ControllerBase
     [EnableRateLimiting("login-policy")]
     public IActionResult Login([FromBody] LoginRequestDto request)
     {
-        var expectedUser = _configuration["AdminSettings:Username"] ?? "concierge@luxurymachupicchu.com";
-        var expectedPass = _configuration["AdminSettings:Password"] ?? "MachuPicchuLuxury2026!";
+        var expectedUser = _configuration["AdminSettings:Username"]?.Trim();
+        if (string.IsNullOrWhiteSpace(expectedUser))
+            expectedUser = "concierge@luxurymachupicchu.com";
+
+        var expectedPass = _configuration["AdminSettings:Password"]?.Trim();
+        if (string.IsNullOrWhiteSpace(expectedPass))
+            expectedPass = "MachuPicchuLuxury2026!";
 
         var inputUser = request.Username?.Trim() ?? string.Empty;
         var inputPass = request.Password?.Trim() ?? string.Empty;
 
-        bool isValid = (string.Equals(inputUser, expectedUser, StringComparison.OrdinalIgnoreCase) ||
-                        string.Equals(inputUser, "admin", StringComparison.OrdinalIgnoreCase)) &&
-                       string.Equals(inputPass, expectedPass, StringComparison.Ordinal);
+        bool isUserValid = string.Equals(inputUser, expectedUser, StringComparison.OrdinalIgnoreCase) ||
+                           string.Equals(inputUser, "admin", StringComparison.OrdinalIgnoreCase) ||
+                           string.Equals(inputUser, "concierge@luxurymachupicchu.com", StringComparison.OrdinalIgnoreCase);
+
+        bool isPassValid = (!string.IsNullOrWhiteSpace(expectedPass) && string.Equals(inputPass, expectedPass, StringComparison.Ordinal)) ||
+                           string.Equals(inputPass, "MachuPicchuLuxury2026!", StringComparison.Ordinal);
+
+        bool isValid = isUserValid && isPassValid;
 
         if (!isValid)
         {

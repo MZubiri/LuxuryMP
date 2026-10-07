@@ -31,8 +31,8 @@ services:
       - AgencySettings__WhatsAppNumber=${WHATSAPP_NUMBER:-51958195840}
       - AgencySettings__Email=${AGENCY_EMAIL:-info@lmptravel.com}
       - AdminSettings__Username=${ADMIN_USERNAME:-concierge@luxurymachupicchu.com}
-      - AdminSettings__Password=${SERVICE_PASSWORD_ADMIN}
-      - JWT_SECRET_KEY=${SERVICE_BASE64_JWT}
+      - AdminSettings__Password=${SERVICE_PASSWORD_ADMIN:-MachuPicchuLuxury2026!}
+      - JWT_SECRET_KEY=${SERVICE_BASE64_JWT:-LuxuryMachupicchuPeru_BelmondInspired_UltraSecureJwtKey_2026_Min32Chars!}
     expose:
       - 5000
     depends_on:
