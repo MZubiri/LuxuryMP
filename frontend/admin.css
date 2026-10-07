@@ -1418,288 +1418,981 @@ body.admin-body {
 }
 
 /* ==========================================================================
-   VISTA: ITINERARIOS & EXPEDICIONES
+   VISTA: ITINERARIOS & EXPEDICIONES (HAUTE COUTURE DOSSIER)
    ========================================================================== */
-.tours-layout-grid {
+
+/* Isolation Shield: Neutralize styles.css pollution */
+.admin-app-layout #tourDetailContainer,
+.admin-app-layout .tour-detail-container,
+.admin-app-layout .admin-tour-dossier {
+  display: flex !important;
+  flex-direction: column !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+  border: none !important;
+  grid-template-columns: none !important;
+  gap: 1.5rem !important;
+  align-items: stretch !important;
+}
+
+.admin-app-layout .tour-detail-hero,
+.admin-app-layout .admin-dossier-hero {
+  min-height: unset !important;
+  padding: 0 !important;
+  background-image: none !important;
+}
+
+.admin-app-layout .tour-detail-hero::before,
+.admin-app-layout .admin-dossier-hero::before {
+  display: none !important;
+}
+
+.admin-app-layout .itinerary-day-card,
+.admin-app-layout .admin-itinerary-day-card {
+  background: rgba(14, 15, 19, 0.75) !important;
+  border: 1px solid var(--admin-border-light) !important;
+  color: var(--admin-text-main) !important;
+  margin-bottom: 0 !important;
+}
+
+/* Grilla Principal de Expediciones */
+.tours-layout-grid,
+.admin-tours-layout {
   display: grid;
-  grid-template-columns: 340px 1fr;
-  gap: 2rem;
+  grid-template-columns: 360px 1fr;
+  gap: 1.75rem;
   align-items: start;
 }
 
-@media (max-width: 1050px) {
-  .tours-layout-grid {
+@media (max-width: 1100px) {
+  .tours-layout-grid,
+  .admin-tours-layout {
     grid-template-columns: 1fr;
   }
+}
+
+/* Sidebar del Catálogo & Buscador */
+.admin-tours-sidebar-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  position: sticky;
+  top: 1rem;
+}
+
+.admin-tours-search-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.admin-tours-search-box svg {
+  position: absolute;
+  left: 0.85rem;
+  stroke: var(--admin-gold);
+  pointer-events: none;
+}
+
+.admin-tours-search-input {
+  width: 100%;
+  background: rgba(10, 11, 14, 0.7);
+  border: 1px solid var(--admin-border);
+  color: #FFFFFF;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.78rem;
+  padding: 0.65rem 0.85rem 0.65rem 2.35rem;
+  border-radius: 3px;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.admin-tours-search-input:focus {
+  border-color: var(--admin-gold);
+  box-shadow: 0 0 12px rgba(197, 164, 126, 0.2);
+  background: rgba(15, 16, 20, 0.95);
 }
 
 .tours-catalog-sidebar {
   background: var(--admin-card-bg);
   border: 1px solid var(--admin-border);
   border-radius: 3px;
-  padding: 1.25rem;
+  padding: 1rem;
   display: flex;
   flex-direction: column;
   gap: 0.85rem;
-  max-height: calc(100vh - 180px);
+  max-height: calc(100vh - 210px);
   overflow-y: auto;
-  position: sticky;
-  top: 1rem;
 }
 
-.tour-card-selector {
+.tours-catalog-sidebar::-webkit-scrollbar {
+  width: 4px;
+}
+.tours-catalog-sidebar::-webkit-scrollbar-track {
   background: rgba(10, 11, 14, 0.5);
+}
+.tours-catalog-sidebar::-webkit-scrollbar-thumb {
+  background: rgba(197, 164, 126, 0.3);
+  border-radius: 4px;
+}
+
+/* Tarjeta de Selección de Tour */
+.admin-tour-card,
+.tour-card-selector {
+  background: linear-gradient(135deg, rgba(20, 22, 28, 0.6) 0%, rgba(13, 14, 18, 0.8) 100%);
   border: 1px solid var(--admin-border-light);
-  border-radius: 2px;
-  padding: 1rem;
+  border-radius: 3px;
+  padding: 0.95rem;
   cursor: pointer;
-  transition: all 0.25s ease;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
 }
 
+.admin-tour-card:hover,
 .tour-card-selector:hover {
-  background: var(--admin-card-hover);
+  background: linear-gradient(135deg, rgba(28, 30, 38, 0.8) 0%, rgba(18, 19, 24, 0.95) 100%);
   border-color: rgba(197, 164, 126, 0.4);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
 }
 
+.admin-tour-card.active,
 .tour-card-selector.active {
-  background: var(--admin-gold-glow);
-  border-color: var(--admin-gold);
+  background: linear-gradient(135deg, rgba(197, 164, 126, 0.12) 0%, rgba(18, 19, 25, 0.95) 100%);
+  border: 1px solid var(--admin-gold);
+  border-left: 3px solid var(--admin-gold-bright);
+  box-shadow: 0 0 20px rgba(197, 164, 126, 0.12);
 }
 
-.tour-selector-header {
+.admin-tour-card-thumb-wrap {
+  position: relative;
+  width: 100%;
+  height: 95px;
+  border-radius: 2px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.admin-tour-card-thumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.75);
+  transition: transform 0.4s ease;
+}
+
+.admin-tour-card:hover .admin-tour-card-thumb {
+  transform: scale(1.04);
+}
+
+.admin-tour-card-status-dot {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.6);
+}
+
+.admin-tour-card-status-dot.active {
+  background: #67C23A;
+  box-shadow: 0 0 8px #67C23A;
+}
+
+.admin-tour-card-status-dot.inactive {
+  background: #909399;
+}
+
+.admin-tour-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.admin-tour-card-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 0.35rem;
 }
 
-.tour-selector-cat {
+.admin-tour-card-cat {
   font-family: 'Montserrat', sans-serif;
-  font-size: 0.62rem;
+  font-size: 0.6rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--admin-gold);
+  font-weight: 600;
 }
 
-.tour-selector-title {
+.admin-tour-card-duration {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.65rem;
+  color: var(--admin-text-muted);
+}
+
+.admin-tour-card-title {
   font-family: 'Cormorant Garamond', Georgia, serif;
   font-size: 1.15rem;
   font-weight: 600;
   color: #FFFFFF;
-  line-height: 1.2;
-  margin-bottom: 0.4rem;
+  line-height: 1.25;
 }
 
-.tour-selector-price {
+.admin-tour-card-price {
   font-family: 'Montserrat', sans-serif;
-  font-size: 0.72rem;
-  color: var(--admin-text-muted);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--admin-gold-bright);
 }
 
-.tour-selector-badges {
+.admin-tour-card-badges {
   display: flex;
-  gap: 0.4rem;
-  margin-top: 0.5rem;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: 0.25rem;
 }
 
 .badge-tag-mini {
-  padding: 0.1rem 0.4rem;
+  padding: 0.15rem 0.45rem;
   border-radius: 2px;
   font-size: 0.58rem;
   font-family: 'Montserrat', sans-serif;
   letter-spacing: 0.05em;
   text-transform: uppercase;
+  font-weight: 600;
 }
 
 .badge-active { background: rgba(103, 194, 58, 0.15); color: #85CE61; border: 1px solid rgba(103, 194, 58, 0.3); }
 .badge-inactive { background: rgba(144, 147, 153, 0.15); color: #A6A9AD; border: 1px solid rgba(144, 147, 153, 0.3); }
 .badge-featured { background: rgba(197, 164, 126, 0.2); color: var(--admin-gold-bright); border: 1px solid var(--admin-gold); }
+.badge-inquiries { background: rgba(255, 255, 255, 0.05); color: var(--admin-text-muted); border: 1px solid rgba(255, 255, 255, 0.08); }
 
-/* Detalle de Tour */
-.tour-detail-container {
+/* Top Bar del Dossier */
+.admin-dossier-topbar {
   background: var(--admin-card-bg);
   border: 1px solid var(--admin-border);
   border-radius: 3px;
-  padding: 2rem;
+  padding: 0.85rem 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
 }
 
-.tour-detail-hero {
+.admin-dossier-ref {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+}
+
+.dossier-badge-id {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--admin-gold);
+  background: rgba(197, 164, 126, 0.12);
+  padding: 0.2rem 0.5rem;
+  border-radius: 2px;
+  border: 1px solid rgba(197, 164, 126, 0.25);
+}
+
+.dossier-badge-slug {
+  font-family: monospace;
+  font-size: 0.72rem;
+  color: var(--admin-text-muted);
+}
+
+.dossier-badge-style {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--admin-gold-bright);
+}
+
+.admin-dossier-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+}
+
+.admin-dossier-lang-toggle {
+  display: inline-flex;
+  background: rgba(10, 11, 14, 0.8);
+  border: 1px solid var(--admin-border-light);
+  border-radius: 2px;
+  padding: 2px;
+}
+
+.btn-dossier-lang {
+  background: transparent;
+  border: none;
+  color: var(--admin-text-muted);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 600;
+  padding: 0.3rem 0.6rem;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-dossier-lang.active {
+  background: var(--admin-gold);
+  color: #0A0A0C;
+}
+
+.btn-dossier-toggle {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--admin-border-light);
+  color: var(--admin-text-main);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 600;
+  padding: 0.4rem 0.75rem;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.btn-dossier-toggle:hover {
+  border-color: var(--admin-gold);
+  color: var(--admin-gold-bright);
+}
+
+.btn-dossier-toggle.is-active {
+  border-color: rgba(103, 194, 58, 0.4);
+  color: #85CE61;
+  background: rgba(103, 194, 58, 0.1);
+}
+
+.btn-dossier-toggle.is-inactive {
+  border-color: rgba(144, 147, 153, 0.3);
+  color: #A6A9AD;
+}
+
+.btn-dossier-toggle.is-featured {
+  border-color: var(--admin-gold);
+  color: var(--admin-gold-bright);
+  background: rgba(197, 164, 126, 0.15);
+}
+
+.btn-dossier-preview {
+  background: transparent;
+  border: 1px solid var(--admin-border);
+  color: var(--admin-text-main);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 500;
+  padding: 0.4rem 0.75rem;
+  border-radius: 2px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.btn-dossier-preview:hover {
+  border-color: var(--admin-gold);
+  color: var(--admin-gold-bright);
+  background: rgba(197, 164, 126, 0.08);
+}
+
+/* Hero Banner Panorámico */
+.admin-dossier-hero {
   position: relative;
-  height: 240px;
+  width: 100%;
+  height: 270px;
   border-radius: 3px;
   overflow: hidden;
-  margin-bottom: 1.75rem;
   border: 1px solid var(--admin-border);
 }
 
-.tour-detail-hero-img {
+.admin-dossier-hero-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: brightness(0.7);
+  filter: brightness(0.65);
 }
 
-.tour-detail-hero-overlay {
+.admin-dossier-hero-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(15, 16, 18, 0.2) 0%, rgba(15, 16, 18, 0.95) 100%);
+  background: linear-gradient(180deg, rgba(10, 11, 14, 0.15) 0%, rgba(10, 11, 14, 0.6) 45%, rgba(10, 11, 14, 0.98) 100%);
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  padding: 1.5rem;
+  padding: 1.75rem 2rem;
 }
 
-.tour-detail-main-title {
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: 2rem;
-  font-weight: 600;
-  color: #FFFFFF;
-  margin-bottom: 0.25rem;
+.admin-dossier-hero-pill-row {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  margin-bottom: 0.65rem;
+  flex-wrap: wrap;
 }
 
-.tour-detail-subline {
+.admin-dossier-cat-pill {
   font-family: 'Montserrat', sans-serif;
-  font-size: 0.72rem;
-  color: var(--admin-gold);
+  font-size: 0.65rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
+  color: #0A0A0C;
+  background: var(--admin-gold);
+  padding: 0.2rem 0.6rem;
+  border-radius: 2px;
+  font-weight: 700;
 }
 
-/* Specs Bar de Tour */
+.admin-dossier-duration-pill,
+.admin-dossier-inquiries-pill {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.68rem;
+  color: #FFFFFF;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(4px);
+  padding: 0.2rem 0.6rem;
+  border-radius: 2px;
+}
+
+.admin-dossier-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 2.15rem;
+  font-weight: 600;
+  color: #FFFFFF;
+  line-height: 1.15;
+  margin-bottom: 0.35rem;
+}
+
+.admin-dossier-subtitle {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.05rem;
+  font-style: italic;
+  color: #D8CFBC;
+  line-height: 1.35;
+}
+
+/* Especificaciones Comerciales (5 KPIs) */
+.admin-dossier-specs-grid,
 .tour-specs-bar {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 1rem;
-  background: rgba(10, 11, 14, 0.6);
-  border: 1px solid var(--admin-border-light);
-  padding: 1rem 1.25rem;
-  border-radius: 2px;
-  margin-bottom: 1.75rem;
 }
 
+.admin-spec-card,
 .tour-spec-item {
+  background: var(--admin-card-bg);
+  border: 1px solid var(--admin-border);
+  border-radius: 3px;
+  padding: 1.15rem 1.25rem;
   display: flex;
   flex-direction: column;
+  transition: all 0.2s ease;
 }
 
+.admin-spec-card:hover,
+.tour-spec-item:hover {
+  border-color: rgba(197, 164, 126, 0.35);
+  background: var(--admin-card-hover);
+}
+
+.admin-spec-label,
 .tour-spec-label {
   font-family: 'Montserrat', sans-serif;
   font-size: 0.62rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--admin-text-dim);
-  margin-bottom: 0.2rem;
+  margin-bottom: 0.4rem;
 }
 
+.admin-spec-num {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.45rem;
+  font-weight: 600;
+  line-height: 1.15;
+  margin-bottom: 0.25rem;
+}
+
+.admin-spec-num.gold-bright {
+  color: var(--admin-gold-bright);
+}
+
+.admin-spec-num.gold-regular {
+  color: var(--admin-gold);
+}
+
+.admin-spec-val,
 .tour-spec-val {
   font-family: 'Montserrat', sans-serif;
-  font-size: 0.82rem;
+  font-size: 0.95rem;
   font-weight: 600;
-  color: var(--admin-text-main);
+  color: #FFFFFF;
+  margin-bottom: 0.25rem;
 }
 
-/* Itinerario Día por Día */
-.itinerary-timeline {
+.admin-spec-sub {
+  font-size: 0.68rem;
+  color: var(--admin-text-muted);
+}
+
+/* Narrativa & Manifiesto */
+.admin-dossier-narrative-card {
+  background: var(--admin-card-bg);
+  border: 1px solid var(--admin-border);
+  border-radius: 3px;
+  padding: 1.5rem 1.75rem;
+}
+
+.admin-dossier-section-kicker {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--admin-gold);
+  margin-bottom: 0.75rem;
+  font-weight: 600;
+}
+
+.admin-dossier-narrative-text {
+  font-size: 0.92rem;
+  line-height: 1.8;
+  color: #E2DDD2;
+  margin: 0;
+}
+
+/* Centro de Comando Altimétrico */
+.admin-altitude-command-center {
+  background: linear-gradient(135deg, rgba(18, 20, 26, 0.85) 0%, rgba(11, 12, 16, 0.95) 100%);
+  border: 1px solid rgba(197, 164, 126, 0.25);
+  border-radius: 3px;
+  padding: 1.5rem 1.75rem;
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
-  margin-top: 1.5rem;
 }
 
-.itinerary-day-card {
-  background: rgba(10, 11, 14, 0.5);
-  border: 1px solid var(--admin-border-light);
-  border-left: 3px solid var(--admin-gold);
-  border-radius: 2px;
-  padding: 1.35rem;
-  transition: all 0.2s ease;
-}
-
-.itinerary-day-card:hover {
-  background: rgba(10, 11, 14, 0.8);
-  border-color: var(--admin-border);
-}
-
-.itinerary-day-header {
+.altitude-header-row {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  margin-bottom: 0.6rem;
+  justify-content: space-between;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  padding-bottom: 0.85rem;
+  border-bottom: 1px solid var(--admin-border-light);
 }
 
-.day-badge {
-  background: var(--admin-gold);
-  color: #0A0A0C;
+.altitude-kicker {
   font-family: 'Montserrat', sans-serif;
-  font-size: 0.65rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  padding: 0.15rem 0.5rem;
-  border-radius: 2px;
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--admin-gold);
+  display: block;
+  margin-bottom: 0.25rem;
 }
 
-.day-title {
+.altitude-main-heading {
   font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: 1.25rem;
+  font-size: 1.35rem;
   font-weight: 600;
   color: #FFFFFF;
+  margin: 0;
 }
 
-.day-desc {
-  font-size: 0.82rem;
-  color: var(--admin-text-muted);
-  line-height: 1.6;
-  margin-bottom: 0.75rem;
-}
-
-.day-amenities {
+.altitude-oxygen-gauge {
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-  font-size: 0.72rem;
-  color: var(--admin-gold);
-  padding-top: 0.5rem;
-  border-top: 1px dashed var(--admin-border-light);
-}
-
-.amenity-tag {
-  display: inline-flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-end;
   gap: 0.35rem;
 }
 
-/* Conmutadores de Control Rápido de Tour */
-.tour-admin-toggles {
-  display: flex;
-  align-items: center;
-  gap: 1.25rem;
-  margin-top: 1.75rem;
-  padding-top: 1.25rem;
-  border-top: 1px solid var(--admin-border-light);
-  flex-wrap: wrap;
+.oxygen-val-text {
+  font-size: 0.75rem;
+  color: #85CE61;
 }
 
-.btn-toggle-action {
-  background: rgba(255, 255, 255, 0.05);
+.oxygen-val-text strong {
+  font-size: 0.9rem;
+}
+
+.oxygen-bar-track {
+  width: 140px;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.oxygen-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #67C23A, #85CE61);
+  border-radius: 3px;
+}
+
+.altitude-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.25rem;
+}
+
+.altitude-metric-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+  background: rgba(10, 11, 14, 0.5);
   border: 1px solid var(--admin-border-light);
+  padding: 1rem;
+  border-radius: 2px;
+}
+
+.alt-metric-icon {
+  font-size: 1.4rem;
+  line-height: 1;
+}
+
+.alt-metric-label {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--admin-text-dim);
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.alt-metric-val {
+  font-size: 1.05rem;
+  color: #FFFFFF;
+  display: block;
+}
+
+.alt-metric-val.gold-bright {
+  color: var(--admin-gold-bright);
+}
+
+.alt-metric-place {
+  font-size: 0.68rem;
+  color: var(--admin-text-muted);
+  display: block;
+  margin-top: 0.2rem;
+}
+
+.altitude-protocol-note {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  background: rgba(197, 164, 126, 0.06);
+  border: 1px dashed rgba(197, 164, 126, 0.3);
+  padding: 0.85rem 1.15rem;
+  border-radius: 2px;
+}
+
+.protocol-icon {
+  font-size: 1.3rem;
+  flex-shrink: 0;
+}
+
+.protocol-text {
+  font-size: 0.78rem;
+  color: #D8CFBC;
+  line-height: 1.5;
+}
+
+.protocol-text strong {
+  color: var(--admin-gold-bright);
+}
+
+/* Highlights & Inclusiones */
+.admin-dossier-two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+@media (max-width: 900px) {
+  .admin-dossier-two-col {
+    grid-template-columns: 1fr;
+  }
+}
+
+.admin-dossier-list-card {
+  background: var(--admin-card-bg);
+  border: 1px solid var(--admin-border);
+  border-radius: 3px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.dossier-list-header {
+  margin-bottom: 1.15rem;
+  padding-bottom: 0.65rem;
+  border-bottom: 1px solid var(--admin-border-light);
+}
+
+.dossier-list-kicker {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--admin-gold);
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.dossier-list-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #FFFFFF;
+  margin: 0;
+}
+
+.admin-dossier-ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.admin-dossier-ul li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  font-size: 0.82rem;
+  line-height: 1.6;
   color: var(--admin-text-main);
+}
+
+.bullet-gold {
+  color: var(--admin-gold);
+  font-size: 0.8rem;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.bullet-check {
+  color: #85CE61;
+  font-weight: bold;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.admin-dossier-exclusions {
+  margin-top: 1.25rem;
+  padding-top: 0.85rem;
+  border-top: 1px dashed var(--admin-border-light);
+}
+
+.exclusions-label {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--admin-text-dim);
+  display: block;
+  margin-bottom: 0.35rem;
+}
+
+.exclusions-text {
+  font-size: 0.75rem;
+  color: var(--admin-text-muted);
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Itinerario Día por Día */
+.admin-itinerary-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin-top: 0.5rem;
+}
+
+.itinerary-section-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding-bottom: 0.85rem;
+  border-bottom: 1px solid var(--admin-border-light);
+}
+
+.itinerary-section-kicker {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--admin-gold);
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.itinerary-section-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.45rem;
+  font-weight: 600;
+  color: #FFFFFF;
+  margin: 0;
+}
+
+.itinerary-days-count-pill {
   font-family: 'Montserrat', sans-serif;
   font-size: 0.7rem;
   font-weight: 600;
-  letter-spacing: 0.06em;
-  padding: 0.6rem 1.1rem;
-  border-radius: 2px;
-  cursor: pointer;
+  color: var(--admin-gold-bright);
+  background: rgba(197, 164, 126, 0.12);
+  padding: 0.25rem 0.7rem;
+  border-radius: 12px;
+  border: 1px solid rgba(197, 164, 126, 0.25);
+}
+
+.admin-itinerary-timeline,
+.itinerary-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+}
+
+.admin-itinerary-day-card,
+.itinerary-day-card {
+  display: flex;
+  align-items: stretch;
+  background: var(--admin-card-bg);
+  border: 1px solid var(--admin-border);
+  border-radius: 3px;
+  overflow: hidden;
   transition: all 0.2s ease;
+}
+
+.admin-itinerary-day-card:hover,
+.itinerary-day-card:hover {
+  background: var(--admin-card-hover);
+  border-color: rgba(197, 164, 126, 0.35);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+.admin-day-sidebar {
+  width: 90px;
+  min-width: 90px;
+  background: rgba(10, 11, 14, 0.6);
+  border-right: 1px solid var(--admin-border-light);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 1.5rem 0.5rem;
+}
+
+.admin-day-number,
+.day-badge {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #0A0A0C;
+  background: var(--admin-gold);
+  padding: 0.25rem 0.6rem;
+  border-radius: 2px;
+  text-align: center;
+}
+
+.admin-day-connector {
+  flex: 1;
+  width: 2px;
+  background: linear-gradient(180deg, var(--admin-gold) 0%, transparent 100%);
+  margin-top: 1rem;
+  opacity: 0.4;
+}
+
+.admin-day-content {
+  flex: 1;
+  padding: 1.35rem 1.65rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.admin-day-heading,
+.day-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: #FFFFFF;
+  margin: 0;
+  line-height: 1.25;
+}
+
+.admin-day-narrative,
+.day-desc {
+  font-size: 0.86rem;
+  color: #DDD8CD;
+  line-height: 1.7;
+  margin: 0;
+}
+
+.admin-day-amenities-row,
+.day-amenities {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+  padding-top: 0.65rem;
+  border-top: 1px dashed var(--admin-border-light);
+  margin-top: 0.25rem;
+}
+
+.admin-amenity-chip,
+.amenity-tag {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
+  background: rgba(10, 11, 14, 0.5);
+  border: 1px solid var(--admin-border-light);
+  padding: 0.35rem 0.75rem;
+  border-radius: 2px;
+  font-size: 0.75rem;
 }
 
-.btn-toggle-action:hover {
-  border-color: var(--admin-gold);
-  color: var(--admin-gold-bright);
+.admin-amenity-chip.dining {
+  border-color: rgba(197, 164, 126, 0.25);
+}
+
+.admin-amenity-chip.transfer {
+  border-color: rgba(103, 194, 58, 0.2);
+}
+
+.chip-icon {
+  font-size: 0.95rem;
+}
+
+.chip-label {
+  color: var(--admin-text-dim);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-right: 0.25rem;
+}
+
+.chip-val {
+  color: var(--admin-text-main);
 }
 
 /* ==========================================================================

@@ -402,22 +402,37 @@
       <section class="view-section" id="view-itineraries">
         <div class="view-header">
           <div>
-            <span class="view-kicker">CATÁLOGO EXCLUSIVO ANDINO</span>
-            <h2 class="view-title">Itinerarios & Especificaciones de Altitud</h2>
-            <p class="view-subtitle">Inspección de paradas día por día, menús gourmet, perfiles de aclimatación y estados de visibilidad.</p>
+            <span class="view-kicker">CURATION DESK • CATÁLOGO MAESTRO</span>
+            <h2 class="view-title">Expediciones & Especificaciones Andinas</h2>
+            <p class="view-subtitle">Gestión técnica de expediciones privadas, perfiles altimétricos, cartas gastronómicas y despiece día por día.</p>
+          </div>
+          <div class="view-header-actions" style="display: flex; align-items: center; gap: 0.75rem;">
+            <span class="admin-catalog-counter-pill" id="adminCatalogCounterPill" style="background: rgba(197, 164, 126, 0.12); border: 1px solid rgba(197, 164, 126, 0.3); color: var(--admin-gold-bright); font-size: 0.72rem; font-family: 'Montserrat', sans-serif; font-weight: 600; padding: 0.4rem 0.85rem; border-radius: 20px; letter-spacing: 0.05em;">
+              4 Expediciones
+            </span>
+            <a href="index.html#journeys" target="_blank" class="btn-header-action" title="Ver catálogo en portal público">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+              Portal Público
+            </a>
           </div>
         </div>
 
-        <div class="tours-layout-grid">
-          <!-- Columna Izquierda: Lista de Expediciones -->
-          <div class="tours-catalog-sidebar" id="toursCatalogSidebar">
-            <p style="color:var(--admin-text-dim); font-size:0.8rem;">Cargando catálogo...</p>
+        <div class="tours-layout-grid admin-tours-layout">
+          <!-- Columna Izquierda: Buscador & Lista de Expediciones -->
+          <div class="admin-tours-sidebar-wrap">
+            <div class="admin-tours-search-box">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+              <input type="text" id="adminTourSearchInput" class="admin-tours-search-input" placeholder="Buscar expedición..." oninput="handleTourSearchInput()">
+            </div>
+            <div class="tours-catalog-sidebar" id="toursCatalogSidebar">
+              <p style="color:var(--admin-text-dim); font-size:0.8rem;">Cargando catálogo...</p>
+            </div>
           </div>
 
-          <!-- Columna Derecha: Detalle Técnico del Tour -->
-          <div class="tour-detail-container" id="tourDetailContainer">
-            <div style="text-align: center; color: var(--admin-text-dim); padding: 4rem;">
-              Seleccione una expedición del catálogo a la izquierda para inspeccionar su itinerario completo.
+          <!-- Columna Derecha: Detalle Técnico / Dossier del Tour -->
+          <div class="tour-detail-container admin-tour-dossier" id="tourDetailContainer">
+            <div style="text-align: center; color: var(--admin-text-dim); padding: 5rem 2rem;">
+              Seleccione una expedición del catálogo a la izquierda para inspeccionar su dossier completo.
             </div>
           </div>
         </div>

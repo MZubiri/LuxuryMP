@@ -31,6 +31,9 @@ const adminState = {
   // Catálogo de Tours
   tours: [],
   selectedTourId: null,
+  currentTourDetail: null,
+  tourSearch: '',
+  tourDetailLang: 'es',
   
   // Solicitudes Concierge
   conciergeRequests: [],
@@ -891,7 +894,12 @@ async function loadToursData() {
     const tours = await res.json();
     adminState.tours = tours;
 
-    renderToursSidebar(tours);
+    const counterPill = document.getElementById('adminCatalogCounterPill');
+    if (counterPill) {
+      counterPill.textContent = `${tours.length} Expediciones`;
+    }
+
+    renderToursSidebar();
 
     if (tours.length > 0 && !adminState.selectedTourId) {
       selectTourForDetail(tours[0].id);
@@ -904,35 +912,64 @@ async function loadToursData() {
   }
 }
 
-function renderToursSidebar(tours) {
+function handleTourSearchInput() {
+  const input = document.getElementById('adminTourSearchInput');
+  adminState.tourSearch = (input ? input.value : '').trim().toLowerCase();
+  renderToursSidebar();
+}
+
+function renderToursSidebar() {
   const container = document.getElementById('toursCatalogSidebar');
   if (!container) return;
 
-  if (tours.length === 0) {
-    container.innerHTML = '<p style="color:var(--admin-text-dim); font-size:0.8rem;">No hay expediciones en el catálogo.</p>';
+  const filtered = (adminState.tours || []).filter(t => {
+    if (!adminState.tourSearch) return true;
+    const term = adminState.tourSearch;
+    const titleEn = (t.titleEn || t.title || '').toLowerCase();
+    const titleEs = (t.titleEs || '').toLowerCase();
+    const cat = (t.categoryNameEn || t.categoryName || '').toLowerCase();
+    return titleEn.includes(term) || titleEs.includes(term) || cat.includes(term);
+  });
+
+  if (filtered.length === 0) {
+    container.innerHTML = `
+      <div style="text-align: center; color: var(--admin-text-dim); padding: 2.5rem 1rem; font-size: 0.78rem;">
+        No se encontraron expediciones que coincidan con "${escapeHtml(adminState.tourSearch)}".
+      </div>
+    `;
     return;
   }
 
-  container.innerHTML = tours.map(tour => {
+  container.innerHTML = filtered.map(tour => {
     const isActiveTour = tour.id === adminState.selectedTourId;
     const priceFormatted = formatMoney(tour.priceUsd, tour.pricePen);
+    const catName = escapeHtml(tour.categoryNameEn || tour.categoryName || 'Expedition');
+    const title = escapeHtml(tour.titleEn || tour.title || 'Untitled Tour');
+    const duration = escapeHtml(tour.durationEn || tour.duration || '');
+    const imgUrl = tour.mainImageUrl || 'assets/images/MachuPicchu.jpg';
 
     return `
-      <div class="tour-card-selector ${isActiveTour ? 'active' : ''}" onclick="selectTourForDetail(${tour.id})">
-        <div class="tour-selector-header">
-          <span class="tour-selector-cat">${escapeHtml(tour.categoryNameEn || tour.categoryName || 'Expedition')}</span>
-          <span style="font-size:0.68rem; color:var(--admin-gold);">${tour.durationEn || tour.duration || ''}</span>
+      <div class="admin-tour-card ${isActiveTour ? 'active' : ''}" onclick="selectTourForDetail(${tour.id})">
+        <div class="admin-tour-card-thumb-wrap">
+          <img src="${imgUrl}" alt="${title}" class="admin-tour-card-thumb" onerror="this.src='assets/images/MachuPicchu.jpg'">
+          <span class="admin-tour-card-status-dot ${tour.isActive ? 'active' : 'inactive'}" title="${tour.isActive ? 'Público' : 'Oculto'}"></span>
         </div>
-        <div class="tour-selector-title">${escapeHtml(tour.titleEn || tour.title || 'Untitled Tour')}</div>
-        <div class="tour-selector-price">Desde ${priceFormatted}</div>
-        <div class="tour-selector-badges">
-          <span class="badge-tag-mini ${tour.isActive ? 'badge-active' : 'badge-inactive'}">
-            ${tour.isActive ? 'Activo' : 'Inactivo'}
-          </span>
-          ${tour.featured ? '<span class="badge-tag-mini badge-featured">Destacado</span>' : ''}
-          <span class="badge-tag-mini" style="background:rgba(255,255,255,0.06); color:#FFF;">
-            ${tour.inquiriesCount || 0} Cotizaciones
-          </span>
+        <div class="admin-tour-card-body">
+          <div class="admin-tour-card-header">
+            <span class="admin-tour-card-cat">${catName}</span>
+            <span class="admin-tour-card-duration">${duration}</span>
+          </div>
+          <div class="admin-tour-card-title">${title}</div>
+          <div class="admin-tour-card-price">Desde ${priceFormatted}</div>
+          <div class="admin-tour-card-badges">
+            <span class="badge-tag-mini ${tour.isActive ? 'badge-active' : 'badge-inactive'}">
+              ${tour.isActive ? 'Activo' : 'Oculto'}
+            </span>
+            ${tour.featured ? '<span class="badge-tag-mini badge-featured">★ Destacado</span>' : ''}
+            <span class="badge-tag-mini badge-inquiries">
+              ${tour.inquiriesCount || 0} Cotizaciones
+            </span>
+          </div>
         </div>
       </div>
     `;
@@ -941,21 +978,34 @@ function renderToursSidebar(tours) {
 
 async function selectTourForDetail(tourId) {
   adminState.selectedTourId = tourId;
-  renderToursSidebar(adminState.tours);
+  renderToursSidebar();
 
   const container = document.getElementById('tourDetailContainer');
   if (!container) return;
 
-  container.innerHTML = '<div style="text-align:center; padding:3rem; color:var(--admin-text-dim);">Cargando especificaciones e itinerario completo...</div>';
+  container.innerHTML = `
+    <div style="text-align:center; padding:5rem 2rem; color:var(--admin-text-dim);">
+      <div style="display:inline-block; width:28px; height:28px; border:2px solid var(--admin-border); border-top-color:var(--admin-gold); border-radius:50%; animation:spin 0.8s linear infinite; margin-bottom:1rem;"></div>
+      <div>Cargando expediente técnico e itinerario de alta costura...</div>
+    </div>
+  `;
 
   try {
     const res = await apiFetch(`/tours/admin/${tourId}`);
     if (!res.ok) throw new Error('Error al cargar detalle del tour');
 
     const tour = await res.json();
+    adminState.currentTourDetail = tour;
     renderTourDetail(tour);
   } catch (err) {
-    container.innerHTML = '<div style="color:#F56C6C; padding:2rem;">No se pudieron cargar los datos de la expedición.</div>';
+    container.innerHTML = '<div style="color:#F56C6C; padding:3rem; text-align:center;">No se pudieron cargar los datos de la expedición.</div>';
+  }
+}
+
+function setTourDetailLang(lang) {
+  adminState.tourDetailLang = lang;
+  if (adminState.currentTourDetail) {
+    renderTourDetail(adminState.currentTourDetail);
   }
 }
 
@@ -963,116 +1013,262 @@ function renderTourDetail(tour) {
   const container = document.getElementById('tourDetailContainer');
   if (!container) return;
 
+  const isEs = adminState.tourDetailLang === 'es';
+  const title = isEs ? (tour.titleEs || tour.titleEn) : (tour.titleEn || tour.titleEs);
+  const altTitle = isEs ? tour.titleEn : tour.titleEs;
+  const subtitle = isEs ? (tour.subtitleEs || tour.subtitleEn) : (tour.subtitleEn || tour.subtitleEs);
+  const description = isEs ? (tour.descriptionEs || tour.descriptionEn) : (tour.descriptionEn || tour.descriptionEs);
+  const duration = isEs ? (tour.durationEs || tour.durationEn) : (tour.durationEn || tour.durationEs);
+  const difficulty = isEs ? (tour.difficultyEs || tour.difficultyEn) : (tour.difficultyEn || tour.difficultyEs);
+  const categoryName = isEs ? (tour.categoryNameEs || tour.categoryNameEn) : (tour.categoryNameEn || tour.categoryNameEs);
+
   const priceUsdStr = `$ ${Number(tour.priceUsd).toLocaleString('en-US', { minimumFractionDigits: 2 })} USD`;
   const pricePenStr = `S/. ${Number(tour.pricePen).toLocaleString('en-US', { minimumFractionDigits: 2 })} PEN`;
 
-  const oxygenPercent = tour.altitudeProfile?.oxygenPercentage || 85;
-  const maxAlt = tour.altitudeProfile?.maxAltitude || tour.altitudeMax || '2,430 m';
-  const startAlt = tour.altitudeProfile?.startingAltitude || '3,400 m';
+  // Parse Altitude Profile JSON safely
+  let altProfile = {};
+  if (tour.altitudeProfileJson && typeof tour.altitudeProfileJson === 'string') {
+    try {
+      altProfile = JSON.parse(tour.altitudeProfileJson);
+    } catch (e) {
+      altProfile = {};
+    }
+  } else if (tour.altitudeProfile && typeof tour.altitudeProfile === 'object') {
+    altProfile = tour.altitudeProfile;
+  }
+
+  const oxygenPercent = altProfile.oxygenPercentage || 85;
+  const maxAlt = altProfile.maxAltitude || tour.altitudeMax || '2,430 m / 7,972 ft';
+  const startAlt = altProfile.startingAltitude || '3,400 m / 11,152 ft';
+  const sleepAlt = altProfile.sleepingAltitude || '2,040 m / 6,692 ft';
+  const acclimatizationTip = isEs
+    ? (altProfile.tipEs || altProfile.tipEn || 'Monitoreo médico privado disponible con tanques portátiles de oxígeno medicinal y té de muña andina.')
+    : (altProfile.tipEn || altProfile.tipEs || 'Private medical monitoring with portable oxygen tanks and Andean muña tea available 24/7.');
+
+  const highlightsList = (isEs ? (tour.highlightsEs || tour.highlightsEn) : (tour.highlightsEn || tour.highlightsEs)) || [];
+  const includedList = (isEs ? (tour.includedEs || tour.includedEn) : (tour.includedEn || tour.includedEs)) || [];
+  const notIncludedList = (isEs ? (tour.notIncludedEs || tour.notIncludedEn) : (tour.notIncludedEn || tour.notIncludedEs)) || [];
+  const itineraries = tour.itineraries || [];
 
   container.innerHTML = `
-    <!-- Hero Banner -->
-    <div class="tour-detail-hero">
-      <img src="${tour.mainImageUrl || 'assets/images/MachuPicchu.jpg'}" alt="${escapeHtml(tour.titleEn)}" class="tour-detail-hero-img" onerror="this.src='assets/images/MachuPicchu.jpg'">
-      <div class="tour-detail-hero-overlay">
-        <span class="tour-detail-subline">${escapeHtml(tour.categoryNameEn || 'Haute Couture Journey')} • ${tour.durationEn}</span>
-        <h2 class="tour-detail-main-title">${escapeHtml(tour.titleEn)}</h2>
-        <div style="font-size:0.8rem; color:#EAE4D5; font-style:italic;">${escapeHtml(tour.titleEs)}</div>
+    <!-- Top Bar del Dossier -->
+    <div class="admin-dossier-topbar">
+      <div class="admin-dossier-ref">
+        <span class="dossier-badge-id">#EXP-${tour.id}</span>
+        <span class="dossier-badge-slug">${escapeHtml(tour.slug)}</span>
+        ${tour.styleTag ? `<span class="dossier-badge-style">✨ ${escapeHtml(tour.styleTag)}</span>` : ''}
       </div>
-    </div>
 
-    <!-- Specs Bar -->
-    <div class="tour-specs-bar">
-      <div class="tour-spec-item">
-        <span class="tour-spec-label">Tarifa Oficial USD</span>
-        <span class="tour-spec-val" style="color:var(--admin-gold-bright); font-size:1rem;">${priceUsdStr}</span>
-      </div>
-      <div class="tour-spec-item">
-        <span class="tour-spec-label">Tarifa Oficial PEN</span>
-        <span class="tour-spec-val" style="color:var(--admin-gold);">${pricePenStr}</span>
-      </div>
-      <div class="tour-spec-item">
-        <span class="tour-spec-label">Dificultad</span>
-        <span class="tour-spec-val">${escapeHtml(tour.difficultyEn || 'Exclusive Leisure')}</span>
-      </div>
-      <div class="tour-spec-item">
-        <span class="tour-spec-label">Punto de Partida</span>
-        <span class="tour-spec-val">${escapeHtml(tour.startingPoint || 'Cusco Private Atelier')}</span>
-      </div>
-    </div>
-
-    <!-- Perfil de Altitud & Oxigenación -->
-    <div style="background:rgba(10,11,14,0.6); border:1px solid var(--admin-border); border-radius:2px; padding:1.25rem; margin-bottom:1.75rem;">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.75rem;">
-        <span style="font-family:'Montserrat', sans-serif; font-size:0.68rem; letter-spacing:0.1em; color:var(--admin-gold); text-transform:uppercase;">
-          Perfil de Altitud & Protocolo de Aclimatación
-        </span>
-        <span style="font-size:0.75rem; color:#85CE61; font-weight:600;">
-          Oxigenación Atmosférica: ~${oxygenPercent}%
-        </span>
-      </div>
-      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:1rem; font-size:0.8rem;">
-        <div>
-          <span style="color:var(--admin-text-dim);">Altitud de Salida:</span>
-          <strong style="color:#FFF;"> ${startAlt}</strong>
+      <div class="admin-dossier-actions">
+        <!-- Selector de Idioma de Ficha -->
+        <div class="admin-dossier-lang-toggle">
+          <button type="button" class="btn-dossier-lang ${isEs ? 'active' : ''}" onclick="setTourDetailLang('es')">ES Español</button>
+          <button type="button" class="btn-dossier-lang ${!isEs ? 'active' : ''}" onclick="setTourDetailLang('en')">EN English</button>
         </div>
-        <div>
-          <span style="color:var(--admin-text-dim);">Punto Más Elevado:</span>
-          <strong style="color:var(--admin-gold);"> ${maxAlt}</strong>
-        </div>
-        <div style="grid-column: 1 / -1; color:var(--admin-text-muted); font-size:0.75rem; border-top:1px dashed var(--admin-border-light); padding-top:0.5rem; margin-top:0.25rem;">
-          ${escapeHtml(tour.altitudeProfile?.acclimatizationTip || 'Monitoreo médico privado disponible con tanques portátiles de oxígeno medicinal y té de muña andina.')}
-        </div>
+
+        <button type="button" class="btn-dossier-toggle ${tour.isActive ? 'is-active' : 'is-inactive'}" onclick="toggleTourActive(${tour.id})">
+          <span class="toggle-dot"></span>
+          ${tour.isActive ? 'Publicado' : 'Oculto'}
+        </button>
+
+        <button type="button" class="btn-dossier-toggle ${tour.featured ? 'is-featured' : ''}" onclick="toggleTourFeatured(${tour.id})">
+          ${tour.featured ? '★ Destacado' : '☆ Marcar Destacado'}
+        </button>
+
+        <a href="tour.html?slug=${tour.slug}" target="_blank" class="btn-dossier-preview" title="Abrir ficha pública en nueva pestaña">
+          Ver en Web ↗
+        </a>
       </div>
     </div>
 
-    <!-- Itinerario Día por Día -->
-    <div class="panel-header" style="margin-top:2rem;">
-      <h3 class="panel-title">Cronograma de Itinerario Día por Día</h3>
-      <span style="font-size:0.72rem; color:var(--admin-gold);">
-        ${(tour.itineraries || []).length} Días de Experiencia Exclusiva
-      </span>
+    <!-- Hero Banner Panorámico -->
+    <div class="admin-dossier-hero tour-detail-hero">
+      <img src="${tour.mainImageUrl || 'assets/images/MachuPicchu.jpg'}" alt="${escapeHtml(title)}" class="admin-dossier-hero-img" onerror="this.src='assets/images/MachuPicchu.jpg'">
+      <div class="admin-dossier-hero-overlay">
+        <div class="admin-dossier-hero-pill-row">
+          <span class="admin-dossier-cat-pill">${escapeHtml(categoryName || 'Haute Couture Journey')}</span>
+          <span class="admin-dossier-duration-pill">⏱️ ${escapeHtml(duration)}</span>
+          <span class="admin-dossier-inquiries-pill">💼 ${tour.inquiriesCount || 0} Cotizaciones VIP</span>
+        </div>
+        <h2 class="admin-dossier-title tour-detail-main-title">${escapeHtml(title)}</h2>
+        <div class="admin-dossier-subtitle">${escapeHtml(subtitle || altTitle || '')}</div>
+      </div>
     </div>
 
-    <div class="itinerary-timeline">
-      ${(tour.itineraries && tour.itineraries.length > 0) ? tour.itineraries.map(day => `
-        <div class="itinerary-day-card">
-          <div class="itinerary-day-header">
-            <span class="day-badge">Día ${day.dayNumber}</span>
-            <span class="day-title">${escapeHtml(day.titleEn || day.title)}</span>
+    <!-- Tarjetas de Especificaciones Comerciales (5 KPIs) -->
+    <div class="admin-dossier-specs-grid tour-specs-bar">
+      <div class="admin-spec-card tour-spec-item">
+        <span class="admin-spec-label tour-spec-label">Tarifa Oficial USD</span>
+        <span class="admin-spec-num gold-bright">${priceUsdStr}</span>
+        <span class="admin-spec-sub">Base por pasajero</span>
+      </div>
+      <div class="admin-spec-card tour-spec-item">
+        <span class="admin-spec-label tour-spec-label">Tarifa Oficial PEN</span>
+        <span class="admin-spec-num gold-regular">${pricePenStr}</span>
+        <span class="admin-spec-sub">TC Aprox S/. 3.80</span>
+      </div>
+      <div class="admin-spec-card tour-spec-item">
+        <span class="admin-spec-label tour-spec-label">Duración</span>
+        <span class="admin-spec-val">${escapeHtml(duration)}</span>
+        <span class="admin-spec-sub">${tour.durationDays || 1} Día(s) de Expedición</span>
+      </div>
+      <div class="admin-spec-card tour-spec-item">
+        <span class="admin-spec-label tour-spec-label">Nivel de Confort</span>
+        <span class="admin-spec-val">${escapeHtml(difficulty)}</span>
+        <span class="admin-spec-sub">Servicio Concierge Privado</span>
+      </div>
+      <div class="admin-spec-card tour-spec-item">
+        <span class="admin-spec-label tour-spec-label">Punto de Salida</span>
+        <span class="admin-spec-val tour-spec-val">${escapeHtml(tour.startingPoint || 'Cusco Private Atelier')}</span>
+        <span class="admin-spec-sub">Pick-up exclusivo</span>
+      </div>
+    </div>
+
+    <!-- Narrativa & Manifiesto de la Expedición -->
+    <div class="admin-dossier-narrative-card">
+      <div class="admin-dossier-section-kicker">MANIFIESTO DE LA EXPERIENCIA</div>
+      <p class="admin-dossier-narrative-text">${escapeHtml(description || 'Sin descripción registrada.')}</p>
+    </div>
+
+    <!-- Perfil Altimétrico Andino & Monitoreo Médico -->
+    <div class="admin-altitude-command-center">
+      <div class="altitude-header-row">
+        <div class="altitude-title-wrap">
+          <span class="altitude-kicker">PERFIL ALTIMÉTRICO ANDINO & MONITOREO MÉDICO</span>
+          <h4 class="altitude-main-heading">Gradiente de Altitud & Protocolo de Oxigenación</h4>
+        </div>
+        <div class="altitude-oxygen-gauge">
+          <span class="oxygen-val-text">Oxigenación Atmosférica: <strong>~${oxygenPercent}%</strong></span>
+          <div class="oxygen-bar-track">
+            <div class="oxygen-bar-fill" style="width: ${oxygenPercent}%;"></div>
           </div>
-          <p class="day-desc">${escapeHtml(day.descriptionEn || day.description)}</p>
-          <div class="day-amenities">
-            ${day.gourmetDiningEn ? `
-              <span class="amenity-tag">
-                🍽️ <strong>Gourmet:</strong> ${escapeHtml(day.gourmetDiningEn)}
-              </span>
-            ` : ''}
-            ${day.privateTransferEn ? `
-              <span class="amenity-tag">
-                🚆 <strong>Transporte:</strong> ${escapeHtml(day.privateTransferEn)}
-              </span>
-            ` : ''}
+        </div>
+      </div>
+
+      <div class="altitude-metrics-grid">
+        <div class="altitude-metric-item">
+          <span class="alt-metric-icon">🛫</span>
+          <div>
+            <span class="alt-metric-label">Altitud de Salida</span>
+            <strong class="alt-metric-val">${startAlt}</strong>
+            <span class="alt-metric-place">Cusco Private Atelier</span>
           </div>
         </div>
-      `).join('') : `
-        <p style="color:var(--admin-text-dim); font-size:0.85rem;">No se han desglosado itinerarios diarios para esta expedición.</p>
-      `}
+        <div class="altitude-metric-item">
+          <span class="alt-metric-icon">🌿</span>
+          <div>
+            <span class="alt-metric-label">Descanso / Aclimatación</span>
+            <strong class="alt-metric-val">${sleepAlt}</strong>
+            <span class="alt-metric-place">Valle Sagrado / Aguas Calientes</span>
+          </div>
+        </div>
+        <div class="altitude-metric-item">
+          <span class="alt-metric-icon">🏔️</span>
+          <div>
+            <span class="alt-metric-label">Punto Más Elevado</span>
+            <strong class="alt-metric-val gold-bright tour-spec-val">${maxAlt}</strong>
+            <span class="alt-metric-place">Ciudadela Machu Picchu</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="altitude-protocol-note">
+        <div class="protocol-icon">🩺</div>
+        <div class="protocol-text">
+          <strong>Protocolo Médico Preventivo:</strong> ${escapeHtml(acclimatizationTip)}
+        </div>
+      </div>
     </div>
 
-    <!-- Controles Rápidos de Tour -->
-    <div class="tour-admin-toggles">
-      <button type="button" class="btn-toggle-action" onclick="toggleTourActive(${tour.id})">
-        ${tour.isActive ? '🔴 Desactivar Tour' : '🟢 Publicar en Catálogo'}
-      </button>
+    <!-- Puntos Culminantes & Servicios Incluidos (2 Columnas) -->
+    <div class="admin-dossier-two-col">
+      <div class="admin-dossier-list-card">
+        <div class="dossier-list-header">
+          <span class="dossier-list-kicker">PUNTOS CULMINANTES</span>
+          <h4 class="dossier-list-title">Momentos Clave & Highlights</h4>
+        </div>
+        <ul class="admin-dossier-ul">
+          ${highlightsList.length > 0 ? highlightsList.map(h => `
+            <li><span class="bullet-gold">✦</span> <span>${escapeHtml(h)}</span></li>
+          `).join('') : '<li style="color:var(--admin-text-dim);">Sin highlights especificados.</li>'}
+        </ul>
+      </div>
 
-      <button type="button" class="btn-toggle-action" onclick="toggleTourFeatured(${tour.id})">
-        ${tour.featured ? '⭐ Quitar de Destacados' : '🌟 Marcar como Destacado'}
-      </button>
+      <div class="admin-dossier-list-card">
+        <div class="dossier-list-header">
+          <span class="dossier-list-kicker">SERVICIOS INTEGRADOS</span>
+          <h4 class="dossier-list-title">Inclusiones de Ultra-Lujo</h4>
+        </div>
+        <ul class="admin-dossier-ul">
+          ${includedList.length > 0 ? includedList.map(inc => `
+            <li><span class="bullet-check">✓</span> <span>${escapeHtml(inc)}</span></li>
+          `).join('') : '<li style="color:var(--admin-text-dim);">Sin inclusiones especificadas.</li>'}
+        </ul>
+        ${notIncludedList.length > 0 ? `
+          <div class="admin-dossier-exclusions">
+            <span class="exclusions-label">No incluido (A discreción del huésped):</span>
+            <p class="exclusions-text">${notIncludedList.map(n => escapeHtml(n)).join(' • ')}</p>
+          </div>
+        ` : ''}
+      </div>
+    </div>
 
-      <a href="tour.html?slug=${tour.slug}" target="_blank" class="btn-table-action" style="padding:0.6rem 1rem;">
-        Ver en Página de Clientes ↗
-      </a>
+    <!-- Cronograma de Itinerario Día por Día -->
+    <div class="admin-itinerary-section">
+      <div class="itinerary-section-header">
+        <div>
+          <span class="itinerary-section-kicker">PROGRAMACIÓN DÍA POR DÍA</span>
+          <h3 class="itinerary-section-title">Itinerario Técnico & Trazabilidad de Paradas</h3>
+        </div>
+        <span class="itinerary-days-count-pill">${itineraries.length} Días de Experiencia</span>
+      </div>
+
+      <div class="admin-itinerary-timeline itinerary-timeline">
+        ${itineraries.length > 0 ? itineraries.map((day, idx) => {
+          const dayTitle = isEs ? (day.titleEs || day.titleEn || day.title) : (day.titleEn || day.titleEs || day.title);
+          const dayDesc = isEs ? (day.descriptionEs || day.descriptionEn || day.description) : (day.descriptionEn || day.descriptionEs || day.description);
+          const gourmet = isEs ? (day.gourmetDiningEs || day.gourmetDiningEn || day.gourmetDining) : (day.gourmetDiningEn || day.gourmetDiningEs || day.gourmetDining);
+          const transfer = isEs ? (day.privateTransferEs || day.privateTransferEn || day.privateTransfer) : (day.privateTransferEn || day.privateTransferEs || day.privateTransfer);
+
+          return `
+            <div class="admin-itinerary-day-card itinerary-day-card">
+              <div class="admin-day-sidebar">
+                <span class="admin-day-number day-badge">DÍA ${String(day.dayNumber || (idx + 1)).padStart(2, '0')}</span>
+                <span class="admin-day-connector"></span>
+              </div>
+              <div class="admin-day-content">
+                <h4 class="admin-day-heading day-title">${escapeHtml(dayTitle)}</h4>
+                <p class="admin-day-narrative day-desc">${escapeHtml(dayDesc)}</p>
+
+                <div class="admin-day-amenities-row day-amenities">
+                  ${gourmet ? `
+                    <div class="admin-amenity-chip dining amenity-tag">
+                      <span class="chip-icon">🍽️</span>
+                      <div>
+                        <span class="chip-label">Gastronomía:</span>
+                        <span class="chip-val">${escapeHtml(gourmet)}</span>
+                      </div>
+                    </div>
+                  ` : ''}
+                  ${transfer ? `
+                    <div class="admin-amenity-chip transfer amenity-tag">
+                      <span class="chip-icon">🚆</span>
+                      <div>
+                        <span class="chip-label">Transporte:</span>
+                        <span class="chip-val">${escapeHtml(transfer)}</span>
+                      </div>
+                    </div>
+                  ` : ''}
+                </div>
+              </div>
+            </div>
+          `;
+        }).join('') : `
+          <div class="admin-itinerary-empty">
+            No se han registrado días de itinerario para esta expedición.
+          </div>
+        `}
+      </div>
     </div>
   `;
 }
