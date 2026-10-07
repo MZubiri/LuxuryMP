@@ -6,8 +6,12 @@ public class CategoryDto
 {
     public int Id { get; set; }
     public string Name { get; set; } = string.Empty;
+    public string NameEn { get; set; } = string.Empty;
+    public string NameEs { get; set; } = string.Empty;
     public string Slug { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
+    public string DescriptionEn { get; set; } = string.Empty;
+    public string DescriptionEs { get; set; } = string.Empty;
     public string Icon { get; set; } = string.Empty;
     public int DisplayOrder { get; set; }
     public int ToursCount { get; set; }
@@ -58,7 +62,11 @@ public class TourSummaryDto
     public string TitleEs { get; set; } = string.Empty;
     public string Slug { get; set; } = string.Empty;
     public string Subtitle { get; set; } = string.Empty;
+    public string SubtitleEn { get; set; } = string.Empty;
+    public string SubtitleEs { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
+    public string DescriptionEn { get; set; } = string.Empty;
+    public string DescriptionEs { get; set; } = string.Empty;
     
     public int CategoryId { get; set; }
     public string CategoryName { get; set; } = string.Empty;
@@ -76,6 +84,7 @@ public class TourSummaryDto
     
     public string Difficulty { get; set; } = string.Empty;
     public string DifficultyEn { get; set; } = string.Empty;
+    public string DifficultyEs { get; set; } = string.Empty;
     public string AltitudeMax { get; set; } = string.Empty;
     public string StartingPoint { get; set; } = string.Empty;
     public string StyleTag { get; set; } = string.Empty;
@@ -86,6 +95,8 @@ public class TourSummaryDto
     public int InquiriesCount { get; set; }
     public string MainImageUrl { get; set; } = string.Empty;
     public List<string> Highlights { get; set; } = new();
+    public List<string> HighlightsEn { get; set; } = new();
+    public List<string> HighlightsEs { get; set; } = new();
 }
 
 public class AdminTourDetailDto
@@ -141,7 +152,11 @@ public class TourDetailDto : TourSummaryDto
 {
     public List<string> GalleryImages { get; set; } = new();
     public List<string> Included { get; set; } = new();
+    public List<string> IncludedEn { get; set; } = new();
+    public List<string> IncludedEs { get; set; } = new();
     public List<string> NotIncluded { get; set; } = new();
+    public List<string> NotIncludedEn { get; set; } = new();
+    public List<string> NotIncludedEs { get; set; } = new();
     public List<string> Locations { get; set; } = new();
     public AltitudeProfileDto? AltitudeProfile { get; set; }
     public List<ItineraryDayDto> Itineraries { get; set; } = new();

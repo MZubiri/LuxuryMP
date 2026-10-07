@@ -211,256 +211,53 @@ const translations = {
   }
 };
 
-// Default Authentic High-End Expeditions Portfolio
-const defaultTours = [
-  {
-    id: 1,
-    slug: 'belmond-hiram-bingham-pinnacle',
-    categoryId: 'luxury-rail-journeys',
-    styleTag: 'Belmond Hiram Bingham Signature',
-    titleEn: 'Belmond Hiram Bingham: The Pinnacle of Machu Picchu',
-    titleEs: 'Belmond Hiram Bingham: La Cúspide de Machu Picchu',
-    subtitleEn: 'The ultimate 1920s Pullman rail luxury, private sanctuary entry and five-star Andean gastronomy.',
-    subtitleEs: 'El máximo lujo ferroviario estilo Pullman años 20, entrada privada al santuario y alta gastronomía andina.',
-    durationEn: '2 Days / 1 Night',
-    durationEs: '2 Días / 1 Noche',
-    priceUsd: 2150.00,
-    pricePen: 8170.00,
-    difficultyEn: 'Leisure & Refined',
-    difficultyEs: 'Placentero y Exclusivo',
-    altitudeMax: '2,430 m / 7,972 ft',
-    mainImageUrl: 'assets/images/hiram_bingham_main.jpg',
-    galleryImages: [
-      'assets/images/hiram_bingham_main.jpg',
-      'assets/images/hiram_bingham_musicians.jpg',
-      'assets/images/hiram_bingham_valley.jpg'
-    ],
-    highlightsEn: [
-      'Roundtrip tickets aboard the vintage Belmond Hiram Bingham',
-      'Gourmet 4-course brunch & dinner paired with vintage wines',
-      'Exclusive Afternoon Tea at Belmond Sanctuary Lodge',
-      'Private licensed archaeologist guide with pre-reserved priority entry'
-    ],
-    highlightsEs: [
-      'Boletos ida y vuelta a bordo del tren Belmond Hiram Bingham',
-      'Brunch gourmet de 4 tiempos y cena de gala con vinos selectos',
-      'Afternoon Tea exclusivo en los jardines de Belmond Sanctuary Lodge',
-      'Guía arqueólogo privado colegiado y boletos oficiales pre-reservados'
-    ],
-    itineraries: [
-      {
-        dayNumber: 1,
-        titleEn: 'Boarding the Legend & Sunset at the Citadel',
-        titleEs: 'Abordaje de Leyenda y Atardecer en la Ciudadela',
-        descEn: 'Morning departure from Poroy/Ollantaytambo. Gourmet brunch served on board with live acoustic music. Private citadel exploration with your archaeologist at twilight. Sunset tea at Belmond Sanctuary Lodge.',
-        descEs: 'Salida matutina hacia Aguas Calientes con brunch gourmet y música en vivo. Llegada con bus VIP y recorrido privado de la ciudadela al atardecer. Té de gala en Belmond Sanctuary Lodge.',
-        diningEn: '4-Course Champagne Brunch & Belmond Afternoon Tea',
-        diningEs: 'Brunch de 4 tiempos con Champaña y Té Belmond',
-        transferEn: 'Private luxury sedan to train station + VIP citadel shuttle',
-        transferEs: 'Sedán de lujo a estación + Bus VIP al santuario'
-      },
-      {
-        dayNumber: 2,
-        titleEn: 'Sunrise Citadel Solitude & Return Gala Dinner',
-        titleEs: 'Amanecer Místico y Cena de Gala de Retorno',
-        descEn: 'Early morning second entry to witness dawn mist parting over the Sun Temple. Optional Huayna Picchu ascent. Return journey aboard Hiram Bingham with live band and four-course dinner banquet.',
-        descEs: 'Segundo ingreso matutino temprano para presenciar el amanecer sobre el Templo del Sol. Subida opcional a Huayna Picchu. Retorno festivo en el Hiram Bingham con orquesta y cena de gala.',
-        diningEn: 'Sanctuary Lodge gourmet lunch & 4-Course Gala Dinner on Train',
-        diningEs: 'Almuerzo en Sanctuary Lodge y Cena de gala en el tren',
-        transferEn: 'Private executive chauffeur to your hotel in Cusco',
-        transferEs: 'Chofer ejecutivo privado a su hotel en Cusco'
-      }
-    ]
-  },
-  {
-    id: 2,
-    slug: 'sacred-valley-prive-shamanic-ritual',
-    categoryId: 'sacred-valley-mysticism',
-    styleTag: 'Heritage & High Gastronomy',
-    titleEn: 'Sacred Valley Privé: Maras, Moray & Q\'ero Shamanic Blessing',
-    titleEs: 'Valle Sagrado Privé: Maras, Moray y Bendición Chamánica Q\'ero',
-    subtitleEn: 'Private haciendas, ancestral pink salt pans, and an intimate Pachamama blessing with an Andean master.',
-    subtitleEs: 'Haciendas privadas, salineras rosadas y pago a la Pachamama con un sabio maestro Q\'ero.',
-    durationEn: 'Full Day (8 Hours)',
-    durationEs: 'Día Completo (8 Horas)',
-    priceUsd: 680.00,
-    pricePen: 2584.00,
-    difficultyEn: 'Gentle & Inspiring',
-    difficultyEs: 'Suave y Reparador',
-    altitudeMax: '3,500 m / 11,480 ft',
-    mainImageUrl: 'assets/images/sacred_valley_maras_main.jpg',
-    galleryImages: [
-      'assets/images/sacred_valley_maras_main.jpg',
-      'assets/images/sacred_valley_moray.jpg',
-      'assets/images/sacred_valley_qero.jpg'
-    ],
-    highlightsEn: [
-      'Executive Mercedes-Benz Sprinter with private chauffeur',
-      'Authentic Andean blessing by a genuine Q\'ero Pampamesayoc',
-      'Private luncheon at Hacienda Huayoccari with wine pairing',
-      'Peruvian Paso Horse private demonstration'
-    ],
-    highlightsEs: [
-      'Mercedes-Benz Sprinter ejecutiva con chofer privado',
-      'Ceremonia ancestral auténtica con maestro chamán Q\'ero',
-      'Almuerzo privado en Hacienda Huayoccari con maridaje',
-      'Demostración privada de caballos peruanos de paso'
-    ],
-    itineraries: [
-      {
-        dayNumber: 1,
-        titleEn: 'Inca Agricultural Wonders & Ancestral Blessing',
-        titleEs: 'Laboratorios Agrícolas y Ceremonia a la Tierra',
-        descEn: 'Private transfer to Moray circular terraces and Maras salt pans. Intimate Pachamama ceremony in private estate gardens. Multi-course lunch at historic Hacienda Huayoccari surrounded by folk art treasures.',
-        descEs: 'Traslado privado a los andenes concéntricos de Moray y salineras de Maras. Ceremonia íntima de agradecimiento a la tierra en jardines privados. Banquete en Hacienda Huayoccari.',
-        diningEn: 'Artisanal 4-course Andean lunch at Hacienda Huayoccari',
-        diningEs: 'Almuerzo artesanal de 4 tiempos en Hacienda Huayoccari',
-        transferEn: 'Mercedes-Benz Executive Sprinter with oxygen & amenities',
-        transferEs: 'Mercedes-Benz Sprinter ejecutiva con oxígeno y amenities'
-      }
-    ]
-  },
-  {
-    id: 3,
-    slug: 'belmond-andean-explorer-cusco-titicaca',
-    categoryId: 'luxury-rail-journeys',
-    styleTag: 'Belmond Sleeper Train',
-    titleEn: 'Belmond Andean Explorer: High Altiplano to Lake Titicaca',
-    titleEs: 'Belmond Andean Explorer: Del Altiplano al Lago Titicaca',
-    subtitleEn: 'South America\'s premier luxury sleeper train across high plateaus and private island sanctuaries.',
-    subtitleEs: 'El primer tren de lujo con suites dormitorio de Sudamérica a través del altiplano y el Titicaca.',
-    durationEn: '2 Days / 1 Night',
-    durationEs: '2 Días / 1 Noche',
-    priceUsd: 3450.00,
-    pricePen: 13110.00,
-    difficultyEn: 'Ultra-Luxury Leisure',
-    difficultyEs: 'Lujo Pleno & Contemplativo',
-    altitudeMax: '4,319 m / 14,170 ft (La Raya)',
-    mainImageUrl: 'assets/images/andean_explorer_main.jpg',
-    galleryImages: [
-      'assets/images/andean_explorer_main.jpg',
-      'assets/images/andean_explorer_titicaca.jpg',
-      'assets/images/andean_explorer_laraya.jpg'
-    ],
-    highlightsEn: [
-      'Private suite cabin with en-suite bath on Belmond Andean Explorer',
-      'Observation car cocktail lounge with open-air terrace',
-      'Champagne toast at La Raya mountain pass (4,319m)',
-      'Private yacht charter to floating Uros and secluded Taquile beach'
-    ],
-    highlightsEs: [
-      'Suite privada con baño en el tren Belmond Andean Explorer',
-      'Vagón observatorio y piano bar con terraza al aire libre',
-      'Brindis con champaña en el abra de La Raya a 4,319 msnm',
-      'Yate privado en el Lago Titicaca hacia Uros y playa exclusiva en Taquile'
-    ],
-    itineraries: [
-      {
-        dayNumber: 1,
-        titleEn: 'Cusco to the High Altiplano Plateau',
-        titleEs: 'De Cusco hacia el Altiplano Sagrado',
-        descEn: 'Board at Wanchaq station. Scenic lunch while crossing the Vilcanota valley. Afternoon stop at Raqch\'i Inca temple. Sunset champagne celebration at La Raya.',
-        descEs: 'Embarque en la estación Wanchaq. Almuerzo gourmet cruzando el valle de Vilcanota. Visita al templo de Raqch\'i y brindis al atardecer en La Raya.',
-        diningEn: 'Degustation menus by celebrated Chef Diego Muñoz',
-        diningEs: 'Menús de autor diseñados por el chef Diego Muñoz',
-        transferEn: 'Train station VIP reception and private porterage',
-        transferEs: 'Recepción VIP en estación y manejo privado de equipaje'
-      },
-      {
-        dayNumber: 2,
-        titleEn: 'Sunrise on Lake Titicaca & Private Island Navigation',
-        titleEs: 'Amanecer en el Titicaca y Navegación Privada',
-        descEn: 'Wake up to the sun rising over Lake Titicaca. Board a private yacht to visit traditional reed islands of Uros and a private cultural encounter on Taquile island.',
-        descEs: 'Despierte con el sol sobre el lago navegable más alto del mundo. Traslado en yate privado a las islas flotantes de los Uros y almuerzo frente a la bahía de Taquile.',
-        diningEn: 'Gourmet lakeside barbecue in Taquile with fresh trout',
-        diningEs: 'Almuerzo campestre con trucha fresca del lago en Taquile',
-        transferEn: 'Private yacht charter on Lake Titicaca',
-        transferEs: 'Yate privado exclusivo en el Lago Titicaca'
-      }
-    ]
-  },
-  {
-    id: 4,
-    slug: 'classic-inca-trail-vip-glamping',
-    categoryId: 'vip-glamping-expeditions',
-    styleTag: 'VIP Glamping & Wellness',
-    titleEn: 'Classic Inca Trail VIP Glamping: The Royal Route',
-    titleEs: 'Camino Inca Clásico VIP Glamping: La Ruta Real',
-    subtitleEn: 'Conquer the ancient stone path with heated dome suites, on-trail massage therapist, and private chef.',
-    subtitleEs: 'Camine la mítica calzada inca con domos calefaccionados, masajista y chef gourmet en ruta.',
-    durationEn: '4 Days / 3 Nights',
-    durationEs: '4 Días / 3 Noches',
-    priceUsd: 2890.00,
-    pricePen: 10982.00,
-    difficultyEn: 'Challenging with Elite Support',
-    difficultyEs: 'Exigente con Soporte Élite',
-    altitudeMax: '4,215 m / 13,828 ft',
-    mainImageUrl: 'assets/images/inca_trail_main.jpg',
-    galleryImages: [
-      'assets/images/inca_trail_main.jpg',
-      'assets/images/inca_trail_winay_wayna.jpg',
-      'assets/images/inca_trail_sungate.jpg'
-    ],
-    highlightsEn: [
-      'Spacious heated geodesic domes with real beds and warm duvets',
-      'Private hot shower tent set up every single afternoon',
-      'Dedicated on-trail massage therapist for daily muscle recovery',
-      'Private entry through the Sun Gate (Inti Punku) in solitude'
-    ],
-    highlightsEs: [
-      'Amplios domos geodésicos calefaccionados con camas de verdad',
-      'Carpa de ducha caliente instalada al final de cada jornada',
-      'Masajista / fisioterapeuta privado para recuperación diaria',
-      'Ingreso triunfal por la Puerta del Sol (Inti Punku) sin aglomeraciones'
-    ],
-    itineraries: [
-      {
-        dayNumber: 1,
-        titleEn: 'Valley of Patallacta & Gentle Ascent',
-        titleEs: 'Valle de Patallacta y Ascenso Suave',
-        descEn: 'Scenic drive to Km 82. Easy trek along the Urubamba river, overlooking Patallacta archaeological site. Arrival at private luxury camp with welcome massage.',
-        descEs: 'Inicio en el Km 82. Caminata suave junto al río con vistas a Patallacta. Llegada al campamento exclusivo con masaje de bienvenida y té caliente.',
-        diningEn: 'Hot 3-course organic lunch and dinner in heated dining tent',
-        diningEs: 'Almuerzo y cena caliente de 3 tiempos en carpa comedor',
-        transferEn: 'Private 4x4 overland from Cusco to trailhead',
-        transferEs: 'Transporte privado 4x4 desde Cusco al punto de inicio'
-      },
-      {
-        dayNumber: 2,
-        titleEn: 'Dead Woman\'s Pass (Warmiwañusqa)',
-        titleEs: 'Paso de la Mujer Muerta (4,215 msnm)',
-        descEn: 'Ascent to the highest pass with personal porters and hyperbaric oxygen chambers on standby. Rewarding descent to Pacaymayo private camp.',
-        descEs: 'Ascenso al paso más alto con apoyo continuo de porteadores y oxígeno medicinal. Descenso reconfortante al campamento privado de Pacaymayo.',
-        diningEn: 'High-energy gourmet trail cuisine and hot herbal infusions',
-        diningEs: 'Cocina energética de alta montaña y calientes infusiones',
-        transferEn: 'Porterage brigade carrying all personal luggage',
-        transferEs: 'Brigada de porteadores transportando todo el equipaje'
-      },
-      {
-        dayNumber: 3,
-        titleEn: 'Cloud Forests of Wiñay Wayna',
-        titleEs: 'Bosque de Nubes y Wiñay Wayna',
-        descEn: 'Traverse magnificent Inca staircases, tunnel passages, and orchid forests to the terraces of Wiñay Wayna. Gala celebration dinner crafted by your private chef.',
-        descEs: 'Paso por escalinatas incas, túneles tallados en roca y orquídeas hacia Wiñay Wayna. Cena de gala de celebración preparada por su chef privado.',
-        diningEn: 'Gala trail celebration feast with chef\'s specialty Andean lamb',
-        diningEs: 'Cena de gala en la montaña con especialidad de cordero andino',
-        transferEn: 'Private camp setup with hot showers',
-        transferEs: 'Campamento privado exclusivo con duchas calientes'
-      },
-      {
-        dayNumber: 4,
-        titleEn: 'Inti Punku Sun Gate & Machu Picchu Sanctuary',
-        titleEs: 'Puerta del Sol (Inti Punku) y Machu Picchu',
-        descEn: 'Sunrise hike to the Sun Gate for the iconic first glimpse of Machu Picchu. Private tour of the Citadel followed by luxury return on the Hiram Bingham.',
-        descEs: 'Llegada al amanecer a la Puerta del Sol con vista panorámica de la ciudadela. Tour privado completo y retorno en el tren de lujo Hiram Bingham.',
-        diningEn: 'Celebration lunch at Sanctuary Lodge & dinner on train',
-        diningEs: 'Almuerzo en Sanctuary Lodge y cena en el tren de lujo',
-        transferEn: 'Luxury Hiram Bingham train return to Cusco',
-        transferEs: 'Retorno en el tren Belmond Hiram Bingham a Cusco'
-      }
-    ]
-  }
-];
+// Tour Normalizer for data fetched strictly from .NET 9 / MySQL Database
+function normalizeTour(t) {
+  if (!t) return null;
+  return {
+    id: t.id,
+    slug: t.slug,
+    categoryId: t.categoryId,
+    categorySlug: t.categorySlug || '',
+    categoryName: t.categoryName || '',
+    categoryNameEn: t.categoryNameEn || '',
+    categoryNameEs: t.categoryNameEs || '',
+    styleTag: t.styleTag || 'Ultra-Luxury',
+    title: t.title || '',
+    titleEn: t.titleEn || t.title || '',
+    titleEs: t.titleEs || t.title || '',
+    subtitle: t.subtitle || '',
+    subtitleEn: t.subtitleEn || t.subtitle || '',
+    subtitleEs: t.subtitleEs || t.subtitle || '',
+    description: t.description || '',
+    descriptionEn: t.descriptionEn || t.description || '',
+    descriptionEs: t.descriptionEs || t.description || '',
+    duration: t.duration || '',
+    durationEn: t.durationEn || t.duration || '',
+    durationEs: t.durationEs || t.duration || '',
+    durationDays: t.durationDays || 1,
+    priceUsd: Number(t.priceUsd) || 0,
+    pricePen: Number(t.pricePen) || (Number(t.priceUsd) * 3.80),
+    difficulty: t.difficulty || '',
+    difficultyEn: t.difficultyEn || t.difficulty || '',
+    difficultyEs: t.difficultyEs || t.difficulty || '',
+    altitudeMax: t.altitudeMax || '',
+    startingPoint: t.startingPoint || '',
+    featured: Boolean(t.featured),
+    isActive: t.isActive !== false,
+    displayOrder: t.displayOrder || 0,
+    mainImageUrl: t.mainImageUrl || '',
+    highlights: Array.isArray(t.highlights) ? t.highlights : [],
+    highlightsEn: Array.isArray(t.highlightsEn) && t.highlightsEn.length > 0 ? t.highlightsEn : (Array.isArray(t.highlights) ? t.highlights : []),
+    highlightsEs: Array.isArray(t.highlightsEs) && t.highlightsEs.length > 0 ? t.highlightsEs : (Array.isArray(t.highlights) ? t.highlights : []),
+    inclusionsEn: Array.isArray(t.includedEn) ? t.includedEn : (Array.isArray(t.included) ? t.included : []),
+    inclusionsEs: Array.isArray(t.includedEs) ? t.includedEs : (Array.isArray(t.included) ? t.included : []),
+    exclusionsEn: Array.isArray(t.notIncludedEn) ? t.notIncludedEn : (Array.isArray(t.notIncluded) ? t.notIncluded : []),
+    exclusionsEs: Array.isArray(t.notIncludedEs) ? t.notIncludedEs : (Array.isArray(t.notIncluded) ? t.notIncluded : []),
+    galleryImages: Array.isArray(t.galleryImages) && t.galleryImages.length > 0 ? t.galleryImages : [t.mainImageUrl],
+    itineraries: Array.isArray(t.itineraries) ? t.itineraries : []
+  };
+}
 
 // Initialize Application
 document.addEventListener('DOMContentLoaded', () => {
@@ -473,14 +270,12 @@ document.addEventListener('DOMContentLoaded', () => {
     appState.currentCurrency = savedCurr;
   }
 
-  appState.tours = defaultTours;
-  renderTours();
   setLanguage(appState.currentLang);
   setCurrency(appState.currentCurrency);
   setupScrollListener();
   setupAnchorSmoothScroll();
   initPlannerMinDate();
-  tryFetchToursFromBackend();
+  loadDatabaseCatalog();
 });
 
 // Setup minimum date on inputs to today + 2 days
@@ -512,20 +307,116 @@ async function fetchApi(endpoint, options = {}) {
   }
 }
 
-// Fetch live tours from .NET 9 API if online
-async function tryFetchToursFromBackend() {
-  try {
-    const res = await fetchApi(`/tours?lang=${appState.currentLang}`);
-    if (res.ok) {
-      const data = await res.json();
-      if (Array.isArray(data) && data.length > 0) {
-        console.log('Synchronized tours from .NET 9 backend:', data);
-        // Map backend DTOs to local state if needed
-      }
-    }
-  } catch {
-    console.log('Operating in standalone mode with cached luxury catalog.');
+// Load catalog, categories and testimonials strictly from MySQL database API
+async function loadDatabaseCatalog() {
+  const grid = document.getElementById('toursGrid');
+  if (grid && (!appState.tours || appState.tours.length === 0)) {
+    grid.innerHTML = `
+      <div style="grid-column: 1 / -1; text-align: center; padding: 4rem 1rem; color: var(--color-sand);">
+        <div style="display:inline-block; width: 34px; height: 34px; border: 2px solid rgba(212,175,55,0.2); border-top-color: var(--color-gold); border-radius: 50%; animation: spin 0.8s linear infinite; margin-bottom: 1rem;"></div>
+        <p style="font-family: var(--font-serif); font-size: 1.05rem; letter-spacing: 0.12em; text-transform: uppercase;">
+          Sincronizando Colecciones Exclusivas desde la Base de Datos...
+        </p>
+      </div>
+    `;
   }
+
+  try {
+    const [catsRes, toursRes, testRes] = await Promise.all([
+      fetchApi(`/categories?lang=${appState.currentLang}`),
+      fetchApi(`/tours?lang=${appState.currentLang}`),
+      fetchApi(`/testimonials?lang=${appState.currentLang}`)
+    ]);
+
+    if (catsRes.ok) {
+      const catsData = await catsRes.json();
+      renderCategoryFilterPills(catsData);
+    }
+
+    if (toursRes.ok) {
+      const toursData = await toursRes.json();
+      appState.tours = Array.isArray(toursData) ? toursData.map(normalizeTour) : [];
+      renderTours();
+      populateTourDropdowns();
+    }
+
+    if (testRes.ok) {
+      const testimonials = await testRes.json();
+      renderDatabaseTestimonials(testimonials);
+    }
+  } catch (err) {
+    console.error('Error fetching database catalog:', err);
+    if (grid && (!appState.tours || appState.tours.length === 0)) {
+      grid.innerHTML = `
+        <div style="grid-column: 1 / -1; text-align: center; padding: 3rem; color: var(--color-sand);">
+          <p>No se pudo conectar con la base de datos de expediciones. Por favor recargue la página.</p>
+        </div>
+      `;
+    }
+  }
+}
+
+// Render Category Filter Pills dynamically from Database
+function renderCategoryFilterPills(cats) {
+  const container = document.getElementById('filterPills');
+  if (!container || !Array.isArray(cats) || cats.length === 0) return;
+
+  const isEs = appState.currentLang === 'es';
+  const allText = isEs ? 'Todas las Expediciones' : 'All Expeditions';
+
+  container.innerHTML = `
+    <button class="filter-pill ${appState.activeCategory === 'all' ? 'active' : ''}" data-category="all" onclick="filterTours('all', this)">
+      ${allText}
+    </button>
+    ${cats.map(c => {
+      const label = isEs ? (c.nameEs || c.name) : (c.nameEn || c.name);
+      const isActive = appState.activeCategory === c.slug;
+      return `<button class="filter-pill ${isActive ? 'active' : ''}" data-category="${c.slug}" onclick="filterTours('${c.slug}', this)">${label}</button>`;
+    }).join('')}
+  `;
+}
+
+// Render Testimonials dynamically from Database
+function renderDatabaseTestimonials(testimonials) {
+  const container = document.getElementById('chroniclesGrid');
+  if (!container || !Array.isArray(testimonials) || testimonials.length === 0) return;
+
+  const isEs = appState.currentLang === 'es';
+  container.innerHTML = testimonials.map(t => {
+    const comment = (isEs ? t.commentEs : t.commentEn) || t.commentEn || t.commentEs;
+    const stars = '★'.repeat(t.rating || 5);
+    return `
+      <div class="chronicle-card">
+        <div class="chronicle-stars">${stars}</div>
+        <p class="chronicle-quote">"${comment}"</p>
+        <div class="chronicle-author">
+          <span class="author-name">${t.guestName}</span>
+          <span class="author-meta">${t.originCountry} • ${t.journeyName}</span>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+// Populate tour select options in booking forms
+function populateTourDropdowns() {
+  const selects = [
+    document.getElementById('bookingTourSelect'),
+    document.getElementById('plannerTourSelect')
+  ];
+
+  const isEs = appState.currentLang === 'es';
+  selects.forEach(select => {
+    if (!select) return;
+    const currentVal = select.value;
+    select.innerHTML = (appState.tours || []).map(t => {
+      const title = (isEs ? t.titleEs : t.titleEn) || t.title;
+      return `<option value="${t.slug}">${title}</option>`;
+    }).join('');
+    if (currentVal && (appState.tours || []).some(t => t.slug === currentVal)) {
+      select.value = currentVal;
+    }
+  });
 }
 
 // Language Switcher
@@ -542,6 +433,8 @@ function setLanguage(lang) {
 
   applyLanguage(lang);
   renderTours();
+  populateTourDropdowns();
+  loadDatabaseCatalog();
 }
 
 function applyLanguage(lang) {
@@ -607,7 +500,7 @@ function renderTours() {
 
   const filtered = appState.activeCategory === 'all'
     ? appState.tours
-    : appState.tours.filter(t => t.categoryId === appState.activeCategory);
+    : appState.tours.filter(t => t.categorySlug === appState.activeCategory || String(t.categoryId) === String(appState.activeCategory));
 
   container.innerHTML = filtered.map(tour => {
     const title = isEs ? tour.titleEs : tour.titleEn;

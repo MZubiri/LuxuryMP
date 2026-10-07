@@ -202,426 +202,70 @@ const translations = {
   }
 };
 
-// Default Authentic High-End Expeditions Portfolio
-const defaultTours = [
-  {
-    id: 1,
-    slug: 'belmond-hiram-bingham-pinnacle',
-    categoryId: 'luxury-rail-journeys',
-    styleTag: 'Belmond Hiram Bingham Signature',
-    titleEn: 'Belmond Hiram Bingham: The Pinnacle of Machu Picchu',
-    titleEs: 'Belmond Hiram Bingham: La Cúspide de Machu Picchu',
-    subtitleEn: 'The ultimate 1920s Pullman rail luxury, private sanctuary entry and five-star Andean gastronomy.',
-    subtitleEs: 'El máximo lujo ferroviario estilo Pullman años 20, entrada privada al santuario y alta gastronomía andina.',
-    narrativeEn: 'Board the polished mahogany and brass carriages of the vintage Belmond Hiram Bingham. As the train winds alongside the roaring Urubamba River, savor a gourmet four-course brunch paired with fine South American wines while live acoustic musicians perform. Upon arrival at Aguas Calientes, ascend directly to the ancient citadel via private VIP transfer, meeting your licensed archaeologist for an unhurried, deeply intimate twilight exploration of Machu Picchu’s royal sectors and celestial observatories.',
-    narrativeEs: 'Suba a los vagones de caoba pulida y detalles en bronce del tren vintage Belmond Hiram Bingham. Mientras el tren serpentea junto al río Urubamba, saboree un brunch gourmet de cuatro tiempos maridado con selectos vinos sudamericanos y música en vivo. Al llegar a Aguas Calientes, ascienda a la ciudadela en transporte preferencial para iniciar un recorrido íntimo con su arqueólogo privado colegiado por los templos y observatorios solares.',
-    durationEn: '2 Days / 1 Night',
-    durationEs: '2 Días / 1 Noche',
-    priceUsd: 2150.00,
-    pricePen: 8170.00,
-    difficultyEn: 'Leisure & Refined',
-    difficultyEs: 'Placentero y Exclusivo',
-    altitudeMax: '2,430 m / 7,972 ft',
-    mainImageUrl: 'assets/images/hiram_bingham_main.jpg',
-    galleryImages: [
-      'assets/images/hiram_bingham_main.jpg',
-      'assets/images/hiram_bingham_musicians.jpg',
-      'assets/images/hiram_bingham_valley.jpg'
-    ],
-    highlightsEn: [
-      'Roundtrip vintage Belmond Hiram Bingham luxury rail tickets with private observatory car',
-      'Four-course degustation brunch and gala dinner banquets with premium open bar',
-      'Exclusive Afternoon Tea at Belmond Sanctuary Lodge adjacent to the citadel',
-      'Private licensed master archaeologist guide with pre-reserved official circuit entries'
-    ],
-    highlightsEs: [
-      'Boletos ida y vuelta a bordo del legendario tren de lujo Belmond Hiram Bingham',
-      'Brunch gourmet de 4 tiempos y cena de gala con barra libre de vinos selectos',
-      'Afternoon Tea exclusivo en los jardines de Belmond Sanctuary Lodge',
-      'Arqueólogo privado colegiado y boletos oficiales pre-reservados ante el Ministerio'
-    ],
-    inclusionsEn: [
-      'Roundtrip Belmond Hiram Bingham luxury train tickets (Poroy / Ollantaytambo to Aguas Calientes)',
-      'All gourmet meals on board: 4-course brunch, 4-course dinner banquet, and cocktails',
-      'Afternoon Tea and gourmet luncheon at Belmond Sanctuary Lodge',
-      'Official Ministry of Culture entrance permits for Circuit 1 & 2',
-      'Exclusive roundtrip Consettur VIP shuttle transfers to the citadel entrance',
-      'Dedicated private certified archaeologist for personalized sanctuary interpretation',
-      'Private executive chauffeur transfers between your Cusco hotel and train station',
-      '24/7 in-country concierge assistance, luggage transfer and emergency medical oxygen'
-    ],
-    inclusionsEs: [
-      'Boletos de ida y vuelta en el tren de lujo Belmond Hiram Bingham',
-      'Todos los banquetes gourmet a bordo: brunch de 4 tiempos, cena de gala y coctelería de autor',
-      'Afternoon Tea y almuerzo exclusivo en Belmond Sanctuary Lodge',
-      'Boletos oficiales del Ministerio de Cultura para Circuitos 1 y 2',
-      'Transporte VIP en bus Consettur ida y vuelta al ingreso de la ciudadela',
-      'Arqueólogo privado colegiado durante todo el recorrido del santuario',
-      'Traslados ejecutivos en vehículo privado entre su hotel en Cusco y la estación',
-      'Asistencia personalizada de concierge 24/7, traslado de equipaje y oxígeno medicinal'
-    ],
-    exclusionsEn: [
-      'International flights arriving to / departing from Peru',
-      'Domestic flights (Lima - Cusco - Lima)',
-      'Discretionary gratuities for train crew, private guides, and chauffeurs',
-      'Personal travel insurance (comprehensive cancellation & medical coverage recommended)'
-    ],
-    exclusionsEs: [
-      'Vuelos internacionales de ingreso y salida del Perú',
-      'Vuelos domésticos (Lima - Cusco - Lima)',
-      'Propinas discrecionales para tripulación del tren, guías y choferes',
-      'Seguro de viaje personal (se recomienda cobertura médica y de cancelación)'
-    ],
-    itineraries: [
-      {
-        dayNumber: 1,
-        titleEn: 'Boarding the Legend & Sunset at the Citadel',
-        titleEs: 'Abordaje de Leyenda y Atardecer en la Ciudadela',
-        descEn: 'Morning private transfer from your Cusco or Sacred Valley suite to the train station. Embark on the Belmond Hiram Bingham. Enjoy welcome cocktails, live Andean acoustic rhythms, and a four-course gourmet brunch. Arrive in Aguas Calientes and proceed directly to the citadel via VIP shuttle for a private guided exploration in late-afternoon golden light. Unwind with Afternoon Tea on the orchid terraces of Belmond Sanctuary Lodge.',
-        descEs: 'Traslado privado matutino desde su suite a la estación. Abordaje del Belmond Hiram Bingham con cóctel de bienvenida, música acústica y brunch de cuatro tiempos. Llegada a Aguas Calientes y traslado en bus VIP a la ciudadela para una visita guiada privada en la serena luz dorada del atardecer. Disfrute del Afternoon Tea en las terrazas de orquídeas de Belmond Sanctuary Lodge.',
-        diningEn: '4-Course Champagne Brunch & Belmond Afternoon Tea',
-        diningEs: 'Brunch de 4 tiempos con Champaña y Té Belmond',
-        transferEn: 'Private executive sedan to station + VIP citadel shuttle',
-        transferEs: 'Sedán ejecutivo privado a estación + Bus VIP al santuario'
-      },
-      {
-        dayNumber: 2,
-        titleEn: 'Sunrise Citadel Solitude & Return Gala Dinner',
-        titleEs: 'Amanecer Místico y Cena de Gala de Retorno',
-        descEn: 'Early morning second access to the sanctuary to witness dawn mist lifting above the Temple of the Sun and the Intihuatana stone. Optional ascent to Huayna Picchu or Huchuy Picchu peak. Following lunch at Sanctuary Lodge, board the evening Hiram Bingham train for a festive return celebration featuring live music and a four-course dinner banquet before private hotel transfer.',
-        descEs: 'Segundo ingreso matutino temprano para contemplar la neblina disipándose sobre el Templo del Sol y el Intihuatana. Ascenso opcional a Huayna Picchu o Huchuy Picchu. Tras un almuerzo en Sanctuary Lodge, aborde el tren Hiram Bingham de retorno con orquesta en vivo y cena de gala de cuatro tiempos antes de su traslado privado al hotel.',
-        diningEn: 'Sanctuary Lodge gourmet lunch & 4-Course Gala Dinner on Train',
-        diningEs: 'Almuerzo en Sanctuary Lodge y Cena de gala en el tren',
-        transferEn: 'Private executive chauffeur to your hotel in Cusco',
-        transferEs: 'Chofer ejecutivo privado a su hotel en Cusco'
-      }
-    ],
-    locations: ['cusco', 'mp'],
-    altitudeProfile: {
-      startMeters: 3400,
-      peakMeters: 3400,
-      sleepMeters: 2430,
-      oxygenPercent: 76,
-      circuitEn: 'Cusco ➔ Machu Picchu',
-      circuitEs: 'Cusco ➔ Machu Picchu',
-      tipEn: 'Descent Strategy: Following your departure from Cusco (3,400m), you descend to Machu Picchu (2,430m) which provides 15% more effective oxygen, allowing restorative sleep and effortless vitality.',
-      tipEs: 'Estrategia de Descenso: Tras salir de Cusco (3,400 msnm), el tren desciende a Machu Picchu (2,430 msnm), donde el oxígeno disponible es notablemente mayor, favoreciendo un descanso profundo y placentero.'
-    }
-  },
-  {
-    id: 2,
-    slug: 'sacred-valley-prive-shamanic-ritual',
-    categoryId: 'sacred-valley-mysticism',
-    styleTag: 'Heritage & High Gastronomy',
-    titleEn: 'Sacred Valley Privé: Maras, Moray & Q\'ero Shamanic Blessing',
-    titleEs: 'Valle Sagrado Privé: Maras, Moray y Bendición Chamánica Q\'ero',
-    subtitleEn: 'Private haciendas, ancestral pink salt pans, and an intimate Pachamama blessing with an Andean master.',
-    subtitleEs: 'Haciendas privadas, salineras rosadas y pago a la Pachamama con un sabio maestro Q\'ero.',
-    narrativeEn: 'Immerse your senses in the timeless spiritual heartland of the Incas. In an executive Mercedes-Benz Sprinter equipped with oxygen and bespoke amenities, journey through dramatic Andean landscapes to the concentric agricultural research terraces of Moray and the cascading pink salt pools of Maras. In the tranquil gardens of a private estate, participate in an authentic Haywarikuy (Pachamama offering) led by a revered Q\'ero Pampamesayoc elder, followed by an exquisite private luncheon at historic Hacienda Huayoccari.',
-    narrativeEs: 'Adéntrese en el corazón espiritual de los Andes. En una Mercedes-Benz Sprinter ejecutiva equipada con oxígeno y atenciones especiales, recorra los andenes concéntricos de Moray y las salineras milenarias de Maras. En los jardines de una hacienda privada, participe en una auténtica ofrenda a la Pachamama (Haywarikuy) guiada por un maestro chamán Q\'ero Pampamesayoc, culminando con un almuerzo de autor en la emblemática Hacienda Huayoccari.',
-    durationEn: 'Full Day (8 Hours)',
-    durationEs: 'Día Completo (8 Horas)',
-    priceUsd: 680.00,
-    pricePen: 2584.00,
-    difficultyEn: 'Gentle & Inspiring',
-    difficultyEs: 'Suave y Reparador',
-    altitudeMax: '3,500 m / 11,480 ft',
-    mainImageUrl: 'assets/images/sacred_valley_maras_main.jpg',
-    galleryImages: [
-      'assets/images/sacred_valley_maras_main.jpg',
-      'assets/images/sacred_valley_moray.jpg',
-      'assets/images/sacred_valley_qero.jpg'
-    ],
-    highlightsEn: [
-      'Executive Mercedes-Benz Sprinter with private chauffeur and cold towels',
-      'Authentic private Andean ceremony with a genuine Q\'ero Pampamesayoc master',
-      'Private multi-course luncheon at Hacienda Huayoccari paired with reserve wines',
-      'Private demonstration of Peruvian Paso Horses and traditional marinera dance'
-    ],
-    highlightsEs: [
-      'Mercedes-Benz Sprinter ejecutiva con chofer privado y toallas aromatizadas',
-      'Ceremonia privada auténtica con sabio maestro chamán Q\'ero de la alta montaña',
-      'Almuerzo privado de varios tiempos en Hacienda Huayoccari con maridaje de vinos',
-      'Demostración privada de caballos peruanos de paso y marinera tradicional'
-    ],
-    inclusionsEn: [
-      'Private executive transportation in Mercedes-Benz Sprinter with dedicated chauffeur',
-      'Certified master Andean anthropologist & licensed private guide',
-      'All entry passes to Moray archaeological site and Maras Salt Pans',
-      'Authentic Q\'ero elder ritual materials, sacred coca kintus, and incense offerings',
-      'Gourmet 4-course lunch at Hacienda Huayoccari with wine pairing',
-      'Private access to folk art museum and Peruvian Paso Horse presentation',
-      'Supplemental oxygen concentrators, spring water, and organic Andean snacks'
-    ],
-    inclusionsEs: [
-      'Transporte ejecutivo exclusivo en Mercedes-Benz Sprinter con chofer dedicado',
-      'Guía privado colegiado especialista en antropología andina',
-      'Todos los boletos de ingreso a Moray y las Salineras de Maras',
-      'Materiales rituales tradicionales, hojas sagradas de coca e incienso ceremonial',
-      'Almuerzo gourmet de 4 tiempos en Hacienda Huayoccari con maridaje de vinos',
-      'Acceso privado a la colección de arte virreinal y exhibición de caballos de paso',
-      'Oxígeno medicinal a bordo, agua de manantial y bocadillos orgánicos locales'
-    ],
-    exclusionsEn: [
-      'Accommodations in Cusco or the Sacred Valley (available upon request)',
-      'Gratuities for driver, guide, and ritual shamans',
-      'Personal purchases and alcoholic beverages outside the included pairing'
-    ],
-    exclusionsEs: [
-      'Alojamiento en Cusco o Valle Sagrado (disponible a solicitud)',
-      'Propinas para chofer, guía y maestro chamán',
-      'Compras personales y bebidas fuera del maridaje estipulado'
-    ],
-    itineraries: [
-      {
-        dayNumber: 1,
-        titleEn: 'Inca Agricultural Wonders & Ancestral Blessing',
-        titleEs: 'Laboratorios Agrícolas y Ceremonia a la Tierra',
-        descEn: 'Depart your hotel for Moray’s dramatic amphitheater terraces. Walk the rim with your anthropologist, discovering how the Incas created unique microclimates. Continue to the pink salt pans of Maras, where thousands of hand-carved pools have produced mineral-rich salt since pre-Inca times. In secluded private gardens, join a Q\'ero elder for a profound blessing of gratitude to Mother Earth. Conclude with a lavish feast at Hacienda Huayoccari overlooking the Vilcanota range.',
-        descEs: 'Salida hacia los anfiteatros agrícolas de Moray para comprender la ingeniería inca de microclimas. Continuación a las salineras rosadas de Maras, donde miles de pozas artesanales producen sal mineral desde tiempos preincaicos. En los jardines privados de una hacienda, participe en la bendición ancestral a la Pachamama con el maestro Q\'ero. Finalice con un banquete en Hacienda Huayoccari con vistas panorámicas al valle.',
-        diningEn: 'Artisanal 4-course Andean lunch at Hacienda Huayoccari',
-        diningEs: 'Almuerzo artesanal de 4 tiempos en Hacienda Huayoccari',
-        transferEn: 'Mercedes-Benz Executive Sprinter with oxygen & amenities',
-        transferEs: 'Mercedes-Benz Sprinter ejecutiva con oxígeno y amenities'
-      }
-    ],
-    locations: ['cusco', 'mp'],
-    altitudeProfile: {
-      startMeters: 2870,
-      peakMeters: 3400,
-      sleepMeters: 2870,
-      oxygenPercent: 74,
-      circuitEn: 'Cusco ➔ Sacred Valley ➔ Machu Picchu',
-      circuitEs: 'Cusco ➔ Valle Sagrado ➔ Machu Picchu',
-      tipEn: 'Valley First Sanctuary Protocol: By landing in Cusco and descending directly to Urubamba (2,870m), your body acclimatizes smoothly while resting in private Relais & Châteaux casitas.',
-      tipEs: 'Protocolo de Valle Primero: Al llegar a Cusco y descender de inmediato a Urubamba (2,870 msnm), su organismo se aclimata gradualmente disfrutando de casitas privadas Relais & Châteaux.'
-    }
-  },
-  {
-    id: 3,
-    slug: 'belmond-andean-explorer-cusco-titicaca',
-    categoryId: 'luxury-rail-journeys',
-    styleTag: 'Belmond Sleeper Train',
-    titleEn: 'Belmond Andean Explorer: High Altiplano to Lake Titicaca',
-    titleEs: 'Belmond Andean Explorer: Del Altiplano al Lago Titicaca',
-    subtitleEn: 'South America\'s premier luxury sleeper train across high plateaus and private island sanctuaries.',
-    subtitleEs: 'El primer tren de lujo con suites dormitorio de Sudamérica a través del altiplano y el Titicaca.',
-    narrativeEn: 'Step into the golden age of sleeper rail travel aboard the Belmond Andean Explorer. Featuring handcrafted timber panelling, delicate alpaca textiles, and private en-suite bathrooms, this transcendent voyage crosses the great Altiplano between Cusco and Puno. Toast with champagne at La Raya pass (4,319 meters) as snow-dusted Andean giants tower above, listen to live melodies in the piano bar, and awaken to dawn sunlight spreading across the mystical azure waters of Lake Titicaca.',
-    narrativeEs: 'Suba al Belmond Andean Explorer, el tren dormitorio de lujo más distinguido de Sudamérica. Con finos acabados en madera, textiles de alpaca y elegantes baños privados en cada cabina, este viaje cruza el majestuoso altiplano entre Cusco y Puno. Brinde con champaña en el paso de La Raya (4,319 msnm), disfrute del piano bar en el vagón mirador y despierte con la luz dorada reflejándose en las aguas sagradas del Lago Titicaca.',
-    durationEn: '2 Days / 1 Night',
-    durationEs: '2 Días / 1 Noche',
-    priceUsd: 3450.00,
-    pricePen: 13110.00,
-    difficultyEn: 'Ultra-Luxury Leisure',
-    difficultyEs: 'Lujo Pleno & Contemplativo',
-    altitudeMax: '4,319 m / 14,170 ft (La Raya)',
-    mainImageUrl: 'assets/images/andean_explorer_main.jpg',
-    galleryImages: [
-      'assets/images/andean_explorer_main.jpg',
-      'assets/images/andean_explorer_titicaca.jpg',
-      'assets/images/andean_explorer_laraya.jpg'
-    ],
-    highlightsEn: [
-      'Private suite cabin with en-suite shower and fine linens aboard Belmond Andean Explorer',
-      'Observation car cocktail lounge with open-air viewing terrace and grand piano',
-      'Sunset champagne toast at La Raya mountain pass (4,319m elevation)',
-      'Private luxury yacht charter on Lake Titicaca to secluded reed islands and Taquile'
-    ],
-    highlightsEs: [
-      'Suite privada con baño completo y ropa de cama de lujo en Belmond Andean Explorer',
-      'Vagón observatorio con terraza abierta panorámica y cócteles de autor',
-      'Brindis de gala al atardecer en el abra de La Raya a 4,319 metros sobre el nivel del mar',
-      'Navegación en yate privado por el Lago Titicaca hacia islas de los Uros y Taquile'
-    ],
-    inclusionsEn: [
-      '1 Night accommodation in private luxury suite cabin on Belmond Andean Explorer',
-      'All gourmet meals, afternoon teas, and gala dinners curated by Chef Diego Muñoz',
-      'Open bar including fine South American reserve wines and artisanal spirits',
-      'En-route excursions to the archaeological site of Raqch\'i and La Raya',
-      'Private yacht charter on Lake Titicaca with expert cultural specialist guide',
-      'Private barbecue luncheon on Taquile island overlooking the royal blue lake',
-      'VIP luggage porterage, hotel transfers, and dedicated butler service on board'
-    ],
-    inclusionsEs: [
-      '1 Noche de alojamiento en suite privada con baño en Belmond Andean Explorer',
-      'Todas las comidas gourmet, tés de la tarde y cenas de gala del chef Diego Muñoz',
-      'Barra libre con selectos vinos sudamericanos y cócteles exclusivos',
-      'Excursiones guiadas privadas en el templo inca de Raqch\'i y el paso de La Raya',
-      'Yate privado en el Lago Titicaca con especialista cultural y guía privado',
-      'Almuerzo privado en la isla de Taquile frente al horizonte del lago',
-      'Manejo preferencial de equipaje, traslados privados y mayordomo a bordo'
-    ],
-    exclusionsEn: [
-      'Airfare between Lima, Cusco, and Juliaca/Puno',
-      'Pre- or post-journey hotel accommodations (Belmond Monasterio / Titilaka available on request)',
-      'Discretionary gratuities for train crew and private yacht skippers'
-    ],
-    exclusionsEs: [
-      'Vuelos comerciales entre Lima, Cusco y Juliaca/Puno',
-      'Hoteles antes o después del viaje (Belmond Monasterio / Titilaka a solicitud)',
-      'Propinas para personal de servicio a bordo y tripulación del yate'
-    ],
-    itineraries: [
-      {
-        dayNumber: 1,
-        titleEn: 'Cusco to the High Altiplano Plateau',
-        titleEs: 'De Cusco hacia el Altiplano Sagrado',
-        descEn: 'Board at Wanchaq station in Cusco. Settle into your handcrafted suite cabin before savoring an exquisite three-course lunch as the train ascends the Vilcanota valley. Stop to explore the grand Inca Temple of Raqch\'i. As twilight settles, gather on the observation deck at La Raya (4,319m) for a sunset champagne celebration followed by a seasonal gala dinner banquet.',
-        descEs: 'Embarque en la estación Wanchaq de Cusco. Acomódese en su suite privada y disfrute de un almuerzo gourmet mientras el tren asciende el valle de Vilcanota. Descienda para una visita guiada privada al templo inca de Raqch\'i. Al caer la tarde, reúnase en la terraza mirador de La Raya (4,319 m) para un brindis con champaña y una cena de gala estacional.',
-        diningEn: 'Degustation menus by celebrated Chef Diego Muñoz',
-        diningEs: 'Menús de autor diseñados por el chef Diego Muñoz',
-        transferEn: 'Train station VIP reception and private porterage',
-        transferEs: 'Recepción VIP en estación y manejo privado de equipaje'
-      },
-      {
-        dayNumber: 2,
-        titleEn: 'Sunrise on Lake Titicaca & Private Island Navigation',
-        titleEs: 'Amanecer en el Titicaca y Navegación Privada',
-        descEn: 'Awaken to sunrise breaking over Lake Titicaca. After breakfast served in the dining car, embark on a private yacht excursion across the high-altitude waters. Discover the centuries-old reed construction traditions of the Uros people, followed by a private cultural encounter on Taquile island with an open-air barbecue banquet featuring fresh lake trout.',
-        descEs: 'Despierte con los primeros rayos del sol sobre el Lago Titicaca. Tras un desayuno a la carta en el vagón comedor, aborde un yate privado para surcar las aguas más altas del mundo. Descubra las técnicas ancestrales de las islas flotantes de los Uros y disfrute de un almuerzo campestre privado en Taquile con trucha fresca del lago.',
-        diningEn: 'Gourmet lakeside barbecue in Taquile with fresh trout',
-        diningEs: 'Almuerzo campestre con trucha fresca del lago en Taquile',
-        transferEn: 'Private yacht charter on Lake Titicaca',
-        transferEs: 'Yate privado exclusivo en el Lago Titicaca'
-      }
-    ],
-    locations: ['cusco', 'puno', 'arq'],
-    altitudeProfile: {
-      startMeters: 3400,
-      peakMeters: 4319,
-      sleepMeters: 3812,
-      oxygenPercent: 64,
-      circuitEn: 'Cusco ➔ Puno (Lake Titicaca) ➔ Arequipa',
-      circuitEs: 'Cusco ➔ Puno (Lago Titicaca) ➔ Arequipa',
-      tipEn: 'High Altiplano Comfort: Belmond Andean Explorer sleeper cars offer discreet cabin oxygen enrichment, calming herbal infusions, and relaxed railway rhythm as you traverse the highest rail pass in South America.',
-      tipEs: 'Confort en el Altiplano: Los coches cama del Belmond Andean Explorer cuentan con inyección discreta de oxígeno en cabina, infusiones medicinales relajantes y ritmo pausado a través del paso ferroviario más alto de Sudamérica.'
-    }
-  },
-  {
-    id: 4,
-    slug: 'classic-inca-trail-vip-glamping',
-    categoryId: 'vip-glamping-expeditions',
-    styleTag: 'VIP Glamping & Wellness',
-    titleEn: 'Classic Inca Trail VIP Glamping: The Royal Route',
-    titleEs: 'Camino Inca Clásico VIP Glamping: La Ruta Real',
-    subtitleEn: 'Conquer the ancient stone path with heated dome suites, on-trail massage therapist, and private chef.',
-    subtitleEs: 'Camine la mítica calzada inca con domos calefaccionados, masajista y chef gourmet en ruta.',
-    narrativeEn: 'Trek the legendary stone highways of the Incas without surrendering the sublime comforts of five-star hospitality. Our royal expedition brigade precedes you to construct heated geodesic dome bedrooms outfitted with elevated raised beds, goose-down duvets, hot shower privacy tents, and eco-friendly private sanitary facilities. Accompanied by a master expedition archaeologist, an on-trail wellness physiotherapist, and a private expedition chef serving four-course hot meals, arrive at the Sun Gate (Inti Punku) in regal triumph.',
-    narrativeEs: 'Recorra la legendaria calzada de piedra de los incas sin renunciar a las comodidades de la alta hospitalidad. Nuestra brigada de expedición real se adelanta para montar domos geodésicos calefaccionados con camas de verdad, edredones de pluma, carpa de duchas calientes y baños privados. Acompañado por un arqueólogo de montaña, un terapeuta masajista para recuperación muscular y chef privado en ruta, ingrese por la Puerta del Sol (Inti Punku) con distinción absoluta.',
-    durationEn: '4 Days / 3 Nights',
-    durationEs: '4 Días / 3 Noches',
-    priceUsd: 2890.00,
-    pricePen: 10982.00,
-    difficultyEn: 'Challenging with Elite Support',
-    difficultyEs: 'Exigente con Soporte Élite',
-    altitudeMax: '4,215 m / 13,828 ft',
-    mainImageUrl: 'assets/images/inca_trail_main.jpg',
-    galleryImages: [
-      'assets/images/inca_trail_main.jpg',
-      'assets/images/inca_trail_winay_wayna.jpg',
-      'assets/images/inca_trail_sungate.jpg'
-    ],
-    highlightsEn: [
-      'Heated private geodesic dome suites with real raised mattresses and goose-down duvets',
-      'Private hot shower tent set up every single afternoon at secluded camp locations',
-      'Dedicated on-trail physiotherapist and massage therapist for daily muscle recovery',
-      'Gourmet 3-course hot meals prepared on-site by our private Andean expedition chef'
-    ],
-    highlightsEs: [
-      'Domos geodésicos privados calefaccionados con camas altas y edredones de pluma',
-      'Carpa de ducha caliente instalada al culminar cada jornada en campamentos exclusivos',
-      'Fisioterapeuta y masajista dedicado en ruta para recuperación física al final del día',
-      'Cocina caliente de 3 tiempos elaborada en sitio por chef privado de expedición'
-    ],
-    inclusionsEn: [
-      'Official Inca Trail trekking permits pre-reserved directly with SERNANP & Ministry of Culture',
-      'Private camp crew: elite porters, camp master, waiters, and equipment crew',
-      'Heated dome suites with real beds, thermal duvets, nightstands, and slippers',
-      'Private hot shower tent and clean private chemical toilet facilities',
-      'Dedicated private on-trail massage therapist for post-trek recovery sessions',
-      'Private expedition chef preparing breakfast, hot lunch, afternoon tea, and 3-course dinner',
-      'Return journey aboard the luxury Belmond Hiram Bingham train with gala dinner',
-      'Licensed master mountain archaeologist guide equipped with satellite communications and oxygen'
-    ],
-    inclusionsEs: [
-      'Permisos oficiales del Camino Inca pre-reservados ante SERNANP y Ministerio de Cultura',
-      'Equipo completo de apoyo: porteadores élite, mayordomos de campamento y personal de logística',
-      'Domos calefaccionados con camas altas, edredones térmicos, lámparas de noche y calzado de descanso',
-      'Carpa de ducha caliente privada y servicios higiénicos químicos exclusivos',
-      'Masajista / terapeuta dedicado para masajes relajantes tras cada caminata',
-      'Chef privado de expedición con desayuno a la carta, almuerzo caliente, merienda y cena de 3 tiempos',
-      'Retorno triunfal en el tren de lujo Belmond Hiram Bingham con cena de gala',
-      'Guía arqueólogo de montaña colegiado con teléfono satelital, botiquín y oxígeno medicinal'
-    ],
-    exclusionsEn: [
-      'Personal trekking gear (hiking boots, trekking poles, breathable layers)',
-      'Pre-trek accommodation in Cusco or Ollantaytambo',
-      'Voluntary gratuities for porters, camp assistants, and chefs'
-    ],
-    exclusionsEs: [
-      'Equipo personal de trekking (botas de montaña, bastones, ropa técnica)',
-      'Alojamiento previo en Cusco u Ollantaytambo',
-      'Propinas voluntarias para la brigada de porteadores, cocineros y guías'
-    ],
-    itineraries: [
-      {
-        dayNumber: 1,
-        titleEn: 'Valley of Patallacta & Gentle Ascent',
-        titleEs: 'Valle de Patallacta y Ascenso Suave',
-        descEn: 'Private 4x4 transfer to Km 82 trailhead. Gentle trek along the Urubamba river, overlooking Patallacta archaeological site. Arrival at private luxury camp with welcome massage and hot herbal infusions.',
-        descEs: 'Inicio en el Km 82 tras traslado en 4x4. Caminata suave junto al río con vistas panorámicas a Patallacta. Llegada al campamento exclusivo con masaje de bienvenida y té caliente.',
-        diningEn: 'Hot 3-course organic lunch and dinner in heated dining tent',
-        diningEs: 'Almuerzo y cena caliente de 3 tiempos en carpa comedor',
-        transferEn: 'Private 4x4 overland from Cusco to trailhead',
-        transferEs: 'Transporte privado 4x4 desde Cusco al punto de inicio'
-      },
-      {
-        dayNumber: 2,
-        titleEn: 'Dead Woman\'s Pass (Warmiwañusqa - 4,215m)',
-        titleEs: 'Paso de la Mujer Muerta (4,215 msnm)',
-        descEn: 'Ascent to the highest pass with personal porters and hyperbaric oxygen chambers on standby. Rewarding descent to Pacaymayo private camp for hot showers and restorative massage.',
-        descEs: 'Ascenso al paso más alto con apoyo continuo de porteadores y oxígeno medicinal. Descenso reconfortante al campamento privado de Pacaymayo con duchas calientes y sesión de masaje.',
-        diningEn: 'High-energy gourmet trail cuisine and hot herbal infusions',
-        diningEs: 'Cocina energética de alta montaña y calientes infusiones',
-        transferEn: 'Porterage brigade carrying all personal luggage',
-        transferEs: 'Brigada de porteadores transportando todo el equipaje'
-      },
-      {
-        dayNumber: 3,
-        titleEn: 'Cloud Forests of Wiñay Wayna',
-        titleEs: 'Bosque de Nubes y Wiñay Wayna',
-        descEn: 'Traverse magnificent Inca staircases, tunnel passages, and orchid forests to the terraces of Wiñay Wayna. Gala celebration dinner crafted by your private chef in the high cloud forest.',
-        descEs: 'Paso por escalinatas incas, túneles tallados en roca y orquídeas hacia Wiñay Wayna. Cena de gala de celebración preparada por su chef privado en medio del bosque nuboso.',
-        diningEn: 'Gala trail celebration feast with chef\'s specialty Andean lamb',
-        diningEs: 'Cena de gala en la montaña con especialidad de cordero andino',
-        transferEn: 'Private camp setup with hot showers',
-        transferEs: 'Campamento privado exclusivo con duchas calientes'
-      },
-      {
-        dayNumber: 4,
-        titleEn: 'Inti Punku Sun Gate & Machu Picchu Sanctuary',
-        titleEs: 'Puerta del Sol (Inti Punku) y Machu Picchu',
-        descEn: 'Sunrise hike to the Sun Gate for the iconic first glimpse of Machu Picchu. Private tour of the Citadel followed by luxury return on the Hiram Bingham.',
-        descEs: 'Llegada al amanecer a la Puerta del Sol con vista panorámica de la ciudadela. Tour privado completo y retorno en el tren de lujo Hiram Bingham.',
-        diningEn: 'Celebration lunch at Sanctuary Lodge & dinner on train',
-        diningEs: 'Almuerzo en Sanctuary Lodge y cena en el tren de lujo',
-        transferEn: 'Luxury Hiram Bingham train return to Cusco',
-        transferEs: 'Retorno en el tren Belmond Hiram Bingham a Cusco'
-      }
-    ],
-    locations: ['cusco', 'mp'],
-    altitudeProfile: {
-      startMeters: 2600,
-      peakMeters: 4215,
-      sleepMeters: 2430,
-      oxygenPercent: 62,
-      circuitEn: 'Cusco ➔ Inca Trail ➔ Inti Punku (MP)',
-      circuitEs: 'Cusco ➔ Camino Inca ➔ Inti Punku (MP)',
-      tipEn: 'VIP Glamping Pacing: Accompanied by private Andean porters, personal massage therapists, and portable hyperbaric chambers. Measured breathing and unhurried pacing ensure majestic passage through high mountain passes.',
-      tipEs: 'Ritmo de Glamping VIP: Acompañado por porteadores privados, masajistas y cámaras hiperbáricas portátiles. Un ritmo pausado y respiración armónica garantizan una travesía inolvidable por los pasos de montaña.'
-    }
-  }
-];
+// Tour Normalizer for data fetched strictly from .NET 9 / MySQL Database
+function normalizeTourDetail(t) {
+  if (!t) return null;
+  return {
+    id: t.id,
+    slug: t.slug,
+    categoryId: t.categoryId,
+    categorySlug: t.categorySlug || '',
+    categoryName: t.categoryName || '',
+    categoryNameEn: t.categoryNameEn || '',
+    categoryNameEs: t.categoryNameEs || '',
+    styleTag: t.styleTag || 'Ultra-Luxury',
+    title: t.title || '',
+    titleEn: t.titleEn || t.title || '',
+    titleEs: t.titleEs || t.title || '',
+    subtitle: t.subtitle || '',
+    subtitleEn: t.subtitleEn || t.subtitle || '',
+    subtitleEs: t.subtitleEs || t.subtitle || '',
+    narrativeEn: t.descriptionEn || t.description || '',
+    narrativeEs: t.descriptionEs || t.description || '',
+    descriptionEn: t.descriptionEn || t.description || '',
+    descriptionEs: t.descriptionEs || t.description || '',
+    duration: t.duration || '',
+    durationEn: t.durationEn || t.duration || '',
+    durationEs: t.durationEs || t.duration || '',
+    durationDays: t.durationDays || 1,
+    priceUsd: Number(t.priceUsd) || 0,
+    pricePen: Number(t.pricePen) || (Number(t.priceUsd) * 3.80),
+    difficulty: t.difficulty || '',
+    difficultyEn: t.difficultyEn || t.difficulty || '',
+    difficultyEs: t.difficultyEs || t.difficulty || '',
+    altitudeMax: t.altitudeMax || '',
+    startingPoint: t.startingPoint || '',
+    featured: Boolean(t.featured),
+    isActive: t.isActive !== false,
+    displayOrder: t.displayOrder || 0,
+    mainImageUrl: t.mainImageUrl || '',
+    galleryImages: Array.isArray(t.galleryImages) && t.galleryImages.length > 0 ? t.galleryImages : [t.mainImageUrl],
+    highlightsEn: Array.isArray(t.highlightsEn) && t.highlightsEn.length > 0 ? t.highlightsEn : (Array.isArray(t.highlights) ? t.highlights : []),
+    highlightsEs: Array.isArray(t.highlightsEs) && t.highlightsEs.length > 0 ? t.highlightsEs : (Array.isArray(t.highlights) ? t.highlights : []),
+    highlights: Array.isArray(t.highlights) ? t.highlights : [],
+    inclusionsEn: Array.isArray(t.includedEn) && t.includedEn.length > 0 ? t.includedEn : (Array.isArray(t.included) ? t.included : []),
+    inclusionsEs: Array.isArray(t.includedEs) && t.includedEs.length > 0 ? t.includedEs : (Array.isArray(t.included) ? t.included : []),
+    exclusionsEn: Array.isArray(t.notIncludedEn) && t.notIncludedEn.length > 0 ? t.notIncludedEn : (Array.isArray(t.notIncluded) ? t.notIncluded : []),
+    exclusionsEs: Array.isArray(t.notIncludedEs) && t.notIncludedEs.length > 0 ? t.notIncludedEs : (Array.isArray(t.notIncluded) ? t.notIncluded : []),
+    locations: Array.isArray(t.locations) && t.locations.length > 0 ? t.locations : ['cusco', 'mp'],
+    altitudeProfile: t.altitudeProfile || null,
+    itineraries: (t.itineraries || []).map(day => ({
+      id: day.id,
+      dayNumber: day.dayNumber,
+      titleEn: day.titleEn || day.title,
+      titleEs: day.titleEs || day.title,
+      title: day.title,
+      descEn: day.descriptionEn || day.description,
+      descEs: day.descriptionEs || day.description,
+      descriptionEn: day.descriptionEn || day.description,
+      descriptionEs: day.descriptionEs || day.description,
+      diningEn: day.gourmetDiningEn || day.gourmetDining,
+      diningEs: day.gourmetDiningEs || day.gourmetDining,
+      transferEn: day.privateTransferEn || day.privateTransfer,
+      transferEs: day.privateTransferEs || day.privateTransfer
+    }))
+  };
+}
 
 // Curated Partner Hotel Collection Data (Improvement 4)
 const partnerHotelsData = [
@@ -807,10 +451,8 @@ function renderGeoAndAltitude(tour) {
   }).join('');
 }
 
-// Initialize Tour Page on DOM Load
-document.addEventListener('DOMContentLoaded', () => {
-  appState.allTours = defaultTours;
-
+// Initialize Tour Page on DOM Load strictly from .NET 9 / MySQL Database
+document.addEventListener('DOMContentLoaded', async () => {
   // Sync language & currency from localStorage or query
   const urlParams = new URLSearchParams(window.location.search);
   const langParam = urlParams.get('lang');
@@ -825,10 +467,6 @@ document.addEventListener('DOMContentLoaded', () => {
     localStorage.setItem('luxury_currency', currParam);
   }
 
-  // Identify active tour from slug
-  const slug = urlParams.get('slug') || 'belmond-hiram-bingham-pinnacle';
-  appState.tour = defaultTours.find(t => t.slug === slug) || defaultTours[0];
-
   // Set min date on date input (today + 2 days)
   const dateInput = document.getElementById('sidebarDate');
   if (dateInput) {
@@ -838,28 +476,68 @@ document.addEventListener('DOMContentLoaded', () => {
     dateInput.value = future.toISOString().split('T')[0];
   }
 
-  // Render complete tour view immediately
-  renderTourPage();
   setupScrollListener();
 
-  // Background fetch from Backend API for live database data sync
-  fetchApi(`/tours/${slug}?lang=${appState.currentLang}`)
-    .then(res => res.ok ? res.json() : null)
-    .then(apiTour => {
-      if (apiTour && appState.tour) {
-        if (apiTour.locations && apiTour.locations.length > 0) {
-          appState.tour.locations = apiTour.locations;
-        }
-        if (apiTour.altitudeProfile) {
-          appState.tour.altitudeProfile = apiTour.altitudeProfile;
-        }
-        renderTourPage();
-      }
-    })
-    .catch(() => {
-      // Backend offline or unreachable, default fallback is seamlessly active
-    });
+  // Identify active tour from slug or ID parameter
+  const slug = urlParams.get('slug') || urlParams.get('id') || 'belmond-hiram-bingham-pinnacle';
+
+  showTourLoadingState();
+
+  try {
+    const [tourRes, allToursRes] = await Promise.all([
+      fetchApi(`/tours/${slug}?lang=${appState.currentLang}`),
+      fetchApi(`/tours?lang=${appState.currentLang}`)
+    ]);
+
+    if (!tourRes.ok) {
+      throw new Error('Expedition not found in database');
+    }
+
+    const apiTour = await tourRes.json();
+    appState.tour = normalizeTourDetail(apiTour);
+
+    if (allToursRes.ok) {
+      const allData = await allToursRes.json();
+      appState.allTours = Array.isArray(allData) ? allData.map(normalizeTourDetail) : [];
+    }
+
+    renderTourPage();
+  } catch (err) {
+    console.error('Error fetching tour from database:', err);
+    showTourNotFoundState();
+  }
 });
+
+function showTourLoadingState() {
+  const heading = document.getElementById('heroTourTitle');
+  if (heading) heading.textContent = 'Sincronizando Expedición...';
+  const narrative = document.getElementById('tourLongNarrative');
+  if (narrative) {
+    narrative.innerHTML = '<span style="color:var(--color-sand);">Cargando información oficial desde la base de datos de Luxury Machupicchu...</span>';
+  }
+}
+
+function showTourNotFoundState() {
+  const isEs = appState.currentLang === 'es';
+  const heading = document.getElementById('heroTourTitle');
+  if (heading) heading.textContent = isEs ? 'Expedición No Encontrada' : 'Expedition Not Found';
+  const narrative = document.getElementById('tourLongNarrative');
+  if (narrative) {
+    narrative.innerHTML = `
+      <div style="padding: 2.5rem 1.5rem; background: rgba(18, 19, 22, 0.85); border: 1px solid var(--color-gold); border-radius: 6px; text-align: center;">
+        <h3 style="font-family: var(--font-serif); font-size: 1.5rem; color: #fff; margin-bottom: 1rem;">
+          ${isEs ? 'Expedición no disponible en el catálogo activo' : 'Expedition unavailable in active catalog'}
+        </h3>
+        <p style="color: var(--color-sand); font-size: 0.95rem; margin-bottom: 1.5rem;">
+          ${isEs ? 'La expedición que busca puede haber sido actualizada o archivada en el Atelier Central.' : 'The expedition you requested may have been archived or updated in our Central Atelier.'}
+        </p>
+        <a href="index.html#expeditions" class="btn-hero-gold" style="display: inline-block; text-decoration: none; padding: 0.75rem 1.8rem;">
+          ${isEs ? 'Explorar Colección de Expediciones' : 'Explore Expeditions Collection'}
+        </a>
+      </div>
+    `;
+  }
+}
 
 // Robust API fetch helper: In Coolify/Docker/Nginx uses relative /api, in split local dev falls back to :5000
 async function fetchApi(endpoint, options = {}) {
@@ -1182,10 +860,11 @@ function injectSchemaJsonLd(tour) {
   schemaScript.textContent = JSON.stringify(schema, null, 2);
 }
 
-// Handle Sidebar Reservation Form (WhatsApp VIP Dispatch)
+// Handle Sidebar Reservation Form (Persists to Database & Dispatches VIP WhatsApp)
 function handleSidebarBookingSubmit(event) {
   event.preventDefault();
   const tour = appState.tour;
+  if (!tour) return;
   const isEs = appState.currentLang === 'es';
 
   const date = document.getElementById('sidebarDate').value;
@@ -1194,6 +873,25 @@ function handleSidebarBookingSubmit(event) {
   const name = document.getElementById('sidebarName').value;
   const phone = document.getElementById('sidebarPhone').value;
   const notes = document.getElementById('sidebarNotes').value;
+
+  // Persist directly to .NET 9 / MySQL database
+  try {
+    fetchApi('/bookings', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        tourId: tour.id,
+        fullName: name,
+        email: 'guest.' + Date.now() + '@luxuryclient.com',
+        phone: phone,
+        numberOfGuests: parseInt(guests, 10),
+        travelDate: date ? new Date(date).toISOString() : null,
+        trainPreference: carriage,
+        specialRequests: notes,
+        preferredLanguage: appState.currentLang
+      })
+    }).catch(() => {});
+  } catch {}
 
   const totalUsd = tour.priceUsd * parseInt(guests, 10);
   const totalPen = tour.pricePen * parseInt(guests, 10);

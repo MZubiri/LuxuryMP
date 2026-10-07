@@ -65,17 +65,29 @@ public class ToursController : ControllerBase
         {
             Id = t.Id,
             Title = isEs ? t.TitleEs : t.TitleEn,
+            TitleEn = t.TitleEn,
+            TitleEs = t.TitleEs,
             Slug = t.Slug,
             Subtitle = isEs ? t.SubtitleEs : t.SubtitleEn,
+            SubtitleEn = t.SubtitleEn,
+            SubtitleEs = t.SubtitleEs,
             Description = isEs ? t.DescriptionEs : t.DescriptionEn,
+            DescriptionEn = t.DescriptionEn,
+            DescriptionEs = t.DescriptionEs,
             CategoryId = t.CategoryId,
             CategoryName = t.Category != null ? (isEs ? t.Category.NameEs : t.Category.NameEn) : string.Empty,
+            CategoryNameEn = t.Category != null ? t.Category.NameEn : string.Empty,
+            CategoryNameEs = t.Category != null ? t.Category.NameEs : string.Empty,
             CategorySlug = t.Category?.Slug ?? string.Empty,
             Duration = isEs ? t.DurationEs : t.DurationEn,
+            DurationEn = t.DurationEn,
+            DurationEs = t.DurationEs,
             DurationDays = t.DurationDays,
             PriceUsd = t.PriceUsd,
             PricePen = t.PricePen,
             Difficulty = isEs ? t.DifficultyEs : t.DifficultyEn,
+            DifficultyEn = t.DifficultyEn,
+            DifficultyEs = t.DifficultyEs,
             AltitudeMax = t.AltitudeMax,
             StartingPoint = t.StartingPoint,
             StyleTag = t.StyleTag,
@@ -83,7 +95,9 @@ public class ToursController : ControllerBase
             IsActive = t.IsActive,
             DisplayOrder = t.DisplayOrder,
             MainImageUrl = t.MainImageUrl,
-            Highlights = DeserializeList(isEs ? t.HighlightsJsonEs : t.HighlightsJsonEn)
+            Highlights = DeserializeList(isEs ? t.HighlightsJsonEs : t.HighlightsJsonEn),
+            HighlightsEn = DeserializeList(t.HighlightsJsonEn),
+            HighlightsEs = DeserializeList(t.HighlightsJsonEs)
         }).ToList();
 
         return Ok(result);
@@ -100,19 +114,20 @@ public class ToursController : ControllerBase
     }
 
     /// <summary>
-    /// Public endpoint: retrieves full details of an expedition by its slug.
+    /// Public endpoint: retrieves full details of an expedition by its slug or ID.
     /// </summary>
     [HttpGet("{slug}")]
     [AllowAnonymous]
     public async Task<ActionResult<TourDetailDto>> GetTourBySlug(string slug, [FromQuery] string lang = "en")
     {
         var isEs = string.Equals(lang, "es", StringComparison.OrdinalIgnoreCase);
+        var isNumeric = int.TryParse(slug, out int tourId);
 
         var tour = await _context.Tours
             .Include(t => t.Category)
             .Include(t => t.Itineraries.OrderBy(i => i.DayNumber))
             .AsNoTracking()
-            .FirstOrDefaultAsync(t => t.Slug == slug && t.IsActive);
+            .FirstOrDefaultAsync(t => (t.Slug == slug || (isNumeric && t.Id == tourId)) && t.IsActive);
 
         if (tour == null)
         {
@@ -123,17 +138,29 @@ public class ToursController : ControllerBase
         {
             Id = tour.Id,
             Title = isEs ? tour.TitleEs : tour.TitleEn,
+            TitleEn = tour.TitleEn,
+            TitleEs = tour.TitleEs,
             Slug = tour.Slug,
             Subtitle = isEs ? tour.SubtitleEs : tour.SubtitleEn,
+            SubtitleEn = tour.SubtitleEn,
+            SubtitleEs = tour.SubtitleEs,
             Description = isEs ? tour.DescriptionEs : tour.DescriptionEn,
+            DescriptionEn = tour.DescriptionEn,
+            DescriptionEs = tour.DescriptionEs,
             CategoryId = tour.CategoryId,
             CategoryName = tour.Category != null ? (isEs ? tour.Category.NameEs : tour.Category.NameEn) : string.Empty,
+            CategoryNameEn = tour.Category != null ? tour.Category.NameEn : string.Empty,
+            CategoryNameEs = tour.Category != null ? tour.Category.NameEs : string.Empty,
             CategorySlug = tour.Category?.Slug ?? string.Empty,
             Duration = isEs ? tour.DurationEs : tour.DurationEn,
+            DurationEn = tour.DurationEn,
+            DurationEs = tour.DurationEs,
             DurationDays = tour.DurationDays,
             PriceUsd = tour.PriceUsd,
             PricePen = tour.PricePen,
             Difficulty = isEs ? tour.DifficultyEs : tour.DifficultyEn,
+            DifficultyEn = tour.DifficultyEn,
+            DifficultyEs = tour.DifficultyEs,
             AltitudeMax = tour.AltitudeMax,
             StartingPoint = tour.StartingPoint,
             StyleTag = tour.StyleTag,
@@ -143,8 +170,14 @@ public class ToursController : ControllerBase
             MainImageUrl = tour.MainImageUrl,
             GalleryImages = DeserializeList(tour.GalleryImagesJson),
             Highlights = DeserializeList(isEs ? tour.HighlightsJsonEs : tour.HighlightsJsonEn),
+            HighlightsEn = DeserializeList(tour.HighlightsJsonEn),
+            HighlightsEs = DeserializeList(tour.HighlightsJsonEs),
             Included = DeserializeList(isEs ? tour.IncludedJsonEs : tour.IncludedJsonEn),
+            IncludedEn = DeserializeList(tour.IncludedJsonEn),
+            IncludedEs = DeserializeList(tour.IncludedJsonEs),
             NotIncluded = DeserializeList(isEs ? tour.NotIncludedJsonEs : tour.NotIncludedJsonEn),
+            NotIncludedEn = DeserializeList(tour.NotIncludedJsonEn),
+            NotIncludedEs = DeserializeList(tour.NotIncludedJsonEs),
             Locations = DeserializeList(tour.LocationsJson),
             AltitudeProfile = DeserializeAltitudeProfile(tour.AltitudeProfileJson, isEs),
             Itineraries = tour.Itineraries.Select(i => new ItineraryDayDto
