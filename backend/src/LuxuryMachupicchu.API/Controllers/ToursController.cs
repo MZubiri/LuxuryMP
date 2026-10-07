@@ -389,7 +389,8 @@ public class ToursController : ControllerBase
             PriceUsd = tour.PriceUsd,
             PricePen = tour.PricePen,
             IsActive = tour.IsActive,
-            Featured = tour.Featured
+            Featured = tour.Featured,
+            MainImageUrl = tour.MainImageUrl
         });
     }
 

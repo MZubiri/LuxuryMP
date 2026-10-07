@@ -3191,3 +3191,165 @@ body.admin-body {
   color: #FFFFFF;
 }
 
+/* ==========================================================================
+   CARGA Y COMPRESIÓN DE IMÁGENES DE TOURS (HAUTE COUTURE)
+   ========================================================================== */
+
+.tour-upload-dropzone {
+  border: 1.5px dashed var(--admin-gold);
+  background: rgba(197, 164, 126, 0.04);
+  border-radius: 4px;
+  padding: 1.75rem 1.5rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.tour-upload-dropzone:hover {
+  background: rgba(197, 164, 126, 0.09);
+  border-color: var(--admin-gold-bright);
+  box-shadow: 0 0 16px rgba(197, 164, 126, 0.15);
+}
+
+.tour-upload-dropzone.drag-active {
+  background: rgba(197, 164, 126, 0.18);
+  border-color: #FFFFFF;
+  box-shadow: 0 0 24px rgba(197, 164, 126, 0.35);
+  transform: scale(1.005);
+}
+
+.dropzone-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.dropzone-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(197, 164, 126, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--admin-gold);
+  transition: transform 0.25s ease;
+}
+
+.tour-upload-dropzone:hover .dropzone-icon {
+  transform: translateY(-2px) scale(1.06);
+  color: var(--admin-gold-bright);
+}
+
+.dropzone-text strong {
+  display: block;
+  font-family: 'Cinzel', serif;
+  font-size: 0.95rem;
+  color: #FFFFFF;
+  margin-bottom: 0.25rem;
+  letter-spacing: 0.03em;
+}
+
+.dropzone-text span {
+  display: block;
+  font-size: 0.76rem;
+  color: var(--admin-text-muted);
+  line-height: 1.45;
+  max-width: 580px;
+  margin: 0 auto;
+}
+
+/* Estado de compresión en vivo */
+.tour-compression-status {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.85rem 1rem;
+  margin-top: 0.75rem;
+  background: rgba(10, 11, 14, 0.9);
+  border: 1px solid var(--admin-gold);
+  border-radius: 3px;
+  animation: fadeIn 0.2s ease;
+}
+
+.compression-spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(197, 164, 126, 0.25);
+  border-top-color: var(--admin-gold);
+  border-radius: 50%;
+  animation: spin 0.75s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.compression-info {
+  font-size: 0.78rem;
+  color: #FFFFFF;
+  line-height: 1.4;
+  font-family: 'Montserrat', sans-serif;
+}
+
+/* Tarjeta de preview con metadatos de optimización */
+.tour-image-preview-card {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  margin-top: 0.85rem;
+  padding: 0.85rem;
+  background: rgba(10, 11, 14, 0.75);
+  border: 1px solid var(--admin-border-light);
+  border-left: 3px solid var(--admin-gold);
+  border-radius: 3px;
+}
+
+.tour-image-preview-thumb {
+  width: 140px;
+  height: 90px;
+  object-fit: cover;
+  border-radius: 2px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  flex-shrink: 0;
+}
+
+.tour-image-preview-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.preview-specs-badge {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  background: rgba(103, 194, 58, 0.15);
+  border: 1px solid rgba(103, 194, 58, 0.4);
+  color: #85CE61;
+  font-size: 0.68rem;
+  font-weight: 600;
+  padding: 0.2rem 0.5rem;
+  border-radius: 2px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.preview-url-text {
+  font-family: monospace;
+  font-size: 0.74rem;
+  color: var(--admin-text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+

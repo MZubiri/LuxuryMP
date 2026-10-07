@@ -53,6 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initSidebarCollapse();
   initCurrencyUI();
   updateDashboardGreeting();
+  initTourImageDropzoneEvents();
 
   if (adminState.token) {
     checkAuthSession();
@@ -1383,20 +1384,282 @@ function syncDurationTextFromDays() {
   }
 }
 
+// ============================================================================
+// CARGA Y COMPRESIÓN DE FOTOGRAFÍAS EN ALTA RESOLUCIÓN (CLIENT-SIDE WEBP HD)
+// ============================================================================
+
+function triggerMainImageUpload() {
+  const fileInput = document.getElementById('tourFormImageFileInput');
+  if (fileInput) fileInput.click();
+}
+
+function handleTourImageFileSelected(event) {
+  const file = event.target.files && event.target.files[0];
+  if (!file) return;
+  // Reset input value so re-selecting the same file triggers change
+  event.target.value = '';
+  processAndUploadTourImage(file);
+}
+
+function clearMainImage() {
+  const input = document.getElementById('tourFormMainImage');
+  const wrap = document.getElementById('tourImagePreviewWrap');
+  const img = document.getElementById('tourImagePreview');
+  const specs = document.getElementById('tourImagePreviewSpecs');
+  const urlTxt = document.getElementById('tourImagePreviewUrl');
+
+  if (input) input.value = '';
+  if (img) img.src = '';
+  if (wrap) wrap.style.display = 'none';
+  if (specs) specs.textContent = 'WebP • HD Optimizado';
+  if (urlTxt) urlTxt.textContent = '';
+  showToast('Fotografía removida del formulario', 'info');
+}
+
+function formatFileSize(bytes) {
+  if (!bytes || bytes <= 0) return '0 B';
+  if (bytes < 1024) return bytes + ' B';
+  if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+  return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
+}
+
+/**
+ * Comprime inteligentemente imágenes pesadas (cámaras/smartphones 10MB-25MB+)
+ * Escalando proporcionalmente a máximo 2048px en su lado mayor y exportando
+ * a WebP con calidad 0.85 (alta fidelidad visual y 90-97% menor peso).
+ */
+function compressImageFile(file, maxWidth = 2048, maxHeight = 1365, quality = 0.85) {
+  return new Promise((resolve, reject) => {
+    if (!file.type || !file.type.startsWith('image/')) {
+      return reject(new Error('El archivo seleccionado no es una imagen válida'));
+    }
+
+    const originalSize = file.size;
+    const reader = new FileReader();
+
+    reader.onerror = () => reject(new Error('No se pudo leer el archivo'));
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onerror = () => reject(new Error('Error al decodificar la imagen'));
+      img.onload = () => {
+        let width = img.naturalWidth || img.width;
+        let height = img.naturalHeight || img.height;
+
+        // Calcular escala preservando proporción exacta
+        if (width > maxWidth || height > maxHeight) {
+          const ratio = Math.min(maxWidth / width, maxHeight / height);
+          width = Math.round(width * ratio);
+          height = Math.round(height * ratio);
+        }
+
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d', { alpha: false });
+
+        if (!ctx) {
+          return reject(new Error('Canvas 2D context no disponible'));
+        }
+
+        // Renderizado suavizado de alta calidad
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = 'high';
+        ctx.drawImage(img, 0, 0, width, height);
+
+        // Intentar compresión a WebP (con fallback a JPEG si el browser no soporta WebP)
+        const mimeType = 'image/webp';
+        canvas.toBlob((blob) => {
+          if (!blob) {
+            // Fallback a JPEG
+            canvas.toBlob((fallbackBlob) => {
+              if (!fallbackBlob) {
+                return reject(new Error('Error al generar blob comprimido'));
+              }
+              const dataUrl = canvas.toDataURL('image/jpeg', quality);
+              resolve({
+                blob: fallbackBlob,
+                dataUrl,
+                width,
+                height,
+                format: 'jpeg',
+                originalSize,
+                compressedSize: fallbackBlob.size
+              });
+            }, 'image/jpeg', quality);
+            return;
+          }
+
+          const dataUrl = canvas.toDataURL(mimeType, quality);
+          resolve({
+            blob,
+            dataUrl,
+            width,
+            height,
+            format: 'webp',
+            originalSize,
+            compressedSize: blob.size
+          });
+        }, mimeType, quality);
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+/**
+ * Procesa la imagen seleccionada, comprime y sube a /api/media/upload
+ */
+async function processAndUploadTourImage(file) {
+  const statusEl = document.getElementById('tourImageCompressionStatus');
+  const infoText = document.getElementById('compressionInfoText');
+  const mainInput = document.getElementById('tourFormMainImage');
+  const previewWrap = document.getElementById('tourImagePreviewWrap');
+  const previewImg = document.getElementById('tourImagePreview');
+  const previewSpecs = document.getElementById('tourImagePreviewSpecs');
+  const previewUrl = document.getElementById('tourImagePreviewUrl');
+
+  try {
+    if (statusEl) {
+      statusEl.style.display = 'flex';
+      if (infoText) {
+        infoText.innerHTML = `<strong>Optimizando imagen (${formatFileSize(file.size)})...</strong><br><span style="color:var(--admin-gold); font-size:0.7rem;">Escalando a 2048px WebP Ultra-HD sin pérdida perceptible de calidad...</span>`;
+      }
+    }
+
+    const startTime = performance.now();
+    const result = await compressImageFile(file, 2048, 1365, 0.85);
+    const duration = ((performance.now() - startTime) / 1000).toFixed(2);
+
+    const savingPercent = Math.max(0, Math.round(((result.originalSize - result.compressedSize) / result.originalSize) * 100));
+
+    if (infoText) {
+      infoText.innerHTML = `<strong>Comprimido con éxito (${duration}s)</strong><br><span style="color:#85CE61; font-size:0.7rem;">De ${formatFileSize(result.originalSize)} a ${formatFileSize(result.compressedSize)} (${savingPercent}% de ahorro). Transmitiendo al servidor...</span>`;
+    }
+
+    // Subir al endpoint /api/media/upload
+    const ext = result.format === 'webp' ? 'webp' : 'jpg';
+    const uploadFileName = `${file.name.replace(/\.[^/.]+$/, "")}.${ext}`;
+
+    const formData = new FormData();
+    formData.append('file', result.blob, uploadFileName);
+
+    let uploadRes = await fetch('/api/media/upload', {
+      method: 'POST',
+      headers: adminState.token ? { 'Authorization': `Bearer ${adminState.token}` } : {},
+      body: formData
+    });
+
+    // Si fallara multipart, fallback a upload-base64
+    if (!uploadRes.ok) {
+      uploadRes = await fetch('/api/media/upload-base64', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(adminState.token ? { 'Authorization': `Bearer ${adminState.token}` } : {})
+        },
+        body: JSON.stringify({
+          fileName: uploadFileName,
+          base64Data: result.dataUrl
+        })
+      });
+    }
+
+    if (!uploadRes.ok) {
+      const errData = await uploadRes.json().catch(() => ({}));
+      throw new Error(errData.message || 'Error en la subida al servidor');
+    }
+
+    const uploaded = await uploadRes.json();
+    const serverUrl = uploaded.url;
+
+    // Actualizar campo del formulario
+    if (mainInput) {
+      mainInput.value = serverUrl;
+    }
+
+    // Actualizar preview visual
+    if (previewImg) {
+      previewImg.src = serverUrl;
+    }
+    if (previewSpecs) {
+      previewSpecs.textContent = `${result.format.toUpperCase()} • ${result.width}x${result.height} • ${formatFileSize(result.compressedSize)} (-${savingPercent}%)`;
+    }
+    if (previewUrl) {
+      previewUrl.textContent = serverUrl;
+      previewUrl.title = serverUrl;
+    }
+    if (previewWrap) {
+      previewWrap.style.display = 'flex';
+    }
+
+    showToast(`Fotografía procesada y guardada con éxito (${savingPercent}% optimizada)`, 'success');
+  } catch (error) {
+    console.error('Error al procesar/subir imagen:', error);
+    showToast(`Error al subir imagen: ${error.message}`, 'error');
+  } finally {
+    if (statusEl) {
+      setTimeout(() => {
+        statusEl.style.display = 'none';
+      }, 1500);
+    }
+  }
+}
+
 function previewTourMainImage() {
   const input = document.getElementById('tourFormMainImage');
   const wrap = document.getElementById('tourImagePreviewWrap');
   const img = document.getElementById('tourImagePreview');
+  const specs = document.getElementById('tourImagePreviewSpecs');
+  const urlTxt = document.getElementById('tourImagePreviewUrl');
   if (!input || !wrap || !img) return;
 
   const url = input.value.trim();
   if (url) {
     img.src = url;
     img.onerror = () => { wrap.style.display = 'none'; };
-    img.onload = () => { wrap.style.display = 'block'; };
+    img.onload = () => {
+      wrap.style.display = 'flex';
+      if (specs && (!specs.textContent || specs.textContent === 'WebP • HD Optimizado')) {
+        specs.textContent = `${img.naturalWidth}x${img.naturalHeight} px`;
+      }
+      if (urlTxt) {
+        urlTxt.textContent = url;
+        urlTxt.title = url;
+      }
+    };
   } else {
     wrap.style.display = 'none';
   }
+}
+
+function initTourImageDropzoneEvents() {
+  const dropzone = document.getElementById('tourMainImageDropzone');
+  if (!dropzone) return;
+
+  ['dragenter', 'dragover'].forEach(eventName => {
+    dropzone.addEventListener(eventName, (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      dropzone.classList.add('drag-active');
+    }, false);
+  });
+
+  ['dragleave', 'drop'].forEach(eventName => {
+    dropzone.addEventListener(eventName, (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      dropzone.classList.remove('drag-active');
+    }, false);
+  });
+
+  dropzone.addEventListener('drop', (e) => {
+    const dt = e.dataTransfer;
+    const files = dt && dt.files;
+    if (files && files.length > 0) {
+      processAndUploadTourImage(files[0]);
+    }
+  }, false);
 }
 
 function reindexItineraryDays() {
