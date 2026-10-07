@@ -888,6 +888,7 @@ function promptDeleteBooking(id, guestName) {
 // ============================================================================
 async function loadToursData() {
   try {
+    ensureCategoriesLoaded(); // Precarga categorías en paralelo para el modal
     const res = await apiFetch('/tours/admin/all');
     if (!res.ok) throw new Error('Error al cargar tours');
 
@@ -1073,6 +1074,16 @@ function renderTourDetail(tour) {
 
         <button type="button" class="btn-dossier-toggle ${tour.featured ? 'is-featured' : ''}" onclick="toggleTourFeatured(${tour.id})">
           ${tour.featured ? '★ Destacado' : '☆ Marcar Destacado'}
+        </button>
+
+        <button type="button" class="btn-dossier-action btn-dossier-edit" onclick="openTourEditModal(${tour.id})" title="Editar especificaciones e itinerario completo">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+          Editar Tour
+        </button>
+
+        <button type="button" class="btn-dossier-action btn-dossier-delete" onclick="promptDeleteTour(${tour.id}, '${escapeHtml(title).replace(/'/g, "\\'")}')" title="Eliminar o desactivar expedición">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+          Eliminar
         </button>
 
         <a href="tour.html?slug=${tour.slug}" target="_blank" class="btn-dossier-preview" title="Abrir ficha pública en nueva pestaña">
@@ -1295,6 +1306,541 @@ async function toggleTourFeatured(tourId) {
   } catch (err) {
     showToast('No se pudo cambiar el estado destacado.', 'error');
   }
+}
+
+// ============================================================================
+// CRUD TOURS & ITINERARIOS: CREACIÓN, EDICIÓN Y ELIMINACIÓN HAUTE COUTURE
+// ============================================================================
+
+async function ensureCategoriesLoaded() {
+  if (adminState.categories && adminState.categories.length > 0) {
+    return adminState.categories;
+  }
+  try {
+    const res = await apiFetch('/categories');
+    if (res.ok) {
+      adminState.categories = await res.json();
+    }
+  } catch (err) {
+    console.error('Error fetching categories for tour editor:', err);
+  }
+  return adminState.categories || [];
+}
+
+function populateCategoriesSelect(selectedId) {
+  const select = document.getElementById('tourFormCategory');
+  if (!select) return;
+  const cats = adminState.categories || [];
+  select.innerHTML = cats.map(c => `
+    <option value="${c.id}" ${Number(selectedId) === Number(c.id) ? 'selected' : ''}>
+      ${escapeHtml(c.name || c.nameEn || 'Categoría #' + c.id)}
+    </option>
+  `).join('');
+}
+
+function switchTourEditorTab(tabKey) {
+  const tabKeys = ['general', 'pricing-alt', 'content', 'itinerary'];
+  tabKeys.forEach(key => {
+    const btn = document.getElementById(`tabBtn-${key}`);
+    const pane = document.getElementById(`pane-tab-${key}`);
+    if (btn) btn.classList.toggle('active', key === tabKey);
+    if (pane) {
+      if (key === tabKey) {
+        pane.style.display = 'block';
+        pane.classList.add('active');
+      } else {
+        pane.style.display = 'none';
+        pane.classList.remove('active');
+      }
+    }
+  });
+}
+
+function handleUsdPriceChange() {
+  const usdInput = document.getElementById('tourFormPriceUsd');
+  const penInput = document.getElementById('tourFormPricePen');
+  if (!usdInput || !penInput) return;
+  const usd = parseFloat(usdInput.value);
+  if (!isNaN(usd) && usd > 0 && (!penInput.value || parseFloat(penInput.value) === 0)) {
+    penInput.value = (Math.round(usd * 3.80)).toFixed(2);
+  }
+}
+
+function syncDurationTextFromDays() {
+  const daysInput = document.getElementById('tourFormDurationDays');
+  const esInput = document.getElementById('tourFormDurationEs');
+  const enInput = document.getElementById('tourFormDurationEn');
+  if (!daysInput || !esInput || !enInput) return;
+
+  const days = parseInt(daysInput.value, 10) || 1;
+  const nights = Math.max(0, days - 1);
+  if (days === 1) {
+    if (!esInput.value || esInput.value.includes('Día')) esInput.value = 'Día Completo';
+    if (!enInput.value || enInput.value.includes('Day')) enInput.value = 'Full Day';
+  } else {
+    esInput.value = `${days} Días / ${nights} Noche${nights > 1 ? 's' : ''}`;
+    enInput.value = `${days} Days / ${nights} Night${nights > 1 ? 's' : ''}`;
+  }
+}
+
+function previewTourMainImage() {
+  const input = document.getElementById('tourFormMainImage');
+  const wrap = document.getElementById('tourImagePreviewWrap');
+  const img = document.getElementById('tourImagePreview');
+  if (!input || !wrap || !img) return;
+
+  const url = input.value.trim();
+  if (url) {
+    img.src = url;
+    img.onerror = () => { wrap.style.display = 'none'; };
+    img.onload = () => { wrap.style.display = 'block'; };
+  } else {
+    wrap.style.display = 'none';
+  }
+}
+
+function reindexItineraryDays() {
+  const container = document.getElementById('itineraryDaysContainer');
+  if (!container) return;
+  const cards = container.querySelectorAll('.itinerary-editor-card');
+  cards.forEach((card, index) => {
+    const dayNum = index + 1;
+    card.setAttribute('data-day', dayNum);
+    const badge = card.querySelector('.day-number-badge');
+    if (badge) badge.textContent = `Día ${dayNum}`;
+  });
+
+  const daysInput = document.getElementById('tourFormDurationDays');
+  if (daysInput && cards.length > 0) {
+    daysInput.value = cards.length;
+    syncDurationTextFromDays();
+  }
+}
+
+function addItineraryDayRow(item = {}) {
+  const container = document.getElementById('itineraryDaysContainer');
+  if (!container) return;
+
+  const currentCount = container.querySelectorAll('.itinerary-editor-card').length;
+  const dayNum = item.dayNumber || (currentCount + 1);
+
+  const card = document.createElement('div');
+  card.className = 'itinerary-editor-card';
+  card.setAttribute('data-day', dayNum);
+  card.innerHTML = `
+    <div class="itinerary-editor-card-header">
+      <div>
+        <span class="day-number-badge">Día ${dayNum}</span>
+        <span class="day-number-label">Jornada Andina</span>
+      </div>
+      <button type="button" class="btn-delete-day" onclick="removeItineraryDayRow(this)" title="Eliminar este día de itinerario">
+        🗑️ Eliminar Día
+      </button>
+    </div>
+
+    <div class="form-grid-2col">
+      <div class="modal-field">
+        <label class="modal-label">Título del Día (Español)</label>
+        <input type="text" class="admin-form-input input-day-title-es" value="${escapeHtml(item.titleEs || '')}" placeholder="Ej: Abordaje de Leyenda y Atardecer en la Ciudadela">
+      </div>
+      <div class="modal-field">
+        <label class="modal-label">Day Title (English)</label>
+        <input type="text" class="admin-form-input input-day-title-en" value="${escapeHtml(item.titleEn || '')}" placeholder="Ej: Boarding the Legend & Sunset at the Citadel">
+      </div>
+    </div>
+
+    <div class="form-grid-2col">
+      <div class="modal-field">
+        <label class="modal-label">Descripción de la Jornada (Español)</label>
+        <textarea class="admin-form-textarea input-day-desc-es" rows="2" placeholder="Narrativa de actividades, hitos y paisajes en español...">${escapeHtml(item.descriptionEs || '')}</textarea>
+      </div>
+      <div class="modal-field">
+        <label class="modal-label">Day Description (English)</label>
+        <textarea class="admin-form-textarea input-day-desc-en" rows="2" placeholder="Chronological day narrative and exclusive highlights in English...">${escapeHtml(item.descriptionEn || '')}</textarea>
+      </div>
+    </div>
+
+    <div class="form-grid-2col">
+      <div class="modal-field">
+        <label class="modal-label">Carta Gastronómica Gourmet (ES)</label>
+        <input type="text" class="admin-form-input input-day-dining-es" value="${escapeHtml(item.gourmetDiningEs || item.gourmetDining || '')}" placeholder="Ej: Brunch de 4 Tiempos con Champaña y Té de la Tarde">
+      </div>
+      <div class="modal-field">
+        <label class="modal-label">Gourmet Dining (EN)</label>
+        <input type="text" class="admin-form-input input-day-dining-en" value="${escapeHtml(item.gourmetDiningEn || item.gourmetDining || '')}" placeholder="Ej: 4-Course Champagne Brunch & Belmond Afternoon Tea">
+      </div>
+    </div>
+
+    <div class="form-grid-2col">
+      <div class="modal-field">
+        <label class="modal-label">Traslado Privado Concierge (ES)</label>
+        <input type="text" class="admin-form-input input-day-transfer-es" value="${escapeHtml(item.privateTransferEs || item.privateTransfer || '')}" placeholder="Ej: Sedán ejecutivo privado a estación + Bus VIP al santuario">
+      </div>
+      <div class="modal-field">
+        <label class="modal-label">Private Transfer (EN)</label>
+        <input type="text" class="admin-form-input input-day-transfer-en" value="${escapeHtml(item.privateTransferEn || item.privateTransfer || '')}" placeholder="Ej: Private executive transfer to station + VIP citadel shuttle">
+      </div>
+    </div>
+  `;
+
+  container.appendChild(card);
+  reindexItineraryDays();
+}
+
+function removeItineraryDayRow(btn) {
+  const container = document.getElementById('itineraryDaysContainer');
+  if (!container) return;
+  const cards = container.querySelectorAll('.itinerary-editor-card');
+  if (cards.length <= 1) {
+    showToast('Toda expedición debe contener al menos 1 día de itinerario.', 'info');
+    return;
+  }
+  const card = btn.closest('.itinerary-editor-card');
+  if (card) {
+    card.remove();
+    reindexItineraryDays();
+  }
+}
+
+async function openTourCreateModal() {
+  await ensureCategoriesLoaded();
+  populateCategoriesSelect(1);
+
+  document.getElementById('tourFormId').value = '';
+  document.getElementById('tourModalKicker').textContent = 'NUEVA EXPEDICIÓN • ALTA COSTURA';
+  document.getElementById('tourModalTitle').textContent = 'Crear Nueva Expedición Privada';
+  document.getElementById('tourModalSubtitle').textContent = 'Defina las especificaciones, perfil altimétrico e itinerario de una nueva travesía andina.';
+  document.getElementById('btnSaveTourSubmit').textContent = '💾 Registrar Expedición';
+
+  // Limpiar campos
+  document.getElementById('tourFormTitleEs').value = '';
+  document.getElementById('tourFormTitleEn').value = '';
+  document.getElementById('tourFormSubtitleEs').value = '';
+  document.getElementById('tourFormSubtitleEn').value = '';
+  document.getElementById('tourFormSlug').value = '';
+  document.getElementById('tourFormStyleTag').value = 'Signature Andean Expedition';
+  document.getElementById('tourFormDifficultyEs').value = 'Placentero y Exclusivo';
+  document.getElementById('tourFormDifficultyEn').value = 'Leisure & Refined';
+  document.getElementById('tourFormDisplayOrder').value = (adminState.tours ? adminState.tours.length + 1 : 1);
+  document.getElementById('tourFormMainImage').value = 'assets/images/MachuPicchu.jpg';
+  document.getElementById('tourFormIsActive').checked = true;
+  document.getElementById('tourFormFeatured').checked = false;
+
+  document.getElementById('tourFormPriceUsd').value = '1850.00';
+  document.getElementById('tourFormPricePen').value = '7030.00';
+  document.getElementById('tourFormDurationDays').value = '2';
+  document.getElementById('tourFormDurationEs').value = '2 Días / 1 Noche';
+  document.getElementById('tourFormDurationEn').value = '2 Days / 1 Night';
+  document.getElementById('tourFormStartingPoint').value = 'Cusco / Valle Sagrado';
+  document.getElementById('tourFormAltitudeMax').value = '2,430 m / 7,972 ft';
+
+  document.getElementById('tourFormAltStart').value = '3,400 m / 11,152 ft';
+  document.getElementById('tourFormAltSleep').value = '2,430 m / 7,972 ft';
+  document.getElementById('tourFormOxygenPercent').value = '85';
+  document.getElementById('tourFormTipEs').value = 'Monitoreo médico privado disponible con tanques portátiles de oxígeno medicinal y té de muña andina.';
+  document.getElementById('tourFormTipEn').value = 'Private medical monitoring with portable oxygen tanks and Andean muña tea available 24/7.';
+
+  document.getElementById('tourFormDescEs').value = '';
+  document.getElementById('tourFormDescEn').value = '';
+  document.getElementById('tourFormHighlightsEs').value = '';
+  document.getElementById('tourFormHighlightsEn').value = '';
+  document.getElementById('tourFormIncludedEs').value = '';
+  document.getElementById('tourFormIncludedEn').value = '';
+  document.getElementById('tourFormNotIncludedEs').value = '';
+  document.getElementById('tourFormNotIncludedEn').value = '';
+
+  const container = document.getElementById('itineraryDaysContainer');
+  if (container) {
+    container.innerHTML = '';
+    addItineraryDayRow({
+      dayNumber: 1,
+      titleEs: 'Bienvenida y Acogida Privada en los Andes',
+      titleEn: 'Private Andean Welcome & Sacred Valley Arrival',
+      descriptionEs: 'Recepción privada por su Concierge en Cusco o Valle Sagrado.',
+      descriptionEn: 'Private arrival greeting by your personal Andean Concierge.',
+      gourmetDiningEs: 'Almuerzo gourmet andino de bienvenida',
+      gourmetDiningEn: 'Welcome gourmet Andean lunch',
+      privateTransferEs: 'Sedán ejecutivo privado Mercedes-Benz',
+      privateTransferEn: 'Private luxury executive chauffeur'
+    });
+  }
+
+  previewTourMainImage();
+  switchTourEditorTab('general');
+  openAdminModal('tourEditorModal');
+}
+
+async function openTourEditModal(tourId) {
+  try {
+    showToast('Cargando expediente completo para edición...', 'info');
+    await ensureCategoriesLoaded();
+
+    const res = await apiFetch(`/tours/admin/${tourId}`);
+    if (!res.ok) throw new Error('No se pudo obtener el expediente técnico');
+    const tour = await res.json();
+
+    document.getElementById('tourFormId').value = tour.id;
+    populateCategoriesSelect(tour.categoryId);
+
+    document.getElementById('tourModalKicker').textContent = `EXPEDIENTE #EXP-${tour.id} • CURADURÍA`;
+    document.getElementById('tourModalTitle').textContent = `Modificar: ${tour.titleEs || tour.titleEn}`;
+    document.getElementById('tourModalSubtitle').textContent = 'Actualice en tiempo real especificaciones técnicas, cartas de menú y cronograma día por día.';
+    document.getElementById('btnSaveTourSubmit').textContent = '💾 Actualizar Expedición';
+
+    // Rellenar datos
+    document.getElementById('tourFormTitleEs').value = tour.titleEs || '';
+    document.getElementById('tourFormTitleEn').value = tour.titleEn || '';
+    document.getElementById('tourFormSubtitleEs').value = tour.subtitleEs || '';
+    document.getElementById('tourFormSubtitleEn').value = tour.subtitleEn || '';
+    document.getElementById('tourFormSlug').value = tour.slug || '';
+    document.getElementById('tourFormStyleTag').value = tour.styleTag || '';
+    document.getElementById('tourFormDifficultyEs').value = tour.difficultyEs || '';
+    document.getElementById('tourFormDifficultyEn').value = tour.difficultyEn || '';
+    document.getElementById('tourFormDisplayOrder').value = tour.displayOrder || 1;
+    document.getElementById('tourFormMainImage').value = tour.mainImageUrl || '';
+    document.getElementById('tourFormIsActive').checked = Boolean(tour.isActive);
+    document.getElementById('tourFormFeatured').checked = Boolean(tour.featured);
+
+    document.getElementById('tourFormPriceUsd').value = tour.priceUsd;
+    document.getElementById('tourFormPricePen').value = tour.pricePen;
+    document.getElementById('tourFormDurationDays').value = tour.durationDays || 1;
+    document.getElementById('tourFormDurationEs').value = tour.durationEs || '';
+    document.getElementById('tourFormDurationEn').value = tour.durationEn || '';
+    document.getElementById('tourFormStartingPoint').value = tour.startingPoint || '';
+    document.getElementById('tourFormAltitudeMax').value = tour.altitudeMax || '';
+
+    // Perfil altimétrico
+    let alt = {};
+    try {
+      alt = typeof tour.altitudeProfileJson === 'string'
+        ? JSON.parse(tour.altitudeProfileJson)
+        : (tour.altitudeProfile || {});
+    } catch (e) {
+      alt = {};
+    }
+    document.getElementById('tourFormAltStart').value = alt.startingAltitude || '3,400 m / 11,152 ft';
+    document.getElementById('tourFormAltSleep').value = alt.sleepingAltitude || '2,430 m / 7,972 ft';
+    document.getElementById('tourFormOxygenPercent').value = alt.oxygenPercentage || 85;
+    document.getElementById('tourFormTipEs').value = alt.tipEs || '';
+    document.getElementById('tourFormTipEn').value = alt.tipEn || '';
+
+    // Narrativa y listas
+    document.getElementById('tourFormDescEs').value = tour.descriptionEs || '';
+    document.getElementById('tourFormDescEn').value = tour.descriptionEn || '';
+    document.getElementById('tourFormHighlightsEs').value = (tour.highlightsEs || []).join('\n');
+    document.getElementById('tourFormHighlightsEn').value = (tour.highlightsEn || []).join('\n');
+    document.getElementById('tourFormIncludedEs').value = (tour.includedEs || []).join('\n');
+    document.getElementById('tourFormIncludedEn').value = (tour.includedEn || []).join('\n');
+    document.getElementById('tourFormNotIncludedEs').value = (tour.notIncludedEs || []).join('\n');
+    document.getElementById('tourFormNotIncludedEn').value = (tour.notIncludedEn || []).join('\n');
+
+    // Días de itinerario
+    const container = document.getElementById('itineraryDaysContainer');
+    if (container) {
+      container.innerHTML = '';
+      if (tour.itineraries && tour.itineraries.length > 0) {
+        tour.itineraries.forEach(day => addItineraryDayRow(day));
+      } else {
+        addItineraryDayRow({ dayNumber: 1 });
+      }
+    }
+
+    previewTourMainImage();
+    switchTourEditorTab('general');
+    openAdminModal('tourEditorModal');
+  } catch (err) {
+    console.error('Error opening tour edit modal:', err);
+    showToast('No se pudo abrir el editor de expedición.', 'error');
+  }
+}
+
+async function handleTourFormSubmit(event) {
+  event.preventDefault();
+
+  const idVal = document.getElementById('tourFormId').value;
+  const isEdit = Boolean(idVal);
+  const tourId = isEdit ? parseInt(idVal, 10) : null;
+
+  const btnSubmit = document.getElementById('btnSaveTourSubmit');
+  const originalText = btnSubmit ? btnSubmit.textContent : 'Guardar';
+  if (btnSubmit) {
+    btnSubmit.disabled = true;
+    btnSubmit.textContent = '⏳ Guardando expedición...';
+  }
+
+  try {
+    const titleEs = document.getElementById('tourFormTitleEs').value.trim();
+    const titleEn = document.getElementById('tourFormTitleEn').value.trim();
+    const categoryId = parseInt(document.getElementById('tourFormCategory').value, 10);
+    const priceUsd = parseFloat(document.getElementById('tourFormPriceUsd').value) || 0;
+    const pricePen = parseFloat(document.getElementById('tourFormPricePen').value) || 0;
+    const durationDays = parseInt(document.getElementById('tourFormDurationDays').value, 10) || 1;
+
+    if (!titleEs || !titleEn) {
+      throw new Error('Debe ingresar el título bilingüe (Español e Inglés).');
+    }
+    if (!categoryId) {
+      throw new Error('Debe seleccionar una categoría andina válida.');
+    }
+
+    // Perfil altimétrico serializado en JSON limpio
+    const altitudeProfile = {
+      startingAltitude: document.getElementById('tourFormAltStart').value.trim(),
+      maxAltitude: document.getElementById('tourFormAltitudeMax').value.trim(),
+      sleepingAltitude: document.getElementById('tourFormAltSleep').value.trim(),
+      oxygenPercentage: parseInt(document.getElementById('tourFormOxygenPercent').value, 10) || 85,
+      tipEs: document.getElementById('tourFormTipEs').value.trim(),
+      tipEn: document.getElementById('tourFormTipEn').value.trim()
+    };
+
+    // Listas formateadas
+    const splitLines = (id) => (document.getElementById(id)?.value || '')
+      .split('\n')
+      .map(s => s.trim())
+      .filter(Boolean);
+
+    const highlightsEs = splitLines('tourFormHighlightsEs');
+    const highlightsEn = splitLines('tourFormHighlightsEn');
+    const includedEs = splitLines('tourFormIncludedEs');
+    const includedEn = splitLines('tourFormIncludedEn');
+    const notIncludedEs = splitLines('tourFormNotIncludedEs');
+    const notIncludedEn = splitLines('tourFormNotIncludedEn');
+
+    // Desglose de días
+    const itineraries = [];
+    const dayCards = document.querySelectorAll('#itineraryDaysContainer .itinerary-editor-card');
+    dayCards.forEach((card, index) => {
+      const num = index + 1;
+      const dTitleEs = card.querySelector('.input-day-title-es')?.value.trim() || `Día ${num}`;
+      const dTitleEn = card.querySelector('.input-day-title-en')?.value.trim() || `Day ${num}`;
+      const dDescEs = card.querySelector('.input-day-desc-es')?.value.trim() || '';
+      const dDescEn = card.querySelector('.input-day-desc-en')?.value.trim() || '';
+      const dDiningEs = card.querySelector('.input-day-dining-es')?.value.trim() || '';
+      const dDiningEn = card.querySelector('.input-day-dining-en')?.value.trim() || '';
+      const dTransferEs = card.querySelector('.input-day-transfer-es')?.value.trim() || '';
+      const dTransferEn = card.querySelector('.input-day-transfer-en')?.value.trim() || '';
+
+      itineraries.push({
+        dayNumber: num,
+        titleEs: dTitleEs,
+        titleEn: dTitleEn,
+        descriptionEs: dDescEs,
+        descriptionEn: dDescEn,
+        gourmetDiningEs: dDiningEs,
+        gourmetDiningEn: dDiningEn,
+        privateTransferEs: dTransferEs,
+        privateTransferEn: dTransferEn
+      });
+    });
+
+    const payload = {
+      titleEs,
+      titleEn,
+      slug: document.getElementById('tourFormSlug').value.trim() || null,
+      subtitleEs: document.getElementById('tourFormSubtitleEs').value.trim(),
+      subtitleEn: document.getElementById('tourFormSubtitleEn').value.trim(),
+      descriptionEs: document.getElementById('tourFormDescEs').value.trim(),
+      descriptionEn: document.getElementById('tourFormDescEn').value.trim(),
+      categoryId,
+      durationEs: document.getElementById('tourFormDurationEs').value.trim() || 'Día Completo',
+      durationEn: document.getElementById('tourFormDurationEn').value.trim() || 'Full Day',
+      durationDays,
+      priceUsd,
+      pricePen,
+      difficultyEs: document.getElementById('tourFormDifficultyEs').value.trim() || 'Exclusivo / Suave',
+      difficultyEn: document.getElementById('tourFormDifficultyEn').value.trim() || 'Leisure',
+      altitudeMax: document.getElementById('tourFormAltitudeMax').value.trim() || '2,430 m / 7,972 ft',
+      startingPoint: document.getElementById('tourFormStartingPoint').value.trim() || 'Cusco / Sacred Valley',
+      styleTag: document.getElementById('tourFormStyleTag').value.trim() || 'Ultra-Luxury',
+      featured: document.getElementById('tourFormFeatured').checked,
+      isActive: document.getElementById('tourFormIsActive').checked,
+      displayOrder: parseInt(document.getElementById('tourFormDisplayOrder').value, 10) || 1,
+      mainImageUrl: document.getElementById('tourFormMainImage').value.trim() || 'assets/images/MachuPicchu.jpg',
+      highlightsEs,
+      highlightsEn,
+      includedEs,
+      includedEn,
+      notIncludedEs,
+      notIncludedEn,
+      altitudeProfileJson: JSON.stringify(altitudeProfile),
+      itineraries
+    };
+
+    let res;
+    if (isEdit) {
+      res = await apiFetch(`/tours/${tourId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+    } else {
+      res = await apiFetch('/tours', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+    }
+
+    if (!res.ok) {
+      const errData = await res.json().catch(() => ({}));
+      throw new Error(errData.message || (isEdit ? 'Error al actualizar expedición' : 'Error al crear expedición'));
+    }
+
+    const savedData = await res.json();
+    const finalTourId = savedData.id || tourId;
+
+    closeAdminModal('tourEditorModal');
+    showToast(isEdit ? `Expedición #${finalTourId} actualizada con éxito.` : `¡Nueva expedición registrada exitosamente!`, 'success');
+
+    adminState.selectedTourId = finalTourId;
+    await loadToursData();
+    if (finalTourId) {
+      selectTourForDetail(finalTourId);
+    }
+  } catch (err) {
+    console.error('Error saving tour:', err);
+    showToast(err.message || 'Error al guardar la expedición.', 'error');
+  } finally {
+    if (btnSubmit) {
+      btnSubmit.disabled = false;
+      btnSubmit.textContent = originalText;
+    }
+  }
+}
+
+function promptDeleteTour(tourId, tourTitle) {
+  const desc = document.getElementById('deleteModalMessage') || document.getElementById('deleteModalDesc');
+  const btn = document.getElementById('btnConfirmDeleteAction');
+
+  if (desc) {
+    desc.textContent = `¿Está seguro que desea eliminar la expedición "${tourTitle}" (#EXP-${tourId})? Si cuenta con cotizaciones asociadas, se desactivará de manera segura para preservar la integridad contable y el historial.`;
+  }
+
+  if (btn) {
+    btn.onclick = async () => {
+      btn.disabled = true;
+      btn.textContent = 'Eliminando...';
+      try {
+        const res = await apiFetch(`/tours/${tourId}`, { method: 'DELETE' });
+        if (!res.ok) throw new Error('Error al procesar la eliminación');
+        const data = await res.json();
+
+        closeAdminModal('deleteModal');
+        showToast(data.message || `Expedición #${tourId} procesada exitosamente.`, 'success');
+
+        adminState.selectedTourId = null;
+        await loadToursData();
+      } catch (err) {
+        console.error('Error deleting tour:', err);
+        showToast('No se pudo eliminar la expedición.', 'error');
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Eliminar Permanentemente';
+      }
+    };
+  }
+
+  openAdminModal('deleteModal');
 }
 
 // ============================================================================

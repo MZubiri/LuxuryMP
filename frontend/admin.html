@@ -407,6 +407,10 @@
             <p class="view-subtitle">Gestión técnica de expediciones privadas, perfiles altimétricos, cartas gastronómicas y despiece día por día.</p>
           </div>
           <div class="view-header-actions" style="display: flex; align-items: center; gap: 0.75rem;">
+            <button type="button" class="btn-gold-primary" onclick="openTourCreateModal()" id="btnOpenNewTourModal" title="Crear nueva expedición privada">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+              Nueva Expedición
+            </button>
             <span class="admin-catalog-counter-pill" id="adminCatalogCounterPill" style="background: rgba(197, 164, 126, 0.12); border: 1px solid rgba(197, 164, 126, 0.3); color: var(--admin-gold-bright); font-size: 0.72rem; font-family: 'Montserrat', sans-serif; font-weight: 600; padding: 0.4rem 0.85rem; border-radius: 20px; letter-spacing: 0.05em;">
               4 Expediciones
             </span>
@@ -773,6 +777,269 @@
           🖨️ Imprimir Voucher / Guardar PDF
         </button>
       </div>
+    </div>
+  </div>
+
+  <!-- ====================================================================
+       MODAL: EDITOR TÉCNICO Y CURADURÍA DE EXPEDICIÓN (CRUD TOURS & ITINERARIOS)
+       ==================================================================== -->
+  <div class="admin-modal" id="tourEditorModal">
+    <div class="admin-modal-backdrop" onclick="closeAdminModal('tourEditorModal')"></div>
+    <div class="admin-modal-dialog modal-wide">
+      <button type="button" class="admin-modal-close" onclick="closeAdminModal('tourEditorModal')">✕</button>
+      
+      <div class="admin-modal-header" style="margin-bottom: 1.25rem;">
+        <span class="view-kicker" id="tourModalKicker">EXPEDITION ATELIER • CURADURÍA MAESTRA</span>
+        <h3 class="admin-modal-title" id="tourModalTitle">Nueva Expedición Privada</h3>
+        <p class="admin-modal-subtitle" id="tourModalSubtitle">Gestión técnica, especificaciones andinas y carta de itinerario día por día.</p>
+      </div>
+
+      <!-- Pestañas internas del editor -->
+      <div class="tour-modal-tabs">
+        <button type="button" class="tour-modal-tab-btn active" id="tabBtn-general" onclick="switchTourEditorTab('general')">
+          1. Identidad & Categoría
+        </button>
+        <button type="button" class="tour-modal-tab-btn" id="tabBtn-pricing-alt" onclick="switchTourEditorTab('pricing-alt')">
+          2. Tarifas & Altimetría
+        </button>
+        <button type="button" class="tour-modal-tab-btn" id="tabBtn-content" onclick="switchTourEditorTab('content')">
+          3. Narrativa & Inclusiones
+        </button>
+        <button type="button" class="tour-modal-tab-btn" id="tabBtn-itinerary" onclick="switchTourEditorTab('itinerary')">
+          4. Itinerario Día por Día
+        </button>
+      </div>
+
+      <form id="tourEditorForm" onsubmit="handleTourFormSubmit(event)">
+        <input type="hidden" id="tourFormId" value="">
+
+        <!-- PESTAÑA 1: IDENTIDAD & CATEGORÍA -->
+        <div class="tour-modal-tab-pane active" id="pane-tab-general">
+          <div class="form-grid-2col">
+            <div class="modal-field">
+              <label class="modal-label" for="tourFormTitleEs">Título en Español <span class="required-star">*</span></label>
+              <input type="text" id="tourFormTitleEs" class="admin-form-input" required placeholder="Ej: Belmond Hiram Bingham: La Cúspide de Machu Picchu">
+            </div>
+            <div class="modal-field">
+              <label class="modal-label" for="tourFormTitleEn">Título en Inglés <span class="required-star">*</span></label>
+              <input type="text" id="tourFormTitleEn" class="admin-form-input" required placeholder="Ej: Belmond Hiram Bingham: The Pinnacle of Machu Picchu">
+            </div>
+          </div>
+
+          <div class="form-grid-2col">
+            <div class="modal-field">
+              <label class="modal-label" for="tourFormSubtitleEs">Subtítulo (Español)</label>
+              <input type="text" id="tourFormSubtitleEs" class="admin-form-input" placeholder="Breve epígrafe introductorio en español">
+            </div>
+            <div class="modal-field">
+              <label class="modal-label" for="tourFormSubtitleEn">Subtítulo (Inglés)</label>
+              <input type="text" id="tourFormSubtitleEn" class="admin-form-input" placeholder="Short luxury summary in English">
+            </div>
+          </div>
+
+          <div class="form-grid-3col">
+            <div class="modal-field">
+              <label class="modal-label" for="tourFormCategory">Categoría Andina <span class="required-star">*</span></label>
+              <select id="tourFormCategory" class="admin-form-select" required>
+                <!-- Poblado dinámicamente desde /api/categories -->
+              </select>
+            </div>
+            <div class="modal-field">
+              <label class="modal-label" for="tourFormSlug">Slug URL (Opcional)</label>
+              <input type="text" id="tourFormSlug" class="admin-form-input" placeholder="ej: belmond-hiram-bingham (autogenerado si vacío)">
+            </div>
+            <div class="modal-field">
+              <label class="modal-label" for="tourFormStyleTag">Signature Style Tag</label>
+              <input type="text" id="tourFormStyleTag" class="admin-form-input" placeholder="Ej: Belmond Hiram Bingham Signature">
+            </div>
+          </div>
+
+          <div class="form-grid-3col">
+            <div class="modal-field">
+              <label class="modal-label" for="tourFormDifficultyEs">Confort / Dificultad (ES)</label>
+              <input type="text" id="tourFormDifficultyEs" class="admin-form-input" value="Placentero y Exclusivo">
+            </div>
+            <div class="modal-field">
+              <label class="modal-label" for="tourFormDifficultyEn">Confort / Difficulty (EN)</label>
+              <input type="text" id="tourFormDifficultyEn" class="admin-form-input" value="Leisure & Refined">
+            </div>
+            <div class="modal-field">
+              <label class="modal-label" for="tourFormDisplayOrder">Orden de Despliegue</label>
+              <input type="number" id="tourFormDisplayOrder" class="admin-form-input" value="1" min="1">
+            </div>
+          </div>
+
+          <div class="modal-field">
+            <label class="modal-label" for="tourFormMainImage">URL Imagen Principal</label>
+            <div style="display: flex; gap: 0.5rem;">
+              <input type="text" id="tourFormMainImage" class="admin-form-input" style="flex: 1;" placeholder="assets/images/hiram_bingham_main.jpg o URL web" oninput="previewTourMainImage()">
+              <button type="button" class="btn-cancel" onclick="previewTourMainImage()" style="white-space: nowrap;">Vista Previa</button>
+            </div>
+            <div id="tourImagePreviewWrap" style="margin-top: 0.5rem; display: none;">
+              <img id="tourImagePreview" src="" alt="Preview" style="max-height: 110px; border-radius: 2px; border: 1px solid var(--admin-border); object-fit: cover;">
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 2rem; margin-top: 1rem; padding: 0.85rem; background: rgba(0,0,0,0.25); border: 1px solid var(--admin-border-light); border-radius: 2px;">
+            <label style="display: flex; align-items: center; gap: 0.6rem; cursor: pointer; font-size: 0.85rem; color: #FFFFFF;">
+              <input type="checkbox" id="tourFormIsActive" checked style="accent-color: var(--admin-gold); transform: scale(1.15);">
+              <span>Publicado en Catálogo (Activo)</span>
+            </label>
+            <label style="display: flex; align-items: center; gap: 0.6rem; cursor: pointer; font-size: 0.85rem; color: var(--admin-gold-bright);">
+              <input type="checkbox" id="tourFormFeatured" style="accent-color: var(--admin-gold); transform: scale(1.15);">
+              <span>★ Marcar como Expedición Destacada</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- PESTAÑA 2: TARIFAS & ALTIMETRÍA -->
+        <div class="tour-modal-tab-pane" id="pane-tab-pricing-alt" style="display: none;">
+          <div class="form-grid-3col">
+            <div class="modal-field">
+              <label class="modal-label" for="tourFormPriceUsd">Tarifa Oficial USD ($) <span class="required-star">*</span></label>
+              <input type="number" id="tourFormPriceUsd" class="admin-form-input" required min="0" step="0.01" placeholder="2150.00" oninput="handleUsdPriceChange()">
+            </div>
+            <div class="modal-field">
+              <label class="modal-label" for="tourFormPricePen">Tarifa Oficial PEN (S/.) <span class="required-star">*</span></label>
+              <input type="number" id="tourFormPricePen" class="admin-form-input" required min="0" step="0.01" placeholder="8170.00">
+            </div>
+            <div class="modal-field">
+              <label class="modal-label" for="tourFormDurationDays">Días Totales <span class="required-star">*</span></label>
+              <input type="number" id="tourFormDurationDays" class="admin-form-input" required min="1" max="30" value="2" onchange="syncDurationTextFromDays()">
+            </div>
+          </div>
+
+          <div class="form-grid-2col">
+            <div class="modal-field">
+              <label class="modal-label" for="tourFormDurationEs">Duración Texto (ES)</label>
+              <input type="text" id="tourFormDurationEs" class="admin-form-input" value="2 Días / 1 Noche" placeholder="Ej: 2 Días / 1 Noche">
+            </div>
+            <div class="modal-field">
+              <label class="modal-label" for="tourFormDurationEn">Duración Texto (EN)</label>
+              <input type="text" id="tourFormDurationEn" class="admin-form-input" value="2 Days / 1 Night" placeholder="Ej: 2 Days / 1 Night">
+            </div>
+          </div>
+
+          <div class="form-grid-2col">
+            <div class="modal-field">
+              <label class="modal-label" for="tourFormStartingPoint">Punto de Salida / Pick-up</label>
+              <input type="text" id="tourFormStartingPoint" class="admin-form-input" value="Cusco (Poroy Station) or Sacred Valley">
+            </div>
+            <div class="modal-field">
+              <label class="modal-label" for="tourFormAltitudeMax">Elevación Máxima Oficial</label>
+              <input type="text" id="tourFormAltitudeMax" class="admin-form-input" value="2,430 m / 7,972 ft">
+            </div>
+          </div>
+
+          <div style="margin-top: 1.25rem; font-size: 0.72rem; color: var(--admin-gold); text-transform: uppercase; letter-spacing: 0.08em; border-bottom: 1px solid var(--admin-border-light); padding-bottom: 0.4rem;">
+            Protocolo Altimétrico & Oxigenación (Perfil Médico)
+          </div>
+
+          <div class="form-grid-3col" style="margin-top: 0.75rem;">
+            <div class="modal-field">
+              <label class="modal-label" for="tourFormAltStart">Altitud de Inicio</label>
+              <input type="text" id="tourFormAltStart" class="admin-form-input" value="3,400 m / 11,152 ft">
+            </div>
+            <div class="modal-field">
+              <label class="modal-label" for="tourFormAltSleep">Altitud de Pernocte</label>
+              <input type="text" id="tourFormAltSleep" class="admin-form-input" value="2,430 m / 7,972 ft">
+            </div>
+            <div class="modal-field">
+              <label class="modal-label" for="tourFormOxygenPercent">% Oxigenación Efectiva</label>
+              <input type="number" id="tourFormOxygenPercent" class="admin-form-input" min="50" max="100" value="85">
+            </div>
+          </div>
+
+          <div class="form-grid-2col">
+            <div class="modal-field">
+              <label class="modal-label" for="tourFormTipEs">Recomendación Médica / Aclimatación (ES)</label>
+              <textarea id="tourFormTipEs" class="admin-form-textarea" rows="2" placeholder="Consejo médico de aclimatación para el viajero..."></textarea>
+            </div>
+            <div class="modal-field">
+              <label class="modal-label" for="tourFormTipEn">Medical / Acclimatization Tip (EN)</label>
+              <textarea id="tourFormTipEn" class="admin-form-textarea" rows="2" placeholder="Medical acclimatization tip in English..."></textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- PESTAÑA 3: NARRATIVA & INCLUSIONES -->
+        <div class="tour-modal-tab-pane" id="pane-tab-content" style="display: none;">
+          <div class="form-grid-2col">
+            <div class="modal-field">
+              <label class="modal-label" for="tourFormDescEs">Manifiesto de la Experiencia (Español)</label>
+              <textarea id="tourFormDescEs" class="admin-form-textarea" rows="4" placeholder="Descripción profunda de la expedición en español..."></textarea>
+            </div>
+            <div class="modal-field">
+              <label class="modal-label" for="tourFormDescEn">Experience Manifesto (English)</label>
+              <textarea id="tourFormDescEn" class="admin-form-textarea" rows="4" placeholder="Comprehensive luxury journey description in English..."></textarea>
+            </div>
+          </div>
+
+          <div class="form-grid-2col">
+            <div class="modal-field">
+              <label class="modal-label" for="tourFormHighlightsEs">Highlights / Aspectos Exclusivos (ES) <span style="font-size:0.7rem; color:var(--admin-text-dim);">(Un punto por línea)</span></label>
+              <textarea id="tourFormHighlightsEs" class="admin-form-textarea" rows="3" placeholder="Vagón observatorio con bar acústico&#10;Acceso preferente al santuario&#10;Almuerzo privado en Sanctuary Lodge"></textarea>
+            </div>
+            <div class="modal-field">
+              <label class="modal-label" for="tourFormHighlightsEn">Highlights (EN) <span style="font-size:0.7rem; color:var(--admin-text-dim);">(One item per line)</span></label>
+              <textarea id="tourFormHighlightsEn" class="admin-form-textarea" rows="3" placeholder="Observation car with open-air terrace&#10;Access before crowds arrive&#10;Private dining overlooking mountain peaks"></textarea>
+            </div>
+          </div>
+
+          <div class="form-grid-2col">
+            <div class="modal-field">
+              <label class="modal-label" for="tourFormIncludedEs">Servicios Incluidos (ES) <span style="font-size:0.7rem; color:var(--admin-text-dim);">(Un servicio por línea)</span></label>
+              <textarea id="tourFormIncludedEs" class="admin-form-textarea" rows="4" placeholder="Boletos ida y vuelta Belmond&#10;Almuerzo gourmet 4 tiempos&#10;Guía arqueólogo privado certificado"></textarea>
+            </div>
+            <div class="modal-field">
+              <label class="modal-label" for="tourFormIncludedEn">Inclusions (EN) <span style="font-size:0.7rem; color:var(--admin-text-dim);">(One service per line)</span></label>
+              <textarea id="tourFormIncludedEn" class="admin-form-textarea" rows="4" placeholder="Roundtrip Belmond train tickets&#10;Gourmet 4-course lunch&#10;Certified private archaeologist guide"></textarea>
+            </div>
+          </div>
+
+          <div class="form-grid-2col">
+            <div class="modal-field">
+              <label class="modal-label" for="tourFormNotIncludedEs">No Incluido (ES) <span style="font-size:0.7rem; color:var(--admin-text-dim);">(Un punto por línea)</span></label>
+              <textarea id="tourFormNotIncludedEs" class="admin-form-textarea" rows="2" placeholder="Vuelos internacionales hacia Perú&#10;Propinas discrecionales"></textarea>
+            </div>
+            <div class="modal-field">
+              <label class="modal-label" for="tourFormNotIncludedEn">Not Included (EN) <span style="font-size:0.7rem; color:var(--admin-text-dim);">(One item per line)</span></label>
+              <textarea id="tourFormNotIncludedEn" class="admin-form-textarea" rows="2" placeholder="International flights to Peru&#10;Discretionary gratuities"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- PESTAÑA 4: ITINERARIO DÍA POR DÍA -->
+        <div class="tour-modal-tab-pane" id="pane-tab-itinerary" style="display: none;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; border-bottom: 1px solid var(--admin-border-light); padding-bottom: 0.75rem;">
+            <div>
+              <span class="view-kicker" style="font-size:0.65rem;">PROGRAMACIÓN CRONOLÓGICA</span>
+              <h4 style="font-family:'Cormorant Garamond', serif; font-size:1.25rem; color:var(--admin-gold); margin:0;">Despiece Diario de la Expedición</h4>
+            </div>
+            <button type="button" class="btn-gold-primary" onclick="addItineraryDayRow()" style="font-size: 0.75rem; padding: 0.4rem 0.85rem; display: flex; align-items: center; gap: 0.4rem;">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+              + Agregar Día
+            </button>
+          </div>
+
+          <div id="itineraryDaysContainer" class="itinerary-editor-list">
+            <!-- Filas dinámicas de días -->
+          </div>
+        </div>
+
+        <!-- FOOTER DE ACCIONES DEL MODAL -->
+        <div class="modal-actions" style="margin-top: 1.75rem; padding-top: 1.25rem; border-top: 1px solid var(--admin-border); display: flex; justify-content: space-between; align-items: center;">
+          <button type="button" class="btn-cancel" onclick="closeAdminModal('tourEditorModal')">
+            Cancelar
+          </button>
+          <div style="display: flex; gap: 0.75rem; align-items: center;">
+            <span id="tourFormStatusMsg" style="font-size: 0.75rem; color: var(--admin-text-dim);"></span>
+            <button type="submit" class="btn-login-submit" id="btnSaveTourSubmit" style="width: auto; padding: 0.7rem 2rem;">
+              💾 Guardar Expedición
+            </button>
+          </div>
+        </div>
+      </form>
     </div>
   </div>
 
