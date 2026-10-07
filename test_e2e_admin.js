@@ -245,7 +245,7 @@ async function main() {
       const select = document.getElementById('depositSelectBooking');
       if (select && select.options.length > 1) {
         select.selectedIndex = 1;
-        handleDepositBookingSelect();
+        handleSelectBookingForDeposit();
       }
     `);
     await sleep(500);
@@ -257,7 +257,7 @@ async function main() {
     console.log(`   ✓ Financial Deposit Form Populated: Total $${paymentFormData.totalVal}, Email: ${paymentFormData.emailVal}`);
 
     // Generate deposit preference
-    await evaluateJs("document.getElementById('depositPreferenceForm').dispatchEvent(new Event('submit', { cancelable: true }))");
+    await evaluateJs("document.getElementById('depositGeneratorForm').dispatchEvent(new Event('submit', { cancelable: true }))");
     await sleep(1500);
 
     const depositResult = await evaluateJs(`({
@@ -269,7 +269,7 @@ async function main() {
     console.log(`   ✓ Checkout URL Generated: ${depositResult.checkoutUrl}`);
 
     // Open Voucher Preview
-    await evaluateJs("openVoucherModal(1)");
+    await evaluateJs("openVoucherForBookingId(1)");
     await sleep(1000);
 
     const voucherData = await evaluateJs(`({
@@ -280,7 +280,7 @@ async function main() {
     console.log(`   ✓ Official Voucher Generated: ${voucherData.voucherHeader}`);
     console.log(`   ✓ Voucher Legal Credentials: ${voucherData.voucherRuc?.replace(/\\s+/g, ' ').trim()}`);
 
-    await evaluateJs("closeVoucherModal()");
+    await evaluateJs("closeAdminModal('voucherModal')");
 
     console.log('\n===============================================================');
     console.log('✅ ALL END-TO-END FLOWS COMPLETED WITH 100% SUCCESS!');

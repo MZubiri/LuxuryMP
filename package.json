@@ -1,0 +1,10 @@
+{
+  "name": "luxury-machupicchu",
+  "version": "1.0.0",
+  "description": "Luxury Machupicchu Peru - Haute Couture Andean Travel Platform",
+  "scripts": {
+    "start": "node dev-server.js",
+    "backend": "dotnet run --project backend/src/LuxuryMachupicchu.API --launch-profile http",
+    "test:e2e": "node test_e2e_admin.js"
+  }
+}

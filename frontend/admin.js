@@ -8,6 +8,7 @@ const adminState = {
   token: localStorage.getItem('lmp_admin_token') || null,
   currentUser: null,
   currentCurrency: localStorage.getItem('lmp_admin_currency') || 'USD',
+  sidebarCollapsed: localStorage.getItem('lmp_admin_sidebar_collapsed') === 'true',
   activeView: 'dashboard',
   exchangeRateUsdToPen: 3.80,
   
@@ -46,6 +47,7 @@ let searchDebounceTimeout = null;
 // INICIALIZACIÓN
 // ============================================================================
 document.addEventListener('DOMContentLoaded', () => {
+  initSidebarCollapse();
   initCurrencyUI();
   updateDashboardGreeting();
 
@@ -55,6 +57,74 @@ document.addEventListener('DOMContentLoaded', () => {
     showLoginScreen();
   }
 });
+
+// ============================================================================
+// COLAPSO Y EXPANSIÓN DEL MENÚ LATERAL (SIDEBAR TOGGLE)
+// ============================================================================
+function initSidebarCollapse() {
+  const isCollapsed = localStorage.getItem('lmp_admin_sidebar_collapsed') === 'true';
+  adminState.sidebarCollapsed = isCollapsed;
+  applySidebarCollapse(isCollapsed);
+
+  // Atajo de teclado: Ctrl + B o Cmd + B para alternar el menú
+  document.addEventListener('keydown', (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'b') {
+      const activeTag = document.activeElement ? document.activeElement.tagName.toLowerCase() : '';
+      if (activeTag !== 'input' && activeTag !== 'textarea' && activeTag !== 'select') {
+        e.preventDefault();
+        toggleSidebarCollapse();
+      }
+    }
+  });
+}
+
+function toggleSidebarCollapse() {
+  const layout = document.getElementById('adminAppLayout') || document.querySelector('.admin-app-layout');
+  const isCurrentlyCollapsed = layout ? layout.classList.contains('sidebar-collapsed') : false;
+  const newState = !isCurrentlyCollapsed;
+  
+  applySidebarCollapse(newState);
+  localStorage.setItem('lmp_admin_sidebar_collapsed', newState ? 'true' : 'false');
+  adminState.sidebarCollapsed = newState;
+
+  if (newState) {
+    showToast('Menú lateral colapsado (Espacio ampliado)', 'info');
+  } else {
+    showToast('Menú lateral expandido', 'info');
+  }
+}
+
+function applySidebarCollapse(collapsed) {
+  const layout = document.getElementById('adminAppLayout') || document.querySelector('.admin-app-layout');
+  const sidebarToggleBtn = document.getElementById('btnSidebarCollapse');
+  const headerToggleBtn = document.getElementById('btnHeaderCollapseToggle');
+
+  if (!layout) return;
+
+  if (collapsed) {
+    layout.classList.add('sidebar-collapsed');
+    if (sidebarToggleBtn) {
+      sidebarToggleBtn.title = "Expandir menú (Ctrl+B)";
+      sidebarToggleBtn.setAttribute('aria-expanded', 'false');
+    }
+    if (headerToggleBtn) {
+      headerToggleBtn.classList.add('active');
+      headerToggleBtn.title = "Expandir menú lateral (Ctrl+B)";
+      headerToggleBtn.setAttribute('aria-expanded', 'false');
+    }
+  } else {
+    layout.classList.remove('sidebar-collapsed');
+    if (sidebarToggleBtn) {
+      sidebarToggleBtn.title = "Colapsar menú (Ctrl+B)";
+      sidebarToggleBtn.setAttribute('aria-expanded', 'true');
+    }
+    if (headerToggleBtn) {
+      headerToggleBtn.classList.remove('active');
+      headerToggleBtn.title = "Colapsar menú lateral (Ctrl+B)";
+      headerToggleBtn.setAttribute('aria-expanded', 'true');
+    }
+  }
+}
 
 // Helper de Saludo y Fecha
 function updateDashboardGreeting() {
@@ -1118,7 +1188,8 @@ function renderConciergeGrid(requests, filter) {
 
         <div class="concierge-actions">
           ${r.whatsAppUrl ? `
-            <a href="${r.whatsAppUrl}" target="_blank" class="btn-table-action btn-table-whatsapp" style="padding:0.6rem 0.9rem; flex:1;" title="Chatear con el Huésped">
+            <a href="${r.whatsAppUrl}" target="_blank" class="btn-table-action btn-table-whatsapp" title="Chatear con el Huésped por WhatsApp">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
               WhatsApp Concierge
             </a>
           ` : ''}
