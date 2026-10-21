@@ -145,6 +145,7 @@ const translations = {
     lblDepositDueToday: "30% Luxury Deposit Due Today:",
     lblBalanceDueArrival: "70% Balance Due upon Arrival in Cusco:",
     btnViewQuoteSheet: "VIEW OFFICIAL QUOTATION SHEET (PDF)",
+    btnPayDepositOnline: "PAY 30% LUXURY DEPOSIT ONLINE (CULQI)",
     btnPrintQuoteSheet: "🖨️ Print / Save as PDF",
     btnSendQuoteSheetWa: "Confirm Quotation via WhatsApp",
     qsTitle: "OFFICIAL QUOTATION SHEET",
@@ -281,6 +282,7 @@ const translations = {
     lblDepositDueToday: "30% Anticipo de Garantía (A Cobrar Hoy):",
     lblBalanceDueArrival: "70% Saldo Pendiente a la Llegada en Cusco:",
     btnViewQuoteSheet: "VER HOJA DE COTIZACIÓN FORMAL (PDF)",
+    btnPayDepositOnline: "PAGAR ANTICIPO 30% ONLINE (CULQI)",
     btnPrintQuoteSheet: "🖨️ Imprimir / Guardar en PDF",
     btnSendQuoteSheetWa: "Confirmar Cotización vía WhatsApp",
     qsTitle: "HOJA DE COTIZACIÓN FORMAL",
@@ -858,14 +860,26 @@ function renderTourPage() {
 function detectTaxRegimeFromDocument(docType) {
   const normType = (docType || '').toUpperCase();
   if (normType === 'DNI' || normType === 'RUC' || normType === 'CE') {
+    let detType = 'DNI Nacional Perú';
+    let labelEs = 'Huésped Nacional / Residente en Perú (+18% IGV)';
+    let labelEn = 'Peruvian Resident / Citizen (+18% VAT)';
+    if (normType === 'CE') {
+      detType = 'Carné de Extranjería (CE)';
+      labelEs = 'Carné de Extranjería (Residente en Perú - +18% IGV)';
+      labelEn = 'Alien Registration Card (Peruvian Resident - +18% VAT)';
+    } else if (normType === 'RUC') {
+      detType = 'RUC (Persona / Empresa)';
+      labelEs = 'RUC Persona Jurídica / Natural (+18% IGV)';
+      labelEn = 'Corporate / Personal Tax ID (+18% VAT)';
+    }
     return {
       regime: 'national',
       rate: 0.18,
-      labelEs: 'Huésped Nacional / Residente en Perú (+18% IGV)',
-      labelEn: 'Peruvian Resident / Citizen (+18% VAT)',
+      labelEs,
+      labelEn,
       lawNoticeEs: 'Sujeto a 18% IGV con emisión obligatoria de Boleta o Factura SUNAT.',
       lawNoticeEn: 'Subject to 18% VAT with official SUNAT electronic tax invoice.',
-      detectedType: normType === 'DNI' ? 'DNI' : (normType === 'RUC' ? 'RUC' : 'Carné de Extranjería')
+      detectedType: detType
     };
   }
   return {
@@ -896,19 +910,9 @@ function handleSidebarDocTypeChange(val) {
 }
 
 function handleSidebarDocNumberInput(val) {
-  const cleanVal = (val || '').trim();
-  const select = document.getElementById('sidebarDocType');
-  if (/^\d{8}$/.test(cleanVal)) {
-    if (select && select.value !== 'DNI') {
-      select.value = 'DNI';
-      handleSidebarDocTypeChange('DNI');
-    }
-  } else if (/^(10|20)\d{9}$/.test(cleanVal)) {
-    if (select && select.value !== 'RUC') {
-      select.value = 'RUC';
-      handleSidebarDocTypeChange('RUC');
-    }
-  }
+  // Respect the user's manual document type selection (CE, PASSPORT, FOREIGN_ID, DNI, RUC)
+  // Do NOT override user's explicit choice.
+  recalculateSidebarTotal();
 }
 
 // Recalculate Sidebar Total with Tax & Billing Split
@@ -1123,6 +1127,11 @@ function openSidebarQuoteSheet() {
       </div>
 
       <div class="qs-actions-bar">
+        <button type="button" class="qs-btn-pay" onclick="handlePayFromTourQuoteSheet('${quoteId}')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
+          <span>${isEs ? 'Pagar Anticipo 30% Online (Culqi)' : 'Pay 30% Deposit Online (Culqi)'}</span>
+        </button>
+
         <button type="button" class="qs-btn-print" onclick="printQuoteSheet()">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
           <span>${isEs ? 'Descargar / Imprimir en PDF' : 'Print / Download PDF'}</span>
@@ -1305,6 +1314,155 @@ function handleSidebarBookingSubmit(event) {
 
   const waUrl = `https://wa.me/${waNumber}?text=${encodeURIComponent(waMessage)}`;
   window.open(waUrl, '_blank');
+}
+
+// Direct 30% Deposit Payment via Culqi from Tour Page Sidebar
+async function handleSidebarOnlinePayment() {
+  const tour = appState.tour;
+  if (!tour) return;
+  const isEs = appState.currentLang === 'es';
+  const isPen = appState.currentCurrency === 'PEN';
+  const rate = appState.exchangeRateUsdToPen || 3.80;
+
+  const nameInput = document.getElementById('sidebarName');
+  const emailInput = document.getElementById('sidebarEmail');
+  const phoneInput = document.getElementById('sidebarPhone');
+  const dateInput = document.getElementById('sidebarDate');
+  const guestsSelect = document.getElementById('sidebarGuests');
+  const carriageSelect = document.getElementById('sidebarCarriage');
+  const notesInput = document.getElementById('sidebarNotes');
+  const docTypeSelect = document.getElementById('sidebarDocType');
+  const docNumberInput = document.getElementById('sidebarDocNumber');
+
+  const name = (nameInput?.value || '').trim();
+  const email = (emailInput?.value || '').trim();
+  const phone = (phoneInput?.value || '').trim();
+  const date = dateInput?.value || '';
+  const guests = parseInt(guestsSelect?.value || '2', 10);
+  const carriage = carriageSelect?.value || 'Belmond Pullman Suite Carriage';
+  const notes = notesInput?.value || '';
+  const docType = docTypeSelect?.value || 'PASSPORT';
+  const docNumber = (docNumberInput?.value || '').trim();
+
+  const payBtn = document.getElementById('btnSidebarPayOnline');
+
+  if (!name) {
+    alert(isEs ? 'Por favor ingrese su Nombre Completo.' : 'Please enter your Lead Traveler Name.');
+    nameInput?.focus();
+    return;
+  }
+
+  if (!email || !email.includes('@')) {
+    alert(isEs ? 'Por favor ingrese un Correo Electrónico válido para emitir su voucher de pago.' : 'Please enter a valid Email address to receive your voucher.');
+    emailInput?.focus();
+    return;
+  }
+
+  if (!phone) {
+    alert(isEs ? 'Por favor ingrese su WhatsApp o Teléfono de contacto.' : 'Please enter your WhatsApp / Mobile number.');
+    phoneInput?.focus();
+    return;
+  }
+
+  if (!date) {
+    alert(isEs ? 'Por favor seleccione la Fecha Deseada de viaje.' : 'Please select your preferred travel date.');
+    dateInput?.focus();
+    return;
+  }
+
+  // Cálculos
+  const netSubtotalUsd = tour.priceUsd * guests;
+  const detection = detectTaxRegimeFromDocument(sidebarDocType || docType);
+  const taxUsd = detection.regime === 'national' ? Math.round(netSubtotalUsd * 0.18) : 0;
+  const grandTotalUsd = netSubtotalUsd + taxUsd;
+  const depositUsd = Math.round(grandTotalUsd * 0.30);
+
+  const amountToCharge = isPen ? Math.round(depositUsd * rate) : depositUsd;
+  const currencyToCharge = isPen ? 'PEN' : 'USD';
+
+  if (payBtn) {
+    payBtn.disabled = true;
+    payBtn.innerHTML = `<span>⏳ ${isEs ? 'Conectando con Culqi...' : 'Connecting to Culqi...'}</span>`;
+  }
+
+  let createdBookingId = null;
+
+  try {
+    const res = await fetchApi('/bookings', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        tourId: tour.id,
+        fullName: name,
+        email: email,
+        phone: phone,
+        country: detection.regime === 'national' ? 'Perú' : 'Internacional',
+        numberOfGuests: guests,
+        travelDate: new Date(date).toISOString(),
+        trainPreference: carriage,
+        specialRequests: `[Doc: ${docType} ${docNumber}] ${notes}`.trim(),
+        preferredLanguage: appState.currentLang
+      })
+    });
+
+    if (res.ok) {
+      const data = await res.json();
+      createdBookingId = data.id;
+    }
+  } catch (err) {
+    console.warn('Registro local completado:', err);
+  }
+
+  const tourTitle = isEs ? tour.titleEs : tour.titleEn;
+  const checkoutParams = new URLSearchParams({
+    amount: amountToCharge.toString(),
+    currency: currencyToCharge,
+    title: `${tourTitle} (30% Anticipo)`,
+    name: name,
+    email: email,
+    phone: phone
+  });
+
+  if (createdBookingId) {
+    checkoutParams.set('bookingId', createdBookingId.toString());
+  }
+
+  window.location.href = `checkout.html?${checkoutParams.toString()}`;
+}
+
+function handlePayFromTourQuoteSheet(quoteId) {
+  const tour = appState.tour;
+  if (!tour) return;
+  const isEs = appState.currentLang === 'es';
+  const isPen = appState.currentCurrency === 'PEN';
+  const rate = appState.exchangeRateUsdToPen || 3.80;
+
+  const name = document.getElementById('sidebarName')?.value.trim() || document.getElementById('pkgGuestName')?.value.trim() || (isEs ? 'Huésped Ilustre' : 'Guest of Honor');
+  const email = document.getElementById('sidebarEmail')?.value.trim() || document.getElementById('pkgGuestEmail')?.value.trim() || 'guest@luxurymachupicchu.com';
+  const phone = document.getElementById('sidebarPhone')?.value.trim() || document.getElementById('pkgGuestPhone')?.value.trim() || '';
+  const guests = parseInt(document.getElementById('sidebarGuests')?.value || packageBuilderState.travelers || '2', 10);
+
+  const netSubtotalUsd = tour.priceUsd * guests;
+  const detection = detectTaxRegimeFromDocument(sidebarDocType || packageBuilderState.docType);
+  const taxUsd = detection.regime === 'national' ? Math.round(netSubtotalUsd * 0.18) : 0;
+  const grandTotalUsd = netSubtotalUsd + taxUsd;
+  const depositUsd = Math.round(grandTotalUsd * 0.30);
+
+  const amountToCharge = isPen ? Math.round(depositUsd * rate) : depositUsd;
+  const currencyToCharge = isPen ? 'PEN' : 'USD';
+  const tourTitle = isEs ? tour.titleEs : tour.titleEn;
+
+  const checkoutParams = new URLSearchParams({
+    amount: amountToCharge.toString(),
+    currency: currencyToCharge,
+    pref: quoteId,
+    title: `${tourTitle} (30% Anticipo)`,
+    name: name,
+    email: email,
+    phone: phone
+  });
+
+  window.location.href = `checkout.html?${checkoutParams.toString()}`;
 }
 
 // Navigation helpers
@@ -1823,19 +1981,9 @@ function handleDocTypeChange(val) {
 
 function handleDocNumberInput(val) {
   packageBuilderState.docNumber = val;
-  const cleanVal = (val || '').trim();
-  const docTypeSelect = document.getElementById('pkgDocType');
-  if (/^\d{8}$/.test(cleanVal)) {
-    if (docTypeSelect && docTypeSelect.value !== 'DNI') {
-      docTypeSelect.value = 'DNI';
-      handleDocTypeChange('DNI');
-    }
-  } else if (/^(10|20)\d{9}$/.test(cleanVal)) {
-    if (docTypeSelect && docTypeSelect.value !== 'RUC') {
-      docTypeSelect.value = 'RUC';
-      handleDocTypeChange('RUC');
-    }
-  }
+  // Respect the user's manual document type selection (CE, PASSPORT, FOREIGN_ID, DNI, RUC)
+  // Do NOT override user's explicit choice.
+  recalculatePackageBuilder();
 }
 
 function openQuoteSheetModal() {
@@ -2023,6 +2171,11 @@ function openQuoteSheetModal() {
       </div>
 
       <div class="qs-actions-bar">
+        <button type="button" class="qs-btn-pay" onclick="handlePayFromTourQuoteSheet('${quoteId}')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
+          <span>${isEs ? 'Pagar Anticipo 30% Online (Culqi)' : 'Pay 30% Deposit Online (Culqi)'}</span>
+        </button>
+
         <button type="button" class="qs-btn-print" onclick="printQuoteSheet()">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
           <span>${isEs ? 'Descargar / Imprimir en PDF' : 'Print / Download PDF'}</span>
@@ -2225,6 +2378,116 @@ async function handlePackageBuilderSubmit() {
       `;
     }
   }
+}
+
+// Direct 30% Deposit Payment from Bespoke Package Builder Modal
+async function handlePackageBuilderOnlinePayment() {
+  const isEs = appState.currentLang === 'es';
+  const isPen = appState.currentCurrency === 'PEN';
+  const rate = appState.exchangeRateUsdToPen || 3.80;
+
+  const tour = BUILDER_DATA.tours.find(t => t.id === packageBuilderState.selectedTourId) || BUILDER_DATA.tours[0];
+  const hotel = BUILDER_DATA.hotels.find(h => h.id === packageBuilderState.selectedHotelId) || BUILDER_DATA.hotels[0];
+  const rail = BUILDER_DATA.rails.find(r => r.id === packageBuilderState.selectedRailId) || BUILDER_DATA.rails[0];
+
+  const nameInput = document.getElementById('pkgGuestName');
+  const emailInput = document.getElementById('pkgGuestEmail');
+  const phoneInput = document.getElementById('pkgGuestPhone');
+  const dateInput = document.getElementById('pkgTravelDate');
+  const notesInput = document.getElementById('pkgSpecialNotes');
+  const docTypeSelect = document.getElementById('pkgDocType');
+  const docNumberInput = document.getElementById('pkgDocNumber');
+
+  const name = (nameInput?.value || '').trim();
+  const email = (emailInput?.value || '').trim();
+  const phone = (phoneInput?.value || '').trim();
+  const date = dateInput?.value || '';
+  const notes = (notesInput?.value || '').trim();
+  const docType = docTypeSelect?.value || 'PASSPORT';
+  const docNumber = (docNumberInput?.value || '').trim();
+
+  const statusEl = document.getElementById('pkgStatusMsg');
+
+  if (!name) {
+    if (statusEl) statusEl.innerHTML = `<span style="color:#DC2626; font-weight:600;">⚠️ ${isEs ? 'Por favor ingrese su Nombre Completo.' : 'Please enter your Lead Traveler Name.'}</span>`;
+    nameInput?.focus();
+    return;
+  }
+
+  if (!email || !email.includes('@')) {
+    if (statusEl) statusEl.innerHTML = `<span style="color:#DC2626; font-weight:600;">⚠️ ${isEs ? 'Por favor ingrese un Correo Electrónico válido.' : 'Please enter a valid Email address.'}</span>`;
+    emailInput?.focus();
+    return;
+  }
+
+  if (!phone) {
+    if (statusEl) statusEl.innerHTML = `<span style="color:#DC2626; font-weight:600;">⚠️ ${isEs ? 'Por favor ingrese su WhatsApp o Teléfono.' : 'Please enter your WhatsApp / Mobile number.'}</span>`;
+    phoneInput?.focus();
+    return;
+  }
+
+  if (!date) {
+    if (statusEl) statusEl.innerHTML = `<span style="color:#DC2626; font-weight:600;">⚠️ ${isEs ? 'Por favor seleccione la Fecha de Viaje.' : 'Please select your target travel date.'}</span>`;
+    dateInput?.focus();
+    return;
+  }
+
+  const calcs = packageBuilderState.lastCalculations || {
+    grandTotalUsd: tour.priceUsd * packageBuilderState.travelers,
+    depositUsd: Math.round(tour.priceUsd * packageBuilderState.travelers * 0.30)
+  };
+
+  const depositUsd = calcs.depositUsd;
+  const amountToCharge = isPen ? Math.round(depositUsd * rate) : depositUsd;
+  const currencyToCharge = isPen ? 'PEN' : 'USD';
+
+  if (statusEl) {
+    statusEl.innerHTML = `<span style="color:var(--color-gold); font-weight:500;">⏳ ${isEs ? 'Registrando paquete a medida y conectando con Culqi...' : 'Registering bespoke journey and connecting to Culqi...'}</span>`;
+  }
+
+  let createdBookingId = null;
+
+  try {
+    const res = await fetchApi('/bookings', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        tourId: tour.id,
+        fullName: name,
+        email: email,
+        phone: phone,
+        country: packageBuilderState.taxRegime === 'national' ? 'Perú' : 'Internacional',
+        numberOfGuests: packageBuilderState.travelers,
+        travelDate: new Date(date).toISOString(),
+        trainPreference: isEs ? rail.nameEs : rail.nameEn,
+        specialRequests: `[Bespoke Package] Hotel: ${isEs ? hotel.nameEs : hotel.nameEn} (${packageBuilderState.hotelNights}n) | Doc: ${docType} ${docNumber} | ${notes}`.trim(),
+        preferredLanguage: appState.currentLang
+      })
+    });
+
+    if (res.ok) {
+      const data = await res.json();
+      createdBookingId = data.id;
+    }
+  } catch (err) {
+    console.warn('Registro local completado:', err);
+  }
+
+  const tourTitle = isEs ? tour.nameEs : tour.nameEn;
+  const checkoutParams = new URLSearchParams({
+    amount: amountToCharge.toString(),
+    currency: currencyToCharge,
+    title: `${tourTitle} (30% Anticipo)`,
+    name: name,
+    email: email,
+    phone: phone
+  });
+
+  if (createdBookingId) {
+    checkoutParams.set('bookingId', createdBookingId.toString());
+  }
+
+  window.location.href = `checkout.html?${checkoutParams.toString()}`;
 }
 
 function openClaimModal(type) {

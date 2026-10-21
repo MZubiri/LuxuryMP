@@ -1856,6 +1856,48 @@ body.luxury-body {
   flex-grow: 1;
 }
 
+/* High-Contrast Luxury Form Inputs inside Drawer Panel */
+.drawer-panel .form-field label {
+  color: #2D241E !important;
+  font-weight: 600 !important;
+  font-size: 0.72rem !important;
+  letter-spacing: 0.12em !important;
+}
+
+.drawer-panel .form-field input,
+.drawer-panel .form-field select,
+.drawer-panel .form-field textarea {
+  background: #FFFFFF !important;
+  border: 1px solid rgba(22, 23, 26, 0.28) !important;
+  color: #121316 !important;
+  font-size: 0.95rem !important;
+  font-weight: 500 !important;
+  border-radius: 4px !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+  padding: 0.8rem 1rem !important;
+}
+
+.drawer-panel .form-field input:focus,
+.drawer-panel .form-field select:focus,
+.drawer-panel .form-field textarea:focus {
+  border-color: #8C6D3B !important;
+  color: #121316 !important;
+  box-shadow: 0 0 0 3px rgba(197, 164, 126, 0.28) !important;
+  background: #FFFFFF !important;
+  outline: none !important;
+}
+
+.drawer-panel .form-field input::placeholder,
+.drawer-panel .form-field textarea::placeholder {
+  color: #71717A !important;
+}
+
+.drawer-panel .form-field select option {
+  background: #FFFFFF !important;
+  color: #121316 !important;
+  padding: 8px !important;
+}
+
 .live-quote-summary {
   background: #FFFFFF;
   border: 1px solid var(--color-gold-border);
@@ -1933,6 +1975,129 @@ body.luxury-body {
 .btn-drawer-deposit:hover {
   background: var(--color-obsidian);
   color: #FFFFFF;
+}
+
+.btn-drawer-pay-culqi {
+  background: linear-gradient(135deg, #C5A47E 0%, #A68053 100%);
+  color: #0E0F12 !important;
+  border: 1px solid #C5A47E;
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  padding: 1.05rem 1.25rem;
+  border-radius: 3px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  transition: var(--transition-fast);
+  box-shadow: 0 4px 18px rgba(197, 164, 126, 0.3);
+  text-transform: uppercase;
+}
+
+.btn-drawer-pay-culqi svg {
+  color: #0E0F12;
+}
+
+.btn-drawer-pay-culqi:hover {
+  background: linear-gradient(135deg, #D4AF37 0%, #B89366 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 24px rgba(197, 164, 126, 0.45);
+}
+
+.btn-sidebar-pay-culqi {
+  width: 100%;
+  background: linear-gradient(135deg, #C5A47E 0%, #A68053 100%);
+  color: #0E0F12 !important;
+  border: 1px solid #C5A47E;
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  padding: 1.05rem 1.25rem;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  transition: var(--transition-fast);
+  box-shadow: 0 4px 18px rgba(197, 164, 126, 0.3);
+  text-transform: uppercase;
+  margin-top: 0.65rem;
+  margin-bottom: 0.65rem;
+}
+
+.btn-sidebar-pay-culqi svg {
+  color: #0E0F12;
+}
+
+.btn-sidebar-pay-culqi:hover {
+  background: linear-gradient(135deg, #D4AF37 0%, #B89366 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 24px rgba(197, 164, 126, 0.45);
+}
+
+.qs-btn-pay {
+  background: linear-gradient(135deg, #C5A47E 0%, #A68053 100%);
+  color: #0E0F12 !important;
+  border: none;
+  padding: 0.75rem 1.4rem;
+  border-radius: 3px;
+  font-family: var(--font-sans);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: var(--transition-fast);
+  box-shadow: 0 3px 12px rgba(197, 164, 126, 0.3);
+}
+
+.qs-btn-pay svg {
+  color: #0E0F12;
+}
+
+.qs-btn-pay:hover {
+  background: linear-gradient(135deg, #D4AF37 0%, #B89366 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 5px 18px rgba(197, 164, 126, 0.45);
+}
+
+.btn-pkg-pay-culqi {
+  width: 100%;
+  background: linear-gradient(135deg, #C5A47E 0%, #A68053 100%);
+  color: #0E0F12 !important;
+  border: 1px solid #C5A47E;
+  font-family: var(--font-sans);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  padding: 0.95rem 1.25rem;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  transition: var(--transition-fast);
+  box-shadow: 0 4px 18px rgba(197, 164, 126, 0.3);
+  text-transform: uppercase;
+  margin-top: 0.65rem;
+}
+
+.btn-pkg-pay-culqi svg {
+  color: #0E0F12;
+}
+
+.btn-pkg-pay-culqi:hover {
+  background: linear-gradient(135deg, #D4AF37 0%, #B89366 100%);
+  transform: translateY(-1px);
 }
 
 .booking-status-box {
@@ -2815,21 +2980,35 @@ body.luxury-body {
 .sidebar-select,
 .sidebar-textarea {
   width: 100%;
-  padding: 0.75rem 0.9rem;
-  border: 1px solid rgba(22, 23, 26, 0.18);
+  padding: 0.8rem 0.95rem;
+  border: 1px solid rgba(22, 23, 26, 0.28);
   border-radius: 4px;
   font-family: var(--font-sans);
-  font-size: 0.9rem;
-  color: var(--color-obsidian);
-  background: #FAFAFA;
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: #121316 !important;
+  background: #FFFFFF !important;
 }
 
 .sidebar-input:focus,
 .sidebar-select:focus,
 .sidebar-textarea:focus {
   outline: none;
-  border-color: var(--color-gold);
-  background: #FFFFFF;
+  border-color: #8C6D3B;
+  background: #FFFFFF !important;
+  color: #121316 !important;
+  box-shadow: 0 0 0 3px rgba(197, 164, 126, 0.28);
+}
+
+.sidebar-input::placeholder,
+.sidebar-textarea::placeholder {
+  color: #71717A !important;
+}
+
+.sidebar-select option {
+  background: #FFFFFF !important;
+  color: #121316 !important;
+  padding: 8px !important;
 }
 
 .sidebar-quote-box {
@@ -3665,21 +3844,30 @@ body.luxury-body {
 .pkg-field input,
 .pkg-field select,
 .pkg-field textarea {
-  padding: 0.65rem 0.8rem;
-  border: 1px solid rgba(22, 23, 26, 0.18);
+  padding: 0.75rem 0.85rem;
+  border: 1px solid rgba(22, 23, 26, 0.28);
   border-radius: 4px;
-  background: #FFFFFF;
+  background: #FFFFFF !important;
   font-family: var(--font-sans);
-  font-size: 0.85rem;
-  color: var(--color-obsidian);
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #121316 !important;
 }
 
 .pkg-field input:focus,
 .pkg-field select:focus,
 .pkg-field textarea:focus {
   outline: none;
-  border-color: var(--color-gold);
-  box-shadow: 0 0 0 2px rgba(197, 164, 126, 0.2);
+  border-color: #8C6D3B;
+  box-shadow: 0 0 0 3px rgba(197, 164, 126, 0.28);
+  background: #FFFFFF !important;
+  color: #121316 !important;
+}
+
+.pkg-field select option {
+  background: #FFFFFF !important;
+  color: #121316 !important;
+  padding: 8px !important;
 }
 
 /* Tax Regime Radio Box */
