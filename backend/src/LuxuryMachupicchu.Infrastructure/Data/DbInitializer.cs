@@ -11,6 +11,39 @@ public static class DbInitializer
     {
         await context.Database.EnsureCreatedAsync();
 
+        try
+        {
+            await context.Database.ExecuteSqlRawAsync(@"
+                CREATE TABLE IF NOT EXISTS `payment_transactions` (
+                    `Id` int NOT NULL AUTO_INCREMENT,
+                    `CulqiChargeId` varchar(100) NOT NULL,
+                    `CulqiAuthorizationCode` varchar(60) NULL,
+                    `ReferenceType` varchar(40) NULL,
+                    `ReferenceCode` varchar(60) NULL,
+                    `BookingId` int NULL,
+                    `ConciergeRequestId` int NULL,
+                    `CustomerName` varchar(150) NULL,
+                    `CustomerEmail` varchar(150) NULL,
+                    `CustomerPhone` varchar(50) NULL,
+                    `Amount` decimal(18,2) NOT NULL,
+                    `Currency` varchar(10) NOT NULL,
+                    `PaymentMethod` varchar(40) NULL,
+                    `CardBrand` varchar(40) NULL,
+                    `CardLastFour` varchar(10) NULL,
+                    `Status` varchar(30) NOT NULL,
+                    `RawResponseJson` longtext NULL,
+                    `CreatedAt` datetime NOT NULL,
+                    PRIMARY KEY (`Id`),
+                    UNIQUE KEY `IX_payment_transactions_CulqiChargeId` (`CulqiChargeId`),
+                    KEY `IX_payment_transactions_BookingId` (`BookingId`)
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+            ");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"[DbInitializer] payment_transactions table creation check: {ex.Message}");
+        }
+
         if (!await context.Categories.AnyAsync())
         {
 

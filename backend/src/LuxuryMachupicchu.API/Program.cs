@@ -18,6 +18,8 @@ builder.Services.AddControllers()
         options.JsonSerializerOptions.DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull;
     });
 
+builder.Services.AddHttpClient();
+
 // 2. JWT Configuration
 var jwtSecretKey = builder.Configuration["JWT_SECRET_KEY"] 
     ?? builder.Configuration["JwtSettings:SecretKey"]

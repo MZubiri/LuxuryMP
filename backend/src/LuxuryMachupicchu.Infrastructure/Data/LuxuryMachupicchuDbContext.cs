@@ -19,6 +19,7 @@ public class LuxuryMachupicchuDbContext : DbContext
     public DbSet<Testimonial> Testimonials => Set<Testimonial>();
     public DbSet<AppUser> Users => Set<AppUser>();
     public DbSet<AppRole> Roles => Set<AppRole>();
+    public DbSet<PaymentTransaction> PaymentTransactions => Set<PaymentTransaction>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -127,5 +128,29 @@ public class LuxuryMachupicchuDbContext : DbContext
             entity.Property(e => e.OriginCountry).HasMaxLength(120);
         });
 
+        modelBuilder.Entity<PaymentTransaction>(entity =>
+        {
+            entity.ToTable("payment_transactions");
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.CulqiChargeId).IsRequired().HasMaxLength(100);
+            entity.HasIndex(e => e.CulqiChargeId).IsUnique();
+            entity.Property(e => e.CulqiAuthorizationCode).HasMaxLength(60);
+            entity.Property(e => e.ReferenceType).HasMaxLength(40);
+            entity.Property(e => e.ReferenceCode).HasMaxLength(60);
+            entity.Property(e => e.CustomerName).HasMaxLength(150);
+            entity.Property(e => e.CustomerEmail).HasMaxLength(150);
+            entity.Property(e => e.CustomerPhone).HasMaxLength(50);
+            entity.Property(e => e.Amount).HasColumnType("decimal(18,2)");
+            entity.Property(e => e.Currency).HasMaxLength(10);
+            entity.Property(e => e.PaymentMethod).HasMaxLength(40);
+            entity.Property(e => e.CardBrand).HasMaxLength(40);
+            entity.Property(e => e.CardLastFour).HasMaxLength(10);
+            entity.Property(e => e.Status).HasMaxLength(30);
+
+            entity.HasOne(e => e.Booking)
+                  .WithMany()
+                  .HasForeignKey(e => e.BookingId)
+                  .OnDelete(DeleteBehavior.SetNull);
+        });
     }
 }

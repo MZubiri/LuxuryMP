@@ -450,6 +450,7 @@ function switchAdminView(viewName) {
   if (viewName === 'users') refreshUsersAndRoles();
   if (viewName === 'payments') {
     loadBookingsData().then(() => updatePaymentsBanner());
+    loadPaymentTransactions();
   }
 
   window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -726,6 +727,11 @@ function renderBookingsTable() {
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.79 14.07c-.24.68-1.4 1.34-1.92 1.42-.5.09-1.15.12-1.85-.11-.43-.14-.99-.33-1.71-.65-3.04-1.33-5.01-4.42-5.16-4.63-.16-.2-1.23-1.64-1.23-3.13 0-1.49.78-2.22 1.06-2.52.28-.3.61-.38.81-.38.2 0 .41 0 .58.01.19.01.44-.07.69.53.25.61.85 2.08.93 2.23.08.16.13.35.03.55-.1.2-.15.33-.3.51-.15.18-.32.4-.46.54-.15.15-.31.31-.13.62.18.31.79 1.3 1.69 2.11 1.16 1.03 2.13 1.35 2.44 1.5.31.15.49.13.67-.08.19-.21.79-.92 1-1.24.21-.31.42-.26.7-.16.29.1 1.83.86 2.14 1.02.31.15.52.23.6.36.08.13.08.77-.16 1.45z"/></svg>
               </a>
             ` : ''}
+
+            <!-- Link de Pago Culqi -->
+            <button type="button" class="btn-table-action" onclick="generatePaymentLinkForBooking(${b.id})" title="Generar Enlace de Pago Culqi" style="color: var(--admin-gold);">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
+            </button>
 
             <!-- Voucher -->
             <button type="button" class="btn-table-action" onclick="openVoucherForBookingId(${b.id})" title="Generar Voucher Oficial">
@@ -3466,6 +3472,19 @@ function populateDepositBookingsSelect() {
     }).join('');
 }
 
+function generatePaymentLinkForBooking(bookingId) {
+  switchAdminView('payments');
+  setTimeout(() => {
+    const select = document.getElementById('depositSelectBooking');
+    if (select) {
+      select.value = String(bookingId);
+      handleSelectBookingForDeposit();
+      const fakeEvent = { preventDefault: () => {} };
+      handleGenerateDepositPreference(fakeEvent);
+    }
+  }, 150);
+}
+
 function handleSelectBookingForDeposit() {
   const select = document.getElementById('depositSelectBooking');
   const selectedOpt = select.options[select.selectedIndex];
@@ -3545,6 +3564,87 @@ function copyCheckoutUrl() {
     showToast('Enlace seleccionado para copiar.', 'info');
   });
 }
+
+// ============================================================================
+// TRANSACCIONES CULQI EN TIEMPO REAL
+// ============================================================================
+async function loadPaymentTransactions() {
+  const tbody = document.getElementById('paymentsTransactionsTbody');
+  if (!tbody) return;
+
+  try {
+    tbody.innerHTML = `<tr><td colspan="8" style="text-align:center; padding: 24px; color: var(--admin-text-muted);">Consultando transacciones en la pasarela Culqi...</td></tr>`;
+    const res = await apiFetch('/payments/transactions');
+    if (!res.ok) throw new Error('Error al cargar transacciones');
+    const transactions = await res.json();
+    adminState.paymentTransactions = transactions;
+    renderPaymentTransactionsTable(transactions);
+  } catch (err) {
+    console.error('Error fetching transactions:', err);
+    tbody.innerHTML = `<tr><td colspan="8" style="text-align:center; padding: 24px; color: #E06C75;">No se pudieron cargar las transacciones de Culqi.</td></tr>`;
+    showToast('No se pudieron sincronizar las transacciones de Culqi.', 'error');
+  }
+}
+
+function renderPaymentTransactionsTable(list) {
+  const tbody = document.getElementById('paymentsTransactionsTbody');
+  if (!tbody) return;
+
+  if (!list || list.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="8" style="text-align:center; padding: 32px; color: var(--admin-text-muted);">
+      No hay transacciones registradas en Culqi todavía. Genere un enlace de pago arriba para procesar el primer depósito.
+    </td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = list.map(t => {
+    const symbol = t.currency === 'USD' ? '$' : 'S/.';
+    const amountFmt = `${symbol} ${Number(t.amount).toLocaleString('en-US', { minimumFractionDigits: 2 })} ${t.currency}`;
+    const cardInfo = t.cardBrand ? `${t.cardBrand} •••• ${t.cardLastFour || ''}` : (t.paymentMethod || 'Culqi');
+    const dateStr = formatDate(t.createdAt);
+
+    return `<tr>
+      <td><strong>${dateStr}</strong></td>
+      <td><code style="color: var(--admin-gold); font-size: 0.8rem;">${escapeHtml(t.culqiChargeId)}</code></td>
+      <td><span style="font-family: monospace; font-size: 0.82rem; color: #FFF;">${escapeHtml(t.culqiAuthorizationCode || 'APROBADO')}</span></td>
+      <td>
+        <div style="font-weight: 600; color: #FFF;">${escapeHtml(t.customerName || 'Cliente VIP')}</div>
+        <div style="font-size: 0.76rem; color: var(--admin-text-muted);">${escapeHtml(t.customerEmail || '—')}</div>
+      </td>
+      <td><strong style="color: var(--admin-gold);">${amountFmt}</strong></td>
+      <td><span style="font-size: 0.82rem; background: #0E1013; padding: 3px 8px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.08);">${escapeHtml(cardInfo)}</span></td>
+      <td>
+        <span style="font-size: 0.82rem; font-weight: 600;">${escapeHtml(t.referenceCode || (t.bookingId ? `#LMP-${t.bookingId}` : '—'))}</span>
+      </td>
+      <td>
+        <span class="status-badge status-badge-paid" style="background: rgba(37, 211, 102, 0.15); border: 1px solid #25D366; color: #25D366; font-size: 0.72rem; padding: 3px 8px; border-radius: 12px; font-weight: 600;">
+          ✓ ${escapeHtml(t.status)}
+        </span>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+function filterPaymentTransactions(searchQuery) {
+  if (!adminState.paymentTransactions) return;
+  const q = (searchQuery || '').toLowerCase().trim();
+  if (!q) {
+    renderPaymentTransactionsTable(adminState.paymentTransactions);
+    return;
+  }
+
+  const filtered = adminState.paymentTransactions.filter(t => {
+    return (t.culqiChargeId && t.culqiChargeId.toLowerCase().includes(q)) ||
+           (t.culqiAuthorizationCode && t.culqiAuthorizationCode.toLowerCase().includes(q)) ||
+           (t.customerName && t.customerName.toLowerCase().includes(q)) ||
+           (t.customerEmail && t.customerEmail.toLowerCase().includes(q)) ||
+           (t.referenceCode && t.referenceCode.toLowerCase().includes(q)) ||
+           (t.cardBrand && t.cardBrand.toLowerCase().includes(q));
+  });
+
+  renderPaymentTransactionsTable(filtered);
+}
+
 
 // ============================================================================
 // VOUCHER DE VIAJE VIP (PRINT-READY)

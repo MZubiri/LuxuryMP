@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portal de Pago Seguro • Culqi | Luxury Machupicchu Peru</title>
+  <meta name="description" content="Pasarela de pago oficial y segura de Luxury Machupicchu Peru E.I.R.L. Procesamiento certificado por Culqi con cifrado bancario de 256 bits.">
+  <link rel="icon" type="image/png" href="assets/images/logo-travel.png">
+
+  <!-- Google Fonts: Cormorant Garamond, Montserrat, Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Main Luxury CSS -->
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- Culqi Checkout v4 Official JS SDK -->
+  <script src="https://checkout.culqi.com/js/v4"></script>
+
+  <style>
+    :root {
+      --checkout-bg: #0D0E11;
+      --checkout-card-bg: #15171C;
+      --checkout-card-border: rgba(197, 164, 126, 0.22);
+      --checkout-gold: #C5A47E;
+      --checkout-gold-hover: #D4AF37;
+      --checkout-text: #FBF9F5;
+      --checkout-muted: #9E9EA7;
+    }
+
+    body.checkout-body {
+      background-color: var(--checkout-bg);
+      color: var(--checkout-text);
+      font-family: var(--font-body, 'Inter', sans-serif);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      margin: 0;
+      background-image: 
+        radial-gradient(circle at 15% 20%, rgba(197, 164, 126, 0.05) 0%, transparent 45%),
+        radial-gradient(circle at 85% 80%, rgba(197, 164, 126, 0.04) 0%, transparent 45%);
+    }
+
+    /* Top Security Bar */
+    .checkout-security-bar {
+      background: #090A0C;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      padding: 10px 24px;
+      font-size: 0.8rem;
+      color: var(--checkout-muted);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .security-badges {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .sec-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: #A3A3B0;
+    }
+
+    .sec-badge svg {
+      color: var(--checkout-gold);
+    }
+
+    /* Header */
+    .checkout-header {
+      padding: 24px 32px;
+      border-bottom: 1px solid rgba(197, 164, 126, 0.15);
+      background: rgba(18, 19, 22, 0.7);
+      backdrop-filter: blur(12px);
+    }
+
+    .checkout-header-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .checkout-brand {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      text-decoration: none;
+    }
+
+    .checkout-brand-logo {
+      height: 44px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    .checkout-brand-title {
+      font-family: var(--font-serif, 'Cormorant Garamond', serif);
+      font-size: 1.35rem;
+      letter-spacing: 0.08em;
+      color: var(--checkout-text);
+      font-weight: 600;
+      line-height: 1.1;
+    }
+
+    .checkout-brand-sub {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--checkout-gold);
+      display: block;
+      margin-top: 2px;
+    }
+
+    /* Main Container */
+    .checkout-main {
+      flex: 1;
+      max-width: 1060px;
+      width: 100%;
+      margin: 40px auto;
+      padding: 0 24px;
+    }
+
+    .checkout-layout {
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      gap: 36px;
+      align-items: start;
+    }
+
+    @media (max-width: 900px) {
+      .checkout-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Left: Experience & Client Info */
+    .checkout-card {
+      background: var(--checkout-card-bg);
+      border: 1px solid var(--checkout-card-border);
+      border-radius: 8px;
+      padding: 32px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+      position: relative;
+    }
+
+    .card-kicker {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--checkout-gold);
+      font-weight: 600;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .card-title {
+      font-family: var(--font-serif, 'Cormorant Garamond', serif);
+      font-size: 2rem;
+      color: var(--checkout-text);
+      font-weight: 500;
+      margin-bottom: 16px;
+      line-height: 1.2;
+    }
+
+    .tour-hero-preview {
+      display: flex;
+      gap: 20px;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 6px;
+      margin-bottom: 28px;
+      align-items: center;
+    }
+
+    .tour-icon-wrap {
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      background: rgba(197, 164, 126, 0.12);
+      border: 1px solid rgba(197, 164, 126, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--checkout-gold);
+      flex-shrink: 0;
+    }
+
+    .tour-hero-info h3 {
+      font-size: 1.15rem;
+      color: #FFF;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .tour-hero-info p {
+      font-size: 0.85rem;
+      color: var(--checkout-muted);
+    }
+
+    /* Form Fields */
+    .form-group-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+
+    .form-group-full {
+      margin-bottom: 20px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: #DDD;
+      margin-bottom: 8px;
+      letter-spacing: 0.02em;
+    }
+
+    .form-control-luxury {
+      width: 100%;
+      padding: 13px 16px;
+      background: #0E1013;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 5px;
+      color: #FFF;
+      font-size: 0.95rem;
+      transition: all 0.25s ease;
+      font-family: inherit;
+    }
+
+    .form-control-luxury:focus {
+      outline: none;
+      border-color: var(--checkout-gold);
+      box-shadow: 0 0 0 3px rgba(197, 164, 126, 0.15);
+      background: #121418;
+    }
+
+    .form-control-luxury:disabled {
+      background: #1A1C21;
+      color: #888;
+      cursor: not-allowed;
+    }
+
+    /* Right: Payment Summary Box */
+    .summary-card {
+      background: #171A21;
+      border: 1px solid var(--checkout-card-border);
+      border-radius: 8px;
+      padding: 28px;
+      position: sticky;
+      top: 30px;
+    }
+
+    .summary-title {
+      font-family: var(--font-serif, 'Cormorant Garamond', serif);
+      font-size: 1.6rem;
+      color: #FFF;
+      padding-bottom: 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      margin-bottom: 20px;
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+      font-size: 0.9rem;
+      color: var(--checkout-muted);
+    }
+
+    .summary-row.total-row {
+      margin-top: 20px;
+      padding-top: 18px;
+      border-top: 1px dashed rgba(197, 164, 126, 0.3);
+      font-size: 1.25rem;
+      color: #FFF;
+      font-weight: 600;
+    }
+
+    .total-amount-display {
+      color: var(--checkout-gold);
+      font-size: 1.8rem;
+      font-family: var(--font-serif, 'Cormorant Garamond', serif);
+      font-weight: 700;
+    }
+
+    .badge-deposit {
+      display: inline-block;
+      padding: 4px 10px;
+      background: rgba(197, 164, 126, 0.15);
+      border: 1px solid var(--checkout-gold);
+      color: var(--checkout-gold);
+      border-radius: 20px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* Pay Button */
+    .btn-culqi-pay {
+      width: 100%;
+      padding: 16px 24px;
+      background: linear-gradient(135deg, var(--checkout-gold) 0%, #B89366 100%);
+      color: #0E0F12;
+      border: none;
+      border-radius: 6px;
+      font-size: 1.05rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 24px;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      letter-spacing: 0.04em;
+      box-shadow: 0 8px 24px rgba(197, 164, 126, 0.25);
+    }
+
+    .btn-culqi-pay:hover:not(:disabled) {
+      background: linear-gradient(135deg, var(--checkout-gold-hover) 0%, #C5A47E 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(197, 164, 126, 0.38);
+    }
+
+    .btn-culqi-pay:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .payment-methods-accepted {
+      margin-top: 24px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      text-align: center;
+    }
+
+    .payment-methods-label {
+      font-size: 0.75rem;
+      color: #7D7F88;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    .payment-cards-icons {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .card-pill {
+      background: #0D0E11;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      padding: 4px 10px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #B5B5BE;
+    }
+
+    /* Success / Result Voucher */
+    .voucher-container {
+      display: none;
+      background: var(--checkout-card-bg);
+      border: 1px solid rgba(197, 164, 126, 0.4);
+      border-radius: 8px;
+      padding: 48px;
+      max-width: 680px;
+      margin: 40px auto;
+      text-align: center;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+    }
+
+    .voucher-icon-success {
+      width: 76px;
+      height: 76px;
+      border-radius: 50%;
+      background: rgba(37, 211, 102, 0.12);
+      border: 2px solid #25D366;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 24px;
+      color: #25D366;
+    }
+
+    .voucher-title {
+      font-family: var(--font-serif, 'Cormorant Garamond', serif);
+      font-size: 2.4rem;
+      color: #FFF;
+      margin-bottom: 8px;
+    }
+
+    .voucher-subtitle {
+      font-size: 0.95rem;
+      color: var(--checkout-muted);
+      margin-bottom: 32px;
+    }
+
+    .voucher-details-box {
+      background: #0E1013;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 6px;
+      padding: 24px;
+      text-align: left;
+      margin-bottom: 32px;
+    }
+
+    .voucher-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .voucher-item label {
+      display: block;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #7D7F88;
+      margin-bottom: 4px;
+    }
+
+    .voucher-item span {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #FFF;
+    }
+
+    .voucher-actions {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-voucher-action {
+      padding: 13px 24px;
+      border-radius: 5px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      transition: all 0.25s ease;
+    }
+
+    .btn-voucher-wa {
+      background: #25D366;
+      color: #0E0F12;
+      border: none;
+    }
+
+    .btn-voucher-wa:hover {
+      background: #20BD5A;
+      transform: translateY(-2px);
+    }
+
+    .btn-voucher-print {
+      background: transparent;
+      color: #FFF;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+    }
+
+    .btn-voucher-print:hover {
+      border-color: var(--checkout-gold);
+      color: var(--checkout-gold);
+    }
+
+    /* Modal / Alert */
+    .checkout-alert {
+      padding: 14px 18px;
+      border-radius: 6px;
+      margin-bottom: 20px;
+      font-size: 0.9rem;
+      display: none;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .checkout-alert.alert-error {
+      background: rgba(239, 68, 68, 0.12);
+      border: 1px solid rgba(239, 68, 68, 0.35);
+      color: #FCA5A5;
+    }
+
+    .checkout-alert.alert-info {
+      background: rgba(197, 164, 126, 0.12);
+      border: 1px solid rgba(197, 164, 126, 0.35);
+      color: #E6CEB3;
+    }
+
+    /* Footer */
+    .checkout-footer {
+      background: #090A0C;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      padding: 24px;
+      text-align: center;
+      font-size: 0.8rem;
+      color: #6C6E76;
+      margin-top: auto;
+    }
+  </style>
+</head>
+<body class="checkout-body">
+
+  <!-- TOP SECURITY BAR -->
+  <div class="checkout-security-bar">
+    <div class="security-badges">
+      <span class="sec-badge">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+        Cifrado Bancario SSL 256-Bit
+      </span>
+      <span class="sec-badge">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+        PCI-DSS Nivel 1 Compliant
+      </span>
+      <span class="sec-badge">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        Culqi Authorized Merchant
+      </span>
+    </div>
+    <div>
+      <span>RUC: 20601622492 • Luxury Machupicchu Peru E.I.R.L</span>
+    </div>
+  </div>
+
+  <!-- HEADER -->
+  <header class="checkout-header">
+    <div class="checkout-header-inner">
+      <a href="index.html" class="checkout-brand">
+        <img src="assets/images/logo-travel.png" alt="Luxury Machupicchu Peru" class="checkout-brand-logo">
+        <div>
+          <span class="checkout-brand-title">LUXURY MACHUPICCHU PERU</span>
+          <span class="checkout-brand-sub">Portal de Pago y Depósito Seguro</span>
+        </div>
+      </a>
+      <a href="index.html" style="color: var(--checkout-gold); text-decoration: none; font-size: 0.88rem; display: flex; align-items: center; gap: 6px;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+        Volver a la Web
+      </a>
+    </div>
+  </header>
+
+  <!-- MAIN CHECKOUT CONTENT -->
+  <main class="checkout-main">
+
+    <!-- Alert Box -->
+    <div id="checkoutAlert" class="checkout-alert"></div>
+
+    <!-- PAYMENT FORM LAYOUT -->
+    <div class="checkout-layout" id="checkoutFormSection">
+      
+      <!-- LEFT: CUSTOMER & JOURNEY DETAILS -->
+      <div class="checkout-card">
+        <span class="card-kicker">INFORMACIÓN DEL PASAJERO & VIAJE</span>
+        <h1 class="card-title" id="checkoutJourneyTitle">Confirmación de Reserva Exclusiva</h1>
+
+        <!-- Preview Card -->
+        <div class="tour-hero-preview">
+          <div class="tour-icon-wrap">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+          </div>
+          <div class="tour-hero-info">
+            <h3 id="previewTourName">Expedición Privada Machu Picchu</h3>
+            <p id="previewRefCode">Referencia: RES-PENDIENTE • Concierge Atelier</p>
+          </div>
+        </div>
+
+        <form id="clientDetailsForm">
+          <div class="form-group-grid">
+            <div>
+              <label class="form-label" for="clientFullName">Nombre Completo del Titular *</label>
+              <input type="text" id="clientFullName" class="form-control-luxury" placeholder="Ej. Lord Arthur Hastings" required>
+            </div>
+            <div>
+              <label class="form-label" for="clientEmail">Correo Electrónico (para voucher) *</label>
+              <input type="email" id="clientEmail" class="form-control-luxury" placeholder="arthur@domain.com" required>
+            </div>
+          </div>
+
+          <div class="form-group-grid">
+            <div>
+              <label class="form-label" for="clientPhone">Teléfono / WhatsApp Internacional *</label>
+              <input type="tel" id="clientPhone" class="form-control-luxury" placeholder="+1 (555) 019-2834" required>
+            </div>
+            <div>
+              <label class="form-label" for="clientCurrency">Moneda de Pago</label>
+              <select id="clientCurrency" class="form-control-luxury" onchange="handleCurrencyChange(this.value)">
+                <option value="USD">Dólares Americanos (USD $)</option>
+                <option value="PEN">Soles Peruanos (PEN S/.)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group-full">
+            <label class="form-label" for="clientNotes">Observaciones o Solicitud Especial (Opcional)</label>
+            <input type="text" id="clientNotes" class="form-control-luxury" placeholder="Dietas especiales, suite contigua, horarios de tren...">
+          </div>
+        </form>
+
+        <div style="font-size: 0.8rem; color: #888; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 16px;">
+          <p>Al procesar su pago, se generará de inmediato una confirmación electrónica vinculada al sistema de Concierge y se actualizará su reserva en tiempo real.</p>
+        </div>
+      </div>
+
+      <!-- RIGHT: ORDER SUMMARY & CULQI MODAL TRIGGER -->
+      <aside class="summary-card">
+        <h2 class="summary-title">Resumen de Pago</h2>
+
+        <div class="summary-row">
+          <span>Concepto</span>
+          <span id="summaryConcept">Depósito de Reserva (30%)</span>
+        </div>
+
+        <div class="summary-row">
+          <span>Referencia de Pago</span>
+          <span id="summaryPrefId" style="font-family: monospace; font-weight: 600; color: #FFF;">—</span>
+        </div>
+
+        <div class="summary-row">
+          <span>Pasarela de Pago</span>
+          <span style="color: var(--checkout-gold); font-weight: 600;">Culqi Checkout v4</span>
+        </div>
+
+        <div class="summary-row">
+          <span>Tipo de Transacción</span>
+          <span class="badge-deposit" id="summaryTypeBadge">Depósito Oficial</span>
+        </div>
+
+        <div class="summary-row total-row">
+          <span>Total a Pagar</span>
+          <div class="total-amount-display" id="summaryTotalDisplay">$0.00 USD</div>
+        </div>
+
+        <!-- PAY WITH CULQI BUTTON -->
+        <button type="button" class="btn-culqi-pay" id="btnPayWithCulqi" onclick="initiateCulqiPayment()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
+          <span id="btnPayText">Pagar con Tarjeta o Yape</span>
+        </button>
+
+        <div class="payment-methods-accepted">
+          <span class="payment-methods-label">Tarjetas & Billeteras Aceptadas</span>
+          <div class="payment-cards-icons">
+            <span class="card-pill">VISA</span>
+            <span class="card-pill">MASTERCARD</span>
+            <span class="card-pill">AMEX</span>
+            <span class="card-pill">DINERS</span>
+            <span class="card-pill" style="color: #00D3BA; border-color: #00D3BA;">YAPE</span>
+          </div>
+        </div>
+      </aside>
+
+    </div>
+
+    <!-- VOUCHER DE PAGO EXITOSO -->
+    <div class="voucher-container" id="checkoutVoucherSection">
+      <div class="voucher-icon-success">
+        <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+      </div>
+      <h2 class="voucher-title">¡Transacción Exitosa!</h2>
+      <p class="voucher-subtitle">Su depósito de viaje ha sido procesado de manera segura a través de Culqi.</p>
+
+      <div class="voucher-details-box">
+        <div class="voucher-grid">
+          <div class="voucher-item">
+            <label>Código de Cargo (Culqi)</label>
+            <span id="voucherChargeId">—</span>
+          </div>
+          <div class="voucher-item">
+            <label>Código de Autorización</label>
+            <span id="voucherAuthCode">—</span>
+          </div>
+          <div class="voucher-item">
+            <label>Monto Pagado</label>
+            <span id="voucherAmount">—</span>
+          </div>
+          <div class="voucher-item">
+            <label>Método / Tarjeta</label>
+            <span id="voucherCard">—</span>
+          </div>
+          <div class="voucher-item">
+            <label>Referencia de Reserva</label>
+            <span id="voucherRefCode">—</span>
+          </div>
+          <div class="voucher-item">
+            <label>Fecha y Hora</label>
+            <span id="voucherDate">—</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="voucher-actions">
+        <a href="#" class="btn-voucher-action btn-voucher-wa" id="btnVoucherWhatsApp" target="_blank">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+          Notificar a mi Concierge Personal
+        </a>
+        <button type="button" class="btn-voucher-action btn-voucher-print" onclick="window.print()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+          Imprimir / Guardar Voucher
+        </button>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="checkout-footer">
+    <p>© 2026 Luxury Machupicchu Peru E.I.R.L • Todos los derechos reservados. GERCETUR & MINCETUR Acreditado.</p>
+    <p style="margin-top: 6px;">Portal Oficial de Pagos y Reservas • Pasarela Bancaria Integrada con Culqi</p>
+  </footer>
+
+  <!-- Checkout Logic -->
+  <script src="checkout.js"></script>
+</body>
+</html>

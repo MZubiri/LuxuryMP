@@ -508,6 +508,32 @@
           </div>
         </div>
 
+        <!-- Tarjeta de Estado y Configuración de Culqi -->
+        <div class="culqi-gateway-card" style="background: #171A21; border: 1px solid rgba(197, 164, 126, 0.25); border-radius: 8px; padding: 18px 24px; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+          <div style="display: flex; align-items: center; gap: 16px;">
+            <div style="width: 44px; height: 44px; border-radius: 8px; background: rgba(197, 164, 126, 0.12); border: 1px solid rgba(197, 164, 126, 0.3); display: flex; align-items: center; justify-content: center; color: var(--admin-gold);">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
+            </div>
+            <div>
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <h4 style="font-size: 1.05rem; color: #FFF; font-weight: 600; margin: 0;">Pasarela de Pago Culqi</h4>
+                <span style="background: rgba(37, 211, 102, 0.15); border: 1px solid #25D366; color: #25D366; font-size: 0.72rem; padding: 2px 8px; border-radius: 12px; font-weight: 600;">CONECTADA • SANDBOX</span>
+              </div>
+              <p style="font-size: 0.8rem; color: var(--admin-text-muted); margin-top: 4px;">
+                Llave Pública: <code style="color: var(--admin-gold); background: #0E1013; padding: 2px 6px; border-radius: 4px;">pk_test_fU8KVWEiNbyyLHNt</code> • Monedas: USD & PEN • Tarjetas & Yape
+              </p>
+            </div>
+          </div>
+          <div style="display: flex; gap: 10px;">
+            <a href="checkout.html?amount=1050&currency=USD&title=Expedici%C3%B3n%20Privada%20Machu%20Picchu" target="_blank" class="btn-table-action" style="background: rgba(197, 164, 126, 0.12); color: var(--admin-gold); border: 1px solid var(--admin-gold);">
+              Abrir Checkout Público ↗
+            </a>
+            <button type="button" class="btn-table-action" onclick="loadPaymentTransactions()">
+              Actualizar Transacciones
+            </button>
+          </div>
+        </div>
+
         <!-- Generador de Preferencia de Depósito -->
         <div class="deposit-generator-card">
           <div class="panel-header">
@@ -579,7 +605,7 @@
                 ID de Preferencia: <code id="resultPrefId" style="color: #ECC38B;">—</code>
               </div>
               <input type="text" id="resultCheckoutUrl" class="checkout-url-input" readonly>
-              <div style="display: flex; gap: 0.75rem; margin-top: 0.5rem;">
+              <div style="display: flex; gap: 0.75rem; margin-top: 0.5rem; flex-wrap: wrap;">
                 <button type="button" class="btn-table-action" onclick="copyCheckoutUrl()">
                   Copiar Enlace
                 </button>
@@ -589,6 +615,48 @@
               </div>
             </div>
           </form>
+        </div>
+
+        <!-- Tabla de Transacciones Culqi en Vivo -->
+        <div class="deposit-generator-card" style="margin-top: 24px;">
+          <div class="panel-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 12px;">
+            <div>
+              <h3 class="panel-title">Transacciones Culqi en Tiempo Real</h3>
+              <p style="font-size: 0.8rem; color: var(--admin-text-muted); margin-top: 2px;">
+                Cargos aprobados, códigos de autorización bancaria y conciliación de depósitos.
+              </p>
+            </div>
+            <div style="display: flex; gap: 10px; align-items: center;">
+              <input type="text" id="paymentsSearchInput" placeholder="Buscar por ID, tarjeta, cliente..." class="modal-input" style="width: 250px; padding: 6px 12px; font-size: 0.82rem;" oninput="filterPaymentTransactions(this.value)">
+              <button type="button" class="btn-table-action" onclick="loadPaymentTransactions()">
+                Refrescar
+              </button>
+            </div>
+          </div>
+
+          <div class="admin-table-wrapper">
+            <table class="admin-table" id="paymentsTransactionsTable">
+              <thead>
+                <tr>
+                  <th>Fecha</th>
+                  <th>Cargo Culqi (ID)</th>
+                  <th>Autorización</th>
+                  <th>Titular & Correo</th>
+                  <th>Monto</th>
+                  <th>Método / Tarjeta</th>
+                  <th>Referencia</th>
+                  <th>Estado</th>
+                </tr>
+              </thead>
+              <tbody id="paymentsTransactionsTbody">
+                <tr>
+                  <td colspan="8" style="text-align: center; padding: 32px; color: var(--admin-text-muted);">
+                    Cargando transacciones de Culqi...
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </section>
 
