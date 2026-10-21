@@ -1833,6 +1833,7 @@ body.luxury-body {
   inset: 0;
   z-index: 2500;
   display: none;
+  overflow: hidden !important;
 }
 
 .booking-drawer.active {
@@ -1852,13 +1853,15 @@ body.luxury-body {
   right: 0;
   bottom: 0;
   width: 100%;
-  max-width: 520px;
+  max-width: 500px;
   background: var(--color-alabaster);
   box-shadow: -10px 0 50px rgba(0, 0, 0, 0.25);
   display: flex;
   flex-direction: column;
   animation: slideInRight 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  overflow-y: auto;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  box-sizing: border-box !important;
 }
 
 @keyframes slideInRight {
@@ -1867,12 +1870,16 @@ body.luxury-body {
 }
 
 .drawer-panel-header {
-  padding: 2rem 2.2rem 1.5rem;
+  padding: 1.5rem 1.6rem 1.25rem;
   border-bottom: 1px solid var(--color-sand-border);
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   background: #FFFFFF;
+  box-sizing: border-box !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow: hidden !important;
 }
 
 .drawer-pretitle {
@@ -1898,8 +1905,27 @@ body.luxury-body {
 }
 
 .drawer-panel-body {
-  padding: 2rem 2.2rem;
+  padding: 1.4rem 1.5rem 3rem !important;
   flex-grow: 1;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  box-sizing: border-box !important;
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+.drawer-panel,
+.drawer-panel *,
+.drawer-panel *::before,
+.drawer-panel *::after {
+  box-sizing: border-box !important;
+}
+
+.drawer-panel .form-field {
+  min-width: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
 }
 
 /* High-Contrast Luxury Form Inputs inside Drawer Panel */
@@ -1923,6 +1949,10 @@ body.luxury-body {
   border-radius: 4px !important;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
   padding: 0.8rem 1rem !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
 }
 
 .drawer-panel .form-field input:focus,
@@ -1947,6 +1977,50 @@ body.luxury-body {
   background: #FFFFFF !important;
   color: #121316 !important;
   padding: 8px !important;
+}
+
+.drawer-panel .pkg-doc-row {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr) !important;
+  gap: 0.65rem !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+.drawer-panel .form-group-row {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
+  gap: 0.65rem !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+.drawer-panel .live-quote-summary,
+.drawer-panel .billing-split-box,
+.drawer-panel .drawer-tax-legend,
+.drawer-panel .tax-detection-badge,
+.drawer-panel .booking-drawer-actions,
+.drawer-panel form {
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+}
+
+.drawer-panel .tax-detection-badge {
+  white-space: normal !important;
+  word-break: break-word !important;
+  line-height: 1.4 !important;
+}
+
+.drawer-panel .booking-drawer-actions button {
+  width: 100% !important;
+  max-width: 100% !important;
+  white-space: normal !important;
+  text-align: center !important;
+  box-sizing: border-box !important;
 }
 
 .live-quote-summary {
@@ -2379,13 +2453,28 @@ body.luxury-body {
     padding: 1rem;
   }
 
-  .form-group-row {
-    grid-template-columns: 1fr;
+  .form-group-row,
+  .pkg-doc-row {
+    grid-template-columns: 1fr !important;
   }
 
   .drawer-panel {
-    width: 100%;
-    max-width: 100%;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .drawer-panel-header {
+    padding: 1.2rem 1.1rem 1rem !important;
+  }
+
+  .drawer-panel-body {
+    padding: 1.2rem 1.1rem 2.5rem !important;
+  }
+
+  .drawer-panel .pkg-doc-row,
+  .drawer-panel .form-group-row {
+    grid-template-columns: 1fr !important;
+    gap: 0.65rem !important;
   }
 
   .btn-concierge-primary {
@@ -4149,8 +4238,28 @@ body.luxury-body {
    ========================================================================== */
 .pkg-doc-row {
   display: grid;
-  grid-template-columns: 1.1fr 1.4fr;
-  gap: 0.75rem;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  gap: 0.65rem;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.pkg-doc-row .pkg-field,
+.pkg-doc-row .form-field,
+.pkg-doc-row .sidebar-form-group {
+  min-width: 0;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.pkg-doc-row input,
+.pkg-doc-row select {
+  min-width: 0;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .tax-detection-badge {

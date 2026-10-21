@@ -31,7 +31,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Montserrat:wght@200;300;400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=20261021_prod3">
+  <link rel="stylesheet" href="styles.css?v=20261021_prod4">
 
   <style>
     /* CRITICAL HIGH CONTRAST INPUTS & LUXURY BUTTONS */
@@ -41,6 +41,63 @@
       font-weight: 700 !important;
       font-size: 0.74rem !important;
       letter-spacing: 0.1em !important;
+    }
+
+    /* DRAWER OVERFLOW & FIT PREVENTION */
+    .booking-drawer {
+      overflow: hidden !important;
+    }
+
+    .drawer-panel {
+      max-width: 500px !important;
+      width: 100% !important;
+      overflow-x: hidden !important;
+      overflow-y: auto !important;
+      box-sizing: border-box !important;
+    }
+
+    .drawer-panel-header,
+    .drawer-panel-body {
+      max-width: 100% !important;
+      width: 100% !important;
+      overflow-x: hidden !important;
+      box-sizing: border-box !important;
+    }
+
+    .drawer-panel-body {
+      padding: 1.4rem 1.5rem 3rem !important;
+    }
+
+    .drawer-panel,
+    .drawer-panel *,
+    .drawer-panel *::before,
+    .drawer-panel *::after {
+      box-sizing: border-box !important;
+    }
+
+    .drawer-panel .pkg-doc-row {
+      display: grid !important;
+      grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr) !important;
+      gap: 0.65rem !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      box-sizing: border-box !important;
+    }
+
+    .drawer-panel .form-group-row {
+      display: grid !important;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
+      gap: 0.65rem !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      box-sizing: border-box !important;
+    }
+
+    .drawer-panel .form-field {
+      min-width: 0 !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      box-sizing: border-box !important;
     }
 
     #bookingDrawer input,
@@ -60,6 +117,10 @@
       font-weight: 600 !important;
       font-size: 0.95rem !important;
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08) !important;
+      min-width: 0 !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      box-sizing: border-box !important;
     }
 
     #bookingDrawer input:focus,
@@ -92,6 +153,40 @@
       -webkit-text-fill-color: #121316 !important;
     }
 
+    .drawer-panel .live-quote-summary,
+    .drawer-panel .billing-split-box,
+    .drawer-panel .drawer-tax-legend,
+    .drawer-panel .tax-detection-badge,
+    .drawer-panel .booking-drawer-actions {
+      width: 100% !important;
+      max-width: 100% !important;
+      box-sizing: border-box !important;
+    }
+
+    .drawer-panel .tax-detection-badge {
+      white-space: normal !important;
+      word-break: break-word !important;
+      line-height: 1.4 !important;
+    }
+
+    @media (max-width: 580px) {
+      .drawer-panel {
+        max-width: 100% !important;
+        width: 100% !important;
+      }
+      .drawer-panel-header {
+        padding: 1.2rem 1.1rem 1rem !important;
+      }
+      .drawer-panel-body {
+        padding: 1.2rem 1.1rem 2.5rem !important;
+      }
+      .drawer-panel .pkg-doc-row,
+      .drawer-panel .form-group-row {
+        grid-template-columns: 1fr !important;
+        gap: 0.65rem !important;
+      }
+    }
+
     /* Culqi Online Payment Button */
     .btn-drawer-pay-culqi {
       width: 100% !important;
@@ -111,6 +206,8 @@
       gap: 0.65rem !important;
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25) !important;
       text-transform: uppercase !important;
+      white-space: normal !important;
+      text-align: center !important;
     }
 
     .btn-drawer-pay-culqi svg {
@@ -793,11 +890,10 @@
             <div class="form-field">
               <label for="bookingDocType" data-i18n="lblDocType">Tipo de Documento *</label>
               <select id="bookingDocType" onchange="handleDrawerDocTypeChange(this.value)" style="color: #121316 !important; -webkit-text-fill-color: #121316 !important; background: #FFFFFF !important; font-weight: 600 !important;">
-                <option value="PASSPORT" selected data-i18n="docPassport">Pasaporte Extranjero (0% IGV)</option>
-                <option value="FOREIGN_ID" data-i18n="docForeignId">Cédula Extranjera (0% IGV)</option>
-                <option value="DNI" data-i18n="docDni">DNI Nacional Perú (+18% IGV)</option>
-                <option value="RUC" data-i18n="docRuc">RUC Persona / Empresa (+18% IGV)</option>
-                <option value="CE" data-i18n="docCe">Carné de Extranjería (+18% IGV)</option>
+                <option value="PASSPORT" selected data-i18n="docPassport">Pasaporte (0% IGV)</option>
+                <option value="DNI" data-i18n="docDni">DNI (+18% IGV)</option>
+                <option value="CE" data-i18n="docCe">Carné Extranjería (+18% IGV)</option>
+                <option value="RUC" data-i18n="docRuc">RUC (+18% IGV)</option>
               </select>
             </div>
             <div class="form-field">
@@ -963,11 +1059,10 @@
               <div class="pkg-field">
                 <label for="pkgDocType" data-i18n="lblDocType">Tipo de Documento *</label>
                 <select id="pkgDocType" onchange="handleDocTypeChange(this.value)">
-                  <option value="PASSPORT" selected data-i18n="docPassport">Pasaporte Extranjero (0% IGV)</option>
-                  <option value="FOREIGN_ID" data-i18n="docForeignId">Cédula de Identidad Extranjera (0% IGV)</option>
-                  <option value="DNI" data-i18n="docDni">D.N.I. Nacional Perú (+18% IGV)</option>
-                  <option value="RUC" data-i18n="docRuc">R.U.C. Empresa/Persona Jurídica (+18% IGV)</option>
-                  <option value="CE" data-i18n="docCe">Carné de Extranjería / Residente (+18% IGV)</option>
+                  <option value="PASSPORT" selected data-i18n="docPassport">Pasaporte (0% IGV)</option>
+                  <option value="DNI" data-i18n="docDni">DNI (+18% IGV)</option>
+                  <option value="CE" data-i18n="docCe">Carné Extranjería (+18% IGV)</option>
+                  <option value="RUC" data-i18n="docRuc">RUC (+18% IGV)</option>
                 </select>
               </div>
               <div class="pkg-field">
@@ -1328,7 +1423,7 @@
     </div>
   </div>
 
-  <script src="app.js?v=20261021_prod3"></script>
+  <script src="app.js?v=20261021_prod4"></script>
   <script>
     // Double safeguard event listener for Culqi Online Payment
     document.addEventListener('DOMContentLoaded', function() {

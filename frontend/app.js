@@ -142,11 +142,10 @@ const translations = {
     btnDispatchWhatsApp: "CONFIRM BESPOKE PACKAGE VIA WHATSAPP",
     btnRequestPdfQuote: "REQUEST FORMAL DOSSIER & PDF QUOTE",
     lblDocType: "Document Type *",
-    optPassport: "Foreign Passport (0% IGV Exempt - D.L. 919)",
-    optDni: "DNI (Peruvian National ID - +18% IGV)",
-    optRuc: "RUC (Peruvian Corporate Tax ID - +18% IGV)",
-    optCe: "Carné de Extranjería (Resident in Peru - +18% IGV)",
-    optForeignId: "Foreign National ID (Mercosur / CAN - 0% IGV)",
+    optPassport: "Passport (0% IGV)",
+    optDni: "DNI (+18% IGV)",
+    optCe: "Carné Extranjería (+18% IGV)",
+    optRuc: "RUC (+18% IGV)",
     lblDocNumber: "Document ID Number *",
     lblNationality: "Country / Nationality",
     lblTaxBreakdown: "Tax Breakdown & Charge Details:",
@@ -286,11 +285,10 @@ const translations = {
     btnDispatchWhatsApp: "CONFIRMAR PAQUETE A MEDIDA VÍA WHATSAPP",
     btnRequestPdfQuote: "SOLICITAR COTIZACIÓN FORMAL & DOSSIER PDF",
     lblDocType: "Tipo de Documento *",
-    optPassport: "Pasaporte Extranjero (0% IGV Exonerado - D.L. 919)",
-    optDni: "DNI (Nacional Peruano - +18% IGV Boleta)",
-    optRuc: "RUC (Empresa Peruana - +18% IGV Factura)",
-    optCe: "Carné de Extranjería (Residente en Perú - +18% IGV)",
-    optForeignId: "Cédula de Identidad Extranjera (Mercosur/CAN - 0% IGV)",
+    optPassport: "Pasaporte (0% IGV)",
+    optDni: "DNI (+18% IGV)",
+    optCe: "Carné Extranjería (+18% IGV)",
+    optRuc: "RUC (+18% IGV)",
     lblDocNumber: "N° de Documento *",
     lblNationality: "País / Nacionalidad",
     lblTaxBreakdown: "Desglose Impositivo y Detalle de Cobro:",
@@ -841,7 +839,7 @@ function handleDrawerDocTypeChange(val) {
 }
 
 function handleDrawerDocNumberInput(val) {
-  // Respect the user's manual document type selection (CE, PASSPORT, FOREIGN_ID, DNI, RUC)
+  // Respect the user's manual document type selection (CE, PASSPORT, DNI, RUC)
   // Do NOT override user's explicit choice.
   recalculateDrawerTotal();
 }
@@ -1960,16 +1958,16 @@ function detectTaxRegimeFromDocument(docType) {
   const normType = (docType || '').toUpperCase();
   if (normType === 'DNI' || normType === 'RUC' || normType === 'CE') {
     let detType = 'DNI Nacional Perú';
-    let labelEs = 'Huésped Nacional / Residente en Perú (+18% IGV)';
-    let labelEn = 'Peruvian Resident / Citizen (+18% VAT)';
+    let labelEs = 'DNI Nacional (+18% IGV)';
+    let labelEn = 'Peruvian National DNI (+18% VAT)';
     if (normType === 'CE') {
       detType = 'Carné de Extranjería (CE)';
-      labelEs = 'Carné de Extranjería (Residente en Perú - +18% IGV)';
-      labelEn = 'Alien Registration Card (Peruvian Resident - +18% VAT)';
+      labelEs = 'Carné de Extranjería (+18% IGV)';
+      labelEn = 'Alien Registration Card CE (+18% VAT)';
     } else if (normType === 'RUC') {
       detType = 'RUC (Persona / Empresa)';
-      labelEs = 'RUC Persona Jurídica / Natural (+18% IGV)';
-      labelEn = 'Corporate / Personal Tax ID (+18% VAT)';
+      labelEs = 'RUC (+18% IGV Factura)';
+      labelEn = 'Corporate Tax ID RUC (+18% VAT)';
     }
     return {
       regime: 'national',
@@ -1984,11 +1982,11 @@ function detectTaxRegimeFromDocument(docType) {
   return {
     regime: 'foreigner',
     rate: 0.00,
-    labelEs: 'Turista Extranjero No Domiciliado (0% IGV Exonerado)',
-    labelEn: 'Foreign Non-Domiciled Traveler (0% VAT Exempt)',
-    lawNoticeEs: 'Exonerado 100% de IGV (D.L. 919) presentando pasaporte extranjero y TAM.',
-    lawNoticeEn: '100% VAT Exempt under D.L. 919 with foreign passport and TAM virtual stamp.',
-    detectedType: normType === 'FOREIGN_ID' ? 'Cédula Extranjera' : 'Pasaporte Extranjero'
+    labelEs: 'Turista Extranjero (0% IGV Exonerado)',
+    labelEn: 'Foreign Traveler (0% VAT Exempt)',
+    lawNoticeEs: 'Exonerado 100% de IGV (D.L. 919) con pasaporte extranjero.',
+    lawNoticeEn: '100% VAT Exempt under D.L. 919 with foreign passport.',
+    detectedType: 'Pasaporte Extranjero'
   };
 }
 
@@ -2018,19 +2016,9 @@ function handleDocTypeChange(val) {
 
 function handleDocNumberInput(val) {
   packageBuilderState.docNumber = val;
-  const cleanVal = (val || '').trim();
-  const docTypeSelect = document.getElementById('pkgDocType');
-  if (/^\d{8}$/.test(cleanVal)) {
-    if (docTypeSelect && docTypeSelect.value !== 'DNI') {
-      docTypeSelect.value = 'DNI';
-      handleDocTypeChange('DNI');
-    }
-  } else if (/^(10|20)\d{9}$/.test(cleanVal)) {
-    if (docTypeSelect && docTypeSelect.value !== 'RUC') {
-      docTypeSelect.value = 'RUC';
-      handleDocTypeChange('RUC');
-    }
-  }
+  // Respect the user's manual document type selection (CE, PASSPORT, DNI, RUC)
+  // Do NOT override user's explicit choice.
+  recalculatePackageBuilder();
 }
 
 function openQuoteSheetModal() {

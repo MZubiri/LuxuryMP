@@ -29,13 +29,32 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Montserrat:wght@200;300;400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=20261021_prod3">
+  <link rel="stylesheet" href="styles.css?v=20261021_prod4">
 
   <style>
     /* CRITICAL HIGH CONTRAST INPUTS & LUXURY BUTTONS */
     .sidebar-booking-card,
     #sidebarBookingForm {
       color: #121316 !important;
+      max-width: 100% !important;
+      box-sizing: border-box !important;
+      overflow-x: hidden !important;
+    }
+
+    .sidebar-booking-card .pkg-doc-row {
+      display: grid !important;
+      grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr) !important;
+      gap: 0.65rem !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      box-sizing: border-box !important;
+    }
+
+    .sidebar-booking-card .sidebar-form-group {
+      min-width: 0 !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      box-sizing: border-box !important;
     }
 
     .sidebar-booking-card .sidebar-label {
@@ -62,6 +81,10 @@
       font-weight: 600 !important;
       font-size: 0.95rem !important;
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08) !important;
+      min-width: 0 !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      box-sizing: border-box !important;
     }
 
     .sidebar-booking-card input:focus,
@@ -86,6 +109,13 @@
       background-color: #FFFFFF !important;
       color: #121316 !important;
       -webkit-text-fill-color: #121316 !important;
+    }
+
+    @media (max-width: 580px) {
+      .sidebar-booking-card .pkg-doc-row {
+        grid-template-columns: 1fr !important;
+        gap: 0.65rem !important;
+      }
     }
 
     /* Culqi Online Payment Button */
@@ -413,11 +443,10 @@
             <div class="sidebar-form-group" style="margin-bottom: 0;">
               <label class="sidebar-label" for="sidebarDocType" data-i18n="lblDocType">Tipo de Documento *</label>
               <select id="sidebarDocType" class="sidebar-select" onchange="handleSidebarDocTypeChange(this.value)" style="color: #121316 !important; -webkit-text-fill-color: #121316 !important; background: #FFFFFF !important; font-weight: 600 !important;">
-                <option value="PASSPORT" selected data-i18n="docPassport">Pasaporte Extranjero (0% IGV)</option>
-                <option value="FOREIGN_ID" data-i18n="docForeignId">Cédula Extranjera (0% IGV)</option>
-                <option value="DNI" data-i18n="docDni">DNI Nacional Perú (+18% IGV)</option>
-                <option value="RUC" data-i18n="docRuc">RUC Empresa / Factura (+18% IGV)</option>
-                <option value="CE" data-i18n="docCe">Carné de Extranjería (+18% IGV)</option>
+                <option value="PASSPORT" selected data-i18n="docPassport">Pasaporte (0% IGV)</option>
+                <option value="DNI" data-i18n="docDni">DNI (+18% IGV)</option>
+                <option value="CE" data-i18n="docCe">Carné Extranjería (+18% IGV)</option>
+                <option value="RUC" data-i18n="docRuc">RUC (+18% IGV)</option>
               </select>
             </div>
             <div class="sidebar-form-group" style="margin-bottom: 0;">
@@ -718,11 +747,10 @@
               <div class="pkg-field">
                 <label for="pkgDocType" data-i18n="lblDocType">Tipo de Documento *</label>
                 <select id="pkgDocType" onchange="handleDocTypeChange(this.value)">
-                  <option value="PASSPORT" selected data-i18n="docPassport">Pasaporte Extranjero (0% IGV)</option>
-                  <option value="FOREIGN_ID" data-i18n="docForeignId">Cédula de Identidad Extranjera (0% IGV)</option>
-                  <option value="DNI" data-i18n="docDni">D.N.I. Nacional Perú (+18% IGV)</option>
-                  <option value="RUC" data-i18n="docRuc">R.U.C. Empresa/Persona Jurídica (+18% IGV)</option>
-                  <option value="CE" data-i18n="docCe">Carné de Extranjería / Residente (+18% IGV)</option>
+                  <option value="PASSPORT" selected data-i18n="docPassport">Pasaporte (0% IGV)</option>
+                  <option value="DNI" data-i18n="docDni">DNI (+18% IGV)</option>
+                  <option value="CE" data-i18n="docCe">Carné Extranjería (+18% IGV)</option>
+                  <option value="RUC" data-i18n="docRuc">RUC (+18% IGV)</option>
                 </select>
               </div>
               <div class="pkg-field">
@@ -1084,7 +1112,7 @@
   </div>
 
   <!-- Application Logic for Dedicated Tour Detail Page -->
-  <script src="tour.js?v=20261021_prod3"></script>
+  <script src="tour.js?v=20261021_prod4"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       var btn = document.getElementById('btnSidebarPayOnline');
