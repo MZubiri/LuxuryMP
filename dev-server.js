@@ -3,7 +3,8 @@ const fs = require('fs');
 const path = require('path');
 
 const FRONTEND_DIR = path.join(__dirname, 'frontend');
-const BACKEND_URL = 'http://localhost:5000';
+const BACKEND_URL = 'http://127.0.0.1:5000';
+
 
 const MIME_TYPES = {
   '.html': 'text/html; charset=utf-8',
@@ -115,12 +116,78 @@ function createServer(port) {
   server.listen(port, () => {
     console.log(`[DevServer] Serving Luxury Machupicchu at http://localhost:${port}`);
     console.log(`[DevServer]   - Admin Panel: http://localhost:${port}/admin.html`);
+    console.log(`[DevServer]   - Checkout Portal: http://localhost:${port}/checkout.html`);
     console.log(`[DevServer]   - Tour Catalog: http://localhost:${port}/`);
     console.log(`[DevServer]   - Proxy to Backend API: ${BACKEND_URL}`);
   });
   return server;
 }
 
+// Supervisor watchdog for ASP.NET Core backend
+const { spawn } = require('child_process');
+let backendProcess = null;
+let isShuttingDown = false;
+
+function isBackendRunning() {
+  return new Promise((resolve) => {
+    const req = http.get('http://127.0.0.1:5000/health', (res) => {
+      resolve(res.statusCode === 200);
+    });
+    req.on('error', () => resolve(false));
+    req.setTimeout(1500, () => {
+      req.destroy();
+      resolve(false);
+    });
+  });
+}
+
+async function startBackend() {
+  if (isShuttingDown) return;
+  const running = await isBackendRunning();
+  if (running) {
+    console.log('[DevServer] Backend is already active on http://localhost:5000.');
+    return;
+  }
+
+  const dllPath = path.join(__dirname, 'backend', 'src', 'LuxuryMachupicchu.API', 'bin', 'Debug', 'net9.0', 'LuxuryMachupicchu.API.dll');
+  if (!fs.existsSync(dllPath)) {
+    console.log('[DevServer] Backend DLL not found at: ' + dllPath);
+    return;
+  }
+
+  console.log('[DevServer] Spawning ASP.NET Core backend (http://localhost:5000)...');
+  backendProcess = spawn('dotnet', [dllPath, '--urls', 'http://localhost:5000'], {
+    cwd: path.join(__dirname, 'backend', 'src', 'LuxuryMachupicchu.API'),
+    env: { ...process.env, ASPNETCORE_ENVIRONMENT: 'Development' },
+    stdio: 'ignore'
+  });
+
+
+  backendProcess.on('exit', (code) => {
+    if (!isShuttingDown) {
+      console.log(`[DevServer] Backend process exited (${code}). Auto-restarting in 2s...`);
+      setTimeout(startBackend, 2000);
+    }
+  });
+}
+
+process.on('SIGINT', () => {
+  isShuttingDown = true;
+  if (backendProcess) backendProcess.kill();
+  process.exit();
+});
+
+process.on('SIGTERM', () => {
+  isShuttingDown = true;
+  if (backendProcess) backendProcess.kill();
+  process.exit();
+});
+
+// Start backend supervisor
+startBackend();
+
 // Start on ports 3000 and 8080 for seamless access
 createServer(3000);
 createServer(8080);
+
+
