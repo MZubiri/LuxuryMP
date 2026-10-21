@@ -5,8 +5,12 @@
 
 const checkoutState = {
   publicKey: 'pk_test_fU8KVWEiNbyyLHNt',
-  amount: 1050.00,
+  amount: 241.00,
   currency: 'USD',
+  amountUsd: 241.00,
+  amountPen: 915.00,
+  docType: 'PASSPORT',
+  rate: 3.80,
   bookingId: null,
   prefId: '',
   referenceCode: '',
@@ -25,22 +29,79 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 // ============================================================================
-// 1. LEER PARÁMETROS DE LA URL
+// 1. LEER PARÁMETROS DE LA URL & DETERMINACIÓN INTELIGENTE DE MONEDA
 // ============================================================================
 function parseQueryParams() {
   const params = new URLSearchParams(window.location.search);
 
-  if (params.has('amount')) {
-    const parsedAmount = parseFloat(params.get('amount'));
-    if (!isNaN(parsedAmount) && parsedAmount > 0) {
-      checkoutState.amount = parsedAmount;
-    }
+  if (params.has('rate')) {
+    const r = parseFloat(params.get('rate'));
+    if (!isNaN(r) && r > 0) checkoutState.rate = r;
   }
 
-  if (params.has('currency')) {
+  if (params.has('docType')) {
+    checkoutState.docType = params.get('docType').toUpperCase();
+  }
+
+  let parsedAmount = 0;
+  if (params.has('amount')) {
+    const a = parseFloat(params.get('amount'));
+    if (!isNaN(a) && a > 0) parsedAmount = a;
+  }
+
+  if (params.has('amountUsd')) {
+    const u = parseFloat(params.get('amountUsd'));
+    if (!isNaN(u) && u > 0) checkoutState.amountUsd = u;
+  }
+
+  if (params.has('amountPen')) {
+    const p = parseFloat(params.get('amountPen'));
+    if (!isNaN(p) && p > 0) checkoutState.amountPen = p;
+  }
+
+  // Regla tributaria y financiera estricta:
+  // - PASAPORTE -> Tarifa y cobro oficial en DÓLARES (USD $) sin IGV (D.L. 919).
+  // - CUALQUIER OTRO DOCUMENTO (DNI, CE, RUC) -> Tarifa y cobro oficial en SOLES (PEN S/.) con +18% IGV.
+  if (checkoutState.docType) {
+    if (checkoutState.docType === 'PASSPORT' || checkoutState.docType === 'PASAPORTE') {
+      checkoutState.currency = 'USD';
+    } else {
+      checkoutState.currency = 'PEN';
+    }
+  } else if (params.has('currency')) {
     const cur = params.get('currency').toUpperCase();
     if (cur === 'USD' || cur === 'PEN') {
       checkoutState.currency = cur;
+    }
+  }
+
+  // Sincronizar montos bidireccionales con tipo de cambio
+  if (checkoutState.currency === 'PEN') {
+    if (checkoutState.amountPen) {
+      checkoutState.amount = checkoutState.amountPen;
+    } else if (parsedAmount > 0) {
+      checkoutState.amount = parsedAmount;
+      checkoutState.amountPen = parsedAmount;
+    } else if (checkoutState.amountUsd) {
+      checkoutState.amountPen = Number((checkoutState.amountUsd * checkoutState.rate).toFixed(2));
+      checkoutState.amount = checkoutState.amountPen;
+    }
+    if (!checkoutState.amountUsd && checkoutState.amountPen) {
+      checkoutState.amountUsd = Number((checkoutState.amountPen / checkoutState.rate).toFixed(2));
+    }
+  } else {
+    // USD
+    if (checkoutState.amountUsd) {
+      checkoutState.amount = checkoutState.amountUsd;
+    } else if (parsedAmount > 0) {
+      checkoutState.amount = parsedAmount;
+      checkoutState.amountUsd = parsedAmount;
+    } else if (checkoutState.amountPen) {
+      checkoutState.amountUsd = Number((checkoutState.amountPen / checkoutState.rate).toFixed(2));
+      checkoutState.amount = checkoutState.amountUsd;
+    }
+    if (!checkoutState.amountPen && checkoutState.amountUsd) {
+      checkoutState.amountPen = Number((checkoutState.amountUsd * checkoutState.rate).toFixed(2));
     }
   }
 
@@ -110,7 +171,7 @@ async function loadPaymentConfig() {
 }
 
 // ============================================================================
-// 3. RENDERIZAR RESUMEN DE PAGO
+// 3. RENDERIZAR RESUMEN DE PAGO & CONVERSIÓN DINÁMICA DE MONEDA
 // ============================================================================
 function renderCheckoutSummary() {
   const journeyTitleEl = document.getElementById('checkoutJourneyTitle');
@@ -119,6 +180,11 @@ function renderCheckoutSummary() {
   const summaryPrefIdEl = document.getElementById('summaryPrefId');
   const summaryTotalDisplayEl = document.getElementById('summaryTotalDisplay');
   const btnPayTextEl = document.getElementById('btnPayText');
+  const curSelect = document.getElementById('clientCurrency');
+
+  if (curSelect && curSelect.value !== checkoutState.currency) {
+    curSelect.value = checkoutState.currency;
+  }
 
   if (journeyTitleEl) journeyTitleEl.textContent = `Pago Seguro: ${checkoutState.title}`;
   if (previewTourNameEl) previewTourNameEl.textContent = checkoutState.title;
@@ -128,14 +194,26 @@ function renderCheckoutSummary() {
   if (summaryPrefIdEl) summaryPrefIdEl.textContent = checkoutState.referenceCode || checkoutState.prefId;
 
   const symbol = checkoutState.currency === 'USD' ? '$' : 'S/.';
-  const formattedAmount = `${symbol} ${checkoutState.amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ${checkoutState.currency}`;
+  const formattedAmount = `${symbol} ${Number(checkoutState.amount).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ${checkoutState.currency}`;
 
   if (summaryTotalDisplayEl) summaryTotalDisplayEl.textContent = formattedAmount;
   if (btnPayTextEl) btnPayTextEl.textContent = `Pagar ${formattedAmount} con Culqi`;
 }
 
 function handleCurrencyChange(newCurrency) {
-  checkoutState.currency = newCurrency;
+  if (!newCurrency) return;
+  const targetCurrency = newCurrency.toUpperCase();
+  if (targetCurrency === checkoutState.currency) return;
+
+  checkoutState.currency = targetCurrency;
+
+  // CONVERSIÓN REAL DEL MONTO
+  if (targetCurrency === 'PEN') {
+    checkoutState.amount = checkoutState.amountPen || Number((checkoutState.amountUsd * checkoutState.rate).toFixed(2));
+  } else {
+    checkoutState.amount = checkoutState.amountUsd || Number((checkoutState.amountPen / checkoutState.rate).toFixed(2));
+  }
+
   renderCheckoutSummary();
 }
 

@@ -948,57 +948,71 @@ function recalculateSidebarTotal() {
   if (!tour) return;
 
   const isEs = appState.currentLang === 'es';
-  const isPen = appState.currentCurrency === 'PEN';
   const rate = appState.exchangeRateUsdToPen || 3.80;
+  const detection = detectTaxRegimeFromDocument(sidebarDocType);
+  const isNational = detection.regime === 'national'; // DNI, CE, RUC -> PEN
 
   const guests = parseInt(document.getElementById('sidebarGuests')?.value || '2', 10);
+
+  // Cálculos en USD (Pasaporte)
   const pricePerPersonUsd = tour.priceUsd;
   const netSubtotalUsd = pricePerPersonUsd * guests;
-
-  const detection = detectTaxRegimeFromDocument(sidebarDocType);
-  const taxUsd = detection.regime === 'national' ? Math.round(netSubtotalUsd * 0.18) : 0;
+  const taxUsd = isNational ? Math.round(netSubtotalUsd * 0.18) : 0;
   const grandTotalUsd = netSubtotalUsd + taxUsd;
   const depositUsd = Math.round(grandTotalUsd * 0.30);
   const balanceUsd = grandTotalUsd - depositUsd;
 
-  const fmt = (usdVal) => {
-    if (isPen) {
-      return `S/. ${Math.round(usdVal * rate).toLocaleString('es-PE')} PEN`;
-    }
-    return `$${usdVal.toLocaleString('en-US')} USD`;
-  };
+  // Cálculos en PEN (DNI, CE, RUC)
+  const pricePerPersonPen = tour.pricePen || Math.round(pricePerPersonUsd * rate);
+  const netSubtotalPen = pricePerPersonPen * guests;
+  const taxPen = Math.round(netSubtotalPen * 0.18);
+  const grandTotalPen = netSubtotalPen + taxPen;
+  const depositPen = Math.round(grandTotalPen * 0.30);
+  const balancePen = grandTotalPen - depositPen;
 
   const netEl = document.getElementById('sidebarNetSubtotal');
-  if (netEl) netEl.textContent = fmt(netSubtotalUsd);
-
   const taxLabelEl = document.getElementById('sidebarTaxLabel');
   const taxAmountEl = document.getElementById('sidebarTaxAmount');
-  if (taxAmountEl) {
-    if (detection.regime === 'national') {
-      if (taxLabelEl) taxLabelEl.textContent = isEs ? 'Impuesto 18% IGV (SUNAT):' : '18% VAT (Tax Invoice):';
-      taxAmountEl.textContent = `+ ${fmt(taxUsd)}`;
+  const totalQuoteEl = document.getElementById('sidebarTotalQuote');
+  const depositEl = document.getElementById('sidebarDepositQuote');
+  const balanceEl = document.getElementById('sidebarBalanceQuote');
+  const priceDisplay = document.getElementById('sidebarPriceDisplay');
+
+  if (isNational) {
+    // DNI, CE, RUC -> Moneda en Soles (PEN S/.)
+    if (priceDisplay) priceDisplay.textContent = `S/. ${pricePerPersonPen.toLocaleString('es-PE')} PEN`;
+    if (netEl) netEl.textContent = `S/. ${netSubtotalPen.toLocaleString('es-PE')} PEN`;
+    if (taxLabelEl) taxLabelEl.textContent = isEs ? 'Impuesto 18% IGV (SUNAT):' : '18% VAT (Tax Invoice):';
+    if (taxAmountEl) {
+      taxAmountEl.textContent = `+ S/. ${taxPen.toLocaleString('es-PE')} PEN`;
       taxAmountEl.style.color = 'var(--color-obsidian)';
-    } else {
-      if (taxLabelEl) taxLabelEl.textContent = isEs ? 'Impuesto IGV:' : 'VAT Status:';
+    }
+    if (totalQuoteEl) totalQuoteEl.textContent = `S/. ${grandTotalPen.toLocaleString('es-PE')} PEN`;
+    if (depositEl) depositEl.textContent = `S/. ${depositPen.toLocaleString('es-PE')} PEN`;
+    if (balanceEl) balanceEl.textContent = `S/. ${balancePen.toLocaleString('es-PE')} PEN`;
+  } else {
+    // PASAPORTE -> Moneda en Dólares (USD $)
+    if (priceDisplay) priceDisplay.textContent = `$${pricePerPersonUsd.toLocaleString('en-US')} USD`;
+    if (netEl) netEl.textContent = `$${netSubtotalUsd.toLocaleString('en-US')} USD`;
+    if (taxLabelEl) taxLabelEl.textContent = isEs ? 'Impuesto IGV:' : 'VAT Status:';
+    if (taxAmountEl) {
       taxAmountEl.textContent = isEs ? '0% IGV (Exonerado D.L. 919)' : '0% VAT (Exempt D.L. 919)';
       taxAmountEl.style.color = '#15803D';
     }
+    if (totalQuoteEl) totalQuoteEl.textContent = `$${grandTotalUsd.toLocaleString('en-US')} USD + IGV`;
+    if (depositEl) depositEl.textContent = `$${depositUsd.toLocaleString('en-US')} USD`;
+    if (balanceEl) balanceEl.textContent = `$${balanceUsd.toLocaleString('en-US')} USD`;
   }
 
-  const totalQuoteEl = document.getElementById('sidebarTotalQuote');
-  if (totalQuoteEl) {
-    totalQuoteEl.textContent = `${fmt(grandTotalUsd)} ${detection.regime === 'national' ? '' : '+ IGV'}`.trim();
-  }
-
-  const depositEl = document.getElementById('sidebarDepositQuote');
-  if (depositEl) depositEl.textContent = fmt(depositUsd);
-
-  const balanceEl = document.getElementById('sidebarBalanceQuote');
-  if (balanceEl) balanceEl.textContent = fmt(balanceUsd);
-
-  const priceDisplay = document.getElementById('sidebarPriceDisplay');
-  if (priceDisplay) {
-    priceDisplay.textContent = formatPrice(tour.priceUsd, tour.pricePen);
+  // Actualizar botón de pago en línea del sidebar
+  const btnOnline = document.getElementById('btnSidebarPayOnline');
+  if (btnOnline) {
+    const btnSpan = btnOnline.querySelector('span');
+    if (btnSpan) {
+      btnSpan.textContent = isNational
+        ? (isEs ? `PAGAR ANTICIPO 30% ONLINE: S/. ${depositPen.toLocaleString('es-PE')} PEN` : `PAY 30% DEPOSIT ONLINE: S/. ${depositPen.toLocaleString('es-PE')} PEN`)
+        : (isEs ? `PAGAR ANTICIPO 30% ONLINE: $${depositUsd.toLocaleString('en-US')} USD` : `PAY 30% DEPOSIT ONLINE: $${depositUsd.toLocaleString('en-US')} USD`);
+    }
   }
 }
 
@@ -1403,16 +1417,27 @@ async function handleSidebarOnlinePayment() {
     if (dateInput) dateInput.value = date;
   }
 
-  // Cálculos
+  // Cálculos financieros garantizados
   const price = tour.priceUsd || 2150;
   const netSubtotalUsd = price * guests;
   const detection = detectTaxRegimeFromDocument(sidebarDocType || docType);
-  const taxUsd = detection.regime === 'national' ? Math.round(netSubtotalUsd * 0.18) : 0;
+  const isNational = detection.regime === 'national';
+
+  // Dólares (Pasaporte)
+  const taxUsd = isNational ? Math.round(netSubtotalUsd * 0.18) : 0;
   const grandTotalUsd = netSubtotalUsd + taxUsd;
   const depositUsd = Math.round(grandTotalUsd * 0.30);
 
-  const amountToCharge = isPen ? Math.round(depositUsd * rate) : depositUsd;
-  const currencyToCharge = isPen ? 'PEN' : 'USD';
+  // Soles (DNI, CE, RUC)
+  const pricePen = tour.pricePen || Math.round(price * rate);
+  const netSubtotalPen = pricePen * guests;
+  const taxPen = Math.round(netSubtotalPen * 0.18);
+  const grandTotalPen = netSubtotalPen + taxPen;
+  const depositPen = Math.round(grandTotalPen * 0.30);
+
+  // REGLA: Si la reserva es con Pasaporte -> USD. Si es con cualquier otra (DNI, CE, RUC) -> PEN
+  const currencyToCharge = isNational ? 'PEN' : 'USD';
+  const amountToCharge = isNational ? depositPen : depositUsd;
 
   if (payBtn) {
     payBtn.disabled = true;
@@ -1431,7 +1456,7 @@ async function handleSidebarOnlinePayment() {
           fullName: name,
           email: email,
           phone: phone,
-          country: detection.regime === 'national' ? 'Perú' : 'Internacional',
+          country: isNational ? 'Perú' : 'Internacional',
           numberOfGuests: guests,
           travelDate: new Date(date).toISOString(),
           trainPreference: carriage,
@@ -1454,6 +1479,10 @@ async function handleSidebarOnlinePayment() {
   const checkoutParams = new URLSearchParams({
     amount: amountToCharge.toString(),
     currency: currencyToCharge,
+    amountUsd: depositUsd.toString(),
+    amountPen: depositPen.toString(),
+    docType: sidebarDocType || docType,
+    rate: rate.toString(),
     title: `${tourTitle} (30% Anticipo)`,
     name: name,
     email: email,
@@ -1472,7 +1501,6 @@ function handlePayFromTourQuoteSheet(quoteId) {
   const tour = appState.tour;
   if (!tour) return;
   const isEs = appState.currentLang === 'es';
-  const isPen = appState.currentCurrency === 'PEN';
   const rate = appState.exchangeRateUsdToPen || 3.80;
 
   const name = document.getElementById('sidebarName')?.value.trim() || document.getElementById('pkgGuestName')?.value.trim() || (isEs ? 'Huésped Ilustre' : 'Guest of Honor');
@@ -1480,19 +1508,34 @@ function handlePayFromTourQuoteSheet(quoteId) {
   const phone = document.getElementById('sidebarPhone')?.value.trim() || document.getElementById('pkgGuestPhone')?.value.trim() || '';
   const guests = parseInt(document.getElementById('sidebarGuests')?.value || packageBuilderState.travelers || '2', 10);
 
-  const netSubtotalUsd = tour.priceUsd * guests;
+  const price = tour.priceUsd || 2150;
+  const netSubtotalUsd = price * guests;
   const detection = detectTaxRegimeFromDocument(sidebarDocType || packageBuilderState.docType);
-  const taxUsd = detection.regime === 'national' ? Math.round(netSubtotalUsd * 0.18) : 0;
+  const isNational = detection.regime === 'national';
+
+  // Dólares (Pasaporte)
+  const taxUsd = isNational ? Math.round(netSubtotalUsd * 0.18) : 0;
   const grandTotalUsd = netSubtotalUsd + taxUsd;
   const depositUsd = Math.round(grandTotalUsd * 0.30);
 
-  const amountToCharge = isPen ? Math.round(depositUsd * rate) : depositUsd;
-  const currencyToCharge = isPen ? 'PEN' : 'USD';
+  // Soles (DNI, CE, RUC)
+  const pricePen = tour.pricePen || Math.round(price * rate);
+  const netSubtotalPen = pricePen * guests;
+  const taxPen = Math.round(netSubtotalPen * 0.18);
+  const grandTotalPen = netSubtotalPen + taxPen;
+  const depositPen = Math.round(grandTotalPen * 0.30);
+
+  const currencyToCharge = isNational ? 'PEN' : 'USD';
+  const amountToCharge = isNational ? depositPen : depositUsd;
   const tourTitle = isEs ? tour.titleEs : tour.titleEn;
 
   const checkoutParams = new URLSearchParams({
     amount: amountToCharge.toString(),
     currency: currencyToCharge,
+    amountUsd: depositUsd.toString(),
+    amountPen: depositPen.toString(),
+    docType: sidebarDocType || packageBuilderState.docType,
+    rate: rate.toString(),
     pref: quoteId,
     title: `${tourTitle} (30% Anticipo)`,
     name: name,
@@ -2470,14 +2513,21 @@ async function handlePackageBuilderOnlinePayment() {
     return;
   }
 
+  const isNational = packageBuilderState.taxRegime === 'national'; // DNI, CE, RUC
+
   const calcs = packageBuilderState.lastCalculations || {
     grandTotalUsd: tour.priceUsd * packageBuilderState.travelers,
-    depositUsd: Math.round(tour.priceUsd * packageBuilderState.travelers * 0.30)
+    depositUsd: Math.round(tour.priceUsd * packageBuilderState.travelers * 0.30),
+    grandTotalPen: (tour.pricePen || tour.priceUsd * rate) * packageBuilderState.travelers,
+    depositPen: Math.round(((tour.pricePen || tour.priceUsd * rate) * packageBuilderState.travelers) * 0.30)
   };
 
   const depositUsd = calcs.depositUsd;
-  const amountToCharge = isPen ? Math.round(depositUsd * rate) : depositUsd;
-  const currencyToCharge = isPen ? 'PEN' : 'USD';
+  const depositPen = calcs.depositPen || Math.round(depositUsd * rate);
+
+  // REGLA: Si la reserva es con Pasaporte -> USD. Si es con cualquier otra (DNI, CE, RUC) -> PEN
+  const currencyToCharge = isNational ? 'PEN' : 'USD';
+  const amountToCharge = isNational ? depositPen : depositUsd;
 
   if (statusEl) {
     statusEl.innerHTML = `<span style="color:var(--color-gold); font-weight:500;">⏳ ${isEs ? 'Registrando paquete a medida y conectando con Culqi...' : 'Registering bespoke journey and connecting to Culqi...'}</span>`;
@@ -2494,7 +2544,7 @@ async function handlePackageBuilderOnlinePayment() {
         fullName: name,
         email: email,
         phone: phone,
-        country: packageBuilderState.taxRegime === 'national' ? 'Perú' : 'Internacional',
+        country: isNational ? 'Perú' : 'Internacional',
         numberOfGuests: packageBuilderState.travelers,
         travelDate: new Date(date).toISOString(),
         trainPreference: isEs ? rail.nameEs : rail.nameEn,
@@ -2515,6 +2565,10 @@ async function handlePackageBuilderOnlinePayment() {
   const checkoutParams = new URLSearchParams({
     amount: amountToCharge.toString(),
     currency: currencyToCharge,
+    amountUsd: depositUsd.toString(),
+    amountPen: depositPen.toString(),
+    docType: docType,
+    rate: rate.toString(),
     title: `${tourTitle} (30% Anticipo)`,
     name: name,
     email: email,
