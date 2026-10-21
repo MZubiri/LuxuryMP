@@ -4520,3 +4520,508 @@ body.luxury-body {
   }
 }
 
+/* ==========================================================================
+   LEGAL MODAL: LIBRO DE RECLAMACIONES, TERMS & PRIVACY (INDECOPI & D.S. 011)
+   ========================================================================== */
+.legal-modal .modal-dialog {
+  max-width: 920px;
+  background: #FFFFFF;
+  border: 1px solid var(--color-gold-border);
+  box-shadow: 0 30px 100px rgba(0, 0, 0, 0.45);
+  border-radius: 4px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.legal-modal .modal-close-btn {
+  top: 1.5rem;
+  right: 1.5rem;
+  background: rgba(255, 255, 255, 0.15);
+  color: #FFFFFF;
+  z-index: 30;
+}
+
+.legal-modal .modal-close-btn:hover {
+  background: var(--color-gold);
+  color: var(--color-obsidian);
+}
+
+.legal-modal-header {
+  background: #121316;
+  padding: 2.5rem 2.5rem 0;
+  color: #FFFFFF;
+  border-bottom: 1px solid rgba(197, 164, 126, 0.25);
+}
+
+.legal-modal-kicker {
+  font-size: 0.68rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-gold);
+  font-weight: 600;
+  display: block;
+  margin-bottom: 0.35rem;
+}
+
+.legal-modal-title {
+  font-family: var(--font-serif);
+  font-size: 2rem;
+  font-weight: 400;
+  color: #FFFFFF;
+  margin-bottom: 1.25rem;
+  line-height: 1.2;
+}
+
+.legal-tabs-nav {
+  display: flex;
+  gap: 0.25rem;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.legal-tab-btn {
+  background: transparent;
+  border: none;
+  border-bottom: 3px solid transparent;
+  color: rgba(255, 255, 255, 0.65);
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  padding: 0.85rem 1.4rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.legal-tab-btn:hover {
+  color: #FFFFFF;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.legal-tab-btn.active {
+  color: var(--color-gold);
+  border-bottom-color: var(--color-gold);
+  background: rgba(197, 164, 126, 0.1);
+}
+
+.legal-modal-body {
+  padding: 2.25rem 2.5rem;
+  max-height: 68vh;
+  overflow-y: auto;
+  background: #FAF7F2;
+}
+
+.legal-tab-pane {
+  display: none;
+}
+
+.legal-tab-pane.active {
+  display: block;
+  animation: legalFadeIn 0.3s ease;
+}
+
+@keyframes legalFadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Legal Intro */
+.legal-pane-intro {
+  background: #FFFFFF;
+  border: 1px solid var(--color-sand-border);
+  border-left: 4px solid var(--color-gold);
+  padding: 1.25rem 1.5rem;
+  border-radius: 4px;
+  margin-bottom: 2rem;
+}
+
+.legal-intro-company strong {
+  color: var(--color-obsidian);
+  font-size: 0.95rem;
+}
+
+.legal-intro-company span {
+  font-size: 0.8rem;
+  color: #6B7280;
+  display: block;
+  margin-top: 0.2rem;
+}
+
+.legal-intro-text {
+  font-size: 0.85rem;
+  color: #4B5563;
+  margin-top: 0.75rem;
+  line-height: 1.5;
+  border-top: 1px dashed #E5E7EB;
+  padding-top: 0.65rem;
+}
+
+.claim-form-section-title {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  color: var(--color-obsidian);
+  font-weight: 600;
+  margin-bottom: 1rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid #E5E7EB;
+}
+
+.claim-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.claim-grid-3 {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.legal-modal .form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-bottom: 1rem;
+}
+
+.legal-modal .form-field label {
+  font-size: 0.76rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #2D241E;
+}
+
+.legal-modal .form-field input,
+.legal-modal .form-field select,
+.legal-modal .form-field textarea {
+  background: #FFFFFF !important;
+  color: #121316 !important;
+  border: 1px solid #D1D5DB !important;
+  border-radius: 4px;
+  padding: 0.75rem 0.9rem;
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.legal-modal .form-field input:focus,
+.legal-modal .form-field select:focus,
+.legal-modal .form-field textarea:focus {
+  outline: none;
+  border-color: var(--color-gold) !important;
+  box-shadow: 0 0 0 3px rgba(197, 164, 126, 0.2) !important;
+}
+
+.legal-modal .form-field input::placeholder,
+.legal-modal .form-field textarea::placeholder {
+  color: #9CA3AF !important;
+}
+
+/* Radio Cards for Claim vs Complaint */
+.claim-type-selector {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.radio-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  background: #FFFFFF;
+  border: 1px solid #D1D5DB;
+  border-radius: 4px;
+  padding: 1rem 1.25rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.radio-card:hover {
+  border-color: var(--color-gold);
+}
+
+.radio-card input[type="radio"] {
+  margin-top: 0.25rem;
+  accent-color: var(--color-gold);
+  cursor: pointer;
+}
+
+.radio-card-content strong {
+  display: block;
+  font-size: 0.92rem;
+  color: var(--color-obsidian);
+  margin-bottom: 0.2rem;
+}
+
+.radio-card-content span {
+  font-size: 0.78rem;
+  color: #6B7280;
+  line-height: 1.4;
+  display: block;
+}
+
+.claim-legal-checkbox {
+  background: #FFFFFF;
+  border: 1px solid #E5E7EB;
+  padding: 1rem;
+  border-radius: 4px;
+  margin: 1.25rem 0;
+}
+
+.claim-legal-checkbox label {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  font-size: 0.8rem;
+  color: #4B5563;
+  line-height: 1.45;
+  cursor: pointer;
+}
+
+.claim-legal-checkbox input[type="checkbox"] {
+  margin-top: 0.15rem;
+  accent-color: var(--color-gold);
+}
+
+.claim-actions-row {
+  margin-top: 1.5rem;
+}
+
+.btn-submit-claim {
+  width: 100%;
+  background: var(--color-gold);
+  color: #FFFFFF;
+  border: 1px solid var(--color-gold);
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 1rem;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 15px rgba(197, 164, 126, 0.3);
+}
+
+.btn-submit-claim:hover {
+  background: var(--color-gold-hover);
+  border-color: var(--color-gold-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(197, 164, 126, 0.45);
+}
+
+/* Success Card */
+.claim-success-card {
+  background: #FFFFFF;
+  border: 1px solid var(--color-gold-border);
+  border-radius: 6px;
+  padding: 2.5rem 2rem;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
+.claim-success-icon {
+  width: 56px;
+  height: 56px;
+  background: #DCFCE7;
+  color: #15803D;
+  font-size: 1.8rem;
+  font-weight: bold;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.25rem;
+  border: 2px solid #86EFAC;
+}
+
+.claim-success-kicker {
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-gold);
+  font-weight: 600;
+  display: block;
+}
+
+.claim-success-title {
+  font-family: var(--font-serif);
+  font-size: 1.9rem;
+  color: var(--color-obsidian);
+  margin: 0.4rem 0 0.8rem;
+}
+
+.claim-success-desc {
+  font-size: 0.9rem;
+  color: #4B5563;
+  max-width: 650px;
+  margin: 0 auto 1.5rem;
+  line-height: 1.5;
+}
+
+.claim-success-details {
+  background: #FAF7F2;
+  border: 1px solid #E5E7EB;
+  border-radius: 4px;
+  padding: 1.25rem 1.5rem;
+  max-width: 600px;
+  margin: 0 auto 1.5rem;
+  text-align: left;
+}
+
+.claim-success-details .detail-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.4rem 0;
+  border-bottom: 1px dashed #E5E7EB;
+  font-size: 0.85rem;
+}
+
+.claim-success-details .detail-row:last-child {
+  border-bottom: none;
+}
+
+.claim-success-details .detail-row span {
+  color: #6B7280;
+}
+
+.claim-success-details .detail-row strong {
+  color: var(--color-obsidian);
+}
+
+.claim-legal-sla {
+  background: #EFF6FF;
+  border: 1px solid #BFDBFE;
+  color: #1E40AF;
+  padding: 1rem 1.25rem;
+  border-radius: 4px;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  max-width: 600px;
+  margin: 0 auto 1.5rem;
+  text-align: left;
+}
+
+.claim-success-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.btn-claim-print {
+  background: var(--color-obsidian);
+  color: #FFFFFF;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-claim-print:hover {
+  background: var(--color-gold);
+}
+
+.btn-claim-reset {
+  background: transparent;
+  color: #4B5563;
+  border: 1px solid #D1D5DB;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-claim-reset:hover {
+  border-color: #121316;
+  color: #121316;
+}
+
+/* Legal Text Documents (Terms & Privacy) */
+.legal-text-document {
+  background: #FFFFFF;
+  border: 1px solid #E5E7EB;
+  border-radius: 4px;
+  padding: 2.25rem 2.5rem;
+  color: #374151;
+  font-size: 0.92rem;
+  line-height: 1.7;
+}
+
+.legal-text-document h3 {
+  font-family: var(--font-serif);
+  font-size: 1.8rem;
+  color: var(--color-obsidian);
+  margin-bottom: 0.25rem;
+}
+
+.legal-text-document .doc-meta {
+  font-size: 0.78rem;
+  color: #9CA3AF;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid #E5E7EB;
+}
+
+.legal-text-document h4 {
+  font-family: var(--font-serif);
+  font-size: 1.2rem;
+  color: var(--color-obsidian);
+  margin: 1.5rem 0 0.5rem;
+}
+
+.legal-text-document p {
+  margin-bottom: 1rem;
+}
+
+.legal-text-document ul {
+  padding-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.legal-text-document li {
+  margin-bottom: 0.5rem;
+}
+
+@media (max-width: 768px) {
+  .legal-modal .modal-dialog {
+    max-height: 94vh;
+  }
+  .legal-modal-header {
+    padding: 1.75rem 1.25rem 0;
+  }
+  .legal-modal-title {
+    font-size: 1.5rem;
+  }
+  .legal-modal-body {
+    padding: 1.25rem;
+  }
+  .claim-grid-2,
+  .claim-grid-3,
+  .claim-type-selector {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+  .legal-text-document {
+    padding: 1.5rem;
+  }
+}
+

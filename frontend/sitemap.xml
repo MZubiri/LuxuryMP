@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url>
+    <loc>https://nuevo.lmptravel.com/</loc>
+    <lastmod>2026-10-21</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://nuevo.lmptravel.com/assets/images/hero_machu_picchu.jpg</image:loc>
+      <image:title>Luxury Machupicchu Peru - Private Expeditions</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://nuevo.lmptravel.com/index.html</loc>
+    <lastmod>2026-10-21</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://nuevo.lmptravel.com/tour.html?slug=belmond-hiram-bingham-pinnacle</loc>
+    <lastmod>2026-10-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://nuevo.lmptravel.com/assets/images/hiram_bingham_main.jpg</image:loc>
+      <image:title>Machu Picchu Pinnacle &amp; Hiram Bingham Rail Expedition</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://nuevo.lmptravel.com/tour.html?slug=sacred-valley-prive-shamanic-ritual</loc>
+    <lastmod>2026-10-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://nuevo.lmptravel.com/assets/images/sacred_valley_moray.jpg</image:loc>
+      <image:title>Sacred Valley Privé &amp; Shamanic Ritual</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://nuevo.lmptravel.com/tour.html?slug=belmond-andean-explorer-cusco-titicaca</loc>
+    <lastmod>2026-10-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://nuevo.lmptravel.com/assets/images/andean_explorer_main.jpg</image:loc>
+      <image:title>Belmond Andean Explorer Luxury Sleeper Rail</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://nuevo.lmptravel.com/tour.html?slug=classic-inca-trail-vip-glamping</loc>
+    <lastmod>2026-10-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://nuevo.lmptravel.com/assets/images/inca_trail_main.jpg</image:loc>
+      <image:title>Classic Inca Trail VIP Glamping</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://nuevo.lmptravel.com/checkout.html</loc>
+    <lastmod>2026-10-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+</urlset>

@@ -2557,10 +2557,110 @@ async function handlePackageBuilderOnlinePayment() {
   window.location.href = `checkout.html?${checkoutParams.toString()}`;
 }
 
-function openClaimModal(type) {
-  alert(type === 'claims'
-    ? 'Libro de Reclamaciones Virtual - Luxury Machupicchu Peru E.I.R.L (RUC: 20601622492). Conforme al Código de Protección y Defensa del Consumidor.'
-    : 'All client data is strictly handled under Supreme Privacy and Personal Data Protection laws of Peru.');
+function openLegalModal(tab = 'claims') {
+  const modal = document.getElementById('legalModal');
+  if (!modal) return;
+  modal.classList.add('active');
+  modal.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+  switchLegalTab(tab);
+}
+
+function closeLegalModal() {
+  const modal = document.getElementById('legalModal');
+  if (!modal) return;
+  modal.classList.remove('active');
+  modal.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+}
+
+function switchLegalTab(tabName) {
+  const tabs = ['claims', 'terms', 'privacy'];
+  tabs.forEach(t => {
+    const btn = document.getElementById(`tabBtn${t.charAt(0).toUpperCase() + t.slice(1)}`);
+    const pane = document.getElementById(`pane${t.charAt(0).toUpperCase() + t.slice(1)}`);
+    if (btn) {
+      if (t === tabName) btn.classList.add('active');
+      else btn.classList.remove('active');
+    }
+    if (pane) {
+      if (t === tabName) pane.classList.add('active');
+      else pane.classList.remove('active');
+    }
+  });
+}
+
+function openClaimModal(type = 'claims') {
+  openLegalModal(type);
+}
+
+function handleLegalClaimSubmit(event) {
+  event.preventDefault();
+  const form = document.getElementById('claimForm');
+  if (!form) return;
+
+  const fullName = document.getElementById('claimFullName')?.value.trim();
+  const docType = document.getElementById('claimDocType')?.value || 'PASAPORTE';
+  const docNum = document.getElementById('claimDocNumber')?.value.trim();
+  const email = document.getElementById('claimEmail')?.value.trim();
+  const phone = document.getElementById('claimPhone')?.value.trim();
+  const address = document.getElementById('claimAddress')?.value.trim();
+  const service = document.getElementById('claimService')?.value.trim();
+  const amount = document.getElementById('claimAmount')?.value.trim();
+  const claimType = document.querySelector('input[name="claimType"]:checked')?.value || 'Reclamo';
+  const detail = document.getElementById('claimDetail')?.value.trim();
+  const request = document.getElementById('claimRequest')?.value.trim();
+
+  if (!fullName || !docNum || !email || !detail || !request) {
+    alert('Por favor complete todos los campos obligatorios del Libro de Reclamaciones.');
+    return;
+  }
+
+  // Generate official tracking code
+  const trackingCode = `RCL-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`;
+  const dateStr = new Date().toLocaleDateString('es-PE', { day: '2-digit', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+
+  const resultContainer = document.getElementById('claimResultContainer');
+  const formContainer = document.getElementById('claimFormContainer');
+
+  if (resultContainer && formContainer) {
+    formContainer.style.display = 'none';
+    resultContainer.style.display = 'block';
+    resultContainer.innerHTML = `
+      <div class="claim-success-card">
+        <div class="claim-success-icon">✓</div>
+        <span class="claim-success-kicker">HOJA DE RECLAMACIÓN REGISTRADA • INDECOPI D.S. N° 011-2011-PCM</span>
+        <h3 class="claim-success-title">Hoja de Reclamación N° ${trackingCode}</h3>
+        <p class="claim-success-desc">
+          Estimado(a) <strong>${fullName}</strong>, su ${claimType.toLowerCase()} ha sido formalmente asentado en el Libro de Reclamaciones Virtual de <strong>Luxury Machupicchu Peru E.I.R.L.</strong> (RUC: 20601622492).
+        </p>
+        <div class="claim-success-details">
+          <div class="detail-row"><span>Fecha y Hora de Emisión:</span><strong>${dateStr}</strong></div>
+          <div class="detail-row"><span>Documento de Identidad:</span><strong>${docType}: ${docNum}</strong></div>
+          <div class="detail-row"><span>Servicio Afectado:</span><strong>${service || 'Expedición Privada Machu Picchu'}</strong></div>
+          ${amount ? `<div class="detail-row"><span>Monto Reclamado:</span><strong>${amount}</strong></div>` : ''}
+          <div class="detail-row"><span>Tipo de Incidencia:</span><strong>${claimType}</strong></div>
+          <div class="detail-row"><span>Copia Notificada a:</span><strong>${email}</strong></div>
+        </div>
+        <div class="claim-legal-sla">
+          ⚖ <strong>Plazo Legal de Respuesta:</strong> Conforme al Código de Protección y Defensa del Consumidor (Ley N° 29571) y el D.S. N° 011-2011-PCM, la respuesta formal motivada será remitida a su correo electrónico en un plazo improrrogable no mayor a <strong>15 días hábiles</strong>.
+        </div>
+        <div class="claim-success-actions">
+          <button type="button" class="btn-claim-print" onclick="window.print()">🖨️ Imprimir Constancia Legal</button>
+          <button type="button" class="btn-claim-reset" onclick="resetClaimForm()">Registrar Otra Consulta</button>
+        </div>
+      </div>
+    `;
+  }
+}
+
+function resetClaimForm() {
+  const resultContainer = document.getElementById('claimResultContainer');
+  const formContainer = document.getElementById('claimFormContainer');
+  const form = document.getElementById('claimForm');
+  if (form) form.reset();
+  if (resultContainer) resultContainer.style.display = 'none';
+  if (formContainer) formContainer.style.display = 'block';
 }
 
 // Header scroll effect

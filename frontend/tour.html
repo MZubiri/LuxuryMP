@@ -4,10 +4,31 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title id="pageTitle">Expedition Details | Luxury Machupicchu Peru</title>
-  <meta name="description" id="pageMetaDesc" content="Detailed luxury expedition itinerary, private archaeologist curation, Belmond train logistics and official sanctuary access with Luxury Machupicchu Peru.">
+  <meta name="description" id="pageMetaDesc" content="Detailed luxury expedition itinerary, private master archaeologist curation, Belmond train logistics and official sanctuary access with Luxury Machupicchu Peru.">
+  <link rel="canonical" id="canonicalTag" href="https://nuevo.lmptravel.com/tour.html">
+  <link rel="icon" type="image/png" href="assets/images/logo-travel.png">
+  <link rel="apple-touch-icon" href="assets/images/logo-travel.png">
+
+  <!-- Dynamic Open Graph / Facebook / WhatsApp -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Luxury Machupicchu Peru">
+  <meta property="og:url" id="ogUrl" content="https://nuevo.lmptravel.com/tour.html">
+  <meta property="og:title" id="ogTitle" content="Expedition Details | Luxury Machupicchu Peru">
+  <meta property="og:description" id="ogDesc" content="Detailed luxury expedition itinerary, private master archaeologist curation, Belmond train logistics and official sanctuary access with Luxury Machupicchu Peru.">
+  <meta property="og:image" id="ogImage" content="https://nuevo.lmptravel.com/assets/images/hero_machu_picchu.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" id="twTitle" content="Expedition Details | Luxury Machupicchu Peru">
+  <meta name="twitter:description" id="twDesc" content="Detailed luxury expedition itinerary with Luxury Machupicchu Peru.">
+  <meta name="twitter:image" id="twImage" content="https://nuevo.lmptravel.com/assets/images/hero_machu_picchu.jpg">
+
+  <!-- Fonts & Styles -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Montserrat:wght@200;300;400;500;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Montserrat:wght@200;300;400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
   
   <!-- Dynamic Schema.org JSON-LD -->
@@ -777,6 +798,197 @@
       <button class="modal-close-btn" onclick="closeQuoteSheetModal()" aria-label="Close modal">✕</button>
       <div id="quoteSheetModalBody">
         <!-- Dynamically rendered via openQuoteSheetModal() -->
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: MARCO LEGAL, LIBRO DE RECLAMACIONES, TÉRMINOS & PRIVACIDAD -->
+  <div class="luxury-modal legal-modal" id="legalModal" aria-hidden="true">
+    <div class="modal-backdrop" onclick="closeLegalModal()"></div>
+    <div class="modal-dialog">
+      <button class="modal-close-btn" onclick="closeLegalModal()" aria-label="Close modal">✕</button>
+      
+      <div class="legal-modal-header">
+        <span class="legal-modal-kicker">LUXURY MACHUPICCHU PERU • MARCO LEGAL & CONCIERGE</span>
+        <h2 class="legal-modal-title">Atención al Huésped & Transparencia Institucional</h2>
+        <div class="legal-tabs-nav">
+          <button type="button" class="legal-tab-btn active" id="tabBtnClaims" onclick="switchLegalTab('claims')">
+            <span>📖 Libro de Reclamaciones</span>
+          </button>
+          <button type="button" class="legal-tab-btn" id="tabBtnTerms" onclick="switchLegalTab('terms')">
+            <span>⚖ Términos & Condiciones</span>
+          </button>
+          <button type="button" class="legal-tab-btn" id="tabBtnPrivacy" onclick="switchLegalTab('privacy')">
+            <span>🔒 Política de Privacidad</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="legal-modal-body">
+        <!-- PANE 1: LIBRO DE RECLAMACIONES -->
+        <div class="legal-tab-pane active" id="paneClaims">
+          <div class="legal-pane-intro">
+            <div class="legal-intro-company">
+              <strong>Luxury Machupicchu Peru E.I.R.L.</strong> • RUC: <strong>20601622492</strong><br>
+              <span>Domicilio Legal: Portal de Panes 123, Plaza de Armas, Cusco, Perú • GERCETUR Registro N° 00482-CUS</span>
+            </div>
+            <p class="legal-intro-text">
+              Conforme a lo establecido en el Código de Protección y Defensa del Consumidor (Ley N° 29571) y el Reglamento del Libro de Reclamaciones (D.S. N° 011-2011-PCM), ponemos a su disposición nuestro Libro de Reclamaciones Virtual.
+            </p>
+          </div>
+
+          <div id="claimFormContainer">
+            <form id="claimForm" onsubmit="handleLegalClaimSubmit(event)">
+              <div class="claim-form-section-title">1. Identificación del Consumidor Reclamante</div>
+              <div class="claim-grid-2">
+                <div class="form-field">
+                  <label for="claimFullName">Nombre Completo o Razón Social *</label>
+                  <input type="text" id="claimFullName" required placeholder="Ej. Lord Arthur Hastings">
+                </div>
+                <div class="form-field">
+                  <label for="claimEmail">Correo Electrónico (para notificación formal) *</label>
+                  <input type="email" id="claimEmail" required placeholder="arthur@domain.com">
+                </div>
+              </div>
+
+              <div class="claim-grid-3">
+                <div class="form-field">
+                  <label for="claimDocType">Tipo de Documento *</label>
+                  <select id="claimDocType" required>
+                    <option value="PASAPORTE">Pasaporte (No Domiciliado)</option>
+                    <option value="DNI">DNI (Nacional Peruano)</option>
+                    <option value="CE">Carné de Extranjería (CE)</option>
+                    <option value="RUC">RUC (Empresa)</option>
+                  </select>
+                </div>
+                <div class="form-field">
+                  <label for="claimDocNumber">Número de Documento *</label>
+                  <input type="text" id="claimDocNumber" required placeholder="Ej. A12345678">
+                </div>
+                <div class="form-field">
+                  <label for="claimPhone">Teléfono / WhatsApp *</label>
+                  <input type="tel" id="claimPhone" required placeholder="+51 958 195 840">
+                </div>
+              </div>
+
+              <div class="form-field">
+                <label for="claimAddress">Domicilio o Residencia Habitual (Ciudad / País) *</label>
+                <input type="text" id="claimAddress" required placeholder="Ej. Portal de Panes 123, Cusco / London, UK">
+              </div>
+
+              <div class="claim-form-section-title" style="margin-top: 1.5rem;">2. Identificación del Bien o Servicio Contratado</div>
+              <div class="claim-grid-2">
+                <div class="form-field">
+                  <label for="claimService">Expedición o Servicio Contratado *</label>
+                  <input type="text" id="claimService" required placeholder="Ej. Belmond Hiram Bingham Pinnacle / Sacred Valley Privé">
+                </div>
+                <div class="form-field">
+                  <label for="claimAmount">Monto Reclamado y Moneda (Opcional)</label>
+                  <input type="text" id="claimAmount" placeholder="Ej. $1,050 USD o S/. 3,990 PEN">
+                </div>
+              </div>
+
+              <div class="claim-form-section-title" style="margin-top: 1.5rem;">3. Detalle de la Reclamación</div>
+              <div class="claim-type-selector">
+                <label class="radio-card">
+                  <input type="radio" name="claimType" value="Reclamo" checked>
+                  <div class="radio-card-content">
+                    <strong>Reclamo</strong>
+                    <span>Disconformidad relacionada a los productos o servicios turísticos adquiridos.</span>
+                  </div>
+                </label>
+                <label class="radio-card">
+                  <input type="radio" name="claimType" value="Queja">
+                  <div class="radio-card-content">
+                    <strong>Queja</strong>
+                    <span>Malestar o descontento respecto a la atención o trato brindado al público.</span>
+                  </div>
+                </label>
+              </div>
+
+              <div class="form-field" style="margin-top: 1rem;">
+                <label for="claimDetail">Detalle de la Disconformidad o Hechos *</label>
+                <textarea id="claimDetail" rows="4" required placeholder="Describa de manera concisa y clara los hechos ocurridos..."></textarea>
+              </div>
+
+              <div class="form-field">
+                <label for="claimRequest">Pedido Concreto del Consumidor *</label>
+                <textarea id="claimRequest" rows="2" required placeholder="Indique qué solución o acción solicita por parte de la empresa..."></textarea>
+              </div>
+
+              <div class="claim-legal-checkbox">
+                <label>
+                  <input type="checkbox" required checked>
+                  <span>Declaro bajo juramento que los datos consignados son verdaderos y acepto que la respuesta formal sea notificada al correo electrónico proporcionado conforme a la ley peruana.</span>
+                </label>
+              </div>
+
+              <div class="claim-actions-row">
+                <button type="submit" class="btn-submit-claim">
+                  <span>REGISTRAR HOJA DE RECLAMACIÓN VIRTUAL</span>
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <div id="claimResultContainer" style="display: none;"></div>
+        </div>
+
+        <!-- PANE 2: TÉRMINOS & CONDICIONES -->
+        <div class="legal-tab-pane" id="paneTerms">
+          <div class="legal-text-document">
+            <h3>Términos & Condiciones de Expedición de Alta Costura</h3>
+            <p class="doc-meta">Última actualización: Enero 2026 • Luxury Machupicchu Peru E.I.R.L.</p>
+
+            <h4>1. Naturaleza de los Servicios</h4>
+            <p>Luxury Machupicchu Peru E.I.R.L. (en adelante, "El Atelier") es una agencia de viajes y operador turístico de alta gama con acreditación oficial de GERCETUR Cusco (Registro N° 00482-CUS) y RUC 20601622492. Nos especializamos en la conceptualización, curaduría y ejecución de expediciones 100% privadas en el Santuario Histórico de Machu Picchu, Valle Sagrado y el Altiplano andino.</p>
+
+            <h4>2. Reserva, Confirmación y Depósito de Garantía</h4>
+            <p>Toda expedición privada se formaliza mediante el abono de un <strong>anticipo de garantía del 30%</strong> del monto total acordado. Dicho anticipo permite la emisión inmediata e intransferible de boletos oficiales de ingreso emitidos por el Ministerio de Cultura del Perú (SERNANP) y los billetes ferroviarios de lujo correspondientes (Belmond Hiram Bingham / Inca Rail First Class).</p>
+            <p>El saldo restante del 70% deberá ser abonado a la llegada del huésped a la ciudad del Cusco antes del inicio de la primera experiencia privada, o según el acuerdo estipulado en la proforma de alta costura.</p>
+
+            <h4>3. Régimen Tributario y Exoneración de IGV (D.L. 919)</h4>
+            <p>De conformidad con el Decreto Legislativo N° 919 y normativas tributarias de la SUNAT, los viajeros no domiciliados (turistas extranjeros que ingresen al Perú por un plazo menor a 60 días calendario) gozan de <strong>tasa 0% de Impuesto General a las Ventas (IGV)</strong> en servicios hoteleros y de paquete turístico receptivo. Para la formalización de este beneficio legal, el pasajero presentará su pasaporte original y registro migratorio (TAM virtual) al momento de registrarse.</p>
+            <p>Los ciudadanos peruanos y residentes extranjeros domiciliados en el Perú están sujetos al 18% de IGV por mandato de ley.</p>
+
+            <h4>4. Políticas de Modificación y Cancelación</h4>
+            <p>Debido a la estricta política nominal y no reembolsable del Ministerio de Cultura del Perú y Belmond Ltd., los boletos de acceso al Santuario de Machu Picchu y billetes del tren Hiram Bingham son nominativos e inalterables una vez emitidos.</p>
+            <ul>
+              <li><strong>Cancelaciones con más de 30 días de anticipación:</strong> Reembolso del saldo abonado a favor del cliente, deduciendo los costos no reembolsables de permisos de santuario y penalidades ferroviarias.</li>
+              <li><strong>Cancelaciones entre 29 y 15 días:</strong> Penalidad del 50% del valor total de la expedición.</li>
+              <li><strong>Cancelaciones con menos de 14 días o No-Show:</strong> Penalidad del 100% del valor total contratado.</li>
+            </ul>
+
+            <h4>5. Fuerza Mayor y Seguridad en los Andes</h4>
+            <p>El Atelier no se responsabiliza por retrasos, modificaciones de ruta o cancelaciones derivadas de eventos de fuerza mayor o caso fortuito (huelgas civiles ajenas a la empresa, condiciones meteorológicas extremas, deslizamientos naturales o disposiciones extraordinarias del Estado Peruano). En dichos escenarios, nuestro equipo de Concierge 24/7 reconfigurará el itinerario priorizando en todo momento la integridad y comodidad del huésped.</p>
+          </div>
+        </div>
+
+        <!-- PANE 3: POLÍTICA DE PRIVACIDAD -->
+        <div class="legal-tab-pane" id="panePrivacy">
+          <div class="legal-text-document">
+            <h3>Política de Privacidad & Protección de Datos Personales</h3>
+            <p class="doc-meta">En cumplimiento de la Ley N° 29733 (Perú) y Estándares Internacionales GDPR</p>
+
+            <h4>1. Compromiso de Confidencialidad</h4>
+            <p>En Luxury Machupicchu Peru E.I.R.L., la confidencialidad de nuestros huéspedes de honor es un principio inquebrantable de hospitalidad de alta costura. Tratamos su información personal con los más altos estándares de reserva, integridad y discreción.</p>
+
+            <h4>2. Datos Objeto de Tratamiento</h4>
+            <p>Para la debida emisión de permisos gubernamentales ante el Ministerio de Cultura, pasajes de tren de colección y reservas de hospedaje cinco estrellas, recopilamos exclusivamente:</p>
+            <ul>
+              <li>Nombre completo y nacionalidad.</li>
+              <li>Número de Pasaporte o Documento Nacional de Identidad.</li>
+              <li>Fecha de nacimiento y datos de contacto (correo y WhatsApp).</li>
+              <li>Preferencias de viaje, restricciones dietarias y requerimientos médicos o de altitud.</li>
+            </ul>
+
+            <h4>3. Seguridad en las Transacciones Financieras</h4>
+            <p>Los pagos con tarjeta de crédito procesados a través de nuestra plataforma utilizan la pasarela certificada <strong>Culqi</strong> con tokenización bancaria y cifrado TLS 1.3 de 256 bits. El Atelier <strong>nunca almacena ni tiene acceso a los números completos de sus tarjetas de crédito o códigos CVV</strong>.</p>
+
+            <h4>4. Ejercicio de Derechos ARCO</h4>
+            <p>El titular de los datos personales puede ejercer en cualquier momento sus derechos de Acceso, Rectificación, Cancelación y Oposición (ARCO) contemplados en la Ley N° 29733, dirigiendo una comunicación escrita a nuestro oficial de privacidad al correo <strong>concierge@luxurymachupicchu.com</strong> o a nuestro domicilio legal en Portal de Panes 123, Plaza de Armas, Cusco, Perú.</p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
