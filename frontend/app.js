@@ -110,7 +110,53 @@ const translations = {
     modalDining: "Gourmet Dining",
     modalTransfer: "Private Transfer",
     modalIncludedTitle: "Curated Inclusions",
-    modalReserveBtn: "Reserve This Journey With Concierge"
+    modalReserveBtn: "Reserve This Journey With Concierge",
+    taxLegendTitle: "Tax Policy & Legal Notice (+ IGV / VAT)",
+    taxLegendText: "Published expedition rates are net of Peruvian Value Added Tax (+ IGV). In accordance with Legislative Decree N° 919 (Promotion of Receptive Tourism & Export of Services), non-domiciled foreign visitors are <strong>100% EXEMPT from IGV (0% VAT)</strong> upon presenting a valid foreign passport and entry migration stamp (TAM). For Peruvian citizens and resident taxpayers, 18% IGV applies with official electronic tax invoice issuance.",
+    priceTaxSub: "+ IGV (Foreigners 0% VAT D.L. 919)",
+    sidebarTaxSub: "+ 18% IGV Peruvians • Foreigners 0% Exempt (D.L. 919)",
+    sidebarTaxLegend: "✦ Rates net + IGV. Non-resident foreigners 0% IGV under D.L. 919 • Peruvian residents +18% IGV.",
+    drawerTaxLegend: "⚖️ <strong>Tax Notice (+ IGV):</strong> Non-domiciled travelers are 0% IGV exempt (D.L. 919 with foreign passport & TAM). Peruvian citizens & residents subject to +18% IGV.",
+    certTax: "✔ Tax Regime: 0% IGV Exemption for Foreign Non-Domiciled Travelers (D.L. 919)",
+    navBuildPackage: "Build Your Package",
+    btnHeroBuildPackage: "✦ Build Your Bespoke Package",
+    pkgModalKicker: "HAUTE COUTURE ANDEAN TRAVEL • BESPOKE RESERVATION",
+    pkgModalTitle: "Build Your Bespoke Andean Journey",
+    pkgModalSubtitle: "Personalize your private expedition: select signature rail, partner luxury hotels, tailored add-ons, and tax status with real-time live quotation.",
+    step1Title: "1. Select Base Expedition",
+    step2Title: "2. Partner Luxury Hotel (Optional)",
+    step3Title: "3. Preferred Luxury Train Carriage",
+    step4Title: "4. Bespoke Upgrades & Signature Add-ons",
+    step5Title: "5. Travelers, Nights & Tax Status",
+    lblTravelersCount: "Number of Travelers:",
+    lblNights: "Hotel Nights:",
+    lblTravelDate: "Target Travel Date *",
+    lblTaxRegime: "Tax Status (IGV):",
+    optForeignerTax: "Foreign Non-Domiciled Traveler (0% IGV Exempt - D.L. 919 with passport)",
+    optNationalTax: "Peruvian Resident / Citizen (+18% IGV with official SUNAT invoice)",
+    lblQuoteSubtotal: "Net Base Subtotal:",
+    lblQuoteHotel: "Accommodation:",
+    lblQuoteAddons: "Add-on Experiences:",
+    lblQuoteTax: "Peruvian VAT / IGV:",
+    lblQuoteTotal: "Estimated Total",
+    btnDispatchWhatsApp: "CONFIRM BESPOKE PACKAGE VIA WHATSAPP",
+    btnRequestPdfQuote: "REQUEST FORMAL DOSSIER & PDF QUOTE",
+    lblDocType: "Document Type *",
+    optPassport: "Foreign Passport (0% IGV Exempt - D.L. 919)",
+    optDni: "DNI (Peruvian National ID - +18% IGV)",
+    optRuc: "RUC (Peruvian Corporate Tax ID - +18% IGV)",
+    optCe: "Carné de Extranjería (Resident in Peru - +18% IGV)",
+    optForeignId: "Foreign National ID (Mercosur / CAN - 0% IGV)",
+    lblDocNumber: "Document ID Number *",
+    lblNationality: "Country / Nationality",
+    lblTaxBreakdown: "Tax Breakdown & Charge Details:",
+    lblDepositDueToday: "30% Luxury Deposit Due Today:",
+    lblBalanceDueArrival: "70% Balance Due upon Arrival in Cusco:",
+    btnViewQuoteSheet: "VIEW OFFICIAL QUOTATION SHEET (PDF)",
+    btnPrintQuoteSheet: "🖨️ Print / Save as PDF",
+    btnSendQuoteSheetWa: "Confirm Quotation via WhatsApp",
+    qsTitle: "OFFICIAL QUOTATION SHEET",
+    qsSubtitle: "BESPOKE ANDEAN EXPEDITION PROFORMA"
   },
   es: {
     topBarTag: "OPERADOR OFICIAL AUTORIZADO",
@@ -207,7 +253,53 @@ const translations = {
     modalDining: "Alta Gastronomía",
     modalTransfer: "Traslado Privado",
     modalIncludedTitle: "Inclusiones Exclusivas",
-    modalReserveBtn: "Reservar Esta Expedición con Concierge"
+    modalReserveBtn: "Reservar Esta Expedición con Concierge",
+    taxLegendTitle: "Régimen Tributario & Leyenda Legal (+ IGV)",
+    taxLegendText: "Las tarifas publicadas están expresadas en valores netos no gravados con el Impuesto General a las Ventas (+ IGV). Conforme al <strong>Decreto Legislativo N° 919</strong> (Régimen de Fomento al Turismo Receptivo y Exportación de Servicios de la República del Perú), los viajeros extranjeros no domiciliados se encuentran <strong>100% EXONERADOS del pago del IGV (0% IGV)</strong> presentando pasaporte extranjero y sello migratorio virtual (TAM). Para huéspedes peruanos o residentes extranjeros domiciliados en Perú aplica el <strong>18% de IGV</strong> con emisión obligatoria de factura o boleta electrónica SUNAT.",
+    priceTaxSub: "+ IGV (Extranjeros 0% D.L. 919)",
+    sidebarTaxSub: "+ 18% IGV Nacionales • Exonerado Extranjeros (D.L. 919)",
+    sidebarTaxLegend: "✦ Tarifas netas + IGV. Extranjeros 0% IGV según D.L. 919 • Residentes peruanos +18% IGV.",
+    drawerTaxLegend: "⚖️ <strong>Leyenda Tributaria (+ IGV):</strong> Turistas extranjeros 0% IGV (D.L. 919 con pasaporte y TAM). Huéspedes nacionales y residentes sujetos a +18% IGV conforme a SUNAT.",
+    certTax: "✔ Régimen Tributario: Exoneración de IGV a turistas extranjeros (D.L. 919)",
+    navBuildPackage: "Arma tu Paquete",
+    btnHeroBuildPackage: "✦ Arma tu Paquete a Medida",
+    pkgModalKicker: "ALTA COSTURA ANDINA • RESERVA PERSONALIZADA",
+    pkgModalTitle: "Arma tu Paquete a Medida",
+    pkgModalSubtitle: "Personalice su expedición privada: seleccione servicio de tren, hotelería de colección, experiencias de autor y condición tributaria con cotización en tiempo real.",
+    step1Title: "1. Seleccione la Expedición Base",
+    step2Title: "2. Alojamiento de Colección (Opcional)",
+    step3Title: "3. Servicio de Tren Preferido",
+    step4Title: "4. Experiencias Exclusivas & Add-ons de Autor",
+    step5Title: "5. Viajeros, Noches & Régimen de IGV",
+    lblTravelersCount: "Número de Viajeros:",
+    lblNights: "Noches de Hotel:",
+    lblTravelDate: "Fecha Estimada de Viaje *",
+    lblTaxRegime: "Condición Tributaria (IGV):",
+    optForeignerTax: "Turista Extranjero No Domiciliado (Exonerado 0% IGV - D.L. 919 con pasaporte)",
+    optNationalTax: "Huésped Nacional o Residente en Perú (+18% IGV Boleta/Factura)",
+    lblQuoteSubtotal: "Subtotal Neto Base:",
+    lblQuoteHotel: "Alojamiento:",
+    lblQuoteAddons: "Experiencias de Autor:",
+    lblQuoteTax: "Impuesto IGV:",
+    lblQuoteTotal: "Total Estimado",
+    btnDispatchWhatsApp: "CONFIRMAR PAQUETE A MEDIDA VÍA WHATSAPP",
+    btnRequestPdfQuote: "SOLICITAR COTIZACIÓN FORMAL & DOSSIER PDF",
+    lblDocType: "Tipo de Documento *",
+    optPassport: "Pasaporte Extranjero (0% IGV Exonerado - D.L. 919)",
+    optDni: "DNI (Nacional Peruano - +18% IGV Boleta)",
+    optRuc: "RUC (Empresa Peruana - +18% IGV Factura)",
+    optCe: "Carné de Extranjería (Residente en Perú - +18% IGV)",
+    optForeignId: "Cédula de Identidad Extranjera (Mercosur/CAN - 0% IGV)",
+    lblDocNumber: "N° de Documento *",
+    lblNationality: "País / Nacionalidad",
+    lblTaxBreakdown: "Desglose Impositivo y Detalle de Cobro:",
+    lblDepositDueToday: "30% Anticipo de Garantía (A Cobrar Hoy):",
+    lblBalanceDueArrival: "70% Saldo Pendiente a la Llegada en Cusco:",
+    btnViewQuoteSheet: "VER HOJA DE COTIZACIÓN FORMAL (PDF)",
+    btnPrintQuoteSheet: "🖨️ Imprimir / Guardar en PDF",
+    btnSendQuoteSheetWa: "Confirmar Cotización vía WhatsApp",
+    qsTitle: "HOJA DE COTIZACIÓN FORMAL",
+    qsSubtitle: "PROFORMA DE EXPEDICIÓN PRIVADA"
   }
 };
 
@@ -458,7 +550,11 @@ function applyLanguage(lang) {
   document.querySelectorAll('[data-i18n]').forEach(el => {
     const key = el.getAttribute('data-i18n');
     if (dict[key]) {
-      el.textContent = dict[key];
+      if (dict[key].includes('<')) {
+        el.innerHTML = dict[key];
+      } else {
+        el.textContent = dict[key];
+      }
     }
   });
 
@@ -545,6 +641,7 @@ function renderTours() {
             <div class="price-box">
               <span class="price-from">${dict.pricePerPerson}</span>
               <span class="price-value">${priceDisplay}</span>
+              <span class="price-tax-sub">${isEs ? '+ IGV (Extranjeros 0% D.L. 919)' : '+ IGV (Foreigners 0% D.L. 919)'}</span>
             </div>
             <div class="tour-actions">
               <a href="tour.html?slug=${tour.slug}" class="btn-itinerary-link" style="text-decoration:none; display:inline-flex; align-items:center; justify-content:center;">
@@ -618,6 +715,7 @@ async function openTourModalBySlug(slug) {
         <div class="modal-stat-box">
           <span>${isEs ? 'TARIFA EXCLUSIVA' : 'PRICE PER PERSON'}</span>
           <strong style="color: var(--color-gold);">${priceDisplay}</strong>
+          <span class="price-tax-sub" style="font-size:0.62rem; margin-top:3px;">${isEs ? '+ IGV (Extranjeros 0% D.L. 919)' : '+ IGV (Foreigners 0% D.L. 919)'}</span>
         </div>
       </div>
 
@@ -724,28 +822,270 @@ function updateDrawerTourTitle() {
   }
 }
 
+let drawerDocType = 'PASSPORT';
+
+function handleDrawerDocTypeChange(val) {
+  drawerDocType = val;
+  const detection = detectTaxRegimeFromDocument(val);
+  const isEs = appState.currentLang === 'es';
+
+  const badge = document.getElementById('drawerTaxBadge');
+  if (badge) {
+    badge.className = `tax-detection-badge ${detection.regime}`;
+    badge.innerHTML = `<span>${detection.regime === 'national' ? '🇵🇪' : '🌍'}</span> <strong>${isEs ? detection.labelEs : detection.labelEn}</strong> — <span>${isEs ? detection.lawNoticeEs : detection.lawNoticeEn}</span>`;
+  }
+
+  recalculateDrawerTotal();
+}
+
+function handleDrawerDocNumberInput(val) {
+  const cleanVal = (val || '').trim();
+  const select = document.getElementById('bookingDocType');
+  if (/^\d{8}$/.test(cleanVal)) {
+    if (select && select.value !== 'DNI') {
+      select.value = 'DNI';
+      handleDrawerDocTypeChange('DNI');
+    }
+  } else if (/^(10|20)\d{9}$/.test(cleanVal)) {
+    if (select && select.value !== 'RUC') {
+      select.value = 'RUC';
+      handleDrawerDocTypeChange('RUC');
+    }
+  }
+}
+
 function recalculateDrawerTotal() {
-  if (!appState.selectedTour) return;
+  const tour = appState.selectedTour || appState.tours[0];
+  if (!tour) return;
+
+  const isEs = appState.currentLang === 'es';
+  const isPen = appState.currentCurrency === 'PEN';
+  const rate = appState.exchangeRateUsdToPen || 3.80;
 
   const guestsSelect = document.getElementById('bookingGuests');
   const guests = parseInt(guestsSelect?.value || '2', 10);
 
-  const pricePerPerson = appState.selectedTour.priceUsd;
-  const pricePenPerPerson = appState.selectedTour.pricePen;
+  const pricePerPersonUsd = tour.priceUsd;
+  const netSubtotalUsd = pricePerPersonUsd * guests;
+  const detection = detectTaxRegimeFromDocument(drawerDocType);
 
-  const totalUsd = pricePerPerson * guests;
-  const totalPen = pricePenPerPerson * guests;
+  const taxUsd = detection.regime === 'national' ? Math.round(netSubtotalUsd * 0.18) : 0;
+  const grandTotalUsd = netSubtotalUsd + taxUsd;
+  const depositUsd = Math.round(grandTotalUsd * 0.30);
+  const balanceUsd = grandTotalUsd - depositUsd;
+
+  const fmt = (usdVal) => {
+    if (isPen) {
+      return `S/. ${Math.round(usdVal * rate).toLocaleString('es-PE')} PEN`;
+    }
+    return `$${usdVal.toLocaleString('en-US')} USD`;
+  };
 
   const summaryPrice = document.getElementById('summaryPricePerPerson');
-  const summaryTotal = document.getElementById('summaryTotalQuote');
-
   if (summaryPrice) {
-    summaryPrice.textContent = formatPrice(pricePerPerson, pricePenPerPerson);
+    summaryPrice.textContent = formatPrice(tour.priceUsd, tour.pricePen);
   }
 
-  if (summaryTotal) {
-    summaryTotal.textContent = formatPrice(totalUsd, totalPen);
+  const netEl = document.getElementById('drawerNetSubtotal');
+  if (netEl) netEl.textContent = fmt(netSubtotalUsd);
+
+  const taxLabelEl = document.getElementById('drawerTaxLabel');
+  const taxAmountEl = document.getElementById('drawerTaxAmount');
+  if (taxAmountEl) {
+    if (detection.regime === 'national') {
+      if (taxLabelEl) taxLabelEl.textContent = isEs ? 'Impuesto 18% IGV (SUNAT):' : '18% VAT (Tax Invoice):';
+      taxAmountEl.textContent = `+ ${fmt(taxUsd)}`;
+      taxAmountEl.style.color = 'var(--color-obsidian)';
+    } else {
+      if (taxLabelEl) taxLabelEl.textContent = isEs ? 'Impuesto IGV:' : 'VAT Status:';
+      taxAmountEl.textContent = isEs ? '0% IGV (Exonerado D.L. 919)' : '0% VAT (Exempt D.L. 919)';
+      taxAmountEl.style.color = '#15803D';
+    }
   }
+
+  const summaryTotal = document.getElementById('summaryTotalQuote');
+  if (summaryTotal) {
+    summaryTotal.textContent = `${fmt(grandTotalUsd)} ${detection.regime === 'national' ? '' : '+ IGV'}`.trim();
+  }
+
+  const depositEl = document.getElementById('drawerDepositQuote');
+  if (depositEl) depositEl.textContent = fmt(depositUsd);
+
+  const balanceEl = document.getElementById('drawerBalanceQuote');
+  if (balanceEl) balanceEl.textContent = fmt(balanceUsd);
+}
+
+function openDrawerQuoteSheet() {
+  const modal = document.getElementById('quoteSheetModal');
+  const body = document.getElementById('quoteSheetModalBody');
+  if (!modal || !body) return;
+
+  const tour = appState.selectedTour || appState.tours[0];
+  const isEs = appState.currentLang === 'es';
+  const isPen = appState.currentCurrency === 'PEN';
+  const rate = appState.exchangeRateUsdToPen || 3.80;
+
+  const name = document.getElementById('bookingFullName')?.value || (isEs ? 'Invitado de Honor' : 'Guest of Honor');
+  const email = document.getElementById('bookingEmail')?.value || 'info@lmptravel.com';
+  const phone = document.getElementById('bookingPhone')?.value || '+51 958 195 840';
+  const date = document.getElementById('bookingDate')?.value || (isEs ? 'A coordinar con concierge' : 'To be confirmed with concierge');
+  const train = document.getElementById('bookingTrain')?.value || 'Belmond Hiram Bingham';
+  const docTypeSelect = document.getElementById('bookingDocType');
+  const docType = docTypeSelect ? docTypeSelect.options[docTypeSelect.selectedIndex].text : 'Pasaporte Extranjero';
+  const docNumber = document.getElementById('bookingDocNumber')?.value || 'PASSP-VERIFIED';
+
+  const guests = parseInt(document.getElementById('bookingGuests')?.value || '2', 10);
+  const netSubtotalUsd = tour.priceUsd * guests;
+  const detection = detectTaxRegimeFromDocument(drawerDocType);
+  const taxUsd = detection.regime === 'national' ? Math.round(netSubtotalUsd * 0.18) : 0;
+  const grandTotalUsd = netSubtotalUsd + taxUsd;
+  const depositUsd = Math.round(grandTotalUsd * 0.30);
+  const balanceUsd = grandTotalUsd - depositUsd;
+
+  const quoteId = `COT-2026-LMP-${Math.floor(1000 + Math.random() * 9000)}`;
+  const todayStr = new Date().toLocaleDateString(isEs ? 'es-PE' : 'en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+  const fmtUsd = (val) => `$${Number(val).toLocaleString('en-US')} USD`;
+  const fmtPen = (val) => `S/. ${Math.round(val * rate).toLocaleString('es-PE')} PEN`;
+
+  const taxLabel = detection.regime === 'national'
+    ? (isEs ? '18% I.G.V. (Gravado SUNAT)' : '18% VAT (Peruvian Tax)')
+    : (isEs ? '0% I.G.V. (Exonerado D.L. 919)' : '0% VAT (Exempt D.L. 919)');
+
+  body.innerHTML = `
+    <div class="quote-sheet-wrapper">
+      <div class="quote-sheet-header">
+        <div class="qs-brand-block">
+          <span class="qs-crest">✦</span>
+          <span class="qs-brand-title">LUXURY MACHUPICCHU PERU</span>
+          <p class="qs-brand-legal">
+            <strong>Luxury Machupicchu Peru E.I.R.L.</strong> • RUC: 20601622492<br>
+            Acreditación GERCETUR: Reg. N° 00482-CUS • MINCETUR Aprobado<br>
+            Portal de Panes 123, Plaza de Armas, Cusco, Perú • Tel: +51 958 195 840
+          </p>
+        </div>
+
+        <div class="qs-doc-meta">
+          <span class="qs-doc-badge">${isEs ? 'HOJA DE COTIZACIÓN FORMAL' : 'OFFICIAL QUOTATION DOSSIER'}</span>
+          <span class="qs-doc-id">${quoteId}</span>
+          <span class="qs-doc-date">${isEs ? 'Fecha de Emisión:' : 'Issued:'} ${todayStr}</span>
+          <span style="font-size:0.7rem; color: var(--color-gold); font-weight:600; margin-top:2px;">
+            ${isEs ? 'Validez: 15 días calendario' : 'Validity: 15 calendar days'}
+          </span>
+        </div>
+      </div>
+
+      <div class="qs-parties-grid">
+        <div class="qs-party-box">
+          <h4>${isEs ? '1. DATOS DEL TITULAR DE RESERVA' : '1. LEAD TRAVELER DOSSIER'}</h4>
+          <div class="qs-party-row"><span class="lbl">${isEs ? 'Nombre Completo:' : 'Full Name:'}</span> <span class="val">${name}</span></div>
+          <div class="qs-party-row"><span class="lbl">${isEs ? 'Tipo de Documento:' : 'Document Type:'}</span> <span class="val">${docType}</span></div>
+          <div class="qs-party-row"><span class="lbl">${isEs ? 'N° de Documento:' : 'Document ID:'}</span> <span class="val">${docNumber}</span></div>
+          <div class="qs-party-row"><span class="lbl">${isEs ? 'Contacto / Email:' : 'Contact:'}</span> <span class="val">${email} • ${phone}</span></div>
+          <div class="qs-party-row"><span class="lbl">${isEs ? 'Fecha Deseada:' : 'Travel Date:'}</span> <span class="val">${date}</span></div>
+        </div>
+
+        <div class="qs-party-box">
+          <h4>${isEs ? '2. CONDICIÓN TRIBUTARIA & FISCAL (SUNAT)' : '2. OFFICIAL TAX STATUS (SUNAT)'}</h4>
+          <div class="qs-party-row">
+            <span class="lbl">${isEs ? 'Régimen Detectado:' : 'Tax Regime:'}</span>
+            <span class="val" style="color: ${detection.regime === 'national' ? '#78350F' : '#15803D'}; font-weight:700;">
+              ${detection.regime === 'national' ? '🇵🇪 Nacional / Residente (+18% IGV)' : '🌍 Extranjero No Domiciliado (0% IGV Exonerado)'}
+            </span>
+          </div>
+          <div class="qs-party-row">
+            <span class="lbl">${isEs ? 'Base Legal:' : 'Legal Ground:'}</span>
+            <span class="val">${detection.regime === 'national' ? 'Ley del IGV - SUNAT (Comprobante Boleta/Factura)' : 'Decreto Legislativo N° 919 (Fomento al Turismo Receptivo)'}</span>
+          </div>
+          <div class="qs-party-row">
+            <span class="lbl">${isEs ? 'Acreditación:' : 'Requirement:'}</span>
+            <span class="val">${detection.regime === 'national' ? 'DNI o RUC vigente' : 'Pasaporte físico extranjero y TAM virtual a la llegada'}</span>
+          </div>
+          <div class="qs-party-row">
+            <span class="lbl">${isEs ? 'Moneda Oficial:' : 'Quotation Currency:'}</span>
+            <span class="val">USD ($ Dólares Americanos) / PEN (S/. Soles Peruanos)</span>
+          </div>
+        </div>
+      </div>
+
+      <table class="qs-table">
+        <thead>
+          <tr>
+            <th>${isEs ? 'Concepto / Servicio Exclusivo' : 'Expedition Element'}</th>
+            <th class="tar">${isEs ? 'Cant.' : 'Qty.'}</th>
+            <th class="tar">${isEs ? 'Precio Unit. (USD)' : 'Unit Price (USD)'}</th>
+            <th class="tar">${isEs ? 'Subtotal (USD)' : 'Subtotal (USD)'}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <strong class="qs-item-title">${isEs ? tour.titleEs : tour.titleEn}</strong>
+              <span class="qs-item-desc">${isEs ? tour.durationEs : tour.durationEn} • ${train} • Expedición 100% Privada</span>
+            </td>
+            <td class="tar">${guests} pax</td>
+            <td class="tar">${fmtUsd(tour.priceUsd)}</td>
+            <td class="tar"><strong>${fmtUsd(netSubtotalUsd)}</strong></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="qs-financials-container">
+        <div class="qs-legal-notes">
+          <h5>${isEs ? 'Certificación & Garantías de Alta Costura' : 'Certification & Guarantees'}</h5>
+          <p>${isEs ? '• Esta proforma incluye permisos oficiales de ingreso al Santuario de Machu Picchu con circuitos preferenciales y reservas de tren de colección.' : '• This proforma includes official Machu Picchu sanctuary permits with priority circuits and luxury train reservations.'}</p>
+          <p>${isEs ? '• Régimen impositivo calculado según el D.L. 919. Para pasajeros extranjeros, la exoneración del 18% queda formalizada al momento de registrar el pasaporte en el hotel y tren.' : '• Tax exemption grounded in D.L. 919. For foreign guests, the 0% VAT status is formalized upon physical presentation of the passport and TAM stamp.'}</p>
+        </div>
+
+        <div class="qs-totals-card">
+          <div class="qs-totals-row">
+            <span>${isEs ? 'Subtotal Neto Imponible:' : 'Net Base Subtotal:'}</span>
+            <strong>${fmtUsd(netSubtotalUsd)}</strong>
+          </div>
+          <div class="qs-totals-row tax-row" style="color: ${detection.regime === 'national' ? 'var(--color-obsidian)' : '#15803D'};">
+            <span>${taxLabel}:</span>
+            <strong>${taxUsd > 0 ? `+ ${fmtUsd(taxUsd)}` : '$0.00 USD (0%)'}</strong>
+          </div>
+          <div class="qs-totals-row grand-total">
+            <span>${isEs ? 'TOTAL A COBRAR:' : 'TOTAL TO CHARGE:'}</span>
+            <span style="color: var(--color-gold);">${fmtUsd(grandTotalUsd)}</span>
+          </div>
+          <div style="font-size:0.75rem; text-align:right; color:#666; margin-bottom: 0.5rem;">
+            ${isEs ? 'Equivalente en moneda nacional:' : 'Local currency equivalent:'} <strong>${fmtPen(grandTotalUsd)}</strong>
+          </div>
+
+          <div class="qs-totals-row deposit-row">
+            <span>${isEs ? '30% Anticipo de Garantía (Cobro Inmediato):' : '30% Luxury Deposit (Due Today):'}</span>
+            <strong>${fmtUsd(depositUsd)}</strong>
+          </div>
+          <div class="qs-totals-row" style="font-size:0.76rem; margin-top: 0.25rem;">
+            <span>${isEs ? '70% Saldo a la Llegada en Cusco:' : '70% Balance on Arrival in Cusco:'}</span>
+            <strong>${fmtUsd(balanceUsd)}</strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="qs-actions-bar">
+        <button type="button" class="qs-btn-print" onclick="printQuoteSheet()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+          <span>${isEs ? 'Descargar / Imprimir en PDF' : 'Print / Download PDF'}</span>
+        </button>
+
+        <button type="button" class="qs-btn-whatsapp" onclick="sendQuoteSheetWhatsApp('${quoteId}')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.79 14.07c-.24.68-1.4 1.34-1.92 1.42-.5.09-1.15.12-1.85-.11-.43-.14-.99-.33-1.71-.65-3.04-1.33-5.01-4.42-5.16-4.63-.16-.2-1.23-1.64-1.23-3.13 0-1.49.78-2.22 1.06-2.52.28-.3.61-.38.81-.38.2 0 .41 0 .58.01.19.01.44-.07.69.53.25.61.85 2.08.93 2.23.08.16.13.35.03.55-.1.2-.15.33-.3.51-.15.18-.32.4-.46.54-.15.15-.31.31-.13.62.18.31.79 1.3 1.69 2.11 1.16 1.03 2.13 1.35 2.44 1.5.31.15.49.13.67-.08.19-.21.79-.92 1-1.24.21-.31.42-.26.7-.16.29.1 1.83.86 2.14 1.02.31.15.52.23.6.36.08.13.08.77-.16 1.45z"/></svg>
+          <span>${isEs ? 'Confirmar Cotización con Concierge VIP' : 'Confirm Proforma with VIP Concierge'}</span>
+        </button>
+
+        <button type="button" onclick="closeQuoteSheetModal()" style="background:transparent; border:1px solid #999; padding:0.75rem 1.25rem; border-radius:3px; cursor:pointer;">
+          ${isEs ? 'Cerrar' : 'Close'}
+        </button>
+      </div>
+    </div>
+  `;
+
+  modal.classList.add('active');
+  modal.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
 }
 
 function closeBookingDrawer() {
@@ -968,8 +1308,993 @@ function toggleMenu() {
   }
 }
 
-function openConciergeModal() {
-  scrollToSection('contact');
+function openConciergeModal(slug) {
+  openCustomPackageModal(slug);
+}
+
+// ==========================================================================
+// BESPOKE PACKAGE BUILDER (ARMA TU PAQUETE - RESERVA PERSONALIZADA)
+// ==========================================================================
+
+const BUILDER_DATA = {
+  tours: [
+    {
+      id: 1,
+      slug: 'belmond-hiram-bingham-pinnacle',
+      priceUsd: 2150,
+      pricePen: 8170,
+      durationEn: '2 Days / 1 Night',
+      durationEs: '2 Días / 1 Noche',
+      nameEn: 'Machu Picchu Pinnacle & Hiram Bingham',
+      nameEs: 'Machu Picchu Pinnacle & Hiram Bingham',
+      subEn: 'Historic train, private archaeologist & sanctuary entry',
+      subEs: 'Tren histórico, arqueólogo privado y entrada al santuario',
+      tag: 'Luxury Rail'
+    },
+    {
+      id: 2,
+      slug: 'sacred-valley-prive-shamanic-ritual',
+      priceUsd: 1450,
+      pricePen: 5510,
+      durationEn: '2 Days / 1 Night',
+      durationEs: '2 Días / 1 Noche',
+      nameEn: 'Sacred Valley Privé & Shamanic Ritual',
+      nameEs: 'Valle Sagrado Privé y Ritual Chamánico',
+      subEn: 'Maras, Moray, private hacienda & Q\'ero Andean blessing',
+      subEs: 'Maras, Moray, hacienda privada y bendición Q\'ero',
+      tag: 'Mysticism'
+    },
+    {
+      id: 3,
+      slug: 'belmond-andean-explorer-cusco-titicaca',
+      priceUsd: 3420,
+      pricePen: 12996,
+      durationEn: '3 Days / 2 Nights',
+      durationEs: '3 Días / 2 Noches',
+      nameEn: 'Belmond Andean Explorer Sleeper Train',
+      nameEs: 'Belmond Andean Explorer Tren Nocturno',
+      subEn: 'Luxury sleeper carriage from Cusco across altiplano to Titicaca',
+      subEs: 'Coche cama de lujo desde Cusco por el altiplano a Titicaca',
+      tag: 'Grand Sleeper'
+    },
+    {
+      id: 4,
+      slug: 'classic-inca-trail-vip-glamping',
+      priceUsd: 2890,
+      pricePen: 10982,
+      durationEn: '4 Days / 3 Nights',
+      durationEs: '4 Días / 3 Noches',
+      nameEn: 'Classic Inca Trail VIP Glamping',
+      nameEs: 'Camino Inca Clásico VIP Glamping',
+      subEn: 'Heated geodesic dome suites, hot showers & private chef',
+      subEs: 'Domos calefaccionados, duchas calientes y chef privado',
+      tag: 'VIP Glamping'
+    },
+    {
+      id: 5,
+      slug: 'custom-bespoke',
+      priceUsd: 3950,
+      pricePen: 15010,
+      durationEn: '6 Days / 5 Nights',
+      durationEs: '6 Días / 5 Noches',
+      nameEn: 'Grand Andean 100% Bespoke Expedition',
+      nameEs: 'Gran Expedición Andina 100% a Medida',
+      subEn: 'Full tailor-made itinerary: Lima, Cusco, Sacred Valley & Lake Titicaca',
+      subEs: 'Itinerario 100% libre y personalizado por los Andes peruanos',
+      tag: 'Haute Couture'
+    }
+  ],
+  hotels: [
+    {
+      id: 'none',
+      priceUsd: 0,
+      nameEn: 'No Hotel (Tours & Logistics Only)',
+      nameEs: 'Sin Alojamiento (Solo Tours y Logística Privada)',
+      subEn: 'You arrange your own lodging or already have reservations',
+      subEs: 'Usted gestiona su propio hospedaje o ya cuenta con reserva',
+      tag: 'Logistics Only'
+    },
+    {
+      id: 'monasterio',
+      priceUsd: 480,
+      nameEn: 'Belmond Hotel Monasterio (Cusco)',
+      nameEs: 'Belmond Hotel Monasterio (Cusco)',
+      subEn: '16th-century colonial monastery museum & courtyard',
+      subEs: 'Monasterio virreinal del siglo XVI y claustro colonial',
+      tag: 'Historic Landmark'
+    },
+    {
+      id: 'nazarenas',
+      priceUsd: 590,
+      nameEn: 'Belmond Palacio Nazarenas (Cusco)',
+      nameEs: 'Belmond Palacio Nazarenas (Cusco)',
+      subEn: 'Oxygen-enriched suites & heated outdoor private pool',
+      subEs: 'Suites con oxígeno enriquecido y piscina climatizada',
+      tag: 'Oxygen Suites'
+    },
+    {
+      id: 'tambo',
+      priceUsd: 450,
+      nameEn: 'Tambo del Inka Resort (Sacred Valley)',
+      nameEs: 'Tambo del Inka Resort (Valle Sagrado)',
+      subEn: 'Luxury Collection with private train platform to citadel',
+      subEs: 'Luxury Collection con andén privado de tren a la ciudadela',
+      tag: 'Sacred Valley'
+    },
+    {
+      id: 'sanctuary',
+      priceUsd: 980,
+      nameEn: 'Belmond Sanctuary Lodge (Machu Picchu)',
+      nameEs: 'Belmond Sanctuary Lodge (Machu Picchu)',
+      subEn: 'The only hotel directly adjacent to citadel entrance',
+      subEs: 'El único hotel ubicado junto al ingreso al santuario',
+      tag: 'Citadel Gates'
+    }
+  ],
+  rails: [
+    {
+      id: 'hiram',
+      diffUsd: 0,
+      nameEn: 'Belmond Hiram Bingham Signature',
+      nameEs: 'Belmond Hiram Bingham Signature',
+      subEn: 'Gourmet 3-course dining, acoustic bar car & cocktails (Included)',
+      subEs: 'Cena gourmet 3 tiempos, vagón bar acústico y cócteles (Incluido)',
+      tag: 'Pinnacle Luxury'
+    },
+    {
+      id: 'inca360',
+      diffUsd: -150,
+      nameEn: 'Inca Rail 360° First Class',
+      nameEs: 'Inca Rail 360° First Class',
+      subEn: 'Panoramic observatory windows & live Andean music (-$150 USD)',
+      subEs: 'Vagón observatorio panorámico y música andina (-$150 USD)',
+      tag: 'Scenic View'
+    },
+    {
+      id: 'vistadome',
+      diffUsd: -300,
+      nameEn: 'Vistadome Panoramic VIP',
+      nameEs: 'Vistadome Panoramic VIP',
+      subEn: 'Panoramic glass ceiling & folklore celebration (-$300 USD)',
+      subEs: 'Techo de cristal panorámico y danza tradicional (-$300 USD)',
+      tag: 'Panoramic'
+    },
+    {
+      id: 'overland',
+      diffUsd: -450,
+      nameEn: 'Private 4x4 Overland / Trek Only',
+      nameEs: 'Solo Traslado Terrestre Privado 4x4 / Trek',
+      subEn: 'Private vehicular convoy or foot expedition only (-$450 USD)',
+      subEs: 'Transporte privado terrestre o expedición a pie (-$450 USD)',
+      tag: 'Ground Only'
+    }
+  ],
+  addons: [
+    {
+      id: 'lunch',
+      priceUsd: 180,
+      perPerson: true,
+      nameEn: 'Gourmet Degustation Lunch at Belmond Sanctuary Lodge',
+      nameEs: 'Almuerzo Degustación 4 Tiempos en Belmond Sanctuary Lodge',
+      descEn: 'Private veranda dining overlooking Huayna Picchu peaks.',
+      descEs: 'Mesa privada en terraza con vista a los picos de Huayna Picchu.'
+    },
+    {
+      id: 'moet',
+      priceUsd: 160,
+      perPerson: false,
+      nameEn: 'French Champagne Moët & Chandon Toast at Citadel',
+      nameEs: 'Brindis con Champagne Francés Moët & Chandon en Mirador',
+      descEn: 'Chilled bottle with crystal flutes served at sacred overlook.',
+      descEs: 'Botella helada con copas de cristal servida en mirador sagrado.'
+    },
+    {
+      id: 'shaman',
+      priceUsd: 220,
+      perPerson: false,
+      nameEn: 'Private Andean Earth Offering (Pago a la Tierra) with Q\'ero Shaman',
+      nameEs: 'Ceremonia Privada de Pago a la Tierra con Chamán Q\'ero',
+      descEn: 'Ancestral blessing ritual connecting to Apus and Pachamama.',
+      descEs: 'Ritual ancestral de bendición y conexión con los Apus sagrados.'
+    },
+    {
+      id: 'mil',
+      priceUsd: 350,
+      perPerson: true,
+      nameEn: 'MIL Gastronomic Immersion in Moray by Virgilio Martínez',
+      nameEs: 'Inmersión Gastronómica MIL en Moray (Virgilio Martínez)',
+      descEn: '8-ecosystem high-altitude tasting menu at Central\'s mountain lab.',
+      descEs: 'Menú degustación de 8 alturas en el laboratorio de altura de Central.'
+    },
+    {
+      id: 'yacht',
+      priceUsd: 480,
+      perPerson: false,
+      nameEn: 'Private Luxury Yacht Charter on Lake Titicaca',
+      nameEs: 'Chárter Privado en Yate de Lujo por el Lago Titicaca',
+      descEn: 'Full-day navigation to Taquile and private floating islands.',
+      descEs: 'Navegación exclusiva de día completo hacia Taquile e islas privadas.'
+    },
+    {
+      id: 'massage',
+      priceUsd: 140,
+      perPerson: true,
+      nameEn: 'High-Altitude Restorative Herbal Massage (60 min)',
+      nameEs: 'Masaje Descontracturante Andino con Aceites Aromáticos (60 min)',
+      descEn: 'Essential oils of eucalyptus, muña, and arnica for recovery.',
+      descEs: 'Aceites esenciales de eucalipto, muña y árnica para recuperación.'
+    },
+    {
+      id: 'archaeologist',
+      priceUsd: 200,
+      perPerson: false,
+      nameEn: 'Exclusive Master Archaeologist for Entire Journey',
+      nameEs: 'Arqueólogo Colegiado Exclusivo de Cátedra durante todo el viaje',
+      descEn: 'Unhurried private academic guidance with deeper historical access.',
+      descEs: 'Acompañamiento académico privado sin prisas ni multitudes.'
+    }
+  ]
+};
+
+const packageBuilderState = {
+  selectedTourId: 1,
+  selectedHotelId: 'none',
+  selectedRailId: 'hiram',
+  selectedAddonIds: new Set(),
+  travelers: 2,
+  hotelNights: 2,
+  taxRegime: 'foreigner'
+};
+
+function renderPackageBuilderCards() {
+  const isEs = appState.currentLang === 'es';
+  const isPen = appState.currentCurrency === 'PEN';
+  const rate = appState.exchangeRateUsdToPen || 3.80;
+
+  // 1. Tours Grid
+  const toursGrid = document.getElementById('pkgTourCardsGrid');
+  if (toursGrid) {
+    toursGrid.innerHTML = BUILDER_DATA.tours.map(t => {
+      const isSelected = packageBuilderState.selectedTourId === t.id;
+      const priceText = isPen ? `S/. ${t.pricePen.toLocaleString('es-PE')} PEN` : `$${t.priceUsd.toLocaleString('en-US')} USD`;
+      return `
+        <div class="pkg-select-card ${isSelected ? 'selected' : ''}" onclick="selectBuilderTour(${t.id})">
+          <div>
+            <span class="pkg-card-tag">${t.tag} • ${isEs ? t.durationEs : t.durationEn}</span>
+            <h4 class="pkg-card-name">${isEs ? t.nameEs : t.nameEn}</h4>
+            <p class="pkg-card-sub">${isEs ? t.subEs : t.subEn}</p>
+          </div>
+          <div class="pkg-card-price">${isEs ? 'Desde' : 'From'} ${priceText}</div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  // 2. Hotels Grid
+  const hotelsGrid = document.getElementById('pkgHotelCardsGrid');
+  if (hotelsGrid) {
+    hotelsGrid.innerHTML = BUILDER_DATA.hotels.map(h => {
+      const isSelected = packageBuilderState.selectedHotelId === h.id;
+      const priceText = h.priceUsd === 0 
+        ? (isEs ? 'Sin costo adicional' : 'No extra cost')
+        : (isPen ? `+ S/. ${Math.round(h.priceUsd * rate).toLocaleString('es-PE')} PEN/noche` : `+ $${h.priceUsd} USD/night`);
+      return `
+        <div class="pkg-select-card ${isSelected ? 'selected' : ''}" onclick="selectBuilderHotel('${h.id}')">
+          <div>
+            <span class="pkg-card-tag">${h.tag}</span>
+            <h4 class="pkg-card-name">${isEs ? h.nameEs : h.nameEn}</h4>
+            <p class="pkg-card-sub">${isEs ? h.subEs : h.subEn}</p>
+          </div>
+          <div class="pkg-card-price" style="color: var(--color-gold);">${priceText}</div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  // 3. Rail Grid
+  const railsGrid = document.getElementById('pkgRailCardsGrid');
+  if (railsGrid) {
+    railsGrid.innerHTML = BUILDER_DATA.rails.map(r => {
+      const isSelected = packageBuilderState.selectedRailId === r.id;
+      const priceText = r.diffUsd === 0
+        ? (isEs ? '✓ Incluido en la base' : '✓ Included in base')
+        : (r.diffUsd < 0
+          ? (isPen ? `- S/. ${Math.round(Math.abs(r.diffUsd) * rate)} PEN` : `- $${Math.abs(r.diffUsd)} USD`)
+          : (isPen ? `+ S/. ${Math.round(r.diffUsd * rate)} PEN` : `+ $${r.diffUsd} USD`));
+      return `
+        <div class="pkg-select-card ${isSelected ? 'selected' : ''}" onclick="selectBuilderRail('${r.id}')">
+          <div>
+            <span class="pkg-card-tag">${r.tag}</span>
+            <h4 class="pkg-card-name">${isEs ? r.nameEs : r.nameEn}</h4>
+            <p class="pkg-card-sub">${isEs ? r.subEs : r.subEn}</p>
+          </div>
+          <div class="pkg-card-price">${priceText}</div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  // 4. Addons List
+  const addonsContainer = document.getElementById('pkgAddonsList');
+  if (addonsContainer) {
+    addonsContainer.innerHTML = BUILDER_DATA.addons.map(a => {
+      const isSelected = packageBuilderState.selectedAddonIds.has(a.id);
+      const priceText = a.perPerson
+        ? (isPen ? `+ S/. ${Math.round(a.priceUsd * rate)} PEN / pers.` : `+ $${a.priceUsd} USD / person`)
+        : (isPen ? `+ S/. ${Math.round(a.priceUsd * rate)} PEN total` : `+ $${a.priceUsd} USD total`);
+      return `
+        <div class="pkg-addon-item ${isSelected ? 'selected' : ''}" onclick="toggleBuilderAddon('${a.id}')">
+          <input type="checkbox" class="pkg-addon-checkbox" ${isSelected ? 'checked' : ''} onclick="event.stopPropagation(); toggleBuilderAddon('${a.id}')">
+          <div class="pkg-addon-info">
+            <strong class="pkg-addon-title">${isEs ? a.nameEs : a.nameEn}</strong>
+            <p class="pkg-addon-desc">${isEs ? a.descEs : a.descEn}</p>
+          </div>
+          <div class="pkg-addon-price">${priceText}</div>
+        </div>
+      `;
+    }).join('');
+  }
+}
+
+function selectBuilderTour(id) {
+  packageBuilderState.selectedTourId = id;
+  renderPackageBuilderCards();
+  recalculatePackageBuilder();
+}
+
+function selectBuilderHotel(id) {
+  packageBuilderState.selectedHotelId = id;
+  renderPackageBuilderCards();
+  recalculatePackageBuilder();
+}
+
+function selectBuilderRail(id) {
+  packageBuilderState.selectedRailId = id;
+  renderPackageBuilderCards();
+  recalculatePackageBuilder();
+}
+
+function toggleBuilderAddon(id) {
+  if (packageBuilderState.selectedAddonIds.has(id)) {
+    packageBuilderState.selectedAddonIds.delete(id);
+  } else {
+    packageBuilderState.selectedAddonIds.add(id);
+  }
+  renderPackageBuilderCards();
+  recalculatePackageBuilder();
+}
+
+function recalculatePackageBuilder() {
+  const isEs = appState.currentLang === 'es';
+  const isPen = appState.currentCurrency === 'PEN';
+  const rate = appState.exchangeRateUsdToPen || 3.80;
+
+  const tour = BUILDER_DATA.tours.find(t => t.id === packageBuilderState.selectedTourId) || BUILDER_DATA.tours[0];
+  const hotel = BUILDER_DATA.hotels.find(h => h.id === packageBuilderState.selectedHotelId) || BUILDER_DATA.hotels[0];
+  const rail = BUILDER_DATA.rails.find(r => r.id === packageBuilderState.selectedRailId) || BUILDER_DATA.rails[0];
+
+  const travelersSelect = document.getElementById('pkgTravelers');
+  const travelers = parseInt(travelersSelect?.value || '2', 10);
+  packageBuilderState.travelers = travelers;
+
+  const nightsSelect = document.getElementById('pkgHotelNights');
+  const nights = parseInt(nightsSelect?.value || '2', 10);
+  packageBuilderState.hotelNights = nights;
+
+  const taxNationalRadio = document.getElementById('pkgTaxNational');
+  packageBuilderState.taxRegime = (taxNationalRadio && taxNationalRadio.checked) ? 'national' : 'foreigner';
+
+  // Base calculation
+  const basePerPersonUsd = Math.max(500, tour.priceUsd + rail.diffUsd);
+  const baseTotalUsd = basePerPersonUsd * travelers;
+
+  // Hotel calculation
+  const hotelTotalUsd = hotel.id !== 'none' ? hotel.priceUsd * nights : 0;
+
+  // Addons calculation
+  let addonsTotalUsd = 0;
+  BUILDER_DATA.addons.forEach(a => {
+    if (packageBuilderState.selectedAddonIds.has(a.id)) {
+      addonsTotalUsd += a.perPerson ? a.priceUsd * travelers : a.priceUsd;
+    }
+  });
+
+  const netSubtotalUsd = baseTotalUsd + hotelTotalUsd + addonsTotalUsd;
+
+  let taxUsd = 0;
+  let taxLabel = '';
+  if (packageBuilderState.taxRegime === 'national') {
+    taxUsd = Math.round(netSubtotalUsd * 0.18);
+    taxLabel = isPen ? `S/. ${Math.round(taxUsd * rate).toLocaleString('es-PE')} PEN (+18% IGV)` : `$${taxUsd.toLocaleString('en-US')} USD (+18% IGV)`;
+  } else {
+    taxUsd = 0;
+    taxLabel = isEs ? '0% IGV (Exonerado D.L. 919)' : '0% VAT (Exempt D.L. 919)';
+  }
+
+  const grandTotalUsd = netSubtotalUsd + taxUsd;
+  const grandTotalPen = grandTotalUsd * rate;
+
+  const fmt = (usdVal) => {
+    if (isPen) {
+      return `S/. ${Math.round(usdVal * rate).toLocaleString('es-PE')} PEN`;
+    }
+    return `$${usdVal.toLocaleString('en-US')} USD`;
+  };
+
+  const summaryTourEl = document.getElementById('pkgSelectedTourSummary');
+  if (summaryTourEl) {
+    summaryTourEl.textContent = `${isEs ? tour.nameEs : tour.nameEn} • ${travelers} ${isEs ? 'Viajero(s)' : 'Traveler(s)'}`;
+  }
+
+  const baseEl = document.getElementById('pkgSummaryBase');
+  if (baseEl) baseEl.textContent = fmt(baseTotalUsd);
+
+  const hotelEl = document.getElementById('pkgSummaryHotel');
+  if (hotelEl) hotelEl.textContent = hotelTotalUsd > 0 ? fmt(hotelTotalUsd) : (isEs ? '$0 (Sin hotel)' : '$0 (No hotel)');
+
+  const addonsEl = document.getElementById('pkgSummaryAddons');
+  if (addonsEl) addonsEl.textContent = fmt(addonsTotalUsd);
+
+  const netEl = document.getElementById('pkgSummaryNet');
+  if (netEl) netEl.textContent = fmt(netSubtotalUsd);
+
+  const taxEl = document.getElementById('pkgSummaryTax');
+  if (taxEl) {
+    taxEl.textContent = taxLabel;
+    taxEl.style.color = packageBuilderState.taxRegime === 'national' ? 'var(--color-obsidian)' : '#15803D';
+  }
+
+  const totalEl = document.getElementById('pkgGrandTotal');
+  if (totalEl) {
+    totalEl.textContent = isPen
+      ? `S/. ${Math.round(grandTotalPen).toLocaleString('es-PE')} PEN + IGV`
+      : `$${grandTotalUsd.toLocaleString('en-US')} USD + IGV`;
+  }
+
+  const depositUsd = Math.round(grandTotalUsd * 0.30);
+  const balanceUsd = grandTotalUsd - depositUsd;
+  const depositPen = Math.round(grandTotalPen * 0.30);
+  const balancePen = Math.round(grandTotalPen) - depositPen;
+
+  packageBuilderState.lastCalculations = {
+    tour,
+    hotel,
+    rail,
+    travelers,
+    nights,
+    baseTotalUsd,
+    hotelTotalUsd,
+    addonsTotalUsd,
+    netSubtotalUsd,
+    taxUsd,
+    grandTotalUsd,
+    grandTotalPen,
+    depositUsd,
+    balanceUsd,
+    depositPen,
+    balancePen,
+    rate
+  };
+
+  const depositEl = document.getElementById('pkgDepositDue');
+  if (depositEl) {
+    depositEl.textContent = isPen ? `S/. ${depositPen.toLocaleString('es-PE')} PEN` : `$${depositUsd.toLocaleString('en-US')} USD`;
+  }
+
+  const balanceEl = document.getElementById('pkgBalanceDue');
+  if (balanceEl) {
+    balanceEl.textContent = isPen ? `S/. ${balancePen.toLocaleString('es-PE')} PEN` : `$${balanceUsd.toLocaleString('en-US')} USD`;
+  }
+
+  const tagIncludedEl = document.getElementById('pkgTaxIncludedTag');
+  if (tagIncludedEl) {
+    tagIncludedEl.textContent = packageBuilderState.taxRegime === 'national'
+      ? (isEs ? '✦ Cobro final con 18% IGV incluido para Boleta/Factura SUNAT' : '✦ Final charge includes 18% Peruvian VAT for official tax invoice')
+      : (isEs ? '✦ Cobro neto 0% IGV Exonerado por Ley D.L. 919 para turistas extranjeros' : '✦ Net charge 0% VAT Exempt under Peruvian D.L. 919 for foreign visitors');
+  }
+
+  const legendEl = document.getElementById('pkgTaxLegendBadge');
+  if (legendEl) {
+    legendEl.textContent = packageBuilderState.taxRegime === 'national'
+      ? (isEs ? '🇵🇪 Régimen Nacional: +18% IGV Gravado con Factura/Boleta Oficial' : '🇵🇪 Peruvian Resident: +18% IGV Applied with Tax Invoice')
+      : (isEs ? '✦ Extranjeros Exonerados de IGV (0%) según D.L. 919' : '✦ Foreign Travelers 100% IGV Exempt (0%) under D.L. 919');
+  }
+}
+
+function detectTaxRegimeFromDocument(docType) {
+  const normType = (docType || '').toUpperCase();
+  if (normType === 'DNI' || normType === 'RUC' || normType === 'CE') {
+    return {
+      regime: 'national',
+      rate: 0.18,
+      labelEs: 'Huésped Nacional / Residente en Perú (+18% IGV)',
+      labelEn: 'Peruvian Resident / Citizen (+18% VAT)',
+      lawNoticeEs: 'Sujeto a 18% IGV con emisión obligatoria de Boleta o Factura SUNAT.',
+      lawNoticeEn: 'Subject to 18% VAT with official SUNAT electronic tax invoice.',
+      detectedType: normType === 'DNI' ? 'DNI' : (normType === 'RUC' ? 'RUC' : 'Carné de Extranjería')
+    };
+  }
+  return {
+    regime: 'foreigner',
+    rate: 0.00,
+    labelEs: 'Turista Extranjero No Domiciliado (0% IGV Exonerado)',
+    labelEn: 'Foreign Non-Domiciled Traveler (0% VAT Exempt)',
+    lawNoticeEs: 'Exonerado 100% de IGV (D.L. 919) presentando pasaporte extranjero y TAM.',
+    lawNoticeEn: '100% VAT Exempt under D.L. 919 with foreign passport and TAM virtual stamp.',
+    detectedType: normType === 'FOREIGN_ID' ? 'Cédula Extranjera' : 'Pasaporte Extranjero'
+  };
+}
+
+function handleDocTypeChange(val) {
+  packageBuilderState.docType = val;
+  const detection = detectTaxRegimeFromDocument(val);
+  const taxNationalRadio = document.getElementById('pkgTaxNational');
+  const taxForeignerRadio = document.getElementById('pkgTaxForeigner');
+
+  if (detection.regime === 'national') {
+    if (taxNationalRadio) taxNationalRadio.checked = true;
+    packageBuilderState.taxRegime = 'national';
+  } else {
+    if (taxForeignerRadio) taxForeignerRadio.checked = true;
+    packageBuilderState.taxRegime = 'foreigner';
+  }
+
+  const badge = document.getElementById('pkgTaxDetectionBadge');
+  if (badge) {
+    const isEs = appState.currentLang === 'es';
+    badge.className = `tax-detection-badge ${detection.regime}`;
+    badge.innerHTML = `<span>${detection.regime === 'national' ? '🇵🇪' : '🌍'}</span> <strong>${isEs ? detection.labelEs : detection.labelEn}</strong> — <span>${isEs ? detection.lawNoticeEs : detection.lawNoticeEn}</span>`;
+  }
+
+  recalculatePackageBuilder();
+}
+
+function handleDocNumberInput(val) {
+  packageBuilderState.docNumber = val;
+  const cleanVal = (val || '').trim();
+  const docTypeSelect = document.getElementById('pkgDocType');
+  if (/^\d{8}$/.test(cleanVal)) {
+    if (docTypeSelect && docTypeSelect.value !== 'DNI') {
+      docTypeSelect.value = 'DNI';
+      handleDocTypeChange('DNI');
+    }
+  } else if (/^(10|20)\d{9}$/.test(cleanVal)) {
+    if (docTypeSelect && docTypeSelect.value !== 'RUC') {
+      docTypeSelect.value = 'RUC';
+      handleDocTypeChange('RUC');
+    }
+  }
+}
+
+function openQuoteSheetModal() {
+  const modal = document.getElementById('quoteSheetModal');
+  const body = document.getElementById('quoteSheetModalBody');
+  if (!modal || !body) return;
+
+  const isEs = appState.currentLang === 'es';
+  const isPen = appState.currentCurrency === 'PEN';
+  const rate = appState.exchangeRateUsdToPen || 3.80;
+
+  const tour = BUILDER_DATA.tours.find(t => t.id === packageBuilderState.selectedTourId) || BUILDER_DATA.tours[0];
+  const hotel = BUILDER_DATA.hotels.find(h => h.id === packageBuilderState.selectedHotelId) || BUILDER_DATA.hotels[0];
+  const rail = BUILDER_DATA.rails.find(r => r.id === packageBuilderState.selectedRailId) || BUILDER_DATA.rails[0];
+
+  const name = document.getElementById('pkgGuestName')?.value || (isEs ? 'Invitado de Honor' : 'Guest of Honor');
+  const email = document.getElementById('pkgGuestEmail')?.value || 'info@lmptravel.com';
+  const phone = document.getElementById('pkgGuestPhone')?.value || '+51 958 195 840';
+  const date = document.getElementById('pkgTravelDate')?.value || (isEs ? 'A coordinar con concierge' : 'To be confirmed with concierge');
+  const docTypeSelect = document.getElementById('pkgDocType');
+  const docType = docTypeSelect ? docTypeSelect.options[docTypeSelect.selectedIndex].text : 'Pasaporte Extranjero';
+  const docNumber = document.getElementById('pkgDocNumber')?.value || 'PASSP-VERIFIED';
+  const nationality = document.getElementById('pkgNationality')?.value || (packageBuilderState.taxRegime === 'national' ? 'Perú' : 'Internacional');
+
+  const travelers = packageBuilderState.travelers;
+  const nights = packageBuilderState.hotelNights;
+  const calcs = packageBuilderState.lastCalculations || {
+    baseTotalUsd: tour.priceUsd * travelers,
+    hotelTotalUsd: 0,
+    addonsTotalUsd: 0,
+    netSubtotalUsd: tour.priceUsd * travelers,
+    taxUsd: 0,
+    grandTotalUsd: tour.priceUsd * travelers,
+    grandTotalPen: tour.pricePen * travelers,
+    depositUsd: Math.round(tour.priceUsd * travelers * 0.30),
+    balanceUsd: tour.priceUsd * travelers - Math.round(tour.priceUsd * travelers * 0.30)
+  };
+
+  const quoteId = `COT-2026-LMP-${Math.floor(1000 + Math.random() * 9000)}`;
+  const todayStr = new Date().toLocaleDateString(isEs ? 'es-PE' : 'en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+  const selectedAddons = BUILDER_DATA.addons.filter(a => packageBuilderState.selectedAddonIds.has(a.id));
+
+  const fmtUsd = (val) => `$${Number(val).toLocaleString('en-US')} USD`;
+  const fmtPen = (val) => `S/. ${Math.round(val * rate).toLocaleString('es-PE')} PEN`;
+
+  const taxLabel = packageBuilderState.taxRegime === 'national'
+    ? (isEs ? '18% I.G.V. (Gravado SUNAT)' : '18% VAT (Peruvian Tax)')
+    : (isEs ? '0% I.G.V. (Exonerado D.L. 919)' : '0% VAT (Exempt D.L. 919)');
+
+  body.innerHTML = `
+    <div class="quote-sheet-wrapper">
+      <div class="quote-sheet-header">
+        <div class="qs-brand-block">
+          <span class="qs-crest">✦</span>
+          <span class="qs-brand-title">LUXURY MACHUPICCHU PERU</span>
+          <p class="qs-brand-legal">
+            <strong>Luxury Machupicchu Peru E.I.R.L.</strong> • RUC: 20601622492<br>
+            Acreditación GERCETUR: Reg. N° 00482-CUS • MINCETUR Aprobado<br>
+            Portal de Panes 123, Plaza de Armas, Cusco, Perú • Tel: +51 958 195 840
+          </p>
+        </div>
+
+        <div class="qs-doc-meta">
+          <span class="qs-doc-badge">${isEs ? 'HOJA DE COTIZACIÓN FORMAL' : 'OFFICIAL QUOTATION DOSSIER'}</span>
+          <span class="qs-doc-id">${quoteId}</span>
+          <span class="qs-doc-date">${isEs ? 'Fecha de Emisión:' : 'Issued:'} ${todayStr}</span>
+          <span style="font-size:0.7rem; color: var(--color-gold); font-weight:600; margin-top:2px;">
+            ${isEs ? 'Validez: 15 días calendario' : 'Validity: 15 calendar days'}
+          </span>
+        </div>
+      </div>
+
+      <div class="qs-parties-grid">
+        <div class="qs-party-box">
+          <h4>${isEs ? '1. DATOS DEL TITULAR DE RESERVA' : '1. LEAD TRAVELER DOSSIER'}</h4>
+          <div class="qs-party-row"><span class="lbl">${isEs ? 'Nombre Completo:' : 'Full Name:'}</span> <span class="val">${name}</span></div>
+          <div class="qs-party-row"><span class="lbl">${isEs ? 'Tipo de Documento:' : 'Document Type:'}</span> <span class="val">${docType}</span></div>
+          <div class="qs-party-row"><span class="lbl">${isEs ? 'N° de Documento:' : 'Document ID:'}</span> <span class="val">${docNumber}</span></div>
+          <div class="qs-party-row"><span class="lbl">${isEs ? 'Nacionalidad / País:' : 'Nationality / Country:'}</span> <span class="val">${nationality}</span></div>
+          <div class="qs-party-row"><span class="lbl">${isEs ? 'Contacto / Email:' : 'Contact:'}</span> <span class="val">${email} • ${phone}</span></div>
+          <div class="qs-party-row"><span class="lbl">${isEs ? 'Fecha Deseada:' : 'Travel Date:'}</span> <span class="val">${date}</span></div>
+        </div>
+
+        <div class="qs-party-box">
+          <h4>${isEs ? '2. CONDICIÓN TRIBUTARIA & FISCAL (SUNAT)' : '2. OFFICIAL TAX STATUS (SUNAT)'}</h4>
+          <div class="qs-party-row">
+            <span class="lbl">${isEs ? 'Régimen Detectado:' : 'Tax Regime:'}</span>
+            <span class="val" style="color: ${packageBuilderState.taxRegime === 'national' ? '#78350F' : '#15803D'}; font-weight:700;">
+              ${packageBuilderState.taxRegime === 'national' ? '🇵🇪 Nacional / Residente (+18% IGV)' : '🌍 Extranjero No Domiciliado (0% IGV Exonerado)'}
+            </span>
+          </div>
+          <div class="qs-party-row">
+            <span class="lbl">${isEs ? 'Base Legal:' : 'Legal Ground:'}</span>
+            <span class="val">${packageBuilderState.taxRegime === 'national' ? 'Ley del IGV - SUNAT (Comprobante Boleta/Factura)' : 'Decreto Legislativo N° 919 (Fomento al Turismo Receptivo)'}</span>
+          </div>
+          <div class="qs-party-row">
+            <span class="lbl">${isEs ? 'Acreditación:' : 'Requirement:'}</span>
+            <span class="val">${packageBuilderState.taxRegime === 'national' ? 'DNI o RUC vigente' : 'Pasaporte físico extranjero y TAM virtual a la llegada'}</span>
+          </div>
+          <div class="qs-party-row">
+            <span class="lbl">${isEs ? 'Moneda Oficial:' : 'Quotation Currency:'}</span>
+            <span class="val">USD ($ Dólares Americanos) / PEN (S/. Soles Peruanos)</span>
+          </div>
+        </div>
+      </div>
+
+      <table class="qs-table">
+        <thead>
+          <tr>
+            <th>${isEs ? 'Concepto / Servicio Exclusivo' : 'Expedition Element'}</th>
+            <th class="tar">${isEs ? 'Cant.' : 'Qty.'}</th>
+            <th class="tar">${isEs ? 'Precio Unit. (USD)' : 'Unit Price (USD)'}</th>
+            <th class="tar">${isEs ? 'Subtotal (USD)' : 'Subtotal (USD)'}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <strong class="qs-item-title">${isEs ? tour.nameEs : tour.nameEn}</strong>
+              <span class="qs-item-desc">${isEs ? tour.durationEs : tour.durationEn} • ${rail.nameEn}</span>
+            </td>
+            <td class="tar">${travelers} pax</td>
+            <td class="tar">${fmtUsd(tour.priceUsd + rail.diffUsd)}</td>
+            <td class="tar"><strong>${fmtUsd(calcs.baseTotalUsd)}</strong></td>
+          </tr>
+          ${hotel.id !== 'none' ? `
+            <tr>
+              <td>
+                <strong class="qs-item-title">${isEs ? hotel.nameEs : hotel.nameEn}</strong>
+                <span class="qs-item-desc">${nights} ${isEs ? 'noche(s) de hospedaje de colección' : 'night(s) collection accommodation'}</span>
+              </td>
+              <td class="tar">${nights} nts</td>
+              <td class="tar">${fmtUsd(hotel.priceUsd)}</td>
+              <td class="tar"><strong>${fmtUsd(calcs.hotelTotalUsd)}</strong></td>
+            </tr>
+          ` : ''}
+          ${selectedAddons.map(a => `
+            <tr>
+              <td>
+                <strong class="qs-item-title">${isEs ? a.nameEs : a.nameEn}</strong>
+                <span class="qs-item-desc">${isEs ? a.descEs : a.descEn}</span>
+              </td>
+              <td class="tar">${a.perPerson ? `${travelers} pax` : '1 servicio'}</td>
+              <td class="tar">${fmtUsd(a.priceUsd)}</td>
+              <td class="tar"><strong>${fmtUsd(a.perPerson ? a.priceUsd * travelers : a.priceUsd)}</strong></td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+
+      <div class="qs-financials-container">
+        <div class="qs-legal-notes">
+          <h5>${isEs ? 'Certificación & Garantías de Alta Costura' : 'Certification & Guarantees'}</h5>
+          <p>${isEs ? '• Esta proforma incluye permisos oficiales de ingreso al Santuario de Machu Picchu con circuitos preferenciales y reservas de tren de colección.' : '• This proforma includes official Machu Picchu sanctuary permits with priority circuits and luxury train reservations.'}</p>
+          <p>${isEs ? '• Régimen impositivo calculado según el D.L. 919. Para pasajeros extranjeros, la exoneración del 18% queda formalizada al momento de registrar el pasaporte en el hotel y tren.' : '• Tax exemption grounded in D.L. 919. For foreign guests, the 0% VAT status is formalized upon physical presentation of the passport and TAM stamp.'}</p>
+        </div>
+
+        <div class="qs-totals-card">
+          <div class="qs-totals-row">
+            <span>${isEs ? 'Subtotal Neto Imponible:' : 'Net Base Subtotal:'}</span>
+            <strong>${fmtUsd(calcs.netSubtotalUsd)}</strong>
+          </div>
+          <div class="qs-totals-row tax-row" style="color: ${packageBuilderState.taxRegime === 'national' ? 'var(--color-obsidian)' : '#15803D'};">
+            <span>${taxLabel}:</span>
+            <strong>${calcs.taxUsd > 0 ? `+ ${fmtUsd(calcs.taxUsd)}` : '$0.00 USD (0%)'}</strong>
+          </div>
+          <div class="qs-totals-row grand-total">
+            <span>${isEs ? 'TOTAL A COBRAR:' : 'TOTAL TO CHARGE:'}</span>
+            <span style="color: var(--color-gold);">${fmtUsd(calcs.grandTotalUsd)}</span>
+          </div>
+          <div style="font-size:0.75rem; text-align:right; color:#666; margin-bottom: 0.5rem;">
+            ${isEs ? 'Equivalente en moneda nacional:' : 'Local currency equivalent:'} <strong>${fmtPen(calcs.grandTotalPen)}</strong>
+          </div>
+
+          <div class="qs-totals-row deposit-row">
+            <span>${isEs ? '30% Anticipo de Garantía (Cobro Inmediato):' : '30% Luxury Deposit (Due Today):'}</span>
+            <strong>${fmtUsd(calcs.depositUsd)}</strong>
+          </div>
+          <div class="qs-totals-row" style="font-size:0.76rem; margin-top: 0.25rem;">
+            <span>${isEs ? '70% Saldo a la Llegada en Cusco:' : '70% Balance on Arrival in Cusco:'}</span>
+            <strong>${fmtUsd(calcs.balanceUsd)}</strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="qs-actions-bar">
+        <button type="button" class="qs-btn-print" onclick="printQuoteSheet()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+          <span>${isEs ? 'Descargar / Imprimir en PDF' : 'Print / Download PDF'}</span>
+        </button>
+
+        <button type="button" class="qs-btn-whatsapp" onclick="sendQuoteSheetWhatsApp('${quoteId}')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.79 14.07c-.24.68-1.4 1.34-1.92 1.42-.5.09-1.15.12-1.85-.11-.43-.14-.99-.33-1.71-.65-3.04-1.33-5.01-4.42-5.16-4.63-.16-.2-1.23-1.64-1.23-3.13 0-1.49.78-2.22 1.06-2.52.28-.3.61-.38.81-.38.2 0 .41 0 .58.01.19.01.44-.07.69.53.25.61.85 2.08.93 2.23.08.16.13.35.03.55-.1.2-.15.33-.3.51-.15.18-.32.4-.46.54-.15.15-.31.31-.13.62.18.31.79 1.3 1.69 2.11 1.16 1.03 2.13 1.35 2.44 1.5.31.15.49.13.67-.08.19-.21.79-.92 1-1.24.21-.31.42-.26.7-.16.29.1 1.83.86 2.14 1.02.31.15.52.23.6.36.08.13.08.77-.16 1.45z"/></svg>
+          <span>${isEs ? 'Confirmar Cotización con Concierge VIP' : 'Confirm Proforma with VIP Concierge'}</span>
+        </button>
+
+        <button type="button" onclick="closeQuoteSheetModal()" style="background:transparent; border:1px solid #999; padding:0.75rem 1.25rem; border-radius:3px; cursor:pointer;">
+          ${isEs ? 'Cerrar' : 'Close'}
+        </button>
+      </div>
+    </div>
+  `;
+
+  modal.classList.add('active');
+  modal.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeQuoteSheetModal() {
+  const modal = document.getElementById('quoteSheetModal');
+  if (modal) {
+    modal.classList.remove('active');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+}
+
+function printQuoteSheet() {
+  window.print();
+}
+
+function sendQuoteSheetWhatsApp(quoteId) {
+  const isEs = appState.currentLang === 'es';
+  const name = document.getElementById('pkgGuestName')?.value || 'Guest';
+  const docType = document.getElementById('pkgDocType')?.value || 'PASSPORT';
+  const docNumber = document.getElementById('pkgDocNumber')?.value || '';
+  const total = document.getElementById('pkgGrandTotal')?.textContent || '';
+  const taxText = packageBuilderState.taxRegime === 'national' ? 'Nacional (+18% IGV)' : 'Extranjero (0% IGV Exonerado D.L. 919)';
+
+  const msg = isEs
+    ? `✨ *Luxury Machupicchu Peru - Hoja de Cotización Formal [${quoteId}]*\n\n` +
+      `Estimado Concierge, mi nombre es *${name}* (${docType}: ${docNumber || 'Por adjuntar'}).\n\n` +
+      `Adjunto la confirmación de mi Hoja de Cotización Oficial:\n` +
+      `🏛️ *Expedición:* ${document.getElementById('pkgSelectedTourSummary')?.textContent || ''}\n` +
+      `⚖️ *Régimen Fiscal:* ${taxText}\n` +
+      `💰 *Total a Cobrar:* ${total}\n` +
+      `💳 *Anticipo del 30%:* ${document.getElementById('pkgDepositDue')?.textContent || ''}\n\n` +
+      `Solicito validación y enlace de pago seguro para el depósito de garantía.`
+    : `✨ *Luxury Machupicchu Peru - Official Quotation Dossier [${quoteId}]*\n\n` +
+      `Dear Concierge, my name is *${name}* (${docType}: ${docNumber || 'Attached'}).\n\n` +
+      `I confirm my Official Quotation Proforma:\n` +
+      `🏛️ *Journey:* ${document.getElementById('pkgSelectedTourSummary')?.textContent || ''}\n` +
+      `⚖️ *Tax Status:* ${taxText}\n` +
+      `💰 *Total Charge:* ${total}\n` +
+      `💳 *30% Luxury Deposit:* ${document.getElementById('pkgDepositDue')?.textContent || ''}\n\n` +
+      `Please validate and dispatch the secure payment gateway link.`;
+
+  window.open(`https://wa.me/51958195840?text=${encodeURIComponent(msg)}`, '_blank');
+}
+
+function openCustomPackageModal(preselectedSlugOrId) {
+  const modal = document.getElementById('packageBuilderModal');
+  if (!modal) return;
+
+  if (preselectedSlugOrId) {
+    const match = BUILDER_DATA.tours.find(t => t.slug === preselectedSlugOrId || t.id === Number(preselectedSlugOrId));
+    if (match) {
+      packageBuilderState.selectedTourId = match.id;
+    }
+  }
+
+  renderPackageBuilderCards();
+  recalculatePackageBuilder();
+
+  modal.classList.add('active');
+  modal.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+}
+
+function closePackageBuilderModal() {
+  const modal = document.getElementById('packageBuilderModal');
+  if (modal) {
+    modal.classList.remove('active');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+}
+
+function handlePackageBuilderWhatsApp() {
+  const isEs = appState.currentLang === 'es';
+  const tour = BUILDER_DATA.tours.find(t => t.id === packageBuilderState.selectedTourId) || BUILDER_DATA.tours[0];
+  const hotel = BUILDER_DATA.hotels.find(h => h.id === packageBuilderState.selectedHotelId) || BUILDER_DATA.hotels[0];
+  const rail = BUILDER_DATA.rails.find(r => r.id === packageBuilderState.selectedRailId) || BUILDER_DATA.rails[0];
+
+  const name = document.getElementById('pkgGuestName')?.value || 'Invitado Distinguido';
+  const email = document.getElementById('pkgGuestEmail')?.value || '';
+  const phone = document.getElementById('pkgGuestPhone')?.value || '';
+  const date = document.getElementById('pkgTravelDate')?.value || 'A coordinar';
+  const notes = document.getElementById('pkgSpecialNotes')?.value || '';
+  const travelers = packageBuilderState.travelers;
+  const nights = packageBuilderState.hotelNights;
+
+  const selectedAddonNames = Array.from(packageBuilderState.selectedAddonIds).map(id => {
+    const a = BUILDER_DATA.addons.find(x => x.id === id);
+    return a ? `• ${isEs ? a.nameEs : a.nameEn}` : '';
+  }).filter(Boolean);
+
+  const grandTotalText = document.getElementById('pkgGrandTotal')?.textContent || '';
+  const taxText = packageBuilderState.taxRegime === 'national' ? '🇵🇪 Nacional (+18% IGV)' : '🌍 Extranjero (0% Exonerado D.L. 919)';
+
+  const waMessage = isEs
+    ? `✨ *Luxury Machupicchu Peru - Cotización de Paquete a Medida (Arma tu Paquete)*\n\n` +
+      `Estimado Concierge, mi nombre es *${name}*.\n\n` +
+      `🏛️ *Expedición Base:* ${tour.nameEs} (${tour.durationEs})\n` +
+      `👥 *Viajeros:* ${travelers} persona(s)\n` +
+      `📅 *Fecha Deseada:* ${date}\n` +
+      `🚆 *Servicio Ferroviario:* ${rail.nameEs}\n` +
+      `🏨 *Alojamiento:* ${hotel.nameEs} (${nights} noche(s))\n` +
+      (selectedAddonNames.length > 0 ? `✦ *Experiencias Exclusivas:*\n${selectedAddonNames.join('\n')}\n` : '') +
+      `⚖️ *Condición Tributaria:* ${taxText}\n` +
+      `💰 *Monto Estimado:* ${grandTotalText}\n` +
+      (email ? `✉️ *Email:* ${email}\n` : '') +
+      (phone ? `📞 *Teléfono:* ${phone}\n` : '') +
+      (notes ? `📝 *Requerimientos Especiales:* ${notes}\n` : '') +
+      `\nSolicito confirmación de disponibilidad con el atelier privado.`
+    : `✨ *Luxury Machupicchu Peru - Bespoke Package Quotation (Build Your Package)*\n\n` +
+      `Dear Concierge, my name is *${name}*.\n\n` +
+      `🏛️ *Base Journey:* ${tour.nameEn} (${tour.durationEn})\n` +
+      `👥 *Travelers:* ${travelers} guest(s)\n` +
+      `📅 *Target Date:* ${date}\n` +
+      `🚆 *Train Preference:* ${rail.nameEn}\n` +
+      `🏨 *Accommodation:* ${hotel.nameEn} (${nights} night(s))\n` +
+      (selectedAddonNames.length > 0 ? `✦ *Bespoke Add-ons:*\n${selectedAddonNames.join('\n')}\n` : '') +
+      `⚖️ *Tax Status:* ${taxText}\n` +
+      `💰 *Estimated Total:* ${grandTotalText}\n` +
+      (email ? `✉️ *Email:* ${email}\n` : '') +
+      (phone ? `📞 *Phone:* ${phone}\n` : '') +
+      (notes ? `📝 *Special Notes:* ${notes}\n` : '') +
+      `\nI request journey availability confirmation with the private concierge atelier.`;
+
+  const waUrl = `https://wa.me/51958195840?text=${encodeURIComponent(waMessage)}`;
+
+  try {
+    fetchApi('/bookings', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        tourId: tour.id,
+        fullName: name,
+        email: email || 'concierge-lead@luxurymachupicchu.com',
+        phone: phone || '+51958195840',
+        numberOfGuests: travelers,
+        travelDate: date && date !== 'A coordinar' ? new Date(date).toISOString() : null,
+        trainPreference: rail.nameEn,
+        specialRequests: `[ARMA TU PAQUETE] Hotel: ${hotel.nameEn} (${nights}n) | Addons: ${selectedAddonNames.join(', ')} | Tax: ${taxText} | Total: ${grandTotalText} | Notes: ${notes}`,
+        preferredLanguage: appState.currentLang
+      })
+    }).catch(() => {});
+  } catch {}
+
+  const statusEl = document.getElementById('pkgStatusMsg');
+  if (statusEl) {
+    statusEl.innerHTML = `<span style="color: #20BD5A; font-weight: 500;">✓ ${isEs ? 'Redirigiendo a Concierge VIP vía WhatsApp...' : 'Connecting to VIP Concierge on WhatsApp...'}</span>`;
+  }
+
+  setTimeout(() => {
+    window.open(waUrl, '_blank');
+  }, 500);
+}
+
+async function handlePackageBuilderSubmit() {
+  const isEs = appState.currentLang === 'es';
+  const tour = BUILDER_DATA.tours.find(t => t.id === packageBuilderState.selectedTourId) || BUILDER_DATA.tours[0];
+  const hotel = BUILDER_DATA.hotels.find(h => h.id === packageBuilderState.selectedHotelId) || BUILDER_DATA.hotels[0];
+  const rail = BUILDER_DATA.rails.find(r => r.id === packageBuilderState.selectedRailId) || BUILDER_DATA.rails[0];
+
+  const name = document.getElementById('pkgGuestName')?.value;
+  const email = document.getElementById('pkgGuestEmail')?.value;
+  const phone = document.getElementById('pkgGuestPhone')?.value;
+  const date = document.getElementById('pkgTravelDate')?.value;
+  const notes = document.getElementById('pkgSpecialNotes')?.value || '';
+
+  if (!name || !email) {
+    alert(isEs ? 'Por favor ingrese su Nombre y Correo Electrónico para enviarle la cotización en PDF.' : 'Please enter your Full Name and Email Address to receive the PDF quotation.');
+    document.getElementById('pkgGuestName')?.focus();
+    return;
+  }
+
+  const statusEl = document.getElementById('pkgStatusMsg');
+  if (statusEl) {
+    statusEl.innerHTML = `<span style="color: var(--color-gold);">Generando expediente y cotización formal...</span>`;
+  }
+
+  const selectedAddonNames = Array.from(packageBuilderState.selectedAddonIds).map(id => {
+    const a = BUILDER_DATA.addons.find(x => x.id === id);
+    return a ? `• ${isEs ? a.nameEs : a.nameEn}` : '';
+  }).filter(Boolean);
+
+  const grandTotalText = document.getElementById('pkgGrandTotal')?.textContent || '';
+  const taxText = packageBuilderState.taxRegime === 'national' ? 'Nacional (+18% IGV)' : 'Extranjero (0% IGV D.L. 919)';
+
+  try {
+    const res = await fetchApi('/bookings', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        tourId: tour.id,
+        fullName: name,
+        email: email,
+        phone: phone || '+51958195840',
+        numberOfGuests: packageBuilderState.travelers,
+        travelDate: date ? new Date(date).toISOString() : null,
+        trainPreference: rail.nameEn,
+        specialRequests: `[ARMA TU PAQUETE EN PDF] Hotel: ${hotel.nameEn} (${packageBuilderState.hotelNights} noches) | Extras: ${selectedAddonNames.join(', ')} | Régimen: ${taxText} | Cotización: ${grandTotalText} | Notas: ${notes}`,
+        preferredLanguage: appState.currentLang
+      })
+    });
+
+    if (res.ok) {
+      if (statusEl) {
+        statusEl.innerHTML = `
+          <div style="background: rgba(32, 189, 90, 0.12); border: 1px solid #20BD5A; padding: 0.75rem; border-radius: 4px; color: #15803D; margin-top: 0.5rem;">
+            ✓ <strong>${isEs ? '¡Solicitud Recibida con Éxito!' : 'Bespoke Dossier Requested!'}</strong><br>
+            <span style="font-size:0.75rem;">${isEs ? 'Un arquitecto de viajes de Luxury Machupicchu elaborará su dossier en PDF y se contactará a su email en menos de 4 horas.' : 'A senior travel architect will calibrate your bespoke PDF dossier and email it to you within 4 hours.'}</span>
+          </div>
+        `;
+      }
+    } else {
+      throw new Error('API request failed');
+    }
+  } catch (err) {
+    if (statusEl) {
+      statusEl.innerHTML = `
+        <div style="background: rgba(197, 164, 126, 0.15); border: 1px solid var(--color-gold); padding: 0.75rem; border-radius: 4px; color: var(--color-obsidian); margin-top: 0.5rem;">
+          ✓ <strong>${isEs ? 'Solicitud registrada localmente' : 'Request registered'}</strong><br>
+          <span style="font-size:0.75rem;">${isEs ? 'Para confirmación inmediata, utilice el botón de WhatsApp arriba.' : 'For instant confirmation, dispatch directly via WhatsApp above.'}</span>
+        </div>
+      `;
+    }
+  }
 }
 
 function openClaimModal(type) {

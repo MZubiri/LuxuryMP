@@ -2767,6 +2767,17 @@ body.admin-body {
   box-sizing: border-box;
 }
 
+.modal-select {
+  cursor: pointer;
+  appearance: auto;
+}
+
+.modal-select option {
+  background-color: #14161C;
+  color: #FFFFFF;
+  padding: 8px 12px;
+}
+
 .modal-input:focus, .modal-select:focus, .modal-textarea:focus {
   outline: none;
   border-color: var(--admin-gold-bright);
@@ -3341,31 +3352,60 @@ body.admin-body {
 /* ==========================================================================
    CRUD TOURS & ITINERARIOS: HAUTE COUTURE MODAL EDITOR & ACTIONS
    ========================================================================== */
-.btn-gold-primary {
+.btn-gold-primary,
+.btn-primary-action {
   background: var(--admin-gold);
   color: #0A0B0E !important;
   font-family: 'Montserrat', sans-serif;
-  font-size: 0.72rem;
+  font-size: 0.74rem;
   font-weight: 600;
   letter-spacing: 0.06em;
-  padding: 0.45rem 1rem;
+  padding: 0.55rem 1.15rem;
   border: 1px solid var(--admin-gold);
   border-radius: 2px;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 0.45rem;
   transition: all 0.25s ease;
   box-shadow: 0 2px 10px rgba(197, 164, 126, 0.2);
   text-decoration: none;
 }
 
-.btn-gold-primary:hover {
+.btn-gold-primary:hover,
+.btn-primary-action:hover {
   background: var(--admin-gold-bright);
   border-color: var(--admin-gold-bright);
   transform: translateY(-1px);
   box-shadow: 0 4px 14px rgba(197, 164, 126, 0.35);
   color: #0A0B0E !important;
+}
+
+.btn-cancel {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--admin-border);
+  color: var(--admin-text-main);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.74rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  padding: 0.55rem 1.15rem;
+  border-radius: 2px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+.btn-cancel:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.25);
+  color: #FFFFFF;
+  transform: translateY(-1px);
 }
 
 .btn-dossier-action {
@@ -3705,6 +3745,137 @@ body.admin-body {
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
+}
+
+/* ==========================================================================
+   USUARIOS & ROLES SUB-TABS & RBAC STYLES
+   ========================================================================== */
+.users-roles-tabnav {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid var(--admin-border);
+  padding-bottom: 0.75rem;
+}
+
+.tab-subnav-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--admin-text-muted);
+  padding: 0.55rem 1.15rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.tab-subnav-btn:hover {
+  color: #FFFFFF;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.tab-subnav-btn.active {
+  color: #ECC38B;
+  background: rgba(200, 169, 107, 0.12);
+  border-color: rgba(200, 169, 107, 0.35);
+  font-weight: 600;
+}
+
+.perm-checkbox-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  padding: 0.55rem 0.75rem;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 3px;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.perm-checkbox-item:hover {
+  background: rgba(200, 169, 107, 0.06);
+  border-color: rgba(200, 169, 107, 0.25);
+}
+
+.perm-checkbox-item input[type="checkbox"] {
+  accent-color: var(--admin-gold);
+  width: 15px;
+  height: 15px;
+  margin-top: 2px;
+  cursor: pointer;
+}
+
+.perm-title {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #FFFFFF;
+}
+
+.perm-desc {
+  font-size: 0.68rem;
+  color: var(--admin-text-muted);
+  line-height: 1.3;
+}
+
+/* Badges de Roles */
+.role-badge-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 3px 9px;
+  border-radius: 3px;
+  font-size: 0.73rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.role-badge-admin {
+  background: rgba(200, 169, 107, 0.2);
+  color: #ECC38B;
+  border: 1px solid rgba(200, 169, 107, 0.4);
+}
+
+.role-badge-editor {
+  background: rgba(102, 177, 255, 0.15);
+  color: #8CC5FF;
+  border: 1px solid rgba(102, 177, 255, 0.35);
+}
+
+.role-badge-concierge {
+  background: rgba(103, 194, 58, 0.15);
+  color: #85CE61;
+  border: 1px solid rgba(103, 194, 58, 0.35);
+}
+
+.role-badge-finanzas {
+  background: rgba(186, 104, 200, 0.15);
+  color: #CE93D8;
+  border: 1px solid rgba(186, 104, 200, 0.35);
+}
+
+.role-badge-custom {
+  background: rgba(255, 255, 255, 0.08);
+  color: #E2E8F0;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.perm-chip {
+  display: inline-block;
+  padding: 2px 6px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 2px;
+  font-size: 0.67rem;
+  color: var(--admin-text-dim);
+  margin-right: 3px;
+  margin-bottom: 3px;
 }
 
 

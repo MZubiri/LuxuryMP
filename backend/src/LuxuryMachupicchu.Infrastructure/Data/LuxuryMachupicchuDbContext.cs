@@ -18,10 +18,39 @@ public class LuxuryMachupicchuDbContext : DbContext
     public DbSet<ContactMessage> ContactMessages => Set<ContactMessage>();
     public DbSet<Testimonial> Testimonials => Set<Testimonial>();
     public DbSet<AppUser> Users => Set<AppUser>();
+    public DbSet<AppRole> Roles => Set<AppRole>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+
+        modelBuilder.Entity<AppRole>(entity =>
+        {
+            entity.ToTable("roles");
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.Name).IsRequired().HasMaxLength(60);
+            entity.HasIndex(e => e.Name).IsUnique();
+            entity.Property(e => e.DisplayName).IsRequired().HasMaxLength(120);
+            entity.Property(e => e.Description).HasMaxLength(300);
+            entity.Property(e => e.Permissions).HasMaxLength(1000);
+        });
+
+        modelBuilder.Entity<AppUser>(entity =>
+        {
+            entity.ToTable("users");
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.Username).IsRequired().HasMaxLength(100);
+            entity.HasIndex(e => e.Username).IsUnique();
+            entity.Property(e => e.Email).IsRequired().HasMaxLength(150);
+            entity.Property(e => e.FullName).IsRequired().HasMaxLength(150);
+            entity.Property(e => e.PasswordHash).IsRequired().HasMaxLength(256);
+            entity.Property(e => e.Role).IsRequired().HasMaxLength(50);
+
+            entity.HasOne(e => e.AppRole)
+                  .WithMany(r => r.Users)
+                  .HasForeignKey(e => e.RoleId)
+                  .OnDelete(DeleteBehavior.SetNull);
+        });
 
         modelBuilder.Entity<Category>(entity =>
         {
@@ -98,15 +127,5 @@ public class LuxuryMachupicchuDbContext : DbContext
             entity.Property(e => e.OriginCountry).HasMaxLength(120);
         });
 
-        modelBuilder.Entity<AppUser>(entity =>
-        {
-            entity.HasKey(e => e.Id);
-            entity.Property(e => e.Username).IsRequired().HasMaxLength(100);
-            entity.HasIndex(e => e.Username).IsUnique();
-            entity.Property(e => e.Email).IsRequired().HasMaxLength(150);
-            entity.Property(e => e.FullName).IsRequired().HasMaxLength(150);
-            entity.Property(e => e.PasswordHash).IsRequired().HasMaxLength(256);
-            entity.Property(e => e.Role).IsRequired().HasMaxLength(50);
-        });
     }
 }

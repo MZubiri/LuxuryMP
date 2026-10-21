@@ -30,6 +30,7 @@ desktop.ini
 logs/
 temp/
 tmp/
+scratch/
 
 # Node dependencies (if any)
 node_modules/

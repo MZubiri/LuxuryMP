@@ -40,7 +40,11 @@ const adminState = {
   
   // Gestión de Usuarios & Roles
   users: [],
+  roles: [],
+  activeUsersSubTab: 'users',
   editingUserId: null,
+  editingRoleId: null,
+  assigningUserId: null,
 
   // Cotizador Bespoke
   quotationItems: [],
@@ -368,7 +372,8 @@ async function initAdminApp() {
     loadDashboardData(),
     loadBookingsData(),
     loadToursData(),
-    loadConciergeData()
+    loadConciergeData(),
+    loadRolesData()
   ]);
 }
 
@@ -442,7 +447,7 @@ function switchAdminView(viewName) {
   if (viewName === 'bookings') loadBookingsData();
   if (viewName === 'itineraries') loadToursData();
   if (viewName === 'concierge') loadConciergeData();
-  if (viewName === 'users') loadUsersData();
+  if (viewName === 'users') refreshUsersAndRoles();
   if (viewName === 'payments') {
     loadBookingsData().then(() => updatePaymentsBanner());
   }
@@ -2320,13 +2325,350 @@ async function deleteConciergeInquiry(id) {
 // ============================================================================
 // VISTA 6: GESTIÓN DE USUARIOS & ROLES (CRUD ADMINISTRATOR)
 // ============================================================================
-async function loadUsersData() {
+async function refreshUsersAndRoles() {
   if (adminState.currentUser?.role === 'Editor') {
     showToast('Acceso restringido: Se requieren privilegios de Administrador para gestionar usuarios.', 'error');
     switchAdminView('dashboard');
     return;
   }
 
+  await Promise.all([
+    loadUsersData(),
+    loadRolesData()
+  ]);
+}
+
+// Alternar entre Sub-Pestaña de Usuarios y Sub-Pestaña de Roles
+function switchUserRolesTab(tab) {
+  adminState.activeUsersSubTab = tab;
+
+  const btnTabUsers = document.getElementById('tabNavUsers');
+  const btnTabRoles = document.getElementById('tabNavRoles');
+  const containerUsers = document.getElementById('subtabContainerUsers');
+  const containerRoles = document.getElementById('subtabContainerRoles');
+  const btnHeaderUser = document.getElementById('btnHeaderNewUser');
+  const btnHeaderRole = document.getElementById('btnHeaderNewRole');
+
+  if (tab === 'users') {
+    if (btnTabUsers) btnTabUsers.classList.add('active');
+    if (btnTabRoles) btnTabRoles.classList.remove('active');
+    if (containerUsers) containerUsers.style.display = 'block';
+    if (containerRoles) containerRoles.style.display = 'none';
+    if (btnHeaderUser) btnHeaderUser.style.display = 'inline-flex';
+    if (btnHeaderRole) btnHeaderRole.style.display = 'none';
+    loadUsersData();
+  } else {
+    if (btnTabUsers) btnTabUsers.classList.remove('active');
+    if (btnTabRoles) btnTabRoles.classList.add('active');
+    if (containerUsers) containerUsers.style.display = 'none';
+    if (containerRoles) containerRoles.style.display = 'block';
+    if (btnHeaderUser) btnHeaderUser.style.display = 'none';
+    if (btnHeaderRole) btnHeaderRole.style.display = 'inline-flex';
+    loadRolesData();
+  }
+}
+
+// ============================================================================
+// GESTIÓN DE ROLES (CRUD DE ROLES RBAC)
+// ============================================================================
+async function loadRolesData() {
+  const tbody = document.getElementById('rolesTableBody');
+  if (tbody) {
+    tbody.innerHTML = '<tr><td colspan="8" style="text-align:center; padding: 2.5rem; color: var(--admin-text-dim);">Cargando catálogo de roles...</td></tr>';
+  }
+
+  try {
+    const res = await apiFetch('/roles');
+    if (!res.ok) throw new Error('Error al consultar roles');
+    const roles = await res.json();
+    adminState.roles = Array.isArray(roles) ? roles : [];
+
+    const badge = document.getElementById('tabRolesCountBadge');
+    if (badge) badge.textContent = adminState.roles.length;
+
+    renderRolesTable(adminState.roles);
+    populateRoleSelectOptions();
+    renderActiveRolesChips(adminState.roles);
+  } catch (err) {
+    console.error('Error fetching roles:', err);
+    showToast('No se pudo cargar el catálogo de roles.', 'error');
+    if (tbody) {
+      tbody.innerHTML = '<tr><td colspan="8" style="text-align:center; padding: 2.5rem; color: #ff6b6b;">Error al cargar la lista de roles.</td></tr>';
+    }
+  }
+}
+
+function getRoleBadgeClass(roleName) {
+  const r = (roleName || '').toLowerCase();
+  if (r.includes('admin')) return 'role-badge-admin';
+  if (r.includes('editor')) return 'role-badge-editor';
+  if (r.includes('concierge')) return 'role-badge-concierge';
+  if (r.includes('finanz') || r.includes('contad')) return 'role-badge-finanzas';
+  return 'role-badge-custom';
+}
+
+function renderRolesTable(roles) {
+  const tbody = document.getElementById('rolesTableBody');
+  if (!tbody) return;
+
+  if (!roles || roles.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="8" style="text-align:center; padding: 2.5rem; color: var(--admin-text-dim);">No hay roles registrados en el sistema.</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = roles.map(r => {
+    const badgeClass = getRoleBadgeClass(r.name);
+    const systemBadge = r.isSystemRole 
+      ? '<span class="status-pill status-pill-active" style="background: rgba(200, 169, 107, 0.15); border-color: rgba(200, 169, 107, 0.4); color: #ECC38B; font-size: 0.68rem; padding: 2px 7px;">🔒 Sistema</span>'
+      : '<span class="status-pill status-pill-contacted" style="font-size: 0.68rem; padding: 2px 7px;">Personalizado</span>';
+
+    const permissionsChips = (r.permissions && r.permissions.length > 0)
+      ? r.permissions.map(p => `<span class="perm-chip">${escapeHtml(p)}</span>`).join('')
+      : '<span style="color: var(--admin-text-dim); font-size: 0.72rem;">Sin permisos especiales</span>';
+
+    return `
+      <tr>
+        <td style="color: var(--admin-text-dim); font-size: 0.8rem;">#${r.id}</td>
+        <td>
+          <span class="role-badge-tag ${badgeClass}">${escapeHtml(r.name)}</span>
+        </td>
+        <td>
+          <strong style="color: #FFFFFF; font-size: 0.85rem;">${escapeHtml(r.displayName)}</strong>
+        </td>
+        <td style="color: var(--admin-text-muted); font-size: 0.78rem; max-width: 240px; line-height: 1.35;">
+          ${escapeHtml(r.description || '—')}
+        </td>
+        <td style="max-width: 280px;">
+          <div style="display: flex; flex-wrap: wrap;">
+            ${permissionsChips}
+          </div>
+        </td>
+        <td style="text-align: center;">
+          <span style="font-weight: 700; color: ${r.usersCount > 0 ? '#ECC38B' : 'var(--admin-text-dim)'}; font-size: 0.85rem;">
+            ${r.usersCount}
+          </span>
+        </td>
+        <td>${systemBadge}</td>
+        <td style="text-align: right;">
+          <div style="display: flex; gap: 0.35rem; justify-content: flex-end;">
+            <button type="button" class="btn-table-action" onclick="openRoleEditModal(${r.id})" title="Editar Rol & Privilegios">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+            </button>
+            ${!r.isSystemRole ? `
+              <button type="button" class="btn-table-action btn-table-delete" onclick="deleteRolePrompt(${r.id}, '${escapeHtml(r.displayName)}')" title="Eliminar Rol">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+              </button>
+            ` : ''}
+          </div>
+        </td>
+      </tr>
+    `;
+  }).join('');
+}
+
+function renderActiveRolesChips(roles) {
+  const container = document.getElementById('activeRolesOverviewChips');
+  if (!container || !roles || roles.length === 0) return;
+
+  container.innerHTML = roles.map(r => {
+    const badgeClass = getRoleBadgeClass(r.name);
+    return `
+      <div style="display: flex; flex-direction: column; gap: 3px;">
+        <span class="role-badge-tag ${badgeClass}" style="width: fit-content;">${escapeHtml(r.displayName)}</span>
+        <span style="font-size: 0.72rem; color: var(--admin-text-dim); max-width: 220px; line-height: 1.25;">
+          ${escapeHtml(r.description || '')} (${r.usersCount} usuario(s))
+        </span>
+      </div>
+    `;
+  }).join('');
+}
+
+function populateRoleSelectOptions() {
+  const userRoleSelect = document.getElementById('userFormRole');
+  const assignRoleSelect = document.getElementById('assignRoleSelect');
+
+  // Fallback al catálogo de roles estándar si la API aún no los descargó en memoria
+  const roles = (adminState.roles && adminState.roles.length > 0) ? adminState.roles : [
+    { id: 1, name: 'Administrator', displayName: 'Administrador', description: 'Acceso total y privilegios ilimitados en el Atelier' },
+    { id: 2, name: 'Editor', displayName: 'Editor de Contenido', description: 'Gestión de catálogo de expediciones e itinerarios' },
+    { id: 3, name: 'Concierge', displayName: 'Concierge & Expediciones', description: 'Atención personalizada y cotizaciones bespoke' },
+    { id: 4, name: 'Finanzas', displayName: 'Finanzas & Facturación', description: 'Supervisión de estados de cuenta y comprobantes IGV' }
+  ];
+
+  const optionsHtml = roles.map(r => 
+    `<option value="${r.id}" data-name="${escapeHtml(r.name)}" data-desc="${escapeHtml(r.description || '')}">${escapeHtml(r.displayName)} [${r.name}]</option>`
+  ).join('');
+
+  if (userRoleSelect) {
+    const prevVal = userRoleSelect.value;
+    userRoleSelect.innerHTML = optionsHtml;
+    if (prevVal && roles.some(r => String(r.id) === String(prevVal))) {
+      userRoleSelect.value = prevVal;
+    } else {
+      const defaultRole = roles.find(r => r.name.toLowerCase() === 'editor') || roles[0];
+      if (defaultRole) userRoleSelect.value = String(defaultRole.id);
+    }
+  }
+
+  if (assignRoleSelect) {
+    const prevVal = assignRoleSelect.value;
+    assignRoleSelect.innerHTML = optionsHtml;
+    if (prevVal && roles.some(r => String(r.id) === String(prevVal))) {
+      assignRoleSelect.value = prevVal;
+    } else if (roles.length > 0) {
+      assignRoleSelect.value = String(roles[0].id);
+    }
+
+    assignRoleSelect.onchange = () => {
+      const selectedOpt = assignRoleSelect.selectedOptions[0];
+      const descBox = document.getElementById('assignRoleDescPreview');
+      if (descBox && selectedOpt) {
+        descBox.textContent = selectedOpt.getAttribute('data-desc') || 'Sin descripción especial para este rol.';
+      }
+    };
+
+    if (assignRoleSelect.options.length > 0) {
+      assignRoleSelect.dispatchEvent(new Event('change'));
+    }
+  }
+}
+
+// Modal Crear Rol
+function openRoleCreateModal() {
+  adminState.editingRoleId = null;
+  document.getElementById('roleFormId').value = '';
+  document.getElementById('roleFormName').value = '';
+  document.getElementById('roleFormName').disabled = false;
+  document.getElementById('roleFormDisplayName').value = '';
+  document.getElementById('roleFormDescription').value = '';
+  document.getElementById('roleModalKicker').textContent = 'CONTROL DE ACCESO RBAC';
+  document.getElementById('roleModalTitle').textContent = 'Crear Nuevo Rol';
+  document.getElementById('btnSaveRoleSubmit').textContent = '💾 Crear Rol';
+
+  selectAllRolePerms(false);
+  openAdminModal('roleEditorModal');
+}
+
+// Modal Editar Rol
+function openRoleEditModal(roleId) {
+  const role = adminState.roles.find(r => r.id === roleId);
+  if (!role) {
+    showToast('Rol no encontrado.', 'error');
+    return;
+  }
+
+  adminState.editingRoleId = roleId;
+  document.getElementById('roleFormId').value = role.id;
+  document.getElementById('roleFormName').value = role.name;
+  document.getElementById('roleFormName').disabled = Boolean(role.isSystemRole); // Bloquear si es de sistema
+  document.getElementById('roleFormDisplayName').value = role.displayName;
+  document.getElementById('roleFormDescription').value = role.description || '';
+  document.getElementById('roleModalKicker').textContent = role.isSystemRole ? 'ROL PROTEGIDO DEL SISTEMA' : 'ROL PERSONALIZADO';
+  document.getElementById('roleModalTitle').textContent = `Editar Rol: ${role.displayName}`;
+  document.getElementById('btnSaveRoleSubmit').textContent = '💾 Guardar Cambios';
+
+  // Marcar permisos del rol
+  const permChks = document.querySelectorAll('.perm-chk');
+  permChks.forEach(chk => {
+    chk.checked = Array.isArray(role.permissions) && role.permissions.includes(chk.value);
+  });
+
+  openAdminModal('roleEditorModal');
+}
+
+function selectAllRolePerms(selectAll) {
+  document.querySelectorAll('.perm-chk').forEach(chk => {
+    chk.checked = selectAll;
+  });
+}
+
+async function handleRoleFormSubmit(event) {
+  event.preventDefault();
+  const id = document.getElementById('roleFormId').value;
+  const name = document.getElementById('roleFormName').value.trim();
+  const displayName = document.getElementById('roleFormDisplayName').value.trim();
+  const description = document.getElementById('roleFormDescription').value.trim();
+
+  const selectedPerms = [];
+  document.querySelectorAll('.perm-chk:checked').forEach(chk => {
+    selectedPerms.push(chk.value);
+  });
+
+  const btn = document.getElementById('btnSaveRoleSubmit');
+  const originalText = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = 'Guardando...';
+
+  try {
+    let res;
+    if (id) {
+      // Actualizar
+      const payload = {
+        name,
+        displayName,
+        description,
+        permissions: selectedPerms
+      };
+      res = await apiFetch(`/roles/${id}`, {
+        method: 'PUT',
+        body: JSON.stringify(payload)
+      });
+    } else {
+      // Crear
+      const payload = {
+        name,
+        displayName,
+        description,
+        permissions: selectedPerms
+      };
+      res = await apiFetch('/roles', {
+        method: 'POST',
+        body: JSON.stringify(payload)
+      });
+    }
+
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.message || 'Error al procesar el rol.');
+    }
+
+    closeAdminModal('roleEditorModal');
+    showToast(id ? 'Rol actualizado exitosamente.' : 'Rol creado exitosamente.', 'success');
+    await loadRolesData();
+    await loadUsersData();
+  } catch (err) {
+    console.error('Error saving role:', err);
+    showToast(err.message || 'Error al guardar rol.', 'error');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = originalText;
+  }
+}
+
+async function deleteRolePrompt(id, displayName) {
+  if (!confirm(`¿Está seguro de que desea eliminar el rol "${displayName}" (#${id})? Esta acción no se puede deshacer.`)) {
+    return;
+  }
+
+  try {
+    const res = await apiFetch(`/roles/${id}`, { method: 'DELETE' });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.message || 'Error al eliminar el rol');
+    }
+
+    showToast(`Rol "${displayName}" eliminado exitosamente.`, 'info');
+    await loadRolesData();
+  } catch (err) {
+    console.error('Error deleting role:', err);
+    showToast(err.message || 'No se pudo eliminar el rol.', 'error');
+  }
+}
+
+// ============================================================================
+// GESTIÓN DE USUARIOS Y ASIGNACIÓN DE ROLES
+// ============================================================================
+async function loadUsersData() {
   const tbody = document.getElementById('usersTableBody');
   if (tbody) {
     tbody.innerHTML = '<tr><td colspan="9" style="text-align:center; padding: 2.5rem; color: var(--admin-text-dim);">Cargando usuarios del Atelier...</td></tr>';
@@ -2337,6 +2679,10 @@ async function loadUsersData() {
     if (!res.ok) throw new Error('Error al consultar usuarios');
     const users = await res.json();
     adminState.users = Array.isArray(users) ? users : [];
+
+    const badge = document.getElementById('tabUsersCountBadge');
+    if (badge) badge.textContent = adminState.users.length;
+
     renderUsersTable(adminState.users);
   } catch (err) {
     console.error('Error fetching users:', err);
@@ -2357,13 +2703,12 @@ function renderUsersTable(users) {
   }
 
   tbody.innerHTML = users.map(u => {
-    const roleBadge = u.role === 'Administrator' 
-      ? '<span class="badge-tag-mini badge-role-admin">Administrator</span>'
-      : '<span class="badge-tag-mini badge-role-editor">Editor</span>';
+    const roleBadgeClass = getRoleBadgeClass(u.role);
+    const roleDisplay = u.roleDisplayName || u.role;
 
     const statusBadge = u.isActive
-      ? '<span class="badge-tag-mini badge-status-active">● Activo</span>'
-      : '<span class="badge-tag-mini badge-status-inactive">✕ Inactivo</span>';
+      ? '<span class="status-pill status-pill-confirmed" style="font-size:0.72rem; padding: 2px 7px;"><span class="status-indicator-dot status-pill-confirmed"></span>Activo</span>'
+      : '<span class="status-pill status-pill-cancelled" style="font-size:0.72rem; padding: 2px 7px;"><span class="status-indicator-dot status-pill-cancelled"></span>Inactivo</span>';
 
     const isCurrent = adminState.currentUser?.username === u.username;
 
@@ -2376,13 +2721,23 @@ function renderUsersTable(users) {
         </td>
         <td style="color: var(--admin-text-main); font-size: 0.85rem;">${escapeHtml(u.fullName || '—')}</td>
         <td style="color: var(--admin-text-muted); font-size: 0.82rem;">${escapeHtml(u.email)}</td>
-        <td>${roleBadge}</td>
+        <td>
+          <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <span class="role-badge-tag ${roleBadgeClass}" style="cursor: pointer;" onclick="openAssignRoleModal(${u.id})" title="Haga clic para cambiar el rol">
+              ${escapeHtml(roleDisplay)}
+            </span>
+            <button type="button" class="btn-table-action" onclick="openAssignRoleModal(${u.id})" title="Asignar o Cambiar Rol" style="padding: 2px 6px; font-size: 0.68rem; color: var(--admin-gold);">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+              Asignar
+            </button>
+          </div>
+        </td>
         <td>${statusBadge}</td>
         <td style="color: var(--admin-text-dim); font-size: 0.78rem;">${formatDate(u.createdAt)}</td>
         <td style="color: var(--admin-text-dim); font-size: 0.78rem;">${u.lastLoginAt ? formatDate(u.lastLoginAt) : 'Nunca'}</td>
         <td style="text-align: right;">
           <div style="display: flex; gap: 0.35rem; justify-content: flex-end;">
-            <button type="button" class="btn-table-action" onclick="openUserEditModal(${u.id})" title="Editar Credenciales y Permisos">
+            <button type="button" class="btn-table-action" onclick="openUserEditModal(${u.id})" title="Editar Credenciales y Perfil">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
             </button>
             ${!isCurrent ? `
@@ -2397,14 +2752,116 @@ function renderUsersTable(users) {
   }).join('');
 }
 
-function openUserCreateModal() {
+// Modal para Asignar Rol Directo a Usuario
+async function openAssignRoleModal(userId) {
+  const user = adminState.users.find(u => u.id === userId);
+  if (!user) {
+    showToast('Usuario no encontrado.', 'error');
+    return;
+  }
+
+  if (!adminState.roles || adminState.roles.length === 0) {
+    try {
+      await loadRolesData();
+    } catch (e) {
+      console.warn('Fallback cargando roles...', e);
+    }
+  }
+
+  adminState.assigningUserId = userId;
+  document.getElementById('assignRoleUserId').value = user.id;
+  document.getElementById('assignRoleUserFullName').textContent = user.fullName || user.username;
+  document.getElementById('assignRoleUserEmail').textContent = user.email;
+
+  const avatar = document.getElementById('assignRoleUserAvatar');
+  if (avatar) {
+    const initials = (user.fullName || user.username).split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
+    avatar.textContent = initials || 'US';
+  }
+
+  const currentBadge = document.getElementById('assignRoleCurrentBadge');
+  if (currentBadge) {
+    currentBadge.textContent = user.roleDisplayName || user.role;
+    currentBadge.className = `role-badge-tag ${getRoleBadgeClass(user.role)}`;
+  }
+
+  // Poblar select de roles y seleccionar el actual
+  populateRoleSelectOptions();
+  const select = document.getElementById('assignRoleSelect');
+  if (select) {
+    if (user.roleId) {
+      select.value = String(user.roleId);
+    } else {
+      const matchRole = (adminState.roles || []).find(r => r.name.toLowerCase() === (user.role || '').toLowerCase());
+      if (matchRole) select.value = String(matchRole.id);
+    }
+    // Disparar evento para actualizar vista previa
+    select.dispatchEvent(new Event('change'));
+  }
+
+  openAdminModal('assignUserRoleModal');
+}
+
+async function handleAssignRoleSubmit(event) {
+  event.preventDefault();
+  const userId = document.getElementById('assignRoleUserId').value;
+  const roleSelect = document.getElementById('assignRoleSelect');
+  const roleId = Number(roleSelect.value);
+
+  if (!userId || !roleId) {
+    showToast('Debe seleccionar un rol válido.', 'warning');
+    return;
+  }
+
+  const btn = document.getElementById('btnSubmitAssignRole');
+  const originalText = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = 'Asignando...';
+
+  try {
+    const res = await apiFetch(`/users/${userId}/role`, {
+      method: 'PUT',
+      body: JSON.stringify({ roleId })
+    });
+
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.message || 'Error al asignar el rol');
+    }
+
+    const data = await res.json();
+    closeAdminModal('assignUserRoleModal');
+    showToast(data.message || 'Rol asignado exitosamente.', 'success');
+    await loadUsersData();
+    await loadRolesData();
+  } catch (err) {
+    console.error('Error assigning role:', err);
+    showToast(err.message || 'No se pudo asignar el rol.', 'error');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = originalText;
+  }
+}
+
+// Modal Crear Usuario
+async function openUserCreateModal() {
   adminState.editingUserId = null;
+
+  if (!adminState.roles || adminState.roles.length === 0) {
+    try {
+      await loadRolesData();
+    } catch (e) {
+      console.warn('Fallback cargando roles...', e);
+    }
+  }
+
+  populateRoleSelectOptions();
+
   document.getElementById('userFormId').value = '';
   document.getElementById('userFormFullName').value = '';
   document.getElementById('userFormUsername').value = '';
   document.getElementById('userFormUsername').disabled = false;
   document.getElementById('userFormEmail').value = '';
-  document.getElementById('userFormRole').value = 'Editor';
   document.getElementById('userFormIsActive').checked = true;
   document.getElementById('userFormPassword').value = '';
   document.getElementById('userFormPassword').required = true;
@@ -2413,23 +2870,53 @@ function openUserCreateModal() {
   document.getElementById('userModalTitle').textContent = 'Crear Nuevo Usuario';
   document.getElementById('btnSaveUserSubmit').textContent = '💾 Crear Usuario';
 
+  const userRoleSelect = document.getElementById('userFormRole');
+  if (userRoleSelect) {
+    const defaultRole = (adminState.roles || []).find(r => r.name.toLowerCase() === 'editor') || 
+                        (adminState.roles && adminState.roles[0]);
+    if (defaultRole) {
+      userRoleSelect.value = String(defaultRole.id);
+    }
+  }
+
   openAdminModal('userEditorModal');
 }
 
-function openUserEditModal(id) {
+// Modal Editar Usuario
+async function openUserEditModal(id) {
   const user = adminState.users.find(u => u.id === id);
   if (!user) {
     showToast('Usuario no encontrado', 'error');
     return;
   }
 
+  if (!adminState.roles || adminState.roles.length === 0) {
+    try {
+      await loadRolesData();
+    } catch (e) {
+      console.warn('Fallback cargando roles...', e);
+    }
+  }
+
+  populateRoleSelectOptions();
   adminState.editingUserId = id;
   document.getElementById('userFormId').value = user.id;
   document.getElementById('userFormFullName').value = user.fullName || '';
   document.getElementById('userFormUsername').value = user.username;
   document.getElementById('userFormUsername').disabled = true; // username inmutable
   document.getElementById('userFormEmail').value = user.email;
-  document.getElementById('userFormRole').value = user.role;
+
+  // Seleccionar rol por roleId o nombre
+  const userRoleSelect = document.getElementById('userFormRole');
+  if (userRoleSelect) {
+    if (user.roleId) {
+      userRoleSelect.value = String(user.roleId);
+    } else {
+      const matchRole = (adminState.roles || []).find(r => r.name.toLowerCase() === (user.role || '').toLowerCase());
+      if (matchRole) userRoleSelect.value = String(matchRole.id);
+    }
+  }
+
   document.getElementById('userFormIsActive').checked = user.isActive;
   document.getElementById('userFormPassword').value = '';
   document.getElementById('userFormPassword').required = false;
@@ -2447,7 +2934,13 @@ async function handleUserFormSubmit(event) {
   const fullName = document.getElementById('userFormFullName').value.trim();
   const username = document.getElementById('userFormUsername').value.trim();
   const email = document.getElementById('userFormEmail').value.trim();
-  const role = document.getElementById('userFormRole').value;
+  const roleSelect = document.getElementById('userFormRole');
+  const roleId = Number(roleSelect.value);
+  const selectedRoleObj = (adminState.roles || []).find(r => r.id === roleId);
+  const selectedRoleOption = roleSelect.selectedOptions[0];
+  const roleNameFromAttr = selectedRoleOption ? selectedRoleOption.getAttribute('data-name') : null;
+  const role = selectedRoleObj ? selectedRoleObj.name : (roleNameFromAttr || 'Editor');
+
   const isActive = document.getElementById('userFormIsActive').checked;
   const password = document.getElementById('userFormPassword').value;
 
@@ -2464,6 +2957,7 @@ async function handleUserFormSubmit(event) {
         fullName,
         email,
         role,
+        roleId,
         isActive,
         password: password || null
       };
@@ -2479,6 +2973,7 @@ async function handleUserFormSubmit(event) {
         fullName,
         password,
         role,
+        roleId,
         isActive
       };
       res = await apiFetch('/users', {
@@ -2495,6 +2990,7 @@ async function handleUserFormSubmit(event) {
     closeAdminModal('userEditorModal');
     showToast(id ? 'Usuario actualizado exitosamente.' : 'Usuario registrado exitosamente.', 'success');
     await loadUsersData();
+    await loadRolesData();
   } catch (err) {
     console.error('Error saving user:', err);
     showToast(err.message || 'Error al guardar usuario.', 'error');
@@ -2518,6 +3014,7 @@ async function deleteUserPrompt(id, username) {
 
     showToast(`Usuario "${username}" eliminado.`, 'info');
     await loadUsersData();
+    await loadRolesData();
   } catch (err) {
     console.error('Error deleting user:', err);
     showToast(err.message || 'No se pudo eliminar el usuario.', 'error');

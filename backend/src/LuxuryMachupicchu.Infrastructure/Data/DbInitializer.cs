@@ -843,14 +843,64 @@ public static class DbInitializer
             // Table may already exist or running in-memory provider
         }
 
+        if (!await context.Roles.AnyAsync())
+        {
+            var adminRole = new AppRole
+            {
+                Name = "Administrator",
+                DisplayName = "Directorio Concierge Master",
+                Description = "Acceso irrestricto: Gestión completa de usuarios, roles, tours, finanzas y configuración general del Atelier.",
+                Permissions = "[\"dashboard\",\"bookings\",\"concierge\",\"tours\",\"users\",\"roles\",\"media\",\"contacts\",\"testimonials\"]",
+                IsSystemRole = true,
+                CreatedAt = DateTime.UtcNow
+            };
+
+            var editorRole = new AppRole
+            {
+                Name = "Editor",
+                DisplayName = "Curador de Expediciones & Viajes",
+                Description = "Diseño de itinerarios, consulta de reservas y cotización bespoke de propuestas.",
+                Permissions = "[\"tours\",\"bookings:read\",\"concierge\"]",
+                IsSystemRole = true,
+                CreatedAt = DateTime.UtcNow
+            };
+
+            var conciergeRole = new AppRole
+            {
+                Name = "Concierge",
+                DisplayName = "Concierge VIP & Operaciones",
+                Description = "Seguimiento personalizado de huéspedes vía WhatsApp, gestión de reservas y vouchers de viaje.",
+                Permissions = "[\"bookings\",\"concierge\",\"contacts\"]",
+                IsSystemRole = false,
+                CreatedAt = DateTime.UtcNow
+            };
+
+            var financeRole = new AppRole
+            {
+                Name = "Finanzas",
+                DisplayName = "Administración & Finanzas",
+                Description = "Supervisión de métricas financieras, validación de pagos, depósitos de garantía y régimen tributario IGV.",
+                Permissions = "[\"dashboard\",\"bookings:read\",\"payments\"]",
+                IsSystemRole = false,
+                CreatedAt = DateTime.UtcNow
+            };
+
+            await context.Roles.AddRangeAsync(adminRole, editorRole, conciergeRole, financeRole);
+            await context.SaveChangesAsync();
+        }
+
         if (!await context.Users.AnyAsync())
         {
+            var adminRole = await context.Roles.FirstOrDefaultAsync(r => r.Name == "Administrator");
+            var editorRole = await context.Roles.FirstOrDefaultAsync(r => r.Name == "Editor");
+
             var adminUser = new AppUser
             {
                 Username = "concierge@luxurymachupicchu.com",
                 Email = "concierge@luxurymachupicchu.com",
                 FullName = "Directorio Concierge Master",
                 Role = "Administrator",
+                RoleId = adminRole?.Id,
                 PasswordHash = PasswordHasher.HashPassword("MachuPicchuLuxury2026!"),
                 IsActive = true,
                 CreatedAt = DateTime.UtcNow
@@ -862,6 +912,7 @@ public static class DbInitializer
                 Email = "editor@luxurymachupicchu.com",
                 FullName = "Editor de Curaduría & Expediciones",
                 Role = "Editor",
+                RoleId = editorRole?.Id,
                 PasswordHash = PasswordHasher.HashPassword("LuxuryEditor2026!"),
                 IsActive = true,
                 CreatedAt = DateTime.UtcNow

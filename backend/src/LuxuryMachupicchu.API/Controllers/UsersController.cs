@@ -24,13 +24,14 @@ public class UsersController : ControllerBase
     }
 
     /// <summary>
-    /// Lists all system users (Administrator & Editor).
+    /// Lists all system users with their assigned roles.
     /// </summary>
     [HttpGet]
     public async Task<ActionResult<List<UserDto>>> GetUsers()
     {
         var users = await _context.Users
             .AsNoTracking()
+            .Include(u => u.AppRole)
             .OrderBy(u => u.Id)
             .Select(u => new UserDto
             {
@@ -39,6 +40,8 @@ public class UsersController : ControllerBase
                 Email = u.Email,
                 FullName = u.FullName,
                 Role = u.Role,
+                RoleId = u.RoleId,
+                RoleDisplayName = u.AppRole != null ? u.AppRole.DisplayName : u.Role,
                 IsActive = u.IsActive,
                 CreatedAt = u.CreatedAt,
                 LastLoginAt = u.LastLoginAt
@@ -54,7 +57,10 @@ public class UsersController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<UserDto>> GetUserById(int id)
     {
-        var user = await _context.Users.FindAsync(id);
+        var user = await _context.Users
+            .Include(u => u.AppRole)
+            .FirstOrDefaultAsync(u => u.Id == id);
+
         if (user == null)
         {
             return NotFound(new { message = $"Usuario #{id} no encontrado." });
@@ -67,6 +73,8 @@ public class UsersController : ControllerBase
             Email = user.Email,
             FullName = user.FullName,
             Role = user.Role,
+            RoleId = user.RoleId,
+            RoleDisplayName = user.AppRole != null ? user.AppRole.DisplayName : user.Role,
             IsActive = user.IsActive,
             CreatedAt = user.CreatedAt,
             LastLoginAt = user.LastLoginAt
@@ -74,7 +82,7 @@ public class UsersController : ControllerBase
     }
 
     /// <summary>
-    /// Creates a new system user with Administrator or Editor role.
+    /// Creates a new system user and assigns a role.
     /// </summary>
     [HttpPost]
     public async Task<ActionResult<UserDto>> CreateUser([FromBody] CreateUserDto dto)
@@ -92,16 +100,35 @@ public class UsersController : ControllerBase
             return Conflict(new { message = "El nombre de usuario o correo electrónico ya se encuentra registrado." });
         }
 
-        var normalizedRole = dto.Role.Equals("Administrator", StringComparison.OrdinalIgnoreCase)
-            ? "Administrator"
-            : "Editor";
+        // Resolve Role by RoleId or Role Name
+        AppRole? role = null;
+        if (dto.RoleId.HasValue && dto.RoleId.Value > 0)
+        {
+            role = await _context.Roles.FindAsync(dto.RoleId.Value);
+        }
+
+        if (role == null && !string.IsNullOrWhiteSpace(dto.Role))
+        {
+            role = await _context.Roles.FirstOrDefaultAsync(r => r.Name.ToLower() == dto.Role.Trim().ToLower());
+        }
+
+        // Fallback default
+        if (role == null)
+        {
+            role = await _context.Roles.FirstOrDefaultAsync(r => r.Name == "Editor")
+                   ?? await _context.Roles.FirstOrDefaultAsync();
+        }
+
+        var roleName = role?.Name ?? (string.IsNullOrWhiteSpace(dto.Role) ? "Editor" : dto.Role.Trim());
+        var roleDisplayName = role?.DisplayName ?? roleName;
 
         var user = new AppUser
         {
             Username = normalizedUser,
             Email = normalizedEmail,
             FullName = dto.FullName.Trim(),
-            Role = normalizedRole,
+            Role = roleName,
+            RoleId = role?.Id,
             PasswordHash = PasswordHasher.HashPassword(dto.Password),
             IsActive = true,
             CreatedAt = DateTime.UtcNow
@@ -119,6 +146,8 @@ public class UsersController : ControllerBase
             Email = user.Email,
             FullName = user.FullName,
             Role = user.Role,
+            RoleId = user.RoleId,
+            RoleDisplayName = roleDisplayName,
             IsActive = user.IsActive,
             CreatedAt = user.CreatedAt,
             LastLoginAt = user.LastLoginAt
@@ -131,7 +160,7 @@ public class UsersController : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateUser(int id, [FromBody] UpdateUserDto dto)
     {
-        var user = await _context.Users.FindAsync(id);
+        var user = await _context.Users.Include(u => u.AppRole).FirstOrDefaultAsync(u => u.Id == id);
         if (user == null)
         {
             return NotFound(new { message = $"Usuario #{id} no encontrado." });
@@ -164,14 +193,17 @@ public class UsersController : ControllerBase
             user.FullName = dto.FullName.Trim();
         }
 
-        if (!string.IsNullOrWhiteSpace(dto.Role))
+        // Role resolution
+        if (dto.RoleId.HasValue && dto.RoleId.Value > 0)
         {
-            var targetRole = dto.Role.Equals("Administrator", StringComparison.OrdinalIgnoreCase)
-                ? "Administrator"
-                : "Editor";
+            var targetRole = await _context.Roles.FindAsync(dto.RoleId.Value);
+            if (targetRole == null)
+            {
+                return BadRequest(new { message = $"El rol con ID #{dto.RoleId.Value} no existe." });
+            }
 
             // Prevent demoting the master administrator if it's the only one
-            if (user.Role == "Administrator" && targetRole == "Editor")
+            if (user.Role == "Administrator" && targetRole.Name != "Administrator")
             {
                 var adminCount = await _context.Users.CountAsync(u => u.Role == "Administrator" && u.IsActive);
                 if (adminCount <= 1)
@@ -180,7 +212,26 @@ public class UsersController : ControllerBase
                 }
             }
 
-            user.Role = targetRole;
+            user.RoleId = targetRole.Id;
+            user.Role = targetRole.Name;
+        }
+        else if (!string.IsNullOrWhiteSpace(dto.Role))
+        {
+            var targetRole = await _context.Roles.FirstOrDefaultAsync(r => r.Name.ToLower() == dto.Role.Trim().ToLower());
+            var roleName = targetRole?.Name ?? dto.Role.Trim();
+
+            // Prevent demoting the master administrator if it's the only one
+            if (user.Role == "Administrator" && roleName != "Administrator")
+            {
+                var adminCount = await _context.Users.CountAsync(u => u.Role == "Administrator" && u.IsActive);
+                if (adminCount <= 1)
+                {
+                    return BadRequest(new { message = "No puede degradar al único Administrador activo del sistema." });
+                }
+            }
+
+            user.Role = roleName;
+            user.RoleId = targetRole?.Id;
         }
 
         if (dto.IsActive.HasValue)
@@ -203,6 +254,8 @@ public class UsersController : ControllerBase
         await _context.SaveChangesAsync();
         _logger.LogInformation("User #{Id} ({Username}) updated successfully", user.Id, user.Username);
 
+        var updatedRole = await _context.Roles.FindAsync(user.RoleId);
+
         return Ok(new UserDto
         {
             Id = user.Id,
@@ -210,9 +263,56 @@ public class UsersController : ControllerBase
             Email = user.Email,
             FullName = user.FullName,
             Role = user.Role,
+            RoleId = user.RoleId,
+            RoleDisplayName = updatedRole?.DisplayName ?? user.Role,
             IsActive = user.IsActive,
             CreatedAt = user.CreatedAt,
             LastLoginAt = user.LastLoginAt
+        });
+    }
+
+    /// <summary>
+    /// Directly assigns a role to a user.
+    /// </summary>
+    [HttpPut("{id}/role")]
+    public async Task<IActionResult> AssignRole(int id, [FromBody] AssignUserRoleDto dto)
+    {
+        var user = await _context.Users.FindAsync(id);
+        if (user == null)
+        {
+            return NotFound(new { message = $"Usuario #{id} no encontrado." });
+        }
+
+        var role = await _context.Roles.FindAsync(dto.RoleId);
+        if (role == null)
+        {
+            return NotFound(new { message = $"Rol #{dto.RoleId} no encontrado." });
+        }
+
+        // Prevent demoting the master administrator if it's the only one
+        if (user.Role == "Administrator" && role.Name != "Administrator")
+        {
+            var adminCount = await _context.Users.CountAsync(u => u.Role == "Administrator" && u.IsActive);
+            if (adminCount <= 1)
+            {
+                return BadRequest(new { message = "No puede degradar al único Administrador activo del sistema." });
+            }
+        }
+
+        user.RoleId = role.Id;
+        user.Role = role.Name;
+
+        await _context.SaveChangesAsync();
+        _logger.LogInformation("Assigned role '{RoleName}' (#{RoleId}) to user #{UserId} ({Username})", role.Name, role.Id, user.Id, user.Username);
+
+        return Ok(new
+        {
+            success = true,
+            message = $"Rol '{role.DisplayName}' asignado correctamente al usuario {user.FullName}.",
+            userId = user.Id,
+            roleId = role.Id,
+            roleName = role.Name,
+            roleDisplayName = role.DisplayName
         });
     }
 

@@ -9,6 +9,8 @@ public class UserDto
     public string Email { get; set; } = string.Empty;
     public string FullName { get; set; } = string.Empty;
     public string Role { get; set; } = "Editor";
+    public int? RoleId { get; set; }
+    public string? RoleDisplayName { get; set; }
     public bool IsActive { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime? LastLoginAt { get; set; }
@@ -29,8 +31,8 @@ public class CreateUserDto
     [MaxLength(150)]
     public string FullName { get; set; } = string.Empty;
 
-    [Required]
-    public string Role { get; set; } = "Editor"; // "Administrator" or "Editor"
+    public string? Role { get; set; } // Role name
+    public int? RoleId { get; set; } // Role ID from roles table
 
     [Required]
     [MinLength(6)]
@@ -49,7 +51,8 @@ public class UpdateUserDto
     [MaxLength(150)]
     public string? FullName { get; set; }
 
-    public string? Role { get; set; } // "Administrator" or "Editor"
+    public string? Role { get; set; }
+    public int? RoleId { get; set; }
 
     public bool? IsActive { get; set; }
 
