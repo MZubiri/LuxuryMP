@@ -29,7 +29,97 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Montserrat:wght@200;300;400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=20261021_prod3">
+
+  <style>
+    /* CRITICAL HIGH CONTRAST INPUTS & LUXURY BUTTONS */
+    .sidebar-booking-card,
+    #sidebarBookingForm {
+      color: #121316 !important;
+    }
+
+    .sidebar-booking-card .sidebar-label {
+      color: #2D241E !important;
+      font-weight: 700 !important;
+      font-size: 0.74rem !important;
+      letter-spacing: 0.1em !important;
+    }
+
+    .sidebar-booking-card input,
+    .sidebar-booking-card select,
+    .sidebar-booking-card textarea,
+    #sidebarBookingForm input,
+    #sidebarBookingForm select,
+    #sidebarBookingForm textarea,
+    .sidebar-input,
+    .sidebar-select,
+    .sidebar-textarea {
+      background-color: #FFFFFF !important;
+      border: 1.5px solid #2D241E !important;
+      color: #121316 !important;
+      -webkit-text-fill-color: #121316 !important;
+      opacity: 1 !important;
+      font-weight: 600 !important;
+      font-size: 0.95rem !important;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08) !important;
+    }
+
+    .sidebar-booking-card input:focus,
+    .sidebar-booking-card select:focus,
+    .sidebar-booking-card textarea:focus {
+      border-color: #8C6D3B !important;
+      background-color: #FFFFFF !important;
+      color: #121316 !important;
+      -webkit-text-fill-color: #121316 !important;
+      box-shadow: 0 0 0 3px rgba(197, 164, 126, 0.35) !important;
+      outline: none !important;
+    }
+
+    .sidebar-booking-card input::placeholder,
+    .sidebar-booking-card textarea::placeholder {
+      color: #6B7280 !important;
+      -webkit-text-fill-color: #6B7280 !important;
+      opacity: 1 !important;
+    }
+
+    .sidebar-booking-card select option {
+      background-color: #FFFFFF !important;
+      color: #121316 !important;
+      -webkit-text-fill-color: #121316 !important;
+    }
+
+    /* Culqi Online Payment Button */
+    .btn-sidebar-pay-culqi {
+      width: 100% !important;
+      background: linear-gradient(135deg, #C5A47E 0%, #A68053 100%) !important;
+      color: #0E0F12 !important;
+      -webkit-text-fill-color: #0E0F12 !important;
+      border: 1.5px solid #8C6D3B !important;
+      font-weight: 700 !important;
+      letter-spacing: 0.12em !important;
+      font-size: 0.8rem !important;
+      padding: 1.05rem 1.25rem !important;
+      border-radius: 4px !important;
+      cursor: pointer !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 0.65rem !important;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25) !important;
+      text-transform: uppercase !important;
+    }
+
+    .btn-sidebar-pay-culqi svg {
+      color: #0E0F12 !important;
+      stroke: #0E0F12 !important;
+    }
+
+    .btn-sidebar-pay-culqi:hover {
+      background: linear-gradient(135deg, #D4AF37 0%, #B89366 100%) !important;
+      transform: translateY(-1px) !important;
+      box-shadow: 0 6px 20px rgba(197, 164, 126, 0.5) !important;
+    }
+  </style>
   
   <!-- Dynamic Schema.org JSON-LD -->
   <script type="application/ld+json" id="tourSchemaJson"></script>
@@ -322,7 +412,7 @@
           <div class="pkg-doc-row" style="margin-bottom: 0.85rem;">
             <div class="sidebar-form-group" style="margin-bottom: 0;">
               <label class="sidebar-label" for="sidebarDocType" data-i18n="lblDocType">Tipo de Documento *</label>
-              <select id="sidebarDocType" class="sidebar-select" onchange="handleSidebarDocTypeChange(this.value)">
+              <select id="sidebarDocType" class="sidebar-select" onchange="handleSidebarDocTypeChange(this.value)" style="color: #121316 !important; -webkit-text-fill-color: #121316 !important; background: #FFFFFF !important; font-weight: 600 !important;">
                 <option value="PASSPORT" selected data-i18n="docPassport">Pasaporte Extranjero (0% IGV)</option>
                 <option value="FOREIGN_ID" data-i18n="docForeignId">Cédula Extranjera (0% IGV)</option>
                 <option value="DNI" data-i18n="docDni">DNI Nacional Perú (+18% IGV)</option>
@@ -332,7 +422,7 @@
             </div>
             <div class="sidebar-form-group" style="margin-bottom: 0;">
               <label class="sidebar-label" for="sidebarDocNumber" data-i18n="lblDocNumber">N° Documento *</label>
-              <input type="text" id="sidebarDocNumber" class="sidebar-input" placeholder="N° pasaporte o DNI" oninput="handleSidebarDocNumberInput(this.value)">
+              <input type="text" id="sidebarDocNumber" class="sidebar-input" placeholder="N° pasaporte o DNI" oninput="handleSidebarDocNumberInput(this.value)" style="color: #121316 !important; -webkit-text-fill-color: #121316 !important; background: #FFFFFF !important; font-weight: 600 !important;">
             </div>
           </div>
 
@@ -343,12 +433,12 @@
 
           <div class="sidebar-form-group">
             <label class="sidebar-label" for="sidebarDate" data-i18n="labelTravelDate">Preferred Travel Date *</label>
-            <input type="date" id="sidebarDate" class="sidebar-input" required>
+            <input type="date" id="sidebarDate" class="sidebar-input" required style="color: #121316 !important; -webkit-text-fill-color: #121316 !important; background: #FFFFFF !important; font-weight: 600 !important;">
           </div>
 
           <div class="sidebar-form-group">
             <label class="sidebar-label" for="sidebarGuests" data-i18n="labelGuestsCount">Travelers *</label>
-            <select id="sidebarGuests" class="sidebar-select" onchange="recalculateSidebarTotal()">
+            <select id="sidebarGuests" class="sidebar-select" onchange="recalculateSidebarTotal()" style="color: #121316 !important; -webkit-text-fill-color: #121316 !important; background: #FFFFFF !important; font-weight: 600 !important;">
               <option value="1">1 Traveler</option>
               <option value="2" selected>2 Travelers</option>
               <option value="3">3 Travelers</option>
@@ -360,7 +450,7 @@
 
           <div class="sidebar-form-group">
             <label class="sidebar-label" for="sidebarCarriage" data-i18n="lblCarriage">Preferred Service / Carriage</label>
-            <select id="sidebarCarriage" class="sidebar-select">
+            <select id="sidebarCarriage" class="sidebar-select" style="color: #121316 !important; -webkit-text-fill-color: #121316 !important; background: #FFFFFF !important; font-weight: 600 !important;">
               <option value="Pullman Suite Carriage">Belmond Pullman Suite Carriage (Gourmet Dining)</option>
               <option value="Observatory Carriage">Observation Bar Car & Panoramic Lounge</option>
               <option value="Presidential / Custom Private">Presidential / Fully Tailored Expedition</option>
@@ -369,22 +459,22 @@
 
           <div class="sidebar-form-group">
             <label class="sidebar-label" for="sidebarName" data-i18n="labelFullName">Lead Traveler Name *</label>
-            <input type="text" id="sidebarName" class="sidebar-input" required placeholder="e.g. Katherine Sterling">
+            <input type="text" id="sidebarName" class="sidebar-input" required placeholder="e.g. Katherine Sterling" style="color: #121316 !important; -webkit-text-fill-color: #121316 !important; background: #FFFFFF !important; font-weight: 600 !important;">
           </div>
 
           <div class="sidebar-form-group">
             <label class="sidebar-label" for="sidebarEmail" data-i18n="labelEmail">Email Address *</label>
-            <input type="email" id="sidebarEmail" class="sidebar-input" required placeholder="name@domain.com">
+            <input type="email" id="sidebarEmail" class="sidebar-input" required placeholder="name@domain.com" style="color: #121316 !important; -webkit-text-fill-color: #121316 !important; background: #FFFFFF !important; font-weight: 600 !important;">
           </div>
 
           <div class="sidebar-form-group">
             <label class="sidebar-label" for="sidebarPhone" data-i18n="labelPhone">WhatsApp / Mobile *</label>
-            <input type="tel" id="sidebarPhone" class="sidebar-input" required placeholder="+1 555 019 283">
+            <input type="tel" id="sidebarPhone" class="sidebar-input" required placeholder="+1 555 019 283" style="color: #121316 !important; -webkit-text-fill-color: #121316 !important; background: #FFFFFF !important; font-weight: 600 !important;">
           </div>
 
           <div class="sidebar-form-group">
             <label class="sidebar-label" for="sidebarNotes" data-i18n="labelSpecialRequests">Special Wishes / Dietary</label>
-            <textarea id="sidebarNotes" class="sidebar-textarea" rows="2" placeholder="Anniversary, dietary restrictions, private champagne preferences..."></textarea>
+            <textarea id="sidebarNotes" class="sidebar-textarea" rows="2" placeholder="Anniversary, dietary restrictions, private champagne preferences..." style="color: #121316 !important; -webkit-text-fill-color: #121316 !important; background: #FFFFFF !important; font-weight: 600 !important;"></textarea>
           </div>
 
           <!-- Dynamic Quote Box with Itemized Taxes & Billing Breakdown -->
@@ -420,9 +510,9 @@
           </div>
 
           <!-- Priority 1: Direct 30% Deposit Payment via Culqi -->
-          <button type="button" class="btn-sidebar-pay-culqi" id="btnSidebarPayOnline" onclick="handleSidebarOnlinePayment()">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
-            <span data-i18n="btnPayDepositOnline">PAGAR ANTICIPO 30% ONLINE (CULQI)</span>
+          <button type="button" class="btn-sidebar-pay-culqi" id="btnSidebarPayOnline" onclick="handleSidebarOnlinePayment()" style="background: linear-gradient(135deg, #C5A47E 0%, #A68053 100%) !important; color: #0E0F12 !important; -webkit-text-fill-color: #0E0F12 !important; border: 1.5px solid #8C6D3B !important; font-weight: 700 !important; cursor: pointer !important; padding: 1.05rem 1.25rem !important;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0E0F12" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
+            <span data-i18n="btnPayDepositOnline" style="color:#0E0F12 !important; -webkit-text-fill-color:#0E0F12 !important; font-weight:700 !important;">PAGAR ANTICIPO 30% ONLINE (CULQI)</span>
           </button>
 
           <!-- Direct VIP WhatsApp Action -->
@@ -994,6 +1084,21 @@
   </div>
 
   <!-- Application Logic for Dedicated Tour Detail Page -->
-  <script src="tour.js"></script>
+  <script src="tour.js?v=20261021_prod3"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var btn = document.getElementById('btnSidebarPayOnline');
+      if (btn) {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          if (typeof handleSidebarOnlinePayment === 'function') {
+            handleSidebarOnlinePayment();
+          } else {
+            console.error('handleSidebarOnlinePayment function not loaded yet');
+          }
+        });
+      }
+    });
+  </script>
 </body>
 </html>

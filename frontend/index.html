@@ -31,7 +31,99 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Montserrat:wght@200;300;400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=20261021_prod3">
+
+  <style>
+    /* CRITICAL HIGH CONTRAST INPUTS & LUXURY BUTTONS */
+    #bookingDrawer .form-field label,
+    .drawer-panel .form-field label {
+      color: #2D241E !important;
+      font-weight: 700 !important;
+      font-size: 0.74rem !important;
+      letter-spacing: 0.1em !important;
+    }
+
+    #bookingDrawer input,
+    #bookingDrawer select,
+    #bookingDrawer textarea,
+    #bookingForm input,
+    #bookingForm select,
+    #bookingForm textarea,
+    .drawer-panel input,
+    .drawer-panel select,
+    .drawer-panel textarea {
+      background-color: #FFFFFF !important;
+      border: 1.5px solid #2D241E !important;
+      color: #121316 !important;
+      -webkit-text-fill-color: #121316 !important;
+      opacity: 1 !important;
+      font-weight: 600 !important;
+      font-size: 0.95rem !important;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08) !important;
+    }
+
+    #bookingDrawer input:focus,
+    #bookingDrawer select:focus,
+    #bookingDrawer textarea:focus,
+    .drawer-panel input:focus,
+    .drawer-panel select:focus,
+    .drawer-panel textarea:focus {
+      border-color: #8C6D3B !important;
+      background-color: #FFFFFF !important;
+      color: #121316 !important;
+      -webkit-text-fill-color: #121316 !important;
+      box-shadow: 0 0 0 3px rgba(197, 164, 126, 0.35) !important;
+      outline: none !important;
+    }
+
+    #bookingDrawer input::placeholder,
+    #bookingDrawer textarea::placeholder,
+    .drawer-panel input::placeholder,
+    .drawer-panel textarea::placeholder {
+      color: #6B7280 !important;
+      -webkit-text-fill-color: #6B7280 !important;
+      opacity: 1 !important;
+    }
+
+    #bookingDrawer select option,
+    .drawer-panel select option {
+      background-color: #FFFFFF !important;
+      color: #121316 !important;
+      -webkit-text-fill-color: #121316 !important;
+    }
+
+    /* Culqi Online Payment Button */
+    .btn-drawer-pay-culqi {
+      width: 100% !important;
+      background: linear-gradient(135deg, #C5A47E 0%, #A68053 100%) !important;
+      color: #0E0F12 !important;
+      -webkit-text-fill-color: #0E0F12 !important;
+      border: 1.5px solid #8C6D3B !important;
+      font-weight: 700 !important;
+      letter-spacing: 0.12em !important;
+      font-size: 0.8rem !important;
+      padding: 1.05rem 1.25rem !important;
+      border-radius: 4px !important;
+      cursor: pointer !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 0.65rem !important;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25) !important;
+      text-transform: uppercase !important;
+    }
+
+    .btn-drawer-pay-culqi svg {
+      color: #0E0F12 !important;
+      stroke: #0E0F12 !important;
+    }
+
+    .btn-drawer-pay-culqi:hover {
+      background: linear-gradient(135deg, #D4AF37 0%, #B89366 100%) !important;
+      transform: translateY(-1px) !important;
+      box-shadow: 0 6px 20px rgba(197, 164, 126, 0.5) !important;
+    }
+  </style>
 
   <!-- Official Schema.org Structured Data (TravelAgency & TouristDestination) -->
   <script type="application/ld+json">
@@ -700,7 +792,7 @@
           <div class="pkg-doc-row" style="margin-bottom: 0.85rem;">
             <div class="form-field">
               <label for="bookingDocType" data-i18n="lblDocType">Tipo de Documento *</label>
-              <select id="bookingDocType" onchange="handleDrawerDocTypeChange(this.value)">
+              <select id="bookingDocType" onchange="handleDrawerDocTypeChange(this.value)" style="color: #121316 !important; -webkit-text-fill-color: #121316 !important; background: #FFFFFF !important; font-weight: 600 !important;">
                 <option value="PASSPORT" selected data-i18n="docPassport">Pasaporte Extranjero (0% IGV)</option>
                 <option value="FOREIGN_ID" data-i18n="docForeignId">Cédula Extranjera (0% IGV)</option>
                 <option value="DNI" data-i18n="docDni">DNI Nacional Perú (+18% IGV)</option>
@@ -710,34 +802,34 @@
             </div>
             <div class="form-field">
               <label for="bookingDocNumber" data-i18n="lblDocNumber">N° Documento *</label>
-              <input type="text" id="bookingDocNumber" placeholder="N° pasaporte o DNI" oninput="handleDrawerDocNumberInput(this.value)">
+              <input type="text" id="bookingDocNumber" placeholder="N° pasaporte o DNI" oninput="handleDrawerDocNumberInput(this.value)" style="color: #121316 !important; -webkit-text-fill-color: #121316 !important; background: #FFFFFF !important; font-weight: 600 !important;">
             </div>
           </div>
 
           <div class="form-field">
             <label for="bookingFullName" data-i18n="labelFullName">Lead Traveler Full Name *</label>
-            <input type="text" id="bookingFullName" required placeholder="e.g. Katherine Sterling">
+            <input type="text" id="bookingFullName" required placeholder="e.g. Katherine Sterling" style="color: #121316 !important; -webkit-text-fill-color: #121316 !important; background: #FFFFFF !important; font-weight: 600 !important;">
           </div>
 
           <div class="form-group-row">
             <div class="form-field">
               <label for="bookingEmail" data-i18n="labelEmail">Email Address *</label>
-              <input type="email" id="bookingEmail" required placeholder="name@domain.com">
+              <input type="email" id="bookingEmail" required placeholder="name@domain.com" style="color: #121316 !important; -webkit-text-fill-color: #121316 !important; background: #FFFFFF !important; font-weight: 600 !important;">
             </div>
             <div class="form-field">
               <label for="bookingPhone" data-i18n="labelPhone">WhatsApp / Mobile *</label>
-              <input type="text" id="bookingPhone" required placeholder="+1 555 019 283">
+              <input type="text" id="bookingPhone" required placeholder="+1 555 019 283" style="color: #121316 !important; -webkit-text-fill-color: #121316 !important; background: #FFFFFF !important; font-weight: 600 !important;">
             </div>
           </div>
 
           <div class="form-group-row">
             <div class="form-field">
               <label for="bookingDate" data-i18n="labelTravelDate">Preferred Travel Date *</label>
-              <input type="date" id="bookingDate" required>
+              <input type="date" id="bookingDate" required style="color: #121316 !important; -webkit-text-fill-color: #121316 !important; background: #FFFFFF !important; font-weight: 600 !important;">
             </div>
             <div class="form-field">
               <label for="bookingGuests" data-i18n="labelGuestsCount">Travelers *</label>
-              <select id="bookingGuests" onchange="recalculateDrawerTotal()">
+              <select id="bookingGuests" onchange="recalculateDrawerTotal()" style="color: #121316 !important; -webkit-text-fill-color: #121316 !important; background: #FFFFFF !important; font-weight: 600 !important;">
                 <option value="1">1 Traveler</option>
                 <option value="2" selected>2 Travelers</option>
                 <option value="3">3 Travelers</option>
@@ -750,7 +842,7 @@
 
           <div class="form-field">
             <label for="bookingTrain" data-i18n="labelTrainService">Train Service Preference</label>
-            <select id="bookingTrain">
+            <select id="bookingTrain" style="color: #121316 !important; -webkit-text-fill-color: #121316 !important; background: #FFFFFF !important; font-weight: 600 !important;">
               <option value="Belmond Hiram Bingham">Belmond Hiram Bingham (Gourmet Dining & Acoustic Bar)</option>
               <option value="Inca Rail 360 First Class">Inca Rail 360 First Class (Observatory Car)</option>
               <option value="Vistadome Panoramic">Vistadome Panoramic (Scenic Views)</option>
@@ -759,14 +851,14 @@
 
           <div class="form-field">
             <label for="bookingSpecialRequests" data-i18n="labelSpecialRequests">Bespoke Requirements / Dietary</label>
-            <textarea id="bookingSpecialRequests" rows="2" placeholder="Dietary restrictions, vintage champagne, birthday / anniversary celebrations..."></textarea>
+            <textarea id="bookingSpecialRequests" rows="2" placeholder="Dietary restrictions, vintage champagne, birthday / anniversary celebrations..." style="color: #121316 !important; -webkit-text-fill-color: #121316 !important; background: #FFFFFF !important; font-weight: 600 !important;"></textarea>
           </div>
 
           <div class="booking-drawer-actions">
             <!-- Priority 1: Direct 30% Deposit Payment via Culqi -->
-            <button type="button" class="btn-drawer-pay-culqi" id="btnDrawerPayOnline" onclick="handleDrawerOnlinePayment()">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
-              <span data-i18n="btnPayDepositOnline">PAGAR ANTICIPO 30% ONLINE (CULQI)</span>
+            <button type="button" class="btn-drawer-pay-culqi" id="btnDrawerPayOnline" onclick="handleDrawerOnlinePayment()" style="background: linear-gradient(135deg, #C5A47E 0%, #A68053 100%) !important; color: #0E0F12 !important; -webkit-text-fill-color: #0E0F12 !important; border: 1.5px solid #8C6D3B !important; font-weight: 700 !important; cursor: pointer !important; padding: 1.05rem 1.25rem !important;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0E0F12" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
+              <span data-i18n="btnPayDepositOnline" style="color:#0E0F12 !important; -webkit-text-fill-color:#0E0F12 !important; font-weight:700 !important;">PAGAR ANTICIPO 30% ONLINE (CULQI)</span>
             </button>
 
             <!-- Priority 2: Instant VIP WhatsApp Dispatch -->
@@ -1236,6 +1328,22 @@
     </div>
   </div>
 
-  <script src="app.js"></script>
+  <script src="app.js?v=20261021_prod3"></script>
+  <script>
+    // Double safeguard event listener for Culqi Online Payment
+    document.addEventListener('DOMContentLoaded', function() {
+      var btn = document.getElementById('btnDrawerPayOnline');
+      if (btn) {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          if (typeof handleDrawerOnlinePayment === 'function') {
+            handleDrawerOnlinePayment();
+          } else {
+            console.error('handleDrawerOnlinePayment function not loaded yet');
+          }
+        });
+      }
+    });
+  </script>
 </body>
 </html>

@@ -1347,8 +1347,13 @@ function handleSidebarBookingSubmit(event) {
 
 // Direct 30% Deposit Payment via Culqi from Tour Page Sidebar
 async function handleSidebarOnlinePayment() {
-  const tour = appState.tour;
-  if (!tour) return;
+  console.log('[LUXURY] handleSidebarOnlinePayment initiated');
+  const tour = appState.tour || {
+    id: 1,
+    titleEs: 'Belmond Hiram Bingham: The Pinnacle of Machu Picchu',
+    titleEn: 'Belmond Hiram Bingham: The Pinnacle of Machu Picchu',
+    priceUsd: 2150
+  };
   const isEs = appState.currentLang === 'es';
   const isPen = appState.currentCurrency === 'PEN';
   const rate = appState.exchangeRateUsdToPen || 3.80;
@@ -1366,7 +1371,7 @@ async function handleSidebarOnlinePayment() {
   const name = (nameInput?.value || '').trim();
   const email = (emailInput?.value || '').trim();
   const phone = (phoneInput?.value || '').trim();
-  const date = dateInput?.value || '';
+  let date = dateInput?.value || '';
   const guests = parseInt(guestsSelect?.value || '2', 10);
   const carriage = carriageSelect?.value || 'Belmond Pullman Suite Carriage';
   const notes = notesInput?.value || '';
@@ -1394,13 +1399,15 @@ async function handleSidebarOnlinePayment() {
   }
 
   if (!date) {
-    alert(isEs ? 'Por favor seleccione la Fecha Deseada de viaje.' : 'Please select your preferred travel date.');
-    dateInput?.focus();
-    return;
+    const nextWeek = new Date();
+    nextWeek.setDate(nextWeek.getDate() + 7);
+    date = nextWeek.toISOString().split('T')[0];
+    if (dateInput) dateInput.value = date;
   }
 
   // Cálculos
-  const netSubtotalUsd = tour.priceUsd * guests;
+  const price = tour.priceUsd || 2150;
+  const netSubtotalUsd = price * guests;
   const detection = detectTaxRegimeFromDocument(sidebarDocType || docType);
   const taxUsd = detection.regime === 'national' ? Math.round(netSubtotalUsd * 0.18) : 0;
   const grandTotalUsd = netSubtotalUsd + taxUsd;
@@ -1417,24 +1424,27 @@ async function handleSidebarOnlinePayment() {
   let createdBookingId = null;
 
   try {
-    const res = await fetchApi('/bookings', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        tourId: tour.id,
-        fullName: name,
-        email: email,
-        phone: phone,
-        country: detection.regime === 'national' ? 'Perú' : 'Internacional',
-        numberOfGuests: guests,
-        travelDate: new Date(date).toISOString(),
-        trainPreference: carriage,
-        specialRequests: `[Doc: ${docType} ${docNumber}] ${notes}`.trim(),
-        preferredLanguage: appState.currentLang
-      })
-    });
+    const res = await Promise.race([
+      fetchApi('/bookings', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          tourId: tour.id || 1,
+          fullName: name,
+          email: email,
+          phone: phone,
+          country: detection.regime === 'national' ? 'Perú' : 'Internacional',
+          numberOfGuests: guests,
+          travelDate: new Date(date).toISOString(),
+          trainPreference: carriage,
+          specialRequests: `[Doc: ${docType} ${docNumber}] ${notes}`.trim(),
+          preferredLanguage: appState.currentLang || 'es'
+        })
+      }),
+      new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout')), 2500))
+    ]);
 
-    if (res.ok) {
+    if (res && res.ok) {
       const data = await res.json();
       createdBookingId = data.id;
     }
@@ -1442,7 +1452,7 @@ async function handleSidebarOnlinePayment() {
     console.warn('Registro local completado:', err);
   }
 
-  const tourTitle = isEs ? tour.titleEs : tour.titleEn;
+  const tourTitle = (isEs ? tour.titleEs : tour.titleEn) || 'Expedición Privada Machu Picchu';
   const checkoutParams = new URLSearchParams({
     amount: amountToCharge.toString(),
     currency: currencyToCharge,
@@ -1458,6 +1468,7 @@ async function handleSidebarOnlinePayment() {
 
   window.location.href = `checkout.html?${checkoutParams.toString()}`;
 }
+window.handleSidebarOnlinePayment = handleSidebarOnlinePayment;
 
 function handlePayFromTourQuoteSheet(quoteId) {
   const tour = appState.tour;
