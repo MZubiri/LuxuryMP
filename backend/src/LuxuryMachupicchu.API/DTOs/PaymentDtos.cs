@@ -80,3 +80,12 @@ public class DepositPreferenceRequest
     public int? BookingId { get; set; }
 }
 
+public class CulqiWebhookResponseDto
+{
+    public bool Success { get; set; }
+    public string Message { get; set; } = string.Empty;
+    public string EventType { get; set; } = string.Empty;
+    public string? ChargeId { get; set; }
+    public string? ReferenceCode { get; set; }
+    public string? BookingStatus { get; set; }
+}

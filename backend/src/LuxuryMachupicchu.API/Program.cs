@@ -6,7 +6,9 @@ using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using LuxuryMachupicchu.Domain.Interfaces;
 using LuxuryMachupicchu.Infrastructure.Data;
+using LuxuryMachupicchu.Infrastructure.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +21,9 @@ builder.Services.AddControllers()
     });
 
 builder.Services.AddHttpClient();
+
+// Email Service (Transactional SMTP)
+builder.Services.AddScoped<IEmailService, SmtpEmailService>();
 
 // 2. JWT Configuration
 var jwtSecretKey = builder.Configuration["JWT_SECRET_KEY"] 

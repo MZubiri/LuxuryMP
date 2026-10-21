@@ -6,6 +6,7 @@ COPY ["LuxuryMachupicchu.sln", "./"]
 COPY ["src/LuxuryMachupicchu.Domain/LuxuryMachupicchu.Domain.csproj", "src/LuxuryMachupicchu.Domain/"]
 COPY ["src/LuxuryMachupicchu.Infrastructure/LuxuryMachupicchu.Infrastructure.csproj", "src/LuxuryMachupicchu.Infrastructure/"]
 COPY ["src/LuxuryMachupicchu.API/LuxuryMachupicchu.API.csproj", "src/LuxuryMachupicchu.API/"]
+COPY ["tests/LuxuryMachupicchu.Tests/LuxuryMachupicchu.Tests.csproj", "tests/LuxuryMachupicchu.Tests/"]
 
 RUN dotnet restore "LuxuryMachupicchu.sln"
 

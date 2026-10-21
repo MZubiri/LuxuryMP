@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
 using LuxuryMachupicchu.API.DTOs;
 using LuxuryMachupicchu.Domain.Entities;
+using LuxuryMachupicchu.Domain.Interfaces;
 using LuxuryMachupicchu.Infrastructure.Data;
 
 namespace LuxuryMachupicchu.API.Controllers;
@@ -18,17 +19,20 @@ public class PaymentsController : ControllerBase
     private readonly LuxuryMachupicchuDbContext _context;
     private readonly IConfiguration _configuration;
     private readonly IHttpClientFactory _httpClientFactory;
+    private readonly IEmailService _emailService;
     private readonly ILogger<PaymentsController> _logger;
 
     public PaymentsController(
         LuxuryMachupicchuDbContext context,
         IConfiguration configuration,
         IHttpClientFactory httpClientFactory,
+        IEmailService emailService,
         ILogger<PaymentsController> logger)
     {
         _context = context;
         _configuration = configuration;
         _httpClientFactory = httpClientFactory;
+        _emailService = emailService;
         _logger = logger;
     }
 
@@ -92,7 +96,7 @@ public class PaymentsController : ControllerBase
         BookingInquiry? booking = null;
         if (dto.BookingId.HasValue)
         {
-            booking = await _context.BookingInquiries.FindAsync(dto.BookingId.Value);
+            booking = await _context.BookingInquiries.Include(b => b.Tour).FirstOrDefaultAsync(b => b.Id == dto.BookingId.Value);
             if (booking != null && string.IsNullOrEmpty(referenceCode))
             {
                 referenceCode = $"RES-{booking.Id:D4}";
@@ -172,7 +176,7 @@ public class PaymentsController : ControllerBase
                     CulqiChargeId = chargeId,
                     CulqiAuthorizationCode = authCode,
                     ReferenceType = dto.BookingId.HasValue ? "Booking" : (dto.ConciergeRequestId.HasValue ? "ConciergeQuote" : "Custom"),
-                    ReferenceCode = referenceCode ?? $"PAY-{DateTime.UtcNow:yyyyMMdd}-{chargeId[^6..]}",
+                    ReferenceCode = referenceCode ?? $"PAY-{DateTime.UtcNow:yyyyMMdd}-{chargeId[^Math.Min(6, chargeId.Length)..]}",
                     BookingId = dto.BookingId,
                     ConciergeRequestId = dto.ConciergeRequestId,
                     CustomerName = dto.CustomerName ?? (booking?.FullName ?? "Huésped"),
@@ -202,6 +206,20 @@ public class PaymentsController : ControllerBase
 
                 _logger.LogInformation("Culqi charge successful: {ChargeId}, Auth: {AuthCode}, Amount: {Amount} {Currency}",
                     chargeId, authCode, dto.Amount, currency);
+
+                // Trigger transactional emails asynchronously without blocking response
+                _ = Task.Run(async () =>
+                {
+                    try
+                    {
+                        await _emailService.SendPaymentConfirmationAsync(booking, transaction);
+                        await _emailService.SendConciergePaymentNotificationAsync(booking, transaction);
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogError(ex, "Error dispatching transactional confirmation email for Charge {ChargeId}", chargeId);
+                    }
+                });
 
                 return Ok(new CulqiChargeResponseDto
                 {
@@ -249,6 +267,315 @@ public class PaymentsController : ControllerBase
                 success = false,
                 message = "Error interno al conectar con la pasarela de pagos. Por favor intente nuevamente o contacte a Concierge."
             });
+        }
+    }
+
+    /// <summary>
+    /// Webhook endpoint for Culqi asynchronous events (e.g. charge.creation.succeeded, charge.creation.failed).
+    /// Does not require JWT authentication; parses and validates Culqi payload.
+    /// </summary>
+    [HttpPost("webhook")]
+    [AllowAnonymous]
+    public async Task<IActionResult> HandleWebhook()
+    {
+        string rawBody;
+        using (var reader = new StreamReader(Request.Body, Encoding.UTF8))
+        {
+            rawBody = await reader.ReadToEndAsync();
+        }
+
+        if (string.IsNullOrWhiteSpace(rawBody))
+        {
+            _logger.LogWarning("Culqi webhook received with empty body.");
+            return BadRequest(new { message = "Payload vacío." });
+        }
+
+        try
+        {
+            using var doc = JsonDocument.Parse(rawBody);
+            var root = doc.RootElement;
+
+            var eventType = root.TryGetProperty("type", out var typeProp) ? typeProp.GetString() ?? "" : "";
+            var eventId = root.TryGetProperty("id", out var idProp) ? idProp.GetString() ?? "" : "";
+
+            _logger.LogInformation("Culqi webhook received. Event: {EventType}, EventId: {EventId}", eventType, eventId);
+
+            if (string.IsNullOrWhiteSpace(eventType))
+            {
+                return BadRequest(new { message = "Formato de evento inválido: falta campo 'type'." });
+            }
+
+            // Extract the charge data element (Culqi may send 'data' as an object or serialized JSON string)
+            JsonElement dataElement;
+            if (root.TryGetProperty("data", out var dProp))
+            {
+                if (dProp.ValueKind == JsonValueKind.String)
+                {
+                    using var nestedDoc = JsonDocument.Parse(dProp.GetString() ?? "{}");
+                    dataElement = nestedDoc.RootElement.Clone();
+                }
+                else
+                {
+                    dataElement = dProp.Clone();
+                }
+            }
+            else
+            {
+                dataElement = root.Clone();
+            }
+
+            var chargeId = dataElement.TryGetProperty("id", out var cIdProp) ? cIdProp.GetString() ?? "" : "";
+
+            // 1. Process Event: charge.creation.succeeded
+            if (eventType.Equals("charge.creation.succeeded", StringComparison.OrdinalIgnoreCase))
+            {
+                decimal amount = 0;
+                if (dataElement.TryGetProperty("amount", out var amtProp))
+                {
+                    if (amtProp.ValueKind == JsonValueKind.Number)
+                    {
+                        amount = amtProp.GetInt64() / 100m;
+                    }
+                    else if (decimal.TryParse(amtProp.GetString(), out var parsedAmt))
+                    {
+                        amount = parsedAmt / 100m;
+                    }
+                }
+
+                var currency = dataElement.TryGetProperty("currency_code", out var curProp) ? curProp.GetString() ?? "USD" : "USD";
+                var email = dataElement.TryGetProperty("email", out var emailProp) ? emailProp.GetString() ?? "" : "";
+
+                var authCode = "";
+                if (dataElement.TryGetProperty("outcome", out var outcomeProp))
+                {
+                    if (outcomeProp.TryGetProperty("code", out var codeProp)) authCode = codeProp.GetString() ?? "";
+                }
+
+                var cardBrand = "Tarjeta";
+                var cardLastFour = "";
+                if (dataElement.TryGetProperty("source", out var srcProp))
+                {
+                    if (srcProp.TryGetProperty("iin", out var iinProp) && iinProp.TryGetProperty("card_brand", out var bProp))
+                    {
+                        cardBrand = bProp.GetString() ?? cardBrand;
+                    }
+                    if (srcProp.TryGetProperty("card_number", out var cnProp))
+                    {
+                        var fullCard = cnProp.GetString() ?? "";
+                        cardLastFour = fullCard.Length >= 4 ? fullCard[^4..] : "";
+                    }
+                }
+
+                // Extract Metadata if available
+                string? referenceCode = null;
+                int? bookingId = null;
+                string? customerName = null;
+                string? customerPhone = null;
+
+                if (dataElement.TryGetProperty("metadata", out var metaProp) && metaProp.ValueKind == JsonValueKind.Object)
+                {
+                    if (metaProp.TryGetProperty("reference_code", out var refP)) referenceCode = refP.GetString();
+                    if (metaProp.TryGetProperty("booking_id", out var bIdP))
+                    {
+                        if (int.TryParse(bIdP.GetString(), out var parsedBId)) bookingId = parsedBId;
+                    }
+                    if (metaProp.TryGetProperty("customer_name", out var cNameP)) customerName = cNameP.GetString();
+                    if (metaProp.TryGetProperty("customer_phone", out var cPhoneP)) customerPhone = cPhoneP.GetString();
+                }
+
+                // Look up linked booking
+                BookingInquiry? booking = null;
+                if (bookingId.HasValue)
+                {
+                    booking = await _context.BookingInquiries.Include(b => b.Tour).FirstOrDefaultAsync(b => b.Id == bookingId.Value);
+                }
+
+                if (booking == null && !string.IsNullOrWhiteSpace(referenceCode))
+                {
+                    if (referenceCode.StartsWith("RES-", StringComparison.OrdinalIgnoreCase) &&
+                        int.TryParse(referenceCode.AsSpan(4), out var parsedRefId))
+                    {
+                        booking = await _context.BookingInquiries.Include(b => b.Tour).FirstOrDefaultAsync(b => b.Id == parsedRefId);
+                    }
+                }
+
+                if (booking != null && string.IsNullOrWhiteSpace(referenceCode))
+                {
+                    referenceCode = $"RES-{booking.Id:D4}";
+                }
+
+                // Check if transaction was already registered
+                var existingTx = await _context.PaymentTransactions.FirstOrDefaultAsync(t => t.CulqiChargeId == chargeId);
+                if (existingTx == null)
+                {
+                    existingTx = new PaymentTransaction
+                    {
+                        CulqiChargeId = chargeId,
+                        CulqiAuthorizationCode = authCode,
+                        ReferenceType = booking != null ? "Booking" : "WebhookDirect",
+                        ReferenceCode = referenceCode ?? (booking != null ? $"RES-{booking.Id:D4}" : $"PAY-{DateTime.UtcNow:yyyyMMdd}-{chargeId[^Math.Min(6, chargeId.Length)..]}"),
+                        BookingId = booking?.Id,
+                        CustomerName = customerName ?? (booking?.FullName ?? "Huésped"),
+                        CustomerEmail = !string.IsNullOrWhiteSpace(email) ? email : (booking?.Email ?? ""),
+                        CustomerPhone = customerPhone ?? (booking?.Phone ?? ""),
+                        Amount = amount,
+                        Currency = currency,
+                        PaymentMethod = $"Culqi_{cardBrand}",
+                        CardBrand = cardBrand,
+                        CardLastFour = cardLastFour,
+                        Status = "Paid",
+                        RawResponseJson = rawBody,
+                        CreatedAt = DateTime.UtcNow
+                    };
+
+                    await _context.PaymentTransactions.AddAsync(existingTx);
+                }
+                else
+                {
+                    existingTx.Status = "Paid";
+                    if (!string.IsNullOrWhiteSpace(authCode)) existingTx.CulqiAuthorizationCode = authCode;
+                }
+
+                // Update booking status
+                if (booking != null)
+                {
+                    booking.Status = "Paid";
+                    var note = $" [Webhook Culqi {currency} {amount:N2} - Auth: {authCode} - Ref: {chargeId}]";
+                    if (string.IsNullOrWhiteSpace(booking.SpecialRequests) || !booking.SpecialRequests.Contains(chargeId))
+                    {
+                        booking.SpecialRequests = (booking.SpecialRequests + note).Trim();
+                    }
+                }
+
+                await _context.SaveChangesAsync();
+
+                _logger.LogInformation("Culqi webhook success processed: Charge {ChargeId}, Booking {BookingId}, Amount {Amount} {Currency}",
+                    chargeId, booking?.Id, amount, currency);
+
+                // Dispatch confirmation email
+                _ = Task.Run(async () =>
+                {
+                    try
+                    {
+                        await _emailService.SendPaymentConfirmationAsync(booking, existingTx);
+                        await _emailService.SendConciergePaymentNotificationAsync(booking, existingTx);
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogError(ex, "Error dispatching emails for Webhook Charge {ChargeId}", chargeId);
+                    }
+                });
+
+                return Ok(new CulqiWebhookResponseDto
+                {
+                    Success = true,
+                    Message = "Evento charge.creation.succeeded procesado exitosamente.",
+                    EventType = eventType,
+                    ChargeId = chargeId,
+                    ReferenceCode = existingTx.ReferenceCode,
+                    BookingStatus = booking?.Status ?? "N/A"
+                });
+            }
+
+            // 2. Process Event: charge.creation.failed
+            else if (eventType.Equals("charge.creation.failed", StringComparison.OrdinalIgnoreCase))
+            {
+                var userMessage = "El cobro fue declinado.";
+                if (dataElement.TryGetProperty("outcome", out var outcomeProp) &&
+                    outcomeProp.TryGetProperty("user_message", out var uMsgProp))
+                {
+                    userMessage = uMsgProp.GetString() ?? userMessage;
+                }
+
+                string? referenceCode = null;
+                int? bookingId = null;
+                if (dataElement.TryGetProperty("metadata", out var metaProp) && metaProp.ValueKind == JsonValueKind.Object)
+                {
+                    if (metaProp.TryGetProperty("reference_code", out var refP)) referenceCode = refP.GetString();
+                    if (metaProp.TryGetProperty("booking_id", out var bIdP))
+                    {
+                        if (int.TryParse(bIdP.GetString(), out var parsedBId)) bookingId = parsedBId;
+                    }
+                }
+
+                BookingInquiry? booking = null;
+                if (bookingId.HasValue)
+                {
+                    booking = await _context.BookingInquiries.FindAsync(bookingId.Value);
+                }
+                if (booking == null && !string.IsNullOrWhiteSpace(referenceCode))
+                {
+                    if (referenceCode.StartsWith("RES-", StringComparison.OrdinalIgnoreCase) &&
+                        int.TryParse(referenceCode.AsSpan(4), out var parsedRefId))
+                    {
+                        booking = await _context.BookingInquiries.FindAsync(parsedRefId);
+                    }
+                }
+
+                if (booking != null)
+                {
+                    booking.Status = "PaymentFailed";
+                    var note = $" [Fallo Culqi: {userMessage} - Ref: {chargeId}]";
+                    booking.SpecialRequests = (booking.SpecialRequests + note).Trim();
+                }
+
+                // Record failed transaction attempt
+                var existingTx = await _context.PaymentTransactions.FirstOrDefaultAsync(t => t.CulqiChargeId == chargeId);
+                if (existingTx == null && !string.IsNullOrWhiteSpace(chargeId))
+                {
+                    existingTx = new PaymentTransaction
+                    {
+                        CulqiChargeId = chargeId,
+                        CulqiAuthorizationCode = "DECLINED",
+                        ReferenceType = booking != null ? "Booking" : "WebhookDirect",
+                        ReferenceCode = referenceCode ?? (booking != null ? $"RES-{booking.Id:D4}" : $"FAIL-{DateTime.UtcNow:yyyyMMdd}"),
+                        BookingId = booking?.Id,
+                        CustomerName = booking?.FullName ?? "Huésped",
+                        CustomerEmail = booking?.Email ?? "",
+                        CustomerPhone = booking?.Phone ?? "",
+                        Amount = 0,
+                        Currency = "USD",
+                        PaymentMethod = "Culqi_Failed",
+                        Status = "Failed",
+                        RawResponseJson = rawBody,
+                        CreatedAt = DateTime.UtcNow
+                    };
+                    await _context.PaymentTransactions.AddAsync(existingTx);
+                }
+                else if (existingTx != null)
+                {
+                    existingTx.Status = "Failed";
+                }
+
+                await _context.SaveChangesAsync();
+
+                _logger.LogWarning("Culqi webhook failure recorded: Charge {ChargeId}, Booking {BookingId}, Reason: {Reason}",
+                    chargeId, booking?.Id, userMessage);
+
+                return Ok(new CulqiWebhookResponseDto
+                {
+                    Success = false,
+                    Message = $"Evento charge.creation.failed registrado: {userMessage}",
+                    EventType = eventType,
+                    ChargeId = chargeId,
+                    ReferenceCode = referenceCode,
+                    BookingStatus = booking?.Status ?? "PaymentFailed"
+                });
+            }
+
+            // Other events (e.g. refund, token created) are acknowledged safely
+            _logger.LogInformation("Culqi webhook unhandled event type: {EventType}. Acknowledged.", eventType);
+            return Ok(new
+            {
+                success = true,
+                message = $"Evento '{eventType}' recibido y reconocido.",
+                eventType = eventType
+            });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Unexpected error processing Culqi webhook payload.");
+            return StatusCode(500, new { success = false, message = "Error interno procesando webhook." });
         }
     }
 
@@ -364,4 +691,3 @@ public class PaymentsController : ControllerBase
         });
     }
 }
-

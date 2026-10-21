@@ -1,0 +1,70 @@
+name: Luxury Machupicchu CI/CD Pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  backend-build-and-test:
+    name: Backend Build & Unit Tests (.NET 9)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 9 SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+
+      - name: Cache NuGet Packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('backend/**/*.csproj', 'backend/**/*.sln') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      - name: Restore Dependencies
+        run: dotnet restore backend/LuxuryMachupicchu.sln
+
+      - name: Build Solution (Release)
+        run: dotnet build backend/LuxuryMachupicchu.sln --configuration Release --no-restore
+
+      - name: Execute Automated Unit Tests
+        run: dotnet test backend/LuxuryMachupicchu.sln --configuration Release --no-build --verbosity normal --logger "trx;LogFileName=test_results.trx"
+
+  docker-images-build:
+    name: Build Docker Images (Backend & Frontend)
+    needs: backend-build-and-test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Backend Docker Image
+        run: |
+          docker build \
+            --file backend/Dockerfile \
+            --tag luxurymp-backend:${{ github.sha }} \
+            --tag luxurymp-backend:latest \
+            ./backend
+
+      - name: Build Frontend Docker Image
+        run: |
+          docker build \
+            --file frontend/Dockerfile \
+            --tag luxurymp-frontend:${{ github.sha }} \
+            --tag luxurymp-frontend:latest \
+            ./frontend
+
+      - name: Verify Built Images
+        run: |
+          docker images | grep luxurymp
