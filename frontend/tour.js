@@ -153,7 +153,24 @@ const translations = {
     btnSendQuoteSheetWa: "Confirm Quotation via WhatsApp",
     qsTitle: "OFFICIAL QUOTATION SHEET",
     qsSubtitle: "BESPOKE ANDEAN EXPEDITION PROFORMA",
-    btnReserveNowJump: "Reserve / Book This Journey"
+    btnReserveNowJump: "Reserve / Book This Journey",
+    labelEmail: "Email Address *",
+    lblNetBaseSubtotal: "Net Base Subtotal:",
+    lblDepositTag: "30% Luxury Deposit Due Today",
+    lblBalanceTag: "70% Balance Due upon Arrival in Cusco",
+    summaryTitle: "Quotation Summary",
+    phDocNumber: "Passport or ID Number",
+    phName: "e.g. Katherine Sterling",
+    phNotes: "Anniversary, dietary restrictions, private champagne preferences...",
+    guest1: "1 Traveler",
+    guest2: "2 Travelers",
+    guest3: "3 Travelers",
+    guest4: "4 Travelers",
+    guest5: "5 Travelers",
+    guest6: "6+ Private Charter",
+    carriagePullman: "Belmond Pullman Suite Carriage (Gourmet Dining)",
+    carriageObservatory: "Observation Bar Car & Panoramic Lounge",
+    carriagePresidential: "Presidential / Fully Tailored Expedition"
   },
   es: {
     topBarTag: "OPERADOR OFICIAL AUTORIZADO",
@@ -294,7 +311,24 @@ const translations = {
     btnSendQuoteSheetWa: "Confirmar Cotización vía WhatsApp",
     qsTitle: "HOJA DE COTIZACIÓN FORMAL",
     qsSubtitle: "PROFORMA DE EXPEDICIÓN PRIVADA",
-    btnReserveNowJump: "Reservar / Cotizar Esta Expedición"
+    btnReserveNowJump: "Reservar / Cotizar Esta Expedición",
+    labelEmail: "Correo Electrónico *",
+    lblNetBaseSubtotal: "Subtotal Neto Base:",
+    lblDepositTag: "30% Anticipo de Garantía (Cobro Hoy)",
+    lblBalanceTag: "70% Saldo a la Llegada en Cusco",
+    summaryTitle: "Resumen de Cotización",
+    phDocNumber: "N° pasaporte o DNI",
+    phName: "ej. Carlos Mendoza",
+    phNotes: "Aniversario, preferencias gastronómicas, champaña privada...",
+    guest1: "1 Viajero",
+    guest2: "2 Viajeros",
+    guest3: "3 Viajeros",
+    guest4: "4 Viajeros",
+    guest5: "5 Viajeros",
+    guest6: "6+ Charter Privado",
+    carriagePullman: "Vagón Belmond Pullman Suite (Alta Gastronomía)",
+    carriageObservatory: "Coche Bar Observatorio & Salón Panorámico",
+    carriagePresidential: "Vagón Presidencial / Expedición a Medida"
   }
 };
 
@@ -563,6 +597,15 @@ document.addEventListener('DOMContentLoaded', async () => {
     localStorage.setItem('luxury_currency', currParam);
   }
 
+  // Immediately reflect active language & currency in UI toggle buttons
+  document.documentElement.setAttribute('lang', appState.currentLang);
+  document.documentElement.setAttribute('data-lang', appState.currentLang);
+  document.documentElement.setAttribute('data-currency', appState.currentCurrency);
+  document.getElementById('btnLangEn')?.classList.toggle('active', appState.currentLang === 'en');
+  document.getElementById('btnLangEs')?.classList.toggle('active', appState.currentLang === 'es');
+  document.getElementById('btnUsd')?.classList.toggle('active', appState.currentCurrency === 'USD');
+  document.getElementById('btnPen')?.classList.toggle('active', appState.currentCurrency === 'PEN');
+
   // Set min date on date input (today + 2 days)
   const dateInput = document.getElementById('sidebarDate');
   if (dateInput) {
@@ -764,6 +807,26 @@ function renderTourPage() {
       }
     }
   });
+
+  // Dynamic Placeholders
+  const docNumInput = document.getElementById('sidebarDocNumber');
+  if (docNumInput) docNumInput.placeholder = dict.phDocNumber || (isEs ? 'N° pasaporte o DNI' : 'Passport or ID Number');
+  const nameInput = document.getElementById('sidebarName');
+  if (nameInput) nameInput.placeholder = dict.phName || (isEs ? 'ej. Carlos Mendoza' : 'e.g. Katherine Sterling');
+  const notesInput = document.getElementById('sidebarNotes');
+  if (notesInput) notesInput.placeholder = dict.phNotes || (isEs ? 'Aniversario, preferencias gastronómicas...' : 'Anniversary, dietary restrictions, private champagne preferences...');
+
+  // Dynamic Tax Badge (Update language synchronously)
+  const badge = document.getElementById('sidebarTaxBadge');
+  if (badge) {
+    const detection = detectTaxRegimeFromDocument(sidebarDocType);
+    badge.className = `tax-detection-badge ${detection.regime}`;
+    badge.innerHTML = `<span>${detection.regime === 'national' ? '🇵🇪' : '🌍'}</span> <strong>${isEs ? detection.labelEs : detection.labelEn}</strong> — <span>${isEs ? detection.lawNoticeEs : detection.lawNoticeEn}</span>`;
+  }
+
+  // Synchronize language toggle pills
+  document.getElementById('btnLangEn')?.classList.toggle('active', appState.currentLang === 'en');
+  document.getElementById('btnLangEs')?.classList.toggle('active', appState.currentLang === 'es');
 
   // 3. Breadcrumb & Hero
   document.getElementById('breadcrumbCurrentTitle').textContent = title;

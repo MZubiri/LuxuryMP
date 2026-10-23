@@ -156,7 +156,15 @@ const translations = {
     btnPrintQuoteSheet: "🖨️ Print / Save as PDF",
     btnSendQuoteSheetWa: "Confirm Quotation via WhatsApp",
     qsTitle: "OFFICIAL QUOTATION SHEET",
-    qsSubtitle: "BESPOKE ANDEAN EXPEDITION PROFORMA"
+    qsSubtitle: "BESPOKE ANDEAN EXPEDITION PROFORMA",
+    docPassport: "Passport (0%)",
+    docDni: "DNI (+18%)",
+    docCe: "Foreign ID (+18%)",
+    docRuc: "Tax ID (+18%)",
+    lblDepositTag: "30% Luxury Deposit Due Today",
+    lblBalanceTag: "70% Balance Due upon Arrival in Cusco",
+    summaryTitle: "Quotation Summary",
+    lblNetBaseSubtotal: "Net Base Subtotal:"
   },
   es: {
     topBarTag: "OPERADOR OFICIAL AUTORIZADO",
@@ -299,7 +307,15 @@ const translations = {
     btnPrintQuoteSheet: "🖨️ Imprimir / Guardar en PDF",
     btnSendQuoteSheetWa: "Confirmar Cotización vía WhatsApp",
     qsTitle: "HOJA DE COTIZACIÓN FORMAL",
-    qsSubtitle: "PROFORMA DE EXPEDICIÓN PRIVADA"
+    qsSubtitle: "PROFORMA DE EXPEDICIÓN PRIVADA",
+    docPassport: "Pasaporte (0%)",
+    docDni: "DNI (+18%)",
+    docCe: "Carné Ext. (+18%)",
+    docRuc: "RUC (+18%)",
+    lblDepositTag: "30% Anticipo de Garantía (Cobro Hoy)",
+    lblBalanceTag: "70% Saldo a la Llegada en Cusco",
+    summaryTitle: "Resumen de Cotización",
+    lblNetBaseSubtotal: "Subtotal Neto Base:"
   }
 };
 

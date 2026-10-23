@@ -601,21 +601,21 @@
             <div class="sidebar-form-group">
               <label class="sidebar-label" for="sidebarGuests" data-i18n="labelGuestsCount">Travelers *</label>
               <select id="sidebarGuests" class="sidebar-select" onchange="recalculateSidebarTotal()">
-                <option value="1">1 Traveler</option>
-                <option value="2" selected>2 Travelers</option>
-                <option value="3">3 Travelers</option>
-                <option value="4">4 Travelers</option>
-                <option value="5">5 Travelers</option>
-                <option value="6">6+ Private Charter</option>
+                <option value="1" data-i18n="guest1">1 Traveler</option>
+                <option value="2" selected data-i18n="guest2">2 Travelers</option>
+                <option value="3" data-i18n="guest3">3 Travelers</option>
+                <option value="4" data-i18n="guest4">4 Travelers</option>
+                <option value="5" data-i18n="guest5">5 Travelers</option>
+                <option value="6" data-i18n="guest6">6+ Private Charter</option>
               </select>
             </div>
 
             <div class="sidebar-form-group">
               <label class="sidebar-label" for="sidebarCarriage" data-i18n="lblCarriage">Preferred Service / Carriage</label>
               <select id="sidebarCarriage" class="sidebar-select">
-                <option value="Pullman Suite Carriage">Belmond Pullman Suite Carriage (Gourmet Dining)</option>
-                <option value="Observatory Carriage">Observation Bar Car & Panoramic Lounge</option>
-                <option value="Presidential / Custom Private">Presidential / Fully Tailored Expedition</option>
+                <option value="Pullman Suite Carriage" data-i18n="carriagePullman">Belmond Pullman Suite Carriage (Gourmet Dining)</option>
+                <option value="Observatory Carriage" data-i18n="carriageObservatory">Observation Bar Car & Panoramic Lounge</option>
+                <option value="Presidential / Custom Private" data-i18n="carriagePresidential">Presidential / Fully Tailored Expedition</option>
               </select>
             </div>
 
@@ -642,7 +642,7 @@
             <!-- Dynamic Quote Box with Itemized Taxes & Billing Breakdown -->
             <div class="sidebar-quote-box">
               <div class="sidebar-quote-row" style="font-size: 0.85rem; color: var(--color-text-muted);">
-                <span>Subtotal Neto Base:</span>
+                <span data-i18n="lblNetBaseSubtotal">Subtotal Neto Base:</span>
                 <span id="sidebarNetSubtotal">$4,300 USD</span>
               </div>
               <div class="sidebar-quote-row" style="font-size: 0.85rem;">
