@@ -2783,3 +2783,17 @@ function setupScrollListener() {
     }
   });
 }
+
+// Global initialization on DOM ready
+document.addEventListener('DOMContentLoaded', () => {
+  setupScrollListener();
+  const btnSidebarPay = document.getElementById('btnSidebarPayOnline');
+  if (btnSidebarPay) {
+    btnSidebarPay.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (typeof handleSidebarOnlinePayment === 'function') {
+        handleSidebarOnlinePayment();
+      }
+    });
+  }
+});

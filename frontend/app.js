@@ -2753,3 +2753,17 @@ function setupScrollListener() {
     }
   });
 }
+
+// Global initialization on DOM ready
+document.addEventListener('DOMContentLoaded', () => {
+  setupScrollListener();
+  const btnDrawerPay = document.getElementById('btnDrawerPayOnline');
+  if (btnDrawerPay) {
+    btnDrawerPay.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (typeof handleDrawerOnlinePayment === 'function') {
+        handleDrawerOnlinePayment();
+      }
+    });
+  }
+});
