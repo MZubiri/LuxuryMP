@@ -114,6 +114,7 @@ public class PaymentsController : ControllerBase
             currency_code = currency,
             email = dto.Email.Trim().ToLowerInvariant(),
             source_id = dto.TokenId.Trim(),
+            capture = true,
             description = description,
             metadata = new Dictionary<string, string>
             {
@@ -248,14 +249,21 @@ public class PaymentsController : ControllerBase
                 if (root.TryGetProperty("merchant_message", out var mMsg)) merchantMessage = mMsg.GetString() ?? "";
                 if (root.TryGetProperty("code", out var cCode)) errorCode = cCode.GetString() ?? "";
 
-                _logger.LogWarning("Culqi charge declined/failed: HTTP {Status}, Code: {Code}, Error: {MerchantMessage}",
-                    response.StatusCode, errorCode, merchantMessage);
+                _logger.LogWarning("Culqi charge declined/failed: HTTP {Status}, Code: {Code}, Error: {MerchantMessage}, UserMessage: {UserMessage}, Raw: {Raw}",
+                    response.StatusCode, errorCode, merchantMessage, userMessage, responseBody);
+
+                var finalMessage = !string.IsNullOrWhiteSpace(merchantMessage)
+                    ? $"{userMessage} ({merchantMessage})"
+                    : userMessage;
 
                 return BadRequest(new
                 {
                     success = false,
                     error = errorCode,
-                    message = !string.IsNullOrWhiteSpace(userMessage) ? userMessage : merchantMessage
+                    code = errorCode,
+                    merchant_message = merchantMessage,
+                    user_message = userMessage,
+                    message = finalMessage
                 });
             }
         }

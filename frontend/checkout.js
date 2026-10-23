@@ -348,10 +348,12 @@ async function processBackendCharge(tokenId, cardBrand = '', lastFour = '') {
       body: JSON.stringify(payload)
     });
 
-    const data = await res.json();
+    const data = await res.json().catch(() => ({}));
 
     if (!res.ok || !data.success) {
-      throw new Error(data.message || 'La entidad bancaria no aprobó la transacción.');
+      console.warn('[Culqi Charge Declined / Error Details]:', data);
+      const detailMsg = data.message || data.merchant_message || data.error || 'La entidad bancaria no aprobó la transacción.';
+      throw new Error(detailMsg);
     }
 
     // Éxito: Mostrar Voucher
