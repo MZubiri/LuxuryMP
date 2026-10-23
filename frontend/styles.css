@@ -5725,6 +5725,15 @@ body.luxury-body {
   margin-bottom: 3rem;
 }
 
+.legal-footer-logo {
+  height: 40px;
+  width: auto;
+  max-width: 170px;
+  object-fit: contain;
+  margin-bottom: 1.25rem;
+  display: block;
+}
+
 .legal-footer-desc {
   font-size: 0.85rem;
   color: #A1A1AA;
@@ -5763,6 +5772,36 @@ body.luxury-body {
   text-align: center;
   font-size: 0.78rem;
   color: #71717A;
+}
+
+.legal-footer-tag-igv {
+  color: #22C55E;
+  font-weight: 500;
+}
+
+.legal-footer-contact-block {
+  font-size: 0.82rem;
+  color: #D4D4D8;
+  line-height: 1.6;
+  margin-bottom: 0.85rem;
+}
+
+.legal-footer-contact-block strong {
+  color: #E4E4E7;
+}
+
+.legal-footer-contact-block a {
+  color: var(--color-gold);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.legal-footer-contact-block a.email-link {
+  color: #FFFFFF;
+}
+
+.legal-footer-contact-block a:hover {
+  text-decoration: underline;
 }
 
 /* ==========================================================================
