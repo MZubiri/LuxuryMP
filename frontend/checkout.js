@@ -383,6 +383,12 @@ function showSuccessVoucher(chargeData) {
   if (formSection) formSection.style.display = 'none';
   if (voucherSection) voucherSection.style.display = 'block';
 
+  const tourTitleEl = document.getElementById('voucherTourTitle');
+  if (tourTitleEl) tourTitleEl.textContent = checkoutState.title || 'Expedición Privada Machu Picchu';
+
+  const guestNameEl = document.getElementById('voucherGuestName');
+  if (guestNameEl) guestNameEl.textContent = checkoutState.guestName || (chargeData.customerName || 'Huésped Distinguido');
+
   document.getElementById('voucherChargeId').textContent = chargeData.chargeId || '—';
   document.getElementById('voucherAuthCode').textContent = chargeData.authorizationCode || 'APROBADO';
   

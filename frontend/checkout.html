@@ -22,7 +22,7 @@
   <script src="https://checkout.culqi.com/js/v4"></script>
 
   <!-- Modular Stylesheet (Separation of Concerns) -->
-  <link rel="stylesheet" href="checkout.css?v=20261023_prod6">
+  <link rel="stylesheet" href="checkout.css?v=20261023_prod10">
 </head>
 <body class="checkout-body">
 
@@ -177,6 +177,13 @@
 
     <!-- VOUCHER DE PAGO EXITOSO -->
     <div class="voucher-container" id="checkoutVoucherSection">
+      <!-- Encabezado para Impresión / PDF -->
+      <div class="voucher-print-header">
+        <div class="voucher-print-brand">LUXURY MACHUPICCHU PERU</div>
+        <div class="voucher-print-tagline">Haute Couture Andean Travel & Private Expeditions • RUC: 20601622492 • DIRCETUR Reg. N° 299-2016-GR CUSCO</div>
+        <div class="voucher-print-doc">COMPROBANTE OFICIAL DE RESERVA Y PAGO BANCARIO</div>
+      </div>
+
       <div class="voucher-icon-success">
         <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
       </div>
@@ -185,13 +192,17 @@
 
       <div class="voucher-details-box">
         <div class="voucher-grid">
-          <div class="voucher-item">
-            <label>Código de Cargo (Culqi)</label>
-            <span id="voucherChargeId">—</span>
+          <div class="voucher-item voucher-item-full">
+            <label>Expedición Seleccionada</label>
+            <span id="voucherTourTitle">—</span>
           </div>
           <div class="voucher-item">
-            <label>Código de Autorización</label>
-            <span id="voucherAuthCode">—</span>
+            <label>Titular de la Reserva</label>
+            <span id="voucherGuestName">—</span>
+          </div>
+          <div class="voucher-item">
+            <label>Referencia de Reserva</label>
+            <span id="voucherRefCode" class="voucher-code-highlight">—</span>
           </div>
           <div class="voucher-item">
             <label>Monto Pagado</label>
@@ -202,14 +213,28 @@
             <span id="voucherCard">—</span>
           </div>
           <div class="voucher-item">
-            <label>Referencia de Reserva</label>
-            <span id="voucherRefCode">—</span>
+            <label>Código de Cargo (Culqi)</label>
+            <span id="voucherChargeId" class="voucher-code-highlight">—</span>
+          </div>
+          <div class="voucher-item">
+            <label>Código de Autorización</label>
+            <span id="voucherAuthCode">—</span>
           </div>
           <div class="voucher-item">
             <label>Fecha y Hora</label>
             <span id="voucherDate">—</span>
           </div>
+          <div class="voucher-item">
+            <label>Estado de la Transacción</label>
+            <span class="voucher-status-paid">✓ Aprobado / Liquidado</span>
+          </div>
         </div>
+      </div>
+
+      <!-- Pie de página para Impresión / PDF -->
+      <div class="voucher-print-footer">
+        <p>Este comprobante certifica la confirmación de su pago seguro procesado bajo estándares PCI-DSS Nivel 1 a través de Culqi.</p>
+        <p>Luxury Machupicchu Peru E.I.R.L • Portal de Panes 123, Plaza de Armas, Cusco, Perú • Tel: +51 958 195 840 • info@lmptravel.com</p>
       </div>
 
       <div class="voucher-actions">
@@ -244,6 +269,6 @@
   </footer>
 
   <!-- Checkout Logic -->
-  <script src="checkout.js?v=20261023_prod9"></script>
+  <script src="checkout.js?v=20261023_prod10"></script>
 </body>
 </html>
