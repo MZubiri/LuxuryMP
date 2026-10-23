@@ -103,20 +103,13 @@ public class PaymentsController : ControllerBase
             }
         }
 
-        var rawDesc = !string.IsNullOrWhiteSpace(dto.Description)
-            ? dto.Description.Trim()
-            : $"LMP - {referenceCode ?? "Reserva"} ({currency} {dto.Amount:N2})";
+        var cleanRef = !string.IsNullOrWhiteSpace(referenceCode)
+            ? System.Text.RegularExpressions.Regex.Replace(referenceCode, @"[^a-zA-Z0-9\-_]", "").Trim()
+            : "RESERVA";
+        if (cleanRef.Length > 20) cleanRef = cleanRef[..20];
 
-        // Culqi strictly requires description length between 5 and 80 characters
-        if (rawDesc.Length > 80)
-        {
-            rawDesc = rawDesc[..80];
-        }
-        else if (rawDesc.Length < 5)
-        {
-            rawDesc = rawDesc.PadRight(5, '.');
-        }
-        var description = rawDesc;
+        var description = $"Reserva {cleanRef} - Luxury Machupicchu Peru";
+        if (description.Length > 80) description = description[..80];
 
         // Prepare Culqi Payload
         var culqiPayload = new
@@ -158,6 +151,17 @@ public class PaymentsController : ControllerBase
             {
                 // Culqi success charge
                 var chargeId = root.TryGetProperty("id", out var idProp) ? idProp.GetString() ?? "" : "";
+
+                // If Culqi returned 200 without a charge ID (e.g. 3DS review or challenge required)
+                if (string.IsNullOrWhiteSpace(chargeId))
+                {
+                    var reviewMsg = root.TryGetProperty("user_message", out var uProp)
+                        ? uProp.GetString()
+                        : "La transacción requiere autenticación adicional con su entidad bancaria (3D Secure). Por favor intente con una tarjeta autorizada.";
+                    _logger.LogWarning("Culqi returned 200 without charge ID (3DS Review required): {Raw}", responseBody);
+                    return BadRequest(new { success = false, message = reviewMsg, actionCode = "REVIEW" });
+                }
+
                 var authCode = "";
                 var cardBrand = "Tarjeta";
                 var cardLastFour = "";

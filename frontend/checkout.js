@@ -217,15 +217,9 @@ function handleCurrencyChange(newCurrency) {
   renderCheckoutSummary();
 }
 
-function sanitizeCulqiDescription(text) {
-  let clean = (text || '').replace(/\s+/g, ' ').trim();
-  if (clean.length > 80) {
-    clean = clean.substring(0, 80).trim();
-  }
-  if (clean.length < 5) {
-    clean = (clean + '.....').substring(0, 5);
-  }
-  return clean;
+function sanitizeCulqiDescription(referenceCode) {
+  const ref = (referenceCode || '').replace(/[^a-zA-Z0-9\-_]/g, '').trim() || 'RESERVA';
+  return `Reserva ${ref} - Luxury Machupicchu Peru`.substring(0, 80);
 }
 
 // ============================================================================
@@ -272,7 +266,7 @@ function initiateCulqiPayment() {
       title: 'Luxury Machupicchu Peru',
       currency: checkoutState.currency,
       amount: amountInCents,
-      description: sanitizeCulqiDescription(`${checkoutState.title} (${checkoutState.referenceCode})`)
+      description: sanitizeCulqiDescription(checkoutState.referenceCode)
     });
 
     Culqi.options({
@@ -348,7 +342,7 @@ async function processBackendCharge(tokenId, cardBrand = '', lastFour = '') {
       customerName: checkoutState.guestName,
       customerPhone: checkoutState.guestPhone,
       referenceCode: checkoutState.referenceCode,
-      description: sanitizeCulqiDescription(`${checkoutState.title} - ${checkoutState.referenceCode}`)
+      description: sanitizeCulqiDescription(checkoutState.referenceCode)
     };
 
     const res = await fetch('/api/payments/charge', {
