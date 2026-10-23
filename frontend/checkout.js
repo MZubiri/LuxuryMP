@@ -26,6 +26,23 @@ document.addEventListener('DOMContentLoaded', async () => {
   await loadPaymentConfig();
   renderCheckoutSummary();
   initCulqiGlobalCallback();
+
+  const params = new URLSearchParams(window.location.search);
+  if (params.has('previewVoucher') || params.has('testVoucher')) {
+    showSuccessVoucher({
+      success: true,
+      chargeId: 'chr_test_' + Date.now().toString(36),
+      authorizationCode: 'AUTH' + Math.floor(100000 + Math.random() * 900000),
+      amount: checkoutState.amount || 500,
+      currency: checkoutState.currency || 'USD',
+      cardBrand: 'Visa',
+      cardLastFour: '4111',
+      referenceCode: checkoutState.referenceCode || 'RES-LMP-TEST',
+      transactionDate: Date.now(),
+      customerName: checkoutState.guestName || 'Lord Arthur Hastings',
+      customerEmail: checkoutState.guestEmail || 'arthur@domain.com'
+    });
+  }
 });
 
 // ============================================================================
