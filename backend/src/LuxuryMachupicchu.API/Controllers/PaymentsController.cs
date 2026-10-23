@@ -103,9 +103,20 @@ public class PaymentsController : ControllerBase
             }
         }
 
-        var description = !string.IsNullOrWhiteSpace(dto.Description)
-            ? dto.Description
-            : $"Luxury Machupicchu Peru - {referenceCode ?? "Reserva"} ({currency} {dto.Amount:N2})";
+        var rawDesc = !string.IsNullOrWhiteSpace(dto.Description)
+            ? dto.Description.Trim()
+            : $"LMP - {referenceCode ?? "Reserva"} ({currency} {dto.Amount:N2})";
+
+        // Culqi strictly requires description length between 5 and 80 characters
+        if (rawDesc.Length > 80)
+        {
+            rawDesc = rawDesc[..80];
+        }
+        else if (rawDesc.Length < 5)
+        {
+            rawDesc = rawDesc.PadRight(5, '.');
+        }
+        var description = rawDesc;
 
         // Prepare Culqi Payload
         var culqiPayload = new
