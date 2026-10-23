@@ -404,7 +404,26 @@ body.checkout-body {
 .voucher-subtitle {
   font-size: 0.95rem;
   color: var(--checkout-muted);
-  margin-bottom: 32px;
+  margin-bottom: 20px;
+}
+
+.voucher-notice-banner {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: rgba(37, 211, 102, 0.08);
+  border: 1px solid rgba(37, 211, 102, 0.25);
+  border-radius: 6px;
+  padding: 10px 18px;
+  margin-bottom: 24px;
+  font-size: 0.88rem;
+  color: #86EFAC;
+}
+
+.voucher-notice-banner svg {
+  flex-shrink: 0;
+  stroke: #25D366;
 }
 
 .voucher-details-box {
@@ -500,6 +519,12 @@ body.checkout-body {
   background: rgba(197, 164, 126, 0.12);
   border: 1px solid rgba(197, 164, 126, 0.35);
   color: #E6CEB3;
+}
+
+.checkout-alert.alert-success {
+  background: rgba(37, 211, 102, 0.12);
+  border: 1px solid rgba(37, 211, 102, 0.4);
+  color: #86EFAC;
 }
 
 /* Footer */
@@ -598,7 +623,9 @@ body.checkout-body {
     print-color-adjust: exact !important;
   }
 
-  /* Ocultar elementos de navegación, pie de página del sitio y botones */
+  /* Ocultar elementos de navegación, pie de página del sitio, alertas, botones y overlays de Culqi */
+  header,
+  footer,
   header.checkout-header,
   footer.checkout-footer,
   .checkout-container,
@@ -608,8 +635,17 @@ body.checkout-body {
   .checkout-compliance-nav,
   .checkout-back-link,
   #checkoutAlert,
-  #checkoutFormSection {
+  #checkoutFormSection,
+  iframe,
+  .culqi-backdrop,
+  [id*="culqi"],
+  [class*="culqi"] {
     display: none !important;
+    visibility: hidden !important;
+  }
+
+  body.checkout-body * {
+    visibility: visible;
   }
 
   .checkout-main {
@@ -617,6 +653,12 @@ body.checkout-body {
     margin: 0 !important;
     max-width: 100% !important;
     display: block !important;
+  }
+
+  .voucher-container,
+  #checkoutVoucherSection,
+  #checkoutVoucherSection * {
+    visibility: visible !important;
   }
 
   .voucher-container {

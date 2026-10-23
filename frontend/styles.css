@@ -4676,7 +4676,7 @@ body.luxury-body {
 
 /* Print Styles for PDF / Print Output */
 @media print {
-  body * {
+  body:has(.quote-sheet-modal.active) * {
     visibility: hidden;
   }
   .quote-sheet-modal,

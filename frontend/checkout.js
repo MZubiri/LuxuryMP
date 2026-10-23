@@ -303,9 +303,36 @@ function initiateCulqiPayment() {
 // ============================================================================
 // 5. CALLBACK GLOBAL DE CULQI (window.culqi)
 // ============================================================================
+function closeCulqiModal() {
+  try {
+    if (window.Culqi && typeof window.Culqi.close === 'function') {
+      window.Culqi.close();
+    }
+  } catch (e) {
+    console.warn('Culqi.close() note:', e);
+  }
+
+  // Culqi Checkout v4 monta un contenedor/iframe sobre la pantalla.
+  // Si tras llamar Culqi.close() el iframe persiste, forzamos su remocion/ocultamiento
+  setTimeout(() => {
+    try {
+      const culqiElements = document.querySelectorAll(
+        'iframe[src*="culqi.com"], iframe[src*="checkoutview"], #culqi-container, .culqi-checkout-container, .culqi-backdrop, [class*="culqi-overlay"], [id*="culqi-overlay"]'
+      );
+      culqiElements.forEach(el => {
+        el.style.setProperty('display', 'none', 'important');
+        el.style.setProperty('visibility', 'hidden', 'important');
+      });
+    } catch (_) {}
+  }, 250);
+}
+
 function initCulqiGlobalCallback() {
   window.culqi = async function() {
     if (Culqi.token) {
+      // Cerrar inmediatamente el modal de Culqi para retornar la vista al usuario
+      closeCulqiModal();
+
       // Token generado exitosamente por Culqi (tarjeta o yape)
       const token = Culqi.token.id;
       const cardBrand = Culqi.token.iin?.card_brand || Culqi.token.card_brand || 'Tarjeta';
@@ -330,7 +357,7 @@ function initCulqiGlobalCallback() {
 // 6. ENVIAR TOKEN AL BACKEND (/api/payments/charge)
 // ============================================================================
 async function processBackendCharge(tokenId, cardBrand = '', lastFour = '') {
-  setProcessingState(true, 'Verificando con la entidad bancaria y emitiendo autorización...');
+  setProcessingState(true, 'Verificando con la entidad bancaria y emitiendo comprobante...');
 
   try {
     const payload = {
@@ -364,10 +391,17 @@ async function processBackendCharge(tokenId, cardBrand = '', lastFour = '') {
       throw new Error(detailMsg);
     }
 
+    // Asegurar cierre definitivo de Culqi modal
+    closeCulqiModal();
+
+    // Notificación de éxito destacada en pantalla
+    showAlert('✓ ¡Pago Exitoso! Su transacción fue aprobada por la entidad bancaria y su comprobante oficial ha sido emitido.', 'success');
+
     // Éxito: Mostrar Voucher
     showSuccessVoucher(data);
   } catch (err) {
     console.error('Error al procesar el cargo:', err);
+    closeCulqiModal();
     showAlert(`Error en el pago: ${err.message}`, 'error');
     setProcessingState(false);
   }
@@ -377,6 +411,7 @@ async function processBackendCharge(tokenId, cardBrand = '', lastFour = '') {
 // 7. MOSTRAR VOUCHER DE CONFIRMACIÓN
 // ============================================================================
 function showSuccessVoucher(chargeData) {
+  closeCulqiModal();
   const formSection = document.getElementById('checkoutFormSection');
   const voucherSection = document.getElementById('checkoutVoucherSection');
 
@@ -388,6 +423,9 @@ function showSuccessVoucher(chargeData) {
 
   const guestNameEl = document.getElementById('voucherGuestName');
   if (guestNameEl) guestNameEl.textContent = checkoutState.guestName || (chargeData.customerName || 'Huésped Distinguido');
+
+  const noticeEmailEl = document.getElementById('voucherNoticeEmail');
+  if (noticeEmailEl) noticeEmailEl.textContent = checkoutState.guestEmail || (chargeData.customerEmail || 'su correo registrado');
 
   document.getElementById('voucherChargeId').textContent = chargeData.chargeId || '—';
   document.getElementById('voucherAuthCode').textContent = chargeData.authorizationCode || 'APROBADO';
