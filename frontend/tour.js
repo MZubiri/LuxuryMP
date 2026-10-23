@@ -134,11 +134,15 @@ const translations = {
     btnDispatchWhatsApp: "CONFIRM BESPOKE PACKAGE VIA WHATSAPP",
     btnRequestPdfQuote: "REQUEST FORMAL DOSSIER & PDF QUOTE",
     lblDocType: "Document Type *",
+    lblDocNumber: "Document ID *",
+    docPassport: "Passport (0%)",
+    docDni: "DNI (+18%)",
+    docCe: "Foreign ID (+18%)",
+    docRuc: "Tax ID (+18%)",
     optPassport: "Passport (0% IGV)",
     optDni: "DNI (+18% IGV)",
-    optCe: "Carné Extranjería (+18% IGV)",
-    optRuc: "RUC (+18% IGV)",
-    lblDocNumber: "Document ID Number *",
+    optCe: "Foreign ID (+18% IGV)",
+    optRuc: "Tax ID (+18% IGV)",
     lblNationality: "Country / Nationality",
     lblTaxBreakdown: "Tax Breakdown & Charge Details:",
     lblDepositDueToday: "30% Luxury Deposit Due Today:",
@@ -148,7 +152,8 @@ const translations = {
     btnPrintQuoteSheet: "🖨️ Print / Save as PDF",
     btnSendQuoteSheetWa: "Confirm Quotation via WhatsApp",
     qsTitle: "OFFICIAL QUOTATION SHEET",
-    qsSubtitle: "BESPOKE ANDEAN EXPEDITION PROFORMA"
+    qsSubtitle: "BESPOKE ANDEAN EXPEDITION PROFORMA",
+    btnReserveNowJump: "Reserve / Book This Journey"
   },
   es: {
     topBarTag: "OPERADOR OFICIAL AUTORIZADO",
@@ -269,12 +274,16 @@ const translations = {
     lblQuoteTotal: "Total Estimado",
     btnDispatchWhatsApp: "CONFIRMAR PAQUETE A MEDIDA VÍA WHATSAPP",
     btnRequestPdfQuote: "SOLICITAR COTIZACIÓN FORMAL & DOSSIER PDF",
-    lblDocType: "Tipo de Documento *",
+    lblDocType: "Tipo Documento *",
+    lblDocNumber: "N° Documento *",
+    docPassport: "Pasaporte (0%)",
+    docDni: "DNI (+18%)",
+    docCe: "Carné Ext. (+18%)",
+    docRuc: "RUC (+18%)",
     optPassport: "Pasaporte (0% IGV)",
     optDni: "DNI (+18% IGV)",
     optCe: "Carné Extranjería (+18% IGV)",
     optRuc: "RUC (+18% IGV)",
-    lblDocNumber: "N° de Documento *",
     lblNationality: "País / Nacionalidad",
     lblTaxBreakdown: "Desglose Impositivo y Detalle de Cobro:",
     lblDepositDueToday: "30% Anticipo de Garantía (A Cobrar Hoy):",
@@ -284,7 +293,8 @@ const translations = {
     btnPrintQuoteSheet: "🖨️ Imprimir / Guardar en PDF",
     btnSendQuoteSheetWa: "Confirmar Cotización vía WhatsApp",
     qsTitle: "HOJA DE COTIZACIÓN FORMAL",
-    qsSubtitle: "PROFORMA DE EXPEDICIÓN PRIVADA"
+    qsSubtitle: "PROFORMA DE EXPEDICIÓN PRIVADA",
+    btnReserveNowJump: "Reservar / Cotizar Esta Expedición"
   }
 };
 

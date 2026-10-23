@@ -32,36 +32,112 @@
   <link rel="stylesheet" href="styles.css?v=20261021_prod5">
 
   <style>
-    /* CRITICAL HIGH CONTRAST INPUTS & LUXURY BUTTONS */
+    /* ========================================================================
+       REDISTRIBUTED EDITORIAL LAYOUT & SQUARED RESERVATION FORM
+       ======================================================================== */
+    .tour-detail-container {
+      max-width: 1400px !important;
+      margin: 0 auto !important;
+      padding: 3rem 2.5rem 5rem !important;
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 4.5rem !important;
+      box-sizing: border-box !important;
+    }
+
+    /* TOP 2-COLUMN BALANCED SPLIT: ITINERARY + STICKY RESERVATION DESK */
+    .tour-editorial-split {
+      display: grid !important;
+      grid-template-columns: minmax(0, 1fr) 400px !important;
+      gap: 3.5rem !important;
+      align-items: start !important;
+      width: 100% !important;
+    }
+
+    .tour-editorial-main {
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 3.5rem !important;
+      min-width: 0 !important;
+    }
+
+    /* STICKY RESERVATION SIDEBAR */
+    .tour-detail-sidebar {
+      position: sticky !important;
+      top: 90px !important;
+      z-index: 20 !important;
+      align-self: start !important;
+      width: 100% !important;
+      max-width: 400px !important;
+    }
+
     .sidebar-booking-card,
     #sidebarBookingForm {
       color: #121316 !important;
       max-width: 100% !important;
       box-sizing: border-box !important;
-      overflow-x: hidden !important;
     }
 
+    /* SQUARED 50/50 DOCUMENT ROW: MATCHING HEIGHTS & ZERO TRUNCATION */
     .sidebar-booking-card .pkg-doc-row {
       display: grid !important;
-      grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr) !important;
+      grid-template-columns: 1fr 1fr !important;
       gap: 0.65rem !important;
       width: 100% !important;
       max-width: 100% !important;
       box-sizing: border-box !important;
+      align-items: start !important;
+      margin-bottom: 0.85rem !important;
     }
 
-    .sidebar-booking-card .sidebar-form-group {
+    .sidebar-booking-card .pkg-doc-row .sidebar-form-group {
       min-width: 0 !important;
       width: 100% !important;
       max-width: 100% !important;
+      margin-bottom: 0 !important;
+      box-sizing: border-box !important;
+      display: flex !important;
+      flex-direction: column !important;
+    }
+
+    .sidebar-booking-card .pkg-doc-row .sidebar-label {
+      color: #2D241E !important;
+      font-weight: 700 !important;
+      font-size: 0.68rem !important;
+      letter-spacing: 0.05em !important;
+      text-transform: uppercase !important;
+      white-space: nowrap !important;
+      overflow: hidden !important;
+      text-overflow: ellipsis !important;
+      height: 18px !important;
+      line-height: 18px !important;
+      margin-bottom: 0.35rem !important;
+      display: block !important;
       box-sizing: border-box !important;
     }
 
-    .sidebar-booking-card .sidebar-label {
-      color: #2D241E !important;
-      font-weight: 700 !important;
-      font-size: 0.74rem !important;
-      letter-spacing: 0.1em !important;
+    .sidebar-booking-card .pkg-doc-row select,
+    .sidebar-booking-card .pkg-doc-row input,
+    .sidebar-booking-card #sidebarDocType,
+    .sidebar-booking-card #sidebarDocNumber {
+      height: 44px !important;
+      min-height: 44px !important;
+      max-height: 44px !important;
+      line-height: 44px !important;
+      padding: 0 0.65rem !important;
+      border: 1.5px solid #2D241E !important;
+      border-radius: 4px !important;
+      box-sizing: border-box !important;
+      font-size: 0.84rem !important;
+      font-weight: 600 !important;
+      vertical-align: middle !important;
+      background-color: #FFFFFF !important;
+      color: #121316 !important;
+      -webkit-text-fill-color: #121316 !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      margin: 0 !important;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08) !important;
     }
 
     .sidebar-booking-card input,
@@ -111,10 +187,149 @@
       -webkit-text-fill-color: #121316 !important;
     }
 
-    @media (max-width: 580px) {
-      .sidebar-booking-card .pkg-doc-row {
+    /* FULL-WIDTH LUXURY DEEP-DIVE SECTIONS (BELOW SPLIT) */
+    .tour-fullwidth-features {
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 4.5rem !important;
+      width: 100% !important;
+    }
+
+    .fullwidth-block {
+      width: 100% !important;
+      max-width: 100% !important;
+    }
+
+    .fullwidth-block .detail-section-title {
+      font-size: 2.2rem !important;
+      margin-bottom: 1.25rem !important;
+      border-bottom: 1px solid rgba(197, 164, 126, 0.2) !important;
+      padding-bottom: 0.75rem !important;
+    }
+
+    /* BALANCED 4-COLUMN PARTNER HOTELS GRID */
+    .fullwidth-hotels-grid {
+      display: grid !important;
+      grid-template-columns: repeat(4, 1fr) !important;
+      gap: 1.5rem !important;
+      width: 100% !important;
+    }
+
+    /* BALANCED 4-COLUMN ADVISORY GRID */
+    .fullwidth-advisory-grid {
+      display: grid !important;
+      grid-template-columns: repeat(4, 1fr) !important;
+      gap: 1.5rem !important;
+      width: 100% !important;
+    }
+
+    /* EXPANSIVE INCLUSIONS 2-COLUMN GRID */
+    .fullwidth-inclusions-grid {
+      display: grid !important;
+      grid-template-columns: 1fr 1fr !important;
+      gap: 2rem !important;
+      width: 100% !important;
+    }
+
+    /* EXPANSIVE GEOGRAPHIC CORRIDOR GRID */
+    .fullwidth-geo-grid {
+      display: grid !important;
+      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)) !important;
+      gap: 2rem !important;
+      width: 100% !important;
+      max-width: 100% !important;
+    }
+
+    .fullwidth-block#tourGeoAltitudeBlock {
+      max-width: 100% !important;
+    }
+
+    /* FULLWIDTH DOSSIER BANNER WITH QUICK BOOKING JUMP */
+    .fullwidth-dossier-box {
+      background: linear-gradient(135deg, #101216 0%, #1A1D24 100%) !important;
+      border: 1px solid rgba(197, 164, 126, 0.35) !important;
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.3) !important;
+      padding: 2.5rem 3rem !important;
+      border-radius: 8px !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+      gap: 2rem !important;
+      flex-wrap: wrap !important;
+    }
+
+    .dossier-actions {
+      display: flex !important;
+      align-items: center !important;
+      gap: 1.25rem !important;
+      flex-wrap: wrap !important;
+    }
+
+    .btn-scroll-booking {
+      background: rgba(197, 164, 126, 0.12) !important;
+      color: #C5A47E !important;
+      border: 1.5px solid #C5A47E !important;
+      border-radius: 4px !important;
+      padding: 0.95rem 1.6rem !important;
+      font-family: var(--font-sans, 'Inter', sans-serif) !important;
+      font-size: 0.82rem !important;
+      font-weight: 700 !important;
+      letter-spacing: 0.1em !important;
+      text-transform: uppercase !important;
+      cursor: pointer !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      gap: 0.6rem !important;
+      transition: all 0.3s ease !important;
+    }
+
+    .btn-scroll-booking:hover {
+      background: #C5A47E !important;
+      color: #0E0F12 !important;
+      transform: translateY(-2px) !important;
+      box-shadow: 0 6px 20px rgba(197, 164, 126, 0.35) !important;
+    }
+
+    @media (max-width: 1100px) {
+      .tour-editorial-split {
         grid-template-columns: 1fr !important;
-        gap: 0.65rem !important;
+        gap: 3rem !important;
+      }
+      .tour-detail-sidebar {
+        position: static !important;
+        max-width: 520px !important;
+        margin: 0 auto !important;
+        width: 100% !important;
+      }
+      .fullwidth-hotels-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+      }
+      .fullwidth-advisory-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+      }
+    }
+
+    @media (max-width: 680px) {
+      .tour-detail-container {
+        padding: 2rem 1.25rem 4rem !important;
+        gap: 3.5rem !important;
+      }
+      .fullwidth-hotels-grid,
+      .fullwidth-advisory-grid,
+      .fullwidth-inclusions-grid {
+        grid-template-columns: 1fr !important;
+      }
+      .fullwidth-dossier-box {
+        padding: 1.75rem !important;
+        flex-direction: column !important;
+        align-items: stretch !important;
+      }
+      .dossier-actions {
+        flex-direction: column !important;
+      }
+      .dossier-actions button {
+        width: 100% !important;
+        justify-content: center !important;
       }
     }
 
@@ -293,45 +508,207 @@
     </div>
   </section>
 
-  <!-- Main Tour Detail Container (Two-Column Editorial Grid) -->
+  <!-- Main Tour Detail Container (Master Layout) -->
   <main class="tour-detail-container">
     
-    <!-- LEFT: Editorial Content, Gallery, Timeline, Hotels, Advisories, Dossier -->
-    <article class="tour-detail-content">
+    <!-- PART 1: TOP 2-COLUMN BALANCED SPLIT (EDITORIAL NARRATIVE & ITINERARY + STICKY RESERVATION ATELIER) -->
+    <div class="tour-editorial-split">
       
-      <!-- Section 1: Overview & Highlights -->
-      <section class="tour-overview-block">
-        <h2 class="detail-section-title">
-          <span class="title-crest">✦</span>
-          <span data-i18n="titleOverview">Expedition Narrative & Highlights</span>
-        </h2>
-        <p class="tour-narrative-text" id="tourLongNarrative">
-          Every nuance of this journey has been calibrated to deliver unhurried immersion in Andean heritage.
-        </p>
+      <!-- LEFT: Expedition Narrative, Photo Chronicle, Day-by-Day Itinerary -->
+      <article class="tour-editorial-main">
+        
+        <!-- Section 1: Overview & Highlights -->
+        <section class="tour-overview-block">
+          <h2 class="detail-section-title">
+            <span class="title-crest">✦</span>
+            <span data-i18n="titleOverview">Expedition Narrative & Highlights</span>
+          </h2>
+          <p class="tour-narrative-text" id="tourLongNarrative">
+            Every nuance of this journey has been calibrated to deliver unhurried immersion in Andean heritage.
+          </p>
 
-        <!-- Highlights Card -->
-        <div class="detail-highlights-box">
-          <h4 data-i18n="titleHighlights">Key Expedition Privileges</h4>
-          <ul class="detail-highlights-list" id="tourHighlightsList">
+          <!-- Highlights Card -->
+          <div class="detail-highlights-box">
+            <h4 data-i18n="titleHighlights">Key Expedition Privileges</h4>
+            <ul class="detail-highlights-list" id="tourHighlightsList">
+              <!-- Injected via JavaScript -->
+            </ul>
+          </div>
+        </section>
+
+        <!-- Section 2: Photographic Chronicle -->
+        <section class="tour-gallery-block">
+          <h2 class="detail-section-title">
+            <span class="title-crest">✦</span>
+            <span data-i18n="titleGallery">Photographic Chronicle</span>
+          </h2>
+          <div class="detail-gallery-grid" id="tourGalleryGrid">
             <!-- Injected via JavaScript -->
-          </ul>
-        </div>
-      </section>
+          </div>
+        </section>
 
-      <!-- Section 2: Photographic Chronicle -->
-      <section class="tour-gallery-block">
-        <h2 class="detail-section-title">
-          <span class="title-crest">✦</span>
-          <span data-i18n="titleGallery">Photographic Chronicle</span>
-        </h2>
-        <div class="detail-gallery-grid" id="tourGalleryGrid">
-          <!-- Injected via JavaScript -->
-        </div>
-      </section>
+        <!-- Section 3: Day-by-Day Curated Itinerary -->
+        <section class="tour-itinerary-block">
+          <h2 class="detail-section-title">
+            <span class="title-crest">✦</span>
+            <span data-i18n="titleItinerary">Day-by-Day Curated Itinerary</span>
+          </h2>
+          <div class="itinerary-timeline" id="tourItineraryTimeline">
+            <!-- Injected via JavaScript -->
+          </div>
+        </section>
 
-      <!-- Section: Geographic Location & Altitude Profile -->
-      <!-- GEOGRAPHIC LOCATIONS & ALTITUDE (STATIC) -->
-      <section class="tour-geo-altitude-block" id="tourGeoAltitudeBlock">
+      </article>
+
+      <!-- RIGHT: Atelier Reservation Desk Card (Sticky) -->
+      <aside class="tour-detail-sidebar" id="bookingSection">
+        <div class="sidebar-booking-card">
+          <div class="sidebar-price-header">
+            <span class="sidebar-price-from" data-i18n="sidebarPriceFrom">From / Per Traveler</span>
+            <div class="sidebar-price-num" id="sidebarPriceDisplay">$2,150 USD + IGV</div>
+            <span class="sidebar-tax-sub" data-i18n="sidebarTaxSub">+ 18% IGV Peruvians • Foreigners 0% Exempt (D.L. 919)</span>
+            <span class="sidebar-price-note" data-i18n="sidebarGuaranteed">✓ Guaranteed 100% Private Departure</span>
+          </div>
+
+          <form id="sidebarBookingForm" onsubmit="handleSidebarBookingSubmit(event)">
+            <!-- Document Type & Auto Tax Detection (Squared 50/50 Row) -->
+            <div class="pkg-doc-row">
+              <div class="sidebar-form-group">
+                <label class="sidebar-label" for="sidebarDocType" data-i18n="lblDocType">Tipo de Documento *</label>
+                <select id="sidebarDocType" class="sidebar-select" onchange="handleSidebarDocTypeChange(this.value)">
+                  <option value="PASSPORT" selected data-i18n="docPassport">Pasaporte (0%)</option>
+                  <option value="DNI" data-i18n="docDni">DNI (+18%)</option>
+                  <option value="CE" data-i18n="docCe">Carné Ext. (+18%)</option>
+                  <option value="RUC" data-i18n="docRuc">RUC (+18%)</option>
+                </select>
+              </div>
+              <div class="sidebar-form-group">
+                <label class="sidebar-label" for="sidebarDocNumber" data-i18n="lblDocNumber">N° Documento *</label>
+                <input type="text" id="sidebarDocNumber" class="sidebar-input" placeholder="N° pasaporte o DNI" oninput="handleSidebarDocNumberInput(this.value)">
+              </div>
+            </div>
+
+            <!-- Tax Detection Badge for Sidebar -->
+            <div class="tax-detection-badge foreigner" id="sidebarTaxBadge" style="margin-bottom: 1rem;">
+              <span>🌍</span> <strong>Turista Extranjero (0% IGV Exonerado)</strong> — <span>D.L. 919 con pasaporte</span>
+            </div>
+
+            <div class="sidebar-form-group">
+              <label class="sidebar-label" for="sidebarDate" data-i18n="labelTravelDate">Preferred Travel Date *</label>
+              <input type="date" id="sidebarDate" class="sidebar-input" required>
+            </div>
+
+            <div class="sidebar-form-group">
+              <label class="sidebar-label" for="sidebarGuests" data-i18n="labelGuestsCount">Travelers *</label>
+              <select id="sidebarGuests" class="sidebar-select" onchange="recalculateSidebarTotal()">
+                <option value="1">1 Traveler</option>
+                <option value="2" selected>2 Travelers</option>
+                <option value="3">3 Travelers</option>
+                <option value="4">4 Travelers</option>
+                <option value="5">5 Travelers</option>
+                <option value="6">6+ Private Charter</option>
+              </select>
+            </div>
+
+            <div class="sidebar-form-group">
+              <label class="sidebar-label" for="sidebarCarriage" data-i18n="lblCarriage">Preferred Service / Carriage</label>
+              <select id="sidebarCarriage" class="sidebar-select">
+                <option value="Pullman Suite Carriage">Belmond Pullman Suite Carriage (Gourmet Dining)</option>
+                <option value="Observatory Carriage">Observation Bar Car & Panoramic Lounge</option>
+                <option value="Presidential / Custom Private">Presidential / Fully Tailored Expedition</option>
+              </select>
+            </div>
+
+            <div class="sidebar-form-group">
+              <label class="sidebar-label" for="sidebarName" data-i18n="labelFullName">Lead Traveler Name *</label>
+              <input type="text" id="sidebarName" class="sidebar-input" required placeholder="e.g. Katherine Sterling">
+            </div>
+
+            <div class="sidebar-form-group">
+              <label class="sidebar-label" for="sidebarEmail" data-i18n="labelEmail">Email Address *</label>
+              <input type="email" id="sidebarEmail" class="sidebar-input" required placeholder="name@domain.com">
+            </div>
+
+            <div class="sidebar-form-group">
+              <label class="sidebar-label" for="sidebarPhone" data-i18n="labelPhone">WhatsApp / Mobile *</label>
+              <input type="tel" id="sidebarPhone" class="sidebar-input" required placeholder="+1 555 019 283">
+            </div>
+
+            <div class="sidebar-form-group">
+              <label class="sidebar-label" for="sidebarNotes" data-i18n="labelSpecialRequests">Special Wishes / Dietary</label>
+              <textarea id="sidebarNotes" class="sidebar-textarea" rows="2" placeholder="Anniversary, dietary restrictions, private champagne preferences..."></textarea>
+            </div>
+
+            <!-- Dynamic Quote Box with Itemized Taxes & Billing Breakdown -->
+            <div class="sidebar-quote-box">
+              <div class="sidebar-quote-row" style="font-size: 0.85rem; color: var(--color-text-muted);">
+                <span>Subtotal Neto Base:</span>
+                <span id="sidebarNetSubtotal">$4,300 USD</span>
+              </div>
+              <div class="sidebar-quote-row" style="font-size: 0.85rem;">
+                <span id="sidebarTaxLabel">Impuesto IGV:</span>
+                <span id="sidebarTaxAmount" style="color: #15803D; font-weight: 600;">0% IGV (Exonerado D.L. 919)</span>
+              </div>
+              <div class="sidebar-quote-row" style="border-top: 1px dashed rgba(22, 23, 26, 0.15); padding-top: 0.5rem; margin-top: 0.35rem;">
+                <span class="quote-label" data-i18n="lblEstimatedTotal">Total Estimado a Cobrar:</span>
+                <span class="quote-amount" id="sidebarTotalQuote">$4,300 USD + IGV</span>
+              </div>
+
+              <!-- Billing Split Box (Deposit vs Balance) -->
+              <div class="billing-split-box" style="margin-top: 0.75rem;">
+                <div class="billing-split-row">
+                  <span class="billing-split-tag" data-i18n="lblDepositTag">30% Anticipo de Garantía (Cobro Hoy)</span>
+                  <strong id="sidebarDepositQuote">$1,290 USD</strong>
+                </div>
+                <div class="billing-split-row" style="margin-top: 0.35rem;">
+                  <span style="font-size: 0.76rem; color: var(--color-text-muted);" data-i18n="lblBalanceTag">70% Saldo a la Llegada en Cusco</span>
+                  <strong id="sidebarBalanceQuote" style="font-size: 0.85rem; color: var(--color-obsidian);">$3,010 USD</strong>
+                </div>
+              </div>
+
+              <div class="sidebar-tax-legend" id="sidebarTaxLegendText" data-i18n="sidebarTaxLegend">
+                ✦ Rates net + IGV. Non-resident foreigners 0% IGV under D.L. 919 • Peruvian residents +18% IGV.
+              </div>
+            </div>
+
+            <!-- Priority 1: Direct 30% Deposit Payment via Culqi -->
+            <button type="button" class="btn-sidebar-pay-culqi" id="btnSidebarPayOnline" onclick="handleSidebarOnlinePayment()">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
+              <span data-i18n="btnPayDepositOnline">PAGAR ANTICIPO 30% ONLINE (CULQI)</span>
+            </button>
+
+            <!-- Direct VIP WhatsApp Action -->
+            <button type="submit" class="btn-sidebar-whatsapp" id="btnSidebarWhatsApp">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.79 14.07c-.24.68-1.4 1.34-1.92 1.42-.5.09-1.15.12-1.85-.11-.43-.14-.99-.33-1.71-.65-3.04-1.33-5.01-4.42-5.16-4.63-.16-.2-1.23-1.64-1.23-3.13 0-1.49.78-2.22 1.06-2.52.28-.3.61-.38.81-.38.2 0 .41 0 .58.01.19.01.44-.07.69.53.25.61.85 2.08.93 2.23.08.16.13.35.03.55-.1.2-.15.33-.3.51-.15.18-.32.4-.46.54-.15.15-.31.31-.13.62.18.31.79 1.3 1.69 2.11 1.16 1.03 2.13 1.35 2.44 1.5.31.15.49.13.67-.08.19-.21.79-.92 1-1.24.21-.31.42-.26.7-.16.29.1 1.83.86 2.14 1.02.31.15.52.23.6.36.08.13.08.77-.16 1.45z"/></svg>
+              <span data-i18n="btnConfirmWhatsApp">CONFIRM WITH CONCIERGE VIA WHATSAPP</span>
+            </button>
+
+            <!-- View Official Quotation Sheet (Proforma PDF) -->
+            <button type="button" class="btn-sidebar-custom" id="btnSidebarQuoteSheet" onclick="openSidebarQuoteSheet()" style="background: var(--color-obsidian); color: var(--color-gold); border: 1px solid var(--color-gold); margin-bottom: 0.6rem;">
+              <span data-i18n="btnViewQuoteSheet">📄 VER HOJA DE COTIZACIÓN FORMAL (PDF)</span>
+            </button>
+
+            <!-- Bespoke Consultation Trigger -->
+            <button type="button" class="btn-sidebar-custom" onclick="openCustomPackageModal(appState.tour?.slug)">
+              <span data-i18n="btnHeroBuildPackage">✦ Arma tu Paquete a Medida</span>
+            </button>
+
+            <div class="sidebar-guarantee-box">
+              <p><span>✦</span> <span data-i18n="g1">100% Tailor-Made Private Departures</span></p>
+              <p><span>✦</span> <span data-i18n="g2">Pre-Reserved Official Ministry Tickets</span></p>
+              <p><span>✦</span> <span data-i18n="g3">GERCETUR Certified • RUC: 20601622492</span></p>
+              <p><span>✦</span> <span data-i18n="g4">24/7 Dedicated In-Country Concierge</span></p>
+            </div>
+          </form>
+        </div>
+      </aside>
+    </div>
+
+    <!-- PART 2: FULL-WIDTH LUXURY EXPEDITION PANELS (BELOW THE EDITORIAL SPLIT) -->
+    <div class="tour-fullwidth-features">
+      
+      <!-- Section 4: Geographic Location & Altitude Profile (Expansive Cards) -->
+      <section class="tour-geo-altitude-block fullwidth-block" id="tourGeoAltitudeBlock">
         <h2 class="detail-section-title">
           <span class="title-crest">✦</span>
           <span data-i18n="titleGeoAltitude">Geographic Location & Altitude Profile</span>
@@ -341,29 +718,18 @@
         </p>
 
         <!-- Static Location Cards Grid -->
-        <div class="tour-locations-static-grid" id="tourLocationsStaticGrid">
+        <div class="tour-locations-static-grid fullwidth-geo-grid" id="tourLocationsStaticGrid">
           <!-- Dynamically populated per tour with static map images, names, altitude & oxygen -->
         </div>
       </section>
 
-      <!-- Section 3: Day-by-Day Curated Itinerary -->
-      <section class="tour-itinerary-block">
-        <h2 class="detail-section-title">
-          <span class="title-crest">✦</span>
-          <span data-i18n="titleItinerary">Day-by-Day Curated Itinerary</span>
-        </h2>
-        <div class="itinerary-timeline" id="tourItineraryTimeline">
-          <!-- Injected via JavaScript -->
-        </div>
-      </section>
-
-      <!-- Section 4: Inclusions & Discretionary Exclusions -->
-      <section class="tour-inclusions-block">
+      <!-- Section 5: Inclusions & Discretionary Exclusions (Expansive 2-Col Grid) -->
+      <section class="tour-inclusions-block fullwidth-block">
         <h2 class="detail-section-title">
           <span class="title-crest">✦</span>
           <span data-i18n="titleInclusions">Curated Inclusions & Transparency</span>
         </h2>
-        <div class="inclusions-comparison-grid">
+        <div class="inclusions-comparison-grid fullwidth-inclusions-grid">
           <div class="inclusions-card included">
             <h3 class="inclusions-card-title">
               <span class="inc-icon">✔</span>
@@ -386,8 +752,8 @@
         </div>
       </section>
 
-      <!-- Section 5: Associated Luxury Hotel Collection (Improvement 4) -->
-      <section class="tour-hotels-block">
+      <!-- Section 6: Associated Luxury Hotel Collection (Expansive 4-Column Balanced Grid) -->
+      <section class="tour-hotels-block fullwidth-block">
         <h2 class="detail-section-title">
           <span class="title-crest">✦</span>
           <span data-i18n="titleHotels">Curated Partner Hotel Collection</span>
@@ -395,181 +761,43 @@
         <p class="tour-narrative-text" data-i18n="descHotels">
           Elevate your Andean stay with our handpicked sanctuary and historic partner properties, where our guests receive preferred check-in, room upgrades subject to availability, and private concierge coordination:
         </p>
-        <div class="hotels-showcase-grid" id="hotelsShowcaseGrid">
+        <div class="hotels-showcase-grid fullwidth-hotels-grid" id="hotelsShowcaseGrid">
           <!-- Injected via JavaScript -->
         </div>
       </section>
 
-      <!-- Section 6: Curated Travel Advisory & VIP FAQs (Improvement 3) -->
-      <section class="tour-advisory-block">
+      <!-- Section 7: Curated Travel Advisory & VIP FAQs (Expansive 4-Column Balanced Grid) -->
+      <section class="tour-advisory-block fullwidth-block">
         <h2 class="detail-section-title">
           <span class="title-crest">✦</span>
           <span data-i18n="titleAdvisory">Travel Advisory & High-Altitude Guidelines</span>
         </h2>
-        <div class="advisory-cards-grid" id="advisoryCardsGrid">
+        <div class="advisory-cards-grid fullwidth-advisory-grid" id="advisoryCardsGrid">
           <!-- Injected via JavaScript -->
         </div>
       </section>
 
-      <!-- Section 7: Download Private Expedition Dossier (Improvement 1) -->
-      <section class="tour-dossier-block">
-        <div class="dossier-download-box">
+      <!-- Section 8: Download Dossier & Instant Atelier Booking Link -->
+      <section class="tour-dossier-block fullwidth-block">
+        <div class="dossier-download-box fullwidth-dossier-box">
           <div class="dossier-text">
             <h4 data-i18n="dossierTitle">Private Expedition Dossier (PDF)</h4>
             <p data-i18n="dossierSubtitle">Generate an elegant, printable dossier of this itinerary with daily schedules, logistical specifications, and partner properties.</p>
           </div>
-          <button class="btn-dossier-pdf" onclick="window.print()" id="btnPrintDossier">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
-            <span data-i18n="btnDossierPrint">Print / Download Dossier (PDF)</span>
-          </button>
+          <div class="dossier-actions">
+            <button class="btn-dossier-pdf" onclick="window.print()" id="btnPrintDossier">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+              <span data-i18n="btnDossierPrint">Print / Download Dossier (PDF)</span>
+            </button>
+            <button class="btn-scroll-booking" onclick="document.getElementById('bookingSection').scrollIntoView({behavior: 'smooth', block: 'center'})">
+              <span>✦</span>
+              <span data-i18n="btnReserveNowJump">Reservar / Cotizar Esta Expedición</span>
+            </button>
+          </div>
         </div>
       </section>
 
-    </article>
-
-    <!-- RIGHT: Reservation Desk Card (Non-floating) -->
-    <aside class="tour-detail-sidebar" id="bookingSection">
-      <div class="sidebar-booking-card">
-        <div class="sidebar-price-header">
-          <span class="sidebar-price-from" data-i18n="sidebarPriceFrom">From / Per Traveler</span>
-          <div class="sidebar-price-num" id="sidebarPriceDisplay">$2,150 USD + IGV</div>
-          <span class="sidebar-tax-sub" data-i18n="sidebarTaxSub">+ 18% IGV Peruvians • Foreigners 0% Exempt (D.L. 919)</span>
-          <span class="sidebar-price-note" data-i18n="sidebarGuaranteed">✓ Guaranteed 100% Private Departure</span>
-        </div>
-
-        <form id="sidebarBookingForm" onsubmit="handleSidebarBookingSubmit(event)">
-          <!-- Document Type & Auto Tax Detection -->
-          <div class="pkg-doc-row" style="margin-bottom: 0.85rem;">
-            <div class="sidebar-form-group" style="margin-bottom: 0;">
-              <label class="sidebar-label" for="sidebarDocType" data-i18n="lblDocType">Tipo de Documento *</label>
-              <select id="sidebarDocType" class="sidebar-select" onchange="handleSidebarDocTypeChange(this.value)" style="color: #121316 !important; -webkit-text-fill-color: #121316 !important; background: #FFFFFF !important; font-weight: 600 !important;">
-                <option value="PASSPORT" selected data-i18n="docPassport">Pasaporte (0% IGV)</option>
-                <option value="DNI" data-i18n="docDni">DNI (+18% IGV)</option>
-                <option value="CE" data-i18n="docCe">Carné Extranjería (+18% IGV)</option>
-                <option value="RUC" data-i18n="docRuc">RUC (+18% IGV)</option>
-              </select>
-            </div>
-            <div class="sidebar-form-group" style="margin-bottom: 0;">
-              <label class="sidebar-label" for="sidebarDocNumber" data-i18n="lblDocNumber">N° Documento *</label>
-              <input type="text" id="sidebarDocNumber" class="sidebar-input" placeholder="N° pasaporte o DNI" oninput="handleSidebarDocNumberInput(this.value)" style="color: #121316 !important; -webkit-text-fill-color: #121316 !important; background: #FFFFFF !important; font-weight: 600 !important;">
-            </div>
-          </div>
-
-          <!-- Tax Detection Badge for Sidebar -->
-          <div class="tax-detection-badge foreigner" id="sidebarTaxBadge" style="margin-bottom: 1rem;">
-            <span>🌍</span> <strong>Turista Extranjero (0% IGV Exonerado)</strong> — <span>D.L. 919 con pasaporte</span>
-          </div>
-
-          <div class="sidebar-form-group">
-            <label class="sidebar-label" for="sidebarDate" data-i18n="labelTravelDate">Preferred Travel Date *</label>
-            <input type="date" id="sidebarDate" class="sidebar-input" required style="color: #121316 !important; -webkit-text-fill-color: #121316 !important; background: #FFFFFF !important; font-weight: 600 !important;">
-          </div>
-
-          <div class="sidebar-form-group">
-            <label class="sidebar-label" for="sidebarGuests" data-i18n="labelGuestsCount">Travelers *</label>
-            <select id="sidebarGuests" class="sidebar-select" onchange="recalculateSidebarTotal()" style="color: #121316 !important; -webkit-text-fill-color: #121316 !important; background: #FFFFFF !important; font-weight: 600 !important;">
-              <option value="1">1 Traveler</option>
-              <option value="2" selected>2 Travelers</option>
-              <option value="3">3 Travelers</option>
-              <option value="4">4 Travelers</option>
-              <option value="5">5 Travelers</option>
-              <option value="6">6+ Private Charter</option>
-            </select>
-          </div>
-
-          <div class="sidebar-form-group">
-            <label class="sidebar-label" for="sidebarCarriage" data-i18n="lblCarriage">Preferred Service / Carriage</label>
-            <select id="sidebarCarriage" class="sidebar-select" style="color: #121316 !important; -webkit-text-fill-color: #121316 !important; background: #FFFFFF !important; font-weight: 600 !important;">
-              <option value="Pullman Suite Carriage">Belmond Pullman Suite Carriage (Gourmet Dining)</option>
-              <option value="Observatory Carriage">Observation Bar Car & Panoramic Lounge</option>
-              <option value="Presidential / Custom Private">Presidential / Fully Tailored Expedition</option>
-            </select>
-          </div>
-
-          <div class="sidebar-form-group">
-            <label class="sidebar-label" for="sidebarName" data-i18n="labelFullName">Lead Traveler Name *</label>
-            <input type="text" id="sidebarName" class="sidebar-input" required placeholder="e.g. Katherine Sterling" style="color: #121316 !important; -webkit-text-fill-color: #121316 !important; background: #FFFFFF !important; font-weight: 600 !important;">
-          </div>
-
-          <div class="sidebar-form-group">
-            <label class="sidebar-label" for="sidebarEmail" data-i18n="labelEmail">Email Address *</label>
-            <input type="email" id="sidebarEmail" class="sidebar-input" required placeholder="name@domain.com" style="color: #121316 !important; -webkit-text-fill-color: #121316 !important; background: #FFFFFF !important; font-weight: 600 !important;">
-          </div>
-
-          <div class="sidebar-form-group">
-            <label class="sidebar-label" for="sidebarPhone" data-i18n="labelPhone">WhatsApp / Mobile *</label>
-            <input type="tel" id="sidebarPhone" class="sidebar-input" required placeholder="+1 555 019 283" style="color: #121316 !important; -webkit-text-fill-color: #121316 !important; background: #FFFFFF !important; font-weight: 600 !important;">
-          </div>
-
-          <div class="sidebar-form-group">
-            <label class="sidebar-label" for="sidebarNotes" data-i18n="labelSpecialRequests">Special Wishes / Dietary</label>
-            <textarea id="sidebarNotes" class="sidebar-textarea" rows="2" placeholder="Anniversary, dietary restrictions, private champagne preferences..." style="color: #121316 !important; -webkit-text-fill-color: #121316 !important; background: #FFFFFF !important; font-weight: 600 !important;"></textarea>
-          </div>
-
-          <!-- Dynamic Quote Box with Itemized Taxes & Billing Breakdown -->
-          <div class="sidebar-quote-box">
-            <div class="sidebar-quote-row" style="font-size: 0.85rem; color: var(--color-text-muted);">
-              <span>Subtotal Neto Base:</span>
-              <span id="sidebarNetSubtotal">$4,300 USD</span>
-            </div>
-            <div class="sidebar-quote-row" style="font-size: 0.85rem;">
-              <span id="sidebarTaxLabel">Impuesto IGV:</span>
-              <span id="sidebarTaxAmount" style="color: #15803D; font-weight: 600;">0% IGV (Exonerado D.L. 919)</span>
-            </div>
-            <div class="sidebar-quote-row" style="border-top: 1px dashed rgba(22, 23, 26, 0.15); padding-top: 0.5rem; margin-top: 0.35rem;">
-              <span class="quote-label" data-i18n="lblEstimatedTotal">Total Estimado a Cobrar:</span>
-              <span class="quote-amount" id="sidebarTotalQuote">$4,300 USD + IGV</span>
-            </div>
-
-            <!-- Billing Split Box (Deposit vs Balance) -->
-            <div class="billing-split-box" style="margin-top: 0.75rem;">
-              <div class="billing-split-row">
-                <span class="billing-split-tag" data-i18n="lblDepositTag">30% Anticipo de Garantía (Cobro Hoy)</span>
-                <strong id="sidebarDepositQuote">$1,290 USD</strong>
-              </div>
-              <div class="billing-split-row" style="margin-top: 0.35rem;">
-                <span style="font-size: 0.76rem; color: var(--color-text-muted);" data-i18n="lblBalanceTag">70% Saldo a la Llegada en Cusco</span>
-                <strong id="sidebarBalanceQuote" style="font-size: 0.85rem; color: var(--color-obsidian);">$3,010 USD</strong>
-              </div>
-            </div>
-
-            <div class="sidebar-tax-legend" id="sidebarTaxLegendText" data-i18n="sidebarTaxLegend">
-              ✦ Rates net + IGV. Non-resident foreigners 0% IGV under D.L. 919 • Peruvian residents +18% IGV.
-            </div>
-          </div>
-
-          <!-- Priority 1: Direct 30% Deposit Payment via Culqi -->
-          <button type="button" class="btn-sidebar-pay-culqi" id="btnSidebarPayOnline" onclick="handleSidebarOnlinePayment()" style="background: linear-gradient(135deg, #C5A47E 0%, #A68053 100%) !important; color: #0E0F12 !important; -webkit-text-fill-color: #0E0F12 !important; border: 1.5px solid #8C6D3B !important; font-weight: 700 !important; cursor: pointer !important; padding: 1.05rem 1.25rem !important;">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0E0F12" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
-            <span data-i18n="btnPayDepositOnline" style="color:#0E0F12 !important; -webkit-text-fill-color:#0E0F12 !important; font-weight:700 !important;">PAGAR ANTICIPO 30% ONLINE (CULQI)</span>
-          </button>
-
-          <!-- Direct VIP WhatsApp Action -->
-          <button type="submit" class="btn-sidebar-whatsapp" id="btnSidebarWhatsApp">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.79 14.07c-.24.68-1.4 1.34-1.92 1.42-.5.09-1.15.12-1.85-.11-.43-.14-.99-.33-1.71-.65-3.04-1.33-5.01-4.42-5.16-4.63-.16-.2-1.23-1.64-1.23-3.13 0-1.49.78-2.22 1.06-2.52.28-.3.61-.38.81-.38.2 0 .41 0 .58.01.19.01.44-.07.69.53.25.61.85 2.08.93 2.23.08.16.13.35.03.55-.1.2-.15.33-.3.51-.15.18-.32.4-.46.54-.15.15-.31.31-.13.62.18.31.79 1.3 1.69 2.11 1.16 1.03 2.13 1.35 2.44 1.5.31.15.49.13.67-.08.19-.21.79-.92 1-1.24.21-.31.42-.26.7-.16.29.1 1.83.86 2.14 1.02.31.15.52.23.6.36.08.13.08.77-.16 1.45z"/></svg>
-            <span data-i18n="btnConfirmWhatsApp">CONFIRM WITH CONCIERGE VIA WHATSAPP</span>
-          </button>
-
-          <!-- View Official Quotation Sheet (Proforma PDF) -->
-          <button type="button" class="btn-sidebar-custom" id="btnSidebarQuoteSheet" onclick="openSidebarQuoteSheet()" style="background: var(--color-obsidian); color: var(--color-gold); border: 1px solid var(--color-gold); margin-bottom: 0.6rem;">
-            <span data-i18n="btnViewQuoteSheet">📄 VER HOJA DE COTIZACIÓN FORMAL (PDF)</span>
-          </button>
-
-          <!-- Bespoke Consultation Trigger -->
-          <button type="button" class="btn-sidebar-custom" onclick="openCustomPackageModal(appState.tour?.slug)">
-            <span data-i18n="btnHeroBuildPackage">✦ Arma tu Paquete a Medida</span>
-          </button>
-
-          <div class="sidebar-guarantee-box">
-            <p><span>✦</span> <span data-i18n="g1">100% Tailor-Made Private Departures</span></p>
-            <p><span>✦</span> <span data-i18n="g2">Pre-Reserved Official Ministry Tickets</span></p>
-            <p><span>✦</span> <span data-i18n="g3">GERCETUR Certified • RUC: 20601622492</span></p>
-            <p><span>✦</span> <span data-i18n="g4">24/7 Dedicated In-Country Concierge</span></p>
-          </div>
-        </form>
-      </div>
-    </aside>
-
+    </div>
   </main>
 
   <!-- Related Expeditions Section -->

@@ -2694,21 +2694,36 @@ body.luxury-body {
   color: #FFFFFF;
 }
 
-/* Two-Column Main Layout */
+/* Master Tour Detail Layout */
 .tour-detail-container {
-  max-width: 1380px;
+  max-width: 1400px;
   margin: 0 auto;
-  padding: 3.5rem 2rem 5rem;
-  display: grid;
-  grid-template-columns: 1fr 380px;
-  gap: 3.5rem;
-  align-items: start;
+  padding: 3.5rem 2.5rem 5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 4.5rem;
 }
 
-.tour-detail-content {
+.tour-editorial-split {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 400px;
+  gap: 3.5rem;
+  align-items: start;
+  width: 100%;
+}
+
+.tour-editorial-main {
   display: flex;
   flex-direction: column;
   gap: 3.5rem;
+  min-width: 0;
+}
+
+.tour-fullwidth-features {
+  display: flex;
+  flex-direction: column;
+  gap: 4.5rem;
+  width: 100%;
 }
 
 /* Editorial Sections */
