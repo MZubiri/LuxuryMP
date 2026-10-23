@@ -16,13 +16,13 @@
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
   <!-- Main Luxury CSS -->
-  <link rel="stylesheet" href="styles.css?v=20261023_prod12">
+  <link rel="stylesheet" href="styles.css?v=20261023_prod13">
 
   <!-- Culqi Checkout v4 Official JS SDK -->
   <script src="https://checkout.culqi.com/js/v4"></script>
 
   <!-- Modular Stylesheet (Separation of Concerns) -->
-  <link rel="stylesheet" href="checkout.css?v=20261023_prod12">
+  <link rel="stylesheet" href="checkout.css?v=20261023_prod13">
 </head>
 <body class="checkout-body">
 
@@ -68,7 +68,7 @@
   <main class="checkout-main">
 
     <!-- Alert Box -->
-    <div id="checkoutAlert" class="checkout-alert"></div>
+    <div id="checkoutAlert" class="checkout-alert" role="alert" aria-live="polite"></div>
 
     <!-- PAYMENT FORM LAYOUT -->
     <div class="checkout-layout" id="checkoutFormSection">
@@ -121,7 +121,7 @@
           </div>
         </form>
 
-        <div style="font-size: 0.8rem; color: #888; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 16px;">
+        <div class="checkout-disclaimer">
           <p>Al procesar su pago, se generará de inmediato una confirmación electrónica vinculada al sistema de Concierge y se actualizará su reserva en tiempo real.</p>
         </div>
       </div>
@@ -137,12 +137,12 @@
 
         <div class="summary-row">
           <span>Referencia de Pago</span>
-          <span id="summaryPrefId" style="font-family: monospace; font-weight: 600; color: #FFF;">—</span>
+          <span id="summaryPrefId" class="summary-code-val">—</span>
         </div>
 
         <div class="summary-row">
           <span>Pasarela de Pago</span>
-          <span style="color: var(--checkout-gold); font-weight: 600;">Culqi Checkout v4</span>
+          <span class="summary-gateway-badge">Culqi Checkout v4</span>
         </div>
 
         <div class="summary-row">
@@ -168,7 +168,7 @@
             <span class="card-pill">MASTERCARD</span>
             <span class="card-pill">AMEX</span>
             <span class="card-pill">DINERS</span>
-            <span class="card-pill" style="color: #00D3BA; border-color: #00D3BA;">YAPE</span>
+            <span class="card-pill card-pill-yape">YAPE</span>
           </div>
         </div>
       </aside>
@@ -275,6 +275,6 @@
   </footer>
 
   <!-- Checkout Logic -->
-  <script src="checkout.js?v=20261023_prod12"></script>
+  <script src="checkout.js?v=20261023_prod13"></script>
 </body>
 </html>

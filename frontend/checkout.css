@@ -578,6 +578,251 @@ body.checkout-body {
   color: #6C6E76;
 }
 
+
+/* Utilities & Helper Classes (Zero Inline Styles) */
+.checkout-disclaimer {
+  font-size: 0.8rem;
+  color: #888;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  padding-top: 16px;
+  line-height: 1.5;
+}
+
+.summary-code-val {
+  font-family: monospace;
+  font-weight: 600;
+  color: #FFF;
+}
+
+.summary-gateway-badge {
+  color: var(--checkout-gold);
+  font-weight: 600;
+}
+
+.card-pill-yape {
+  color: #00D3BA;
+  border-color: rgba(0, 211, 186, 0.45);
+}
+
+/* Accessibility & Focus Indicators */
+.form-control-luxury:focus-visible {
+  outline: 2px solid var(--checkout-gold);
+  outline-offset: 1px;
+  border-color: var(--checkout-gold);
+}
+
+.btn-culqi-pay:focus-visible,
+.btn-voucher-action:focus-visible,
+.checkout-compliance-link:focus-visible,
+.checkout-back-link:focus-visible {
+  outline: 2px solid var(--checkout-gold);
+  outline-offset: 2px;
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN SYSTEM (MOBILE, TABLET, DESKTOP)
+   ========================================================================== */
+@media (max-width: 900px) {
+  .checkout-main {
+    margin: 24px auto;
+    padding: 0 18px;
+  }
+
+  .checkout-layout {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .summary-card {
+    position: static;
+  }
+}
+
+@media (max-width: 768px) {
+  .checkout-security-bar {
+    padding: 8px 16px;
+    font-size: 0.74rem;
+    justify-content: center;
+    text-align: center;
+    gap: 8px;
+  }
+
+  .security-badges {
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .checkout-header {
+    padding: 16px 20px;
+  }
+
+  .checkout-header-inner {
+    flex-direction: row;
+    gap: 12px;
+  }
+
+  .checkout-brand-logo {
+    height: 36px;
+  }
+
+  .checkout-brand-title {
+    font-size: 1.15rem;
+  }
+
+  .checkout-brand-sub {
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+  }
+
+  .checkout-back-link {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .checkout-card,
+  .summary-card {
+    padding: 22px 18px;
+  }
+
+  .card-title {
+    font-size: 1.6rem;
+  }
+
+  .tour-hero-preview {
+    padding: 14px 16px;
+    gap: 14px;
+  }
+
+  .tour-icon-wrap {
+    width: 42px;
+    height: 42px;
+  }
+
+  .tour-hero-info h3 {
+    font-size: 1.05rem;
+  }
+
+  /* Single-column inputs on mobile for optimal tap targets & no text clipping */
+  .form-group-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+
+  .form-control-luxury {
+    padding: 12px 14px;
+    font-size: 0.92rem;
+  }
+
+  .form-label {
+    font-size: 0.78rem;
+    margin-bottom: 6px;
+  }
+
+  .summary-title {
+    font-size: 1.4rem;
+  }
+
+  .total-row {
+    font-size: 1rem;
+  }
+
+  .total-amount-display {
+    font-size: 1.5rem;
+  }
+
+  .btn-culqi-pay {
+    padding: 15px 20px;
+    font-size: 0.98rem;
+  }
+
+  .payment-cards-icons {
+    gap: 6px;
+  }
+
+  .card-pill {
+    padding: 3px 8px;
+    font-size: 0.65rem;
+  }
+
+  /* Voucher mobile adjustments */
+  .voucher-container {
+    padding: 28px 18px;
+    margin: 20px 0;
+  }
+
+  .voucher-title {
+    font-size: 1.75rem;
+  }
+
+  .voucher-subtitle {
+    font-size: 0.88rem;
+    margin-bottom: 16px;
+  }
+
+  .voucher-notice-banner {
+    flex-direction: column;
+    text-align: center;
+    padding: 12px 14px;
+    font-size: 0.82rem;
+    gap: 6px;
+  }
+
+  .voucher-details-box {
+    padding: 18px 16px;
+    margin-bottom: 24px;
+  }
+
+  .voucher-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .voucher-item-full {
+    grid-column: span 1;
+  }
+
+  .voucher-item span {
+    font-size: 0.92rem;
+    word-break: break-word;
+  }
+
+  .voucher-actions {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .btn-voucher-action {
+    width: 100%;
+    justify-content: center;
+    padding: 14px 20px;
+    font-size: 0.92rem;
+  }
+
+  .checkout-footer {
+    padding: 20px 16px;
+    font-size: 0.75rem;
+  }
+
+  .checkout-compliance-nav {
+    gap: 8px 12px;
+    font-size: 0.72rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .checkout-brand-sub {
+    display: none;
+  }
+
+  .checkout-brand-title {
+    font-size: 1.05rem;
+    letter-spacing: 0.05em;
+  }
+}
+
 /* ==========================================================================
    VOUCHER EXTENSIONS & PRINT STYLES (PDF EXPORT)
    ========================================================================== */
