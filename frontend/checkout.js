@@ -357,7 +357,10 @@ async function processBackendCharge(tokenId, cardBrand = '', lastFour = '') {
 
     if (!res.ok || !data.success) {
       console.warn('[Culqi Charge Declined / Error Details]:', data);
-      const detailMsg = data.message || data.merchant_message || data.error || 'La entidad bancaria no aprobó la transacción.';
+      let detailMsg = data.message || data.merchant_message || data.error || 'La entidad bancaria no aprobó la transacción.';
+      if (data.actionCode === 'REVIEW' || (detailMsg && detailMsg.includes('autenticarse'))) {
+        detailMsg = 'Esta tarjeta de prueba está configurada para el flujo con Desafío 3DS (Challenge). Para una aprobación directa inmediata, utiliza la tarjeta Visa de prueba: 4111 1111 1111 1111 (exp: 09/30, CVV: 123) o Mastercard: 5111 1111 1111 1118 (exp: 12/30, CVV: 039).';
+      }
       throw new Error(detailMsg);
     }
 
