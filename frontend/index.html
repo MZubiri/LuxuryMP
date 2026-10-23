@@ -748,9 +748,18 @@
           Official luxury travel atelier dedicated to private, bespoke expeditions through the Sacred Valley, Machu Picchu Sanctuary, and the High Andes.
         </p>
         <p class="footer-legal-tag">
-          <strong>Luxury Machupicchu Peru E.I.R.L</strong><br>
-          RUC: 20601622492 • Cusco, Perú
+          <strong>Luxury Machupicchu Peru E.I.R.L (LMP TRAVEL)</strong><br>
+          RUC: 20601622492 • DIRCETUR Reg. N° 299-2016<br>
+          Jr. Policarpo Caballero Ñ-4, Urb. Rosaspata, Cusco
         </p>
+        <div class="footer-mincetur-badge">
+          <img src="assets/images/legal/mincetur_agencia_registrada.png" alt="MINCETUR Agencia Registrada">
+          <div class="footer-mincetur-text">
+            <strong>AGENCIA REGISTRADA</strong>
+            MINCETUR • GERCETUR Cusco<br>
+            Constancia N° 299-2016
+          </div>
+        </div>
       </div>
 
       <div class="footer-col">
@@ -767,12 +776,12 @@
       <div class="footer-col">
         <h4 class="footer-title" data-i18n="footerCertifications">Certifications</h4>
         <ul class="footer-links">
-          <li><span class="cert-item">✔ GERCETUR Cusco Licensed</span></li>
-          <li><span class="cert-item">✔ MINCETUR Authorized Operator</span></li>
-          <li><span class="cert-item" data-i18n="certTax">✔ Tax Regime: 0% IGV Exemption for Foreign Non-Domiciled Travelers (D.L. 919)</span></li>
-          <li><span class="cert-item">✔ ESNNA Code of Conduct</span></li>
-          <li><span class="cert-item">✔ Safe Travels Global Stamp</span></li>
-          <li><span class="cert-item">✔ Personal Data Protection Act</span></li>
+          <li><a href="legal.html#licencias" style="color:inherit; text-decoration:none;"><span class="cert-item">✔ DIRCETUR Reg: 299-2016</span></a></li>
+          <li><a href="legal.html#licencias" style="color:inherit; text-decoration:none;"><span class="cert-item">✔ MINCETUR Authorized Operator</span></a></li>
+          <li><a href="legal.html#licencias" style="color:inherit; text-decoration:none;"><span class="cert-item">✔ Licencia Municipal N° 0008677</span></a></li>
+          <li><a href="legal.html#licencias" style="color:inherit; text-decoration:none;"><span class="cert-item" data-i18n="certTax">✔ Tax Regime: 0% IGV Exemption (D.L. 919)</span></a></li>
+          <li><a href="legal.html#esnna" style="color:inherit; text-decoration:none;"><span class="cert-item">✔ ESNNA Code of Conduct</span></a></li>
+          <li><a href="legal.html#privacidad" style="color:inherit; text-decoration:none;"><span class="cert-item">✔ Personal Data Protection (Ley 29733)</span></a></li>
         </ul>
       </div>
 
@@ -797,11 +806,17 @@
       <div class="footer-bottom-inner">
         <p>© 2026 Luxury Machupicchu Peru E.I.R.L. All rights reserved. Not affiliated with Belmond Ltd.; official partner providing verified bookings on Belmond rail journeys.</p>
         <div class="footer-bottom-links">
-          <a href="#privacy" onclick="openClaimModal('privacy')">Privacy Policy</a>
+          <a href="legal.html#licencias" onclick="openClaimModal('licenses'); return false;">Licencias Oficiales</a>
           <span>•</span>
-          <a href="#terms" onclick="openClaimModal('terms')">Terms & Conditions</a>
+          <a href="legal.html#terminos" onclick="openClaimModal('terms'); return false;">Terms & Conditions</a>
           <span>•</span>
-          <a href="#claims" onclick="openClaimModal('claims')">Virtual Book of Claims</a>
+          <a href="legal.html#privacidad" onclick="openClaimModal('privacy'); return false;">Privacy Policy</a>
+          <span>•</span>
+          <a href="legal.html#esnna" onclick="openClaimModal('esnna'); return false;">Código ESNNA</a>
+          <span>•</span>
+          <a href="legal.html#libro-reclamaciones" onclick="openClaimModal('claims'); return false;">Virtual Book of Claims</a>
+          <span>•</span>
+          <a href="legal.html" target="_blank" style="color: var(--color-gold); font-weight: 600;">Portal Legal ↗</a>
           <span>•</span>
           <a href="admin.html" target="_blank" style="color: rgba(197, 164, 126, 0.85);"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle; margin-right: 3px;"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>Concierge Atelier</a>
         </div>
@@ -1239,28 +1254,198 @@
       <button class="modal-close-btn" onclick="closeLegalModal()" aria-label="Close modal">✕</button>
       
       <div class="legal-modal-header">
-        <span class="legal-modal-kicker">LUXURY MACHUPICCHU PERU • MARCO LEGAL & CONCIERGE</span>
+        <span class="legal-modal-kicker">LUXURY MACHUPICCHU PERU • LMP TRAVEL • MARCO LEGAL & CONCIERGE</span>
         <h2 class="legal-modal-title">Atención al Huésped & Transparencia Institucional</h2>
         <div class="legal-tabs-nav">
-          <button type="button" class="legal-tab-btn active" id="tabBtnClaims" onclick="switchLegalTab('claims')">
-            <span>📖 Libro de Reclamaciones</span>
+          <button type="button" class="legal-tab-btn" id="tabBtnLicenses" onclick="switchLegalTab('licenses')">
+            <span>📜 Licencias & MINCETUR</span>
           </button>
           <button type="button" class="legal-tab-btn" id="tabBtnTerms" onclick="switchLegalTab('terms')">
             <span>⚖ Términos & Condiciones</span>
           </button>
           <button type="button" class="legal-tab-btn" id="tabBtnPrivacy" onclick="switchLegalTab('privacy')">
-            <span>🔒 Política de Privacidad</span>
+            <span>🔒 Privacidad (Ley 29733)</span>
+          </button>
+          <button type="button" class="legal-tab-btn" id="tabBtnEsnna" onclick="switchLegalTab('esnna')">
+            <span>🛡️ Código ESNNA</span>
+          </button>
+          <button type="button" class="legal-tab-btn active" id="tabBtnClaims" onclick="switchLegalTab('claims')">
+            <span>📖 Libro de Reclamaciones</span>
           </button>
         </div>
       </div>
 
       <div class="legal-modal-body">
-        <!-- PANE 1: LIBRO DE RECLAMACIONES -->
+        <!-- PANE 1: LICENCIAS & ACREDITACIONES MINCETUR -->
+        <div class="legal-tab-pane" id="paneLicenses">
+          <div class="legal-pane-intro">
+            <div class="legal-intro-company">
+              <strong>Luxury Machupicchu Peru E.I.R.L. (LMP TRAVEL)</strong> • RUC: <strong>20601622492</strong><br>
+              <span>Sede Legal: Jr. Policarpo Caballero Ñ-4, Urb. Rosaspata, Cusco, Perú • Reg. DIRCETUR N° 299-2016-GR CUSCO/DIRCETUR-DT</span>
+            </div>
+            <p class="legal-intro-text">
+              Operador de Turismo y Agencia de Viajes formalmente acreditada ante el Ministerio de Comercio Exterior y Turismo (MINCETUR), Gobierno Regional del Cusco y Municipalidad Provincial del Cusco.
+            </p>
+          </div>
+
+          <div class="legal-cert-grid">
+            <!-- Cert 1: MINCETUR Badge -->
+            <div class="legal-cert-card">
+              <div class="legal-cert-img-wrap contain-img">
+                <img src="assets/images/legal/mincetur_agencia_registrada.png" alt="Sello MINCETUR Agencia Registrada">
+                <span class="legal-cert-badge">MINCETUR</span>
+              </div>
+              <div class="legal-cert-body">
+                <h4 class="legal-cert-title">Agencia Registrada MINCETUR</h4>
+                <span class="legal-cert-issuer">MINISTERIO DE COMERCIO EXTERIOR Y TURISMO</span>
+                <p class="legal-cert-meta">
+                  Registro Nacional de Prestadores de Servicios Turísticos Calificados del Perú.
+                </p>
+                <a href="assets/images/legal/mincetur_agencia_registrada.png" target="_blank" class="btn-cert-view">Ver Distintivo</a>
+              </div>
+            </div>
+
+            <!-- Cert 2: DIRCETUR Constancia -->
+            <div class="legal-cert-card">
+              <div class="legal-cert-img-wrap">
+                <img src="assets/images/legal/constancia_dircetur_lmp_travel.jpg" alt="Constancia DIRCETUR LMP Travel">
+                <span class="legal-cert-badge">DIRCETUR CUSCO</span>
+              </div>
+              <div class="legal-cert-body">
+                <h4 class="legal-cert-title">Constancia DIRCETUR N° 299-2016</h4>
+                <span class="legal-cert-issuer">GOBIERNO REGIONAL DEL CUSCO</span>
+                <p class="legal-cert-meta">
+                  Operador de Turismo Receptivo y Nacional. Titular: Maritza Miranda Ochoa.
+                </p>
+                <a href="assets/images/legal/constancia_dircetur_lmp_travel.jpg" target="_blank" class="btn-cert-view">Ver Constancia HD</a>
+              </div>
+            </div>
+
+            <!-- Cert 3: Licencia Municipal -->
+            <div class="legal-cert-card">
+              <div class="legal-cert-img-wrap">
+                <img src="assets/images/legal/licencia_apertura_lmp_travel.jpg" alt="Licencia Municipal Cusco LMP Travel">
+                <span class="legal-cert-badge">MUNICIPALIDAD</span>
+              </div>
+              <div class="legal-cert-body">
+                <h4 class="legal-cert-title">Licencia Municipal N° 0008677</h4>
+                <span class="legal-cert-issuer">MUNICIPALIDAD DEL CUSCO • TRAMIFÁCIL</span>
+                <p class="legal-cert-meta">
+                  Licencia Definitiva. Giro: Agencia de Viajes y Turismo Minorista (LMP TRAVEL).
+                </p>
+                <a href="assets/images/legal/licencia_apertura_lmp_travel.jpg" target="_blank" class="btn-cert-view">Ver Licencia HD</a>
+              </div>
+            </div>
+          </div>
+
+          <div style="text-align: center; margin-top: 1.5rem;">
+            <a href="legal.html#licencias" target="_blank" class="btn-cert-view" style="display: inline-flex; padding: 0.8rem 1.75rem;">
+              Ver Portal Completo de Acreditación Legal ↗
+            </a>
+          </div>
+        </div>
+
+        <!-- PANE 2: TÉRMINOS & CONDICIONES -->
+        <div class="legal-tab-pane" id="paneTerms">
+          <div class="legal-doc-download-bar">
+            <div class="legal-doc-download-info">
+              <div class="legal-doc-icon">📄</div>
+              <div class="legal-doc-text">
+                <strong>Términos & Condiciones Oficiales</strong>
+                <span>Documento normativo de compra de tours • Luxury Machupicchu Peru E.I.R.L.</span>
+              </div>
+            </div>
+            <a href="assets/docs/TERMINOS_CONDICIONES_LMP_TRAVEL.docx" download class="btn-doc-download">
+              📥 Descargar .docx
+            </a>
+          </div>
+
+          <div class="legal-text-document">
+            <h3>Términos y Condiciones de Compra</h3>
+            <p class="doc-meta">Regula las condiciones de contratación en lmptravel.com • RUC 20601622492</p>
+
+            <h4>1. Generalidades</h4>
+            <p>El presente documento tiene carácter de contrato formal. El Cliente, al contratar los servicios de LUXURY MACHUPICCHU PERU E.I.R.L. (LMP TRAVEL), acepta los términos y condiciones aquí descritos.</p>
+
+            <h4>2. Proceso de Compra y Entradas a Machu Picchu</h4>
+            <p>Toda reserva se formaliza online mediante el pago del anticipo de garantía acordado (30%) o el 100% de la experiencia. Conforme a las directivas del Ministerio de Cultura del Perú y SERNANP, <strong>los boletos de ingreso a la Llaqta de Machu Picchu y billetes de tren de lujo son estrictamente NOMINATIVOS, INALTERABLES Y NO REEMBOLSABLES</strong>. No se permiten cambios de nombre, fecha ni circuito una vez emitidos.</p>
+
+            <h4>3. Exoneración Tributaria de IGV (D.L. 919)</h4>
+            <p>Los turistas extranjeros no domiciliados gozan del beneficio de <strong>0% de IGV</strong> en servicios de paquete turístico receptivo al presentar pasaporte original y registro migratorio virtual (TAM). Los viajeros nacionales o residentes están afectos al 18% de IGV con comprobante de pago SUNAT.</p>
+
+            <h4>4. Políticas de Cancelación y Reembolso</h4>
+            <ul>
+              <li>Cancelaciones con más de 30 días: Se reembolsa el saldo a favor deduciendo costos oficiales no reembolsables del santuario y ferrocarriles.</li>
+              <li>Cancelaciones entre 29 y 15 días: Penalidad del 50% del valor de la expedición.</li>
+              <li>Cancelaciones con menos de 14 días o No-Show: Penalidad del 100% sin derecho a reembolso.</li>
+            </ul>
+
+            <h4>5. Fuerza Mayor</h4>
+            <p>La empresa no se responsabiliza por retrasos o alteraciones de itinerario derivadas de fenómenos meteorológicos extremos, disposiciones del Estado o huelgas civiles ajenas. En dichos casos, el Concierge reorganizará las rutas velando por la integridad del pasajero.</p>
+          </div>
+        </div>
+
+        <!-- PANE 3: POLÍTICA DE PRIVACIDAD -->
+        <div class="legal-tab-pane" id="panePrivacy">
+          <div class="legal-doc-download-bar">
+            <div class="legal-doc-download-info">
+              <div class="legal-doc-icon">🔒</div>
+              <div class="legal-doc-text">
+                <strong>Protección de Datos Personales</strong>
+                <span>Ley N° 29733, D.S. N° 003-2013-JUS y Estándares GDPR</span>
+              </div>
+            </div>
+            <a href="assets/docs/DATA_PROTECTION_LMP_TRAVEL.docx" download class="btn-doc-download">
+              📥 Descargar .docx
+            </a>
+          </div>
+
+          <div class="legal-text-document">
+            <h3>Política de Protección y Tratamiento de Datos Personales</h3>
+            <p class="doc-meta">Luxury Machupicchu Peru E.I.R.L. • Oficial de Privacidad</p>
+
+            <h4>1. Tratamiento y Finalidad</h4>
+            <p>LMP Travel recopila únicamente los datos estrictamente necesarios (nombre, documento de identidad/pasaporte, nacionalidad, contacto y requerimientos dietarios/médicos) para la emisión formal de permisos gubernamentales ante el Ministerio de Cultura, billetes de tren y reservas de alta gama.</p>
+
+            <h4>2. Seguridad Financiera (PCI-DSS & Culqi)</h4>
+            <p>Los pagos con tarjeta de crédito/débito online son procesados de forma encriptada a través de la pasarela certificada <strong>Culqi</strong> con tokenización bancaria y cifrado TLS 1.3 de 256 bits. <strong>LMP Travel jamás almacena ni tiene acceso a los números completos de tarjeta ni CVV</strong>.</p>
+
+            <h4>3. Derechos ARCO</h4>
+            <p>El titular podrá ejercer en cualquier momento sus derechos de Acceso, Rectificación, Cancelación y Oposición (ARCO) comunicándose a <strong>info@lmptravel.com</strong> o en Jr. Policarpo Caballero Ñ-4, Urb. Rosaspata, Cusco.</p>
+          </div>
+        </div>
+
+        <!-- PANE 4: CÓDIGO ESNNA -->
+        <div class="legal-tab-pane" id="paneEsnna">
+          <div class="legal-doc-download-bar">
+            <div class="legal-doc-download-info">
+              <div class="legal-doc-icon">🛡️</div>
+              <div class="legal-doc-text">
+                <strong>Código de Conducta ESNNA</strong>
+                <span>Suscrito ante GERCETUR Cusco para la protección de niñas, niños y adolescentes</span>
+              </div>
+            </div>
+            <a href="assets/docs/ESNNA_LMP_TRAVEL.docx" download class="btn-doc-download">
+              📥 Descargar .docx
+            </a>
+          </div>
+
+          <div class="legal-text-document">
+            <h3>Código de Conducta contra la ESNNA en Turismo</h3>
+            <p class="doc-meta">Compromiso ético y legal ante GERCETUR y MINCETUR</p>
+
+            <h4>Tolerancia Cero contra la Explotación Sexual Infantil</h4>
+            <p>En Luxury Machupicchu Peru E.I.R.L. (LMP TRAVEL) rechazamos y combatimos enérgicamente cualquier forma de explotación sexual de niñas, niños y adolescentes en el ámbito turístico.</p>
+            <p>Todo nuestro personal y socios estratégicos (guías, choferes, hoteles y porteadores) se encuentran capacitados y sujetos a estrictas normas de conducta. Nos encontramos facultados y legalmente obligados a denunciar de inmediato ante la Policía Nacional del Perú (PNP) y el Ministerio Público cualquier actividad ilícita o sospechosa.</p>
+          </div>
+        </div>
+
+        <!-- PANE 5: LIBRO DE RECLAMACIONES -->
         <div class="legal-tab-pane active" id="paneClaims">
           <div class="legal-pane-intro">
             <div class="legal-intro-company">
-              <strong>Luxury Machupicchu Peru E.I.R.L.</strong> • RUC: <strong>20601622492</strong><br>
-              <span>Domicilio Legal: Portal de Panes 123, Plaza de Armas, Cusco, Perú • GERCETUR Registro N° 00482-CUS</span>
+              <strong>Luxury Machupicchu Peru E.I.R.L. (LMP TRAVEL)</strong> • RUC: <strong>20601622492</strong><br>
+              <span>Domicilio Legal: Jr. Policarpo Caballero Ñ-4, Urb. Rosaspata, Cusco, Perú • Constancia DIRCETUR N° 299-2016</span>
             </div>
             <p class="legal-intro-text">
               Conforme a lo establecido en el Código de Protección y Defensa del Consumidor (Ley N° 29571) y el Reglamento del Libro de Reclamaciones (D.S. N° 011-2011-PCM), ponemos a su disposición nuestro Libro de Reclamaciones Virtual.
@@ -1303,7 +1488,7 @@
 
               <div class="form-field">
                 <label for="claimAddress">Domicilio o Residencia Habitual (Ciudad / País) *</label>
-                <input type="text" id="claimAddress" required placeholder="Ej. Portal de Panes 123, Cusco / London, UK">
+                <input type="text" id="claimAddress" required placeholder="Ej. Jr. Policarpo Caballero Ñ-4, Cusco / London, UK">
               </div>
 
               <div class="claim-form-section-title" style="margin-top: 1.5rem;">2. Identificación del Bien o Servicio Contratado</div>
@@ -1362,62 +1547,6 @@
           </div>
 
           <div id="claimResultContainer" style="display: none;"></div>
-        </div>
-
-        <!-- PANE 2: TÉRMINOS & CONDICIONES -->
-        <div class="legal-tab-pane" id="paneTerms">
-          <div class="legal-text-document">
-            <h3>Términos & Condiciones de Expedición de Alta Costura</h3>
-            <p class="doc-meta">Última actualización: Enero 2026 • Luxury Machupicchu Peru E.I.R.L.</p>
-
-            <h4>1. Naturaleza de los Servicios</h4>
-            <p>Luxury Machupicchu Peru E.I.R.L. (en adelante, "El Atelier") es una agencia de viajes y operador turístico de alta gama con acreditación oficial de GERCETUR Cusco (Registro N° 00482-CUS) y RUC 20601622492. Nos especializamos en la conceptualización, curaduría y ejecución de expediciones 100% privadas en el Santuario Histórico de Machu Picchu, Valle Sagrado y el Altiplano andino.</p>
-
-            <h4>2. Reserva, Confirmación y Depósito de Garantía</h4>
-            <p>Toda expedición privada se formaliza mediante el abono de un <strong>anticipo de garantía del 30%</strong> del monto total acordado. Dicho anticipo permite la emisión inmediata e intransferible de boletos oficiales de ingreso emitidos por el Ministerio de Cultura del Perú (SERNANP) y los billetes ferroviarios de lujo correspondientes (Belmond Hiram Bingham / Inca Rail First Class).</p>
-            <p>El saldo restante del 70% deberá ser abonado a la llegada del huésped a la ciudad del Cusco antes del inicio de la primera experiencia privada, o según el acuerdo estipulado en la proforma de alta costura.</p>
-
-            <h4>3. Régimen Tributario y Exoneración de IGV (D.L. 919)</h4>
-            <p>De conformidad con el Decreto Legislativo N° 919 y normativas tributarias de la SUNAT, los viajeros no domiciliados (turistas extranjeros que ingresen al Perú por un plazo menor a 60 días calendario) gozan de <strong>tasa 0% de Impuesto General a las Ventas (IGV)</strong> en servicios hoteleros y de paquete turístico receptivo. Para la formalización de este beneficio legal, el pasajero presentará su pasaporte original y registro migratorio (TAM virtual) al momento de registrarse.</p>
-            <p>Los ciudadanos peruanos y residentes extranjeros domiciliados en el Perú están sujetos al 18% de IGV por mandato de ley.</p>
-
-            <h4>4. Políticas de Modificación y Cancelación</h4>
-            <p>Debido a la estricta política nominal y no reembolsable del Ministerio de Cultura del Perú y Belmond Ltd., los boletos de acceso al Santuario de Machu Picchu y billetes del tren Hiram Bingham son nominativos e inalterables una vez emitidos.</p>
-            <ul>
-              <li><strong>Cancelaciones con más de 30 días de anticipación:</strong> Reembolso del saldo abonado a favor del cliente, deduciendo los costos no reembolsables de permisos de santuario y penalidades ferroviarias.</li>
-              <li><strong>Cancelaciones entre 29 y 15 días:</strong> Penalidad del 50% del valor total de la expedición.</li>
-              <li><strong>Cancelaciones con menos de 14 días o No-Show:</strong> Penalidad del 100% del valor total contratado.</li>
-            </ul>
-
-            <h4>5. Fuerza Mayor y Seguridad en los Andes</h4>
-            <p>El Atelier no se responsabiliza por retrasos, modificaciones de ruta o cancelaciones derivadas de eventos de fuerza mayor o caso fortuito (huelgas civiles ajenas a la empresa, condiciones meteorológicas extremas, deslizamientos naturales o disposiciones extraordinarias del Estado Peruano). En dichos escenarios, nuestro equipo de Concierge 24/7 reconfigurará el itinerario priorizando en todo momento la integridad y comodidad del huésped.</p>
-          </div>
-        </div>
-
-        <!-- PANE 3: POLÍTICA DE PRIVACIDAD -->
-        <div class="legal-tab-pane" id="panePrivacy">
-          <div class="legal-text-document">
-            <h3>Política de Privacidad & Protección de Datos Personales</h3>
-            <p class="doc-meta">En cumplimiento de la Ley N° 29733 (Perú) y Estándares Internacionales GDPR</p>
-
-            <h4>1. Compromiso de Confidencialidad</h4>
-            <p>En Luxury Machupicchu Peru E.I.R.L., la confidencialidad de nuestros huéspedes de honor es un principio inquebrantable de hospitalidad de alta costura. Tratamos su información personal con los más altos estándares de reserva, integridad y discreción.</p>
-
-            <h4>2. Datos Objeto de Tratamiento</h4>
-            <p>Para la debida emisión de permisos gubernamentales ante el Ministerio de Cultura, pasajes de tren de colección y reservas de hospedaje cinco estrellas, recopilamos exclusivamente:</p>
-            <ul>
-              <li>Nombre completo y nacionalidad.</li>
-              <li>Número de Pasaporte o Documento Nacional de Identidad.</li>
-              <li>Fecha de nacimiento y datos de contacto (correo y WhatsApp).</li>
-              <li>Preferencias de viaje, restricciones dietarias y requerimientos médicos o de altitud.</li>
-            </ul>
-
-            <h4>3. Seguridad en las Transacciones Financieras</h4>
-            <p>Los pagos con tarjeta de crédito procesados a través de nuestra plataforma utilizan la pasarela certificada <strong>Culqi</strong> con tokenización bancaria y cifrado TLS 1.3 de 256 bits. El Atelier <strong>nunca almacena ni tiene acceso a los números completos de sus tarjetas de crédito o códigos CVV</strong>.</p>
-
-            <h4>4. Ejercicio de Derechos ARCO</h4>
-            <p>El titular de los datos personales puede ejercer en cualquier momento sus derechos de Acceso, Rectificación, Cancelación y Oposición (ARCO) contemplados en la Ley N° 29733, dirigiendo una comunicación escrita a nuestro oficial de privacidad al correo <strong>concierge@luxurymachupicchu.com</strong> o a nuestro domicilio legal en Portal de Panes 123, Plaza de Armas, Cusco, Perú.</p>
-          </div>
         </div>
       </div>
     </div>

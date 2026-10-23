@@ -2673,7 +2673,7 @@ function closeLegalModal() {
 }
 
 function switchLegalTab(tabName) {
-  const tabs = ['claims', 'terms', 'privacy'];
+  const tabs = ['claims', 'terms', 'privacy', 'esnna', 'licenses'];
   tabs.forEach(t => {
     const btn = document.getElementById(`tabBtn${t.charAt(0).toUpperCase() + t.slice(1)}`);
     const pane = document.getElementById(`pane${t.charAt(0).toUpperCase() + t.slice(1)}`);
