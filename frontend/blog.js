@@ -89,37 +89,53 @@ const blogTranslations = {
 
 // Available Curated Tours mapping for related cards
 const TOURS_CATALOG = {
-  "belmond-hiram-bingham-pinnacle": {
+  "luxury-machu-picchu-peru": {
     title: {
-      en: "Belmond Hiram Bingham Pinnacle & Citadel Sanctuary",
-      es: "Belmond Hiram Bingham Pinnacle & Santuario Sagrado"
+      en: "Luxury Machu Picchu Peru (Signature Journey)",
+      es: "Machu Picchu de Lujo Perú (Viaje Emblemático)"
     },
-    image: "assets/images/hiram_bingham_main.jpg",
-    slug: "belmond-hiram-bingham-pinnacle"
+    image: "https://lmptravel.com/wp-content/uploads/2023/01/01_machu_picchu.jpg",
+    slug: "luxury-machu-picchu-peru"
   },
-  "sacred-valley-prive-shamanic-ritual": {
+  "cusco-golden-city": {
     title: {
-      en: "Sacred Valley Privé & Ancestral Q'ero Shamanic Ritual",
-      es: "Valle Sagrado Privé & Ritual Chamánico de Altura"
+      en: "Cusco Golden City Machu Picchu, Peru",
+      es: "Cusco Ciudad Dorada Machu Picchu, Perú"
     },
-    image: "assets/images/sacred_valley_moray.jpg",
-    slug: "sacred-valley-prive-shamanic-ritual"
+    image: "https://lmptravel.com/wp-content/uploads/2023/02/cuscogolden.jpg",
+    slug: "cusco-golden-city"
   },
-  "belmond-andean-explorer-cusco-titicaca": {
+  "machu-picchu-express": {
     title: {
-      en: "Belmond Andean Explorer Luxury Sleeper (Cusco to Lake Titicaca)",
-      es: "Tren Cama Belmond Andean Explorer (Cusco a Lago Titicaca)"
+      en: "Machu Picchu Express (Essential Private Journey)",
+      es: "Machu Picchu Express (Escapada Esencial)"
     },
-    image: "assets/images/andean_explorer_main.jpg",
-    slug: "belmond-andean-explorer-cusco-titicaca"
+    image: "https://lmptravel.com/wp-content/uploads/2024/10/mapi5.jpg",
+    slug: "machu-picchu-express"
   },
-  "classic-inca-trail-vip-glamping": {
+  "inkaterra-hacienda-concepcion": {
     title: {
-      en: "Classic Inca Trail VIP Luxury Glamping Experience",
-      es: "Camino Inca Clásico VIP Glamping de Lujo"
+      en: "Inkaterra Hacienda Concepción Tambopata Rainforest",
+      es: "Inkaterra Hacienda Concepción Tambopata Selva Virgen"
     },
-    image: "assets/images/inca_trail_main.jpg",
-    slug: "classic-inca-trail-vip-glamping"
+    image: "https://lmptravel.com/wp-content/uploads/2023/02/inkaterra_tambopata_840px.jpg",
+    slug: "inkaterra-hacienda-concepcion"
+  },
+  "tambopata-machu-picchu": {
+    title: {
+      en: "Tambopata & Machu Picchu (Amazon & Andes)",
+      es: "Tambopata y Machu Picchu (Amazonía y Andes)"
+    },
+    image: "https://lmptravel.com/wp-content/uploads/2023/01/04_tambopata.jpg",
+    slug: "tambopata-machu-picchu"
+  },
+  "peru-travel-package": {
+    title: {
+      en: "Peru Travel Package (Grand Tour)",
+      es: "Paquete Perú de Lujo (Gran Travesía)"
+    },
+    image: "https://lmptravel.com/wp-content/uploads/2023/01/machu-picchu_3-1.jpg",
+    slug: "peru-travel-package"
   }
 };
 
@@ -522,11 +538,13 @@ function renderRelatedTours(post) {
   const dict = blogTranslations[lang];
 
   // Specific mapping based on post
-  let selectedTours = ["belmond-hiram-bingham-pinnacle", "sacred-valley-prive-shamanic-ritual"];
+  let selectedTours = ["luxury-machu-picchu-peru", "cusco-golden-city"];
   if (post.id === 'peru-a-country-of-ancient-traditions') {
-    selectedTours = ["belmond-hiram-bingham-pinnacle", "belmond-andean-explorer-cusco-titicaca", "classic-inca-trail-vip-glamping"];
+    selectedTours = ["luxury-machu-picchu-peru", "cusco-golden-city", "peru-travel-package"];
   } else if (post.id === 'inkaterra-hacienda-concepcion') {
-    selectedTours = ["belmond-hiram-bingham-pinnacle", "sacred-valley-prive-shamanic-ritual"];
+    selectedTours = ["inkaterra-hacienda-concepcion", "tambopata-machu-picchu"];
+  } else if (post.id === 'guide-to-planning-a-luxury-tour-of-peru') {
+    selectedTours = ["luxury-machu-picchu-peru", "machu-picchu-express"];
   }
 
   return selectedTours.map(slug => {

@@ -636,7 +636,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   setupScrollListener();
 
   // Identify active tour from slug or ID parameter
-  const slug = urlParams.get('slug') || urlParams.get('id') || 'belmond-hiram-bingham-pinnacle';
+  const slug = urlParams.get('slug') || urlParams.get('id') || 'luxury-machu-picchu-peru';
 
   showTourLoadingState();
 
@@ -1660,58 +1660,84 @@ const BUILDER_DATA = {
   tours: [
     {
       id: 1,
-      slug: 'belmond-hiram-bingham-pinnacle',
-      priceUsd: 2150,
-      pricePen: 8170,
-      durationEn: '2 Days / 1 Night',
-      durationEs: '2 Días / 1 Noche',
-      nameEn: 'Machu Picchu Pinnacle & Hiram Bingham',
-      nameEs: 'Machu Picchu Pinnacle & Hiram Bingham',
-      subEn: 'Historic train, private archaeologist & sanctuary entry',
-      subEs: 'Tren histórico, arqueólogo privado y entrada al santuario',
-      tag: 'Luxury Rail'
+      slug: 'luxury-machu-picchu-peru',
+      priceUsd: 4100,
+      pricePen: 15580,
+      durationEn: '7 Days / 6 Nights',
+      durationEs: '7 Días / 6 Noches',
+      nameEn: 'Luxury Machu Picchu Peru',
+      nameEs: 'Machu Picchu de Lujo Perú',
+      subEn: 'The signature journey: Lima, Cusco, Sacred Valley & Machu Picchu Sanctuary',
+      subEs: 'El viaje emblemático: Lima, Cusco, Valle Sagrado y Santuario de Machu Picchu',
+      tag: 'Signature Journey'
     },
     {
       id: 2,
-      slug: 'sacred-valley-prive-shamanic-ritual',
-      priceUsd: 1450,
-      pricePen: 5510,
-      durationEn: '2 Days / 1 Night',
-      durationEs: '2 Días / 1 Noche',
-      nameEn: 'Sacred Valley Privé & Shamanic Ritual',
-      nameEs: 'Valle Sagrado Privé y Ritual Chamánico',
-      subEn: 'Maras, Moray, private hacienda & Q\'ero Andean blessing',
-      subEs: 'Maras, Moray, hacienda privada y bendición Q\'ero',
-      tag: 'Mysticism'
+      slug: 'cusco-golden-city',
+      priceUsd: 1900,
+      pricePen: 7220,
+      durationEn: '5 Days / 4 Nights',
+      durationEs: '5 Días / 4 Noches',
+      nameEn: 'Cusco Golden City',
+      nameEs: 'Cusco Ciudad Dorada',
+      subEn: 'Imperial Incan capital, Sacred Valley artisan villages & Machu Picchu',
+      subEs: 'Capital imperial inca, poblados artesanos del Valle Sagrado y Machu Picchu',
+      tag: 'Heritage & Citadel'
     },
     {
       id: 3,
-      slug: 'belmond-andean-explorer-cusco-titicaca',
-      priceUsd: 3420,
-      pricePen: 12996,
-      durationEn: '3 Days / 2 Nights',
-      durationEs: '3 Días / 2 Noches',
-      nameEn: 'Belmond Andean Explorer Sleeper Train',
-      nameEs: 'Belmond Andean Explorer Tren Nocturno',
-      subEn: 'Luxury sleeper carriage from Cusco across altiplano to Titicaca',
-      subEs: 'Coche cama de lujo desde Cusco por el altiplano a Titicaca',
-      tag: 'Grand Sleeper'
+      slug: 'machu-picchu-express',
+      priceUsd: 2100,
+      pricePen: 7980,
+      durationEn: '4 Days / 3 Nights',
+      durationEs: '4 Días / 3 Noches',
+      nameEn: 'Machu Picchu Express',
+      nameEs: 'Machu Picchu Express',
+      subEn: 'Curated high-comfort essential escape to the Lost City of the Incas',
+      subEs: 'Escapada esencial con máximo confort a la Ciudad Perdida de los Incas',
+      tag: 'Express Comfort'
     },
     {
       id: 4,
-      slug: 'classic-inca-trail-vip-glamping',
-      priceUsd: 2890,
-      pricePen: 10982,
-      durationEn: '4 Days / 3 Nights',
-      durationEs: '4 Días / 3 Noches',
-      nameEn: 'Classic Inca Trail VIP Glamping',
-      nameEs: 'Camino Inca Clásico VIP Glamping',
-      subEn: 'Heated geodesic dome suites, hot showers & private chef',
-      subEs: 'Domos calefaccionados, duchas calientes y chef privado',
-      tag: 'VIP Glamping'
+      slug: 'inkaterra-hacienda-concepcion',
+      priceUsd: 1450,
+      pricePen: 5510,
+      durationEn: '3 Days / 2 Nights',
+      durationEs: '3 Días / 2 Noches',
+      nameEn: 'Inkaterra Hacienda Concepción',
+      nameEs: 'Inkaterra Hacienda Concepción',
+      subEn: 'Luxury Amazon rainforest sanctuary in Tambopata with private canopy walks',
+      subEs: 'Santuario de lujo en la selva de Tambopata con puentes colgantes privados',
+      tag: 'Amazon Rainforest'
     },
     {
       id: 5,
+      slug: 'tambopata-machu-picchu',
+      priceUsd: 3500,
+      pricePen: 13300,
+      durationEn: '9 Days / 8 Nights',
+      durationEs: '9 Días / 8 Noches',
+      nameEn: 'Tambopata & Machu Picchu',
+      nameEs: 'Tambopata y Machu Picchu',
+      subEn: 'Unrivaled combination of virgin Amazon rainforest wildlife & Incan citadel majesty',
+      subEs: 'Combinación sublime de biodiversidad amazónica virgen y la magia de Machu Picchu',
+      tag: 'Amazon & Andes'
+    },
+    {
+      id: 6,
+      slug: 'peru-travel-package',
+      priceUsd: 5100,
+      pricePen: 19380,
+      durationEn: '10 Days / 9 Nights',
+      durationEs: '10 Días / 9 Noches',
+      nameEn: 'Peru Travel Package',
+      nameEs: 'Paquete Perú de Lujo',
+      subEn: 'The definitive Grand Tour: Lima gastronomy, Amazon lodge, Sacred Valley & citadel',
+      subEs: 'El Gran Tour definitivo: Gastronomía en Lima, Amazonía, Valle Sagrado y santuario',
+      tag: 'Grand Expedition'
+    },
+    {
+      id: 7,
       slug: 'custom-bespoke',
       priceUsd: 3950,
       pricePen: 15010,
