@@ -71,6 +71,53 @@ body.checkout-body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 16px;
+}
+
+.checkout-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.lang-switch-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(197, 164, 126, 0.3);
+  padding: 4px 8px;
+  border-radius: 20px;
+}
+
+.lang-btn {
+  background: none;
+  border: none;
+  color: var(--checkout-muted);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  padding: 3px 8px;
+  border-radius: 12px;
+  transition: all 0.2s ease;
+  line-height: 1;
+}
+
+.lang-btn:hover {
+  color: var(--checkout-gold);
+}
+
+.lang-btn.active {
+  background: var(--checkout-gold);
+  color: #0E0F12;
+  font-weight: 700;
+}
+
+.lang-divider {
+  color: rgba(255, 255, 255, 0.2);
+  font-size: 0.75rem;
+  user-select: none;
 }
 
 .checkout-brand {
@@ -158,37 +205,113 @@ body.checkout-body {
 .tour-hero-preview {
   display: flex;
   gap: 20px;
-  padding: 20px;
+  padding: 16px;
   background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 6px;
+  border: 1px solid rgba(197, 164, 126, 0.22);
+  border-radius: 8px;
   margin-bottom: 28px;
   align-items: center;
 }
 
-.tour-icon-wrap {
-  width: 54px;
-  height: 54px;
-  border-radius: 50%;
-  background: rgba(197, 164, 126, 0.12);
-  border: 1px solid rgba(197, 164, 126, 0.3);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--checkout-gold);
+.tour-img-wrap {
+  position: relative;
+  width: 120px;
+  height: 94px;
   flex-shrink: 0;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid rgba(197, 164, 126, 0.35);
+  background: #0E1013;
+}
+
+.tour-thumb-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.tour-hero-preview:hover .tour-thumb-img {
+  transform: scale(1.06);
+}
+
+.tour-badge-vip {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(14, 16, 20, 0.9);
+  backdrop-filter: blur(4px);
+  color: var(--checkout-gold);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-align: center;
+  padding: 3px 2px;
+  border-top: 1px solid rgba(197, 164, 126, 0.3);
+}
+
+.tour-hero-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.tour-category-tag {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--checkout-gold);
+  display: block;
+  font-weight: 600;
+  margin-bottom: 3px;
 }
 
 .tour-hero-info h3 {
   font-size: 1.15rem;
   color: #FFF;
   font-weight: 600;
-  margin-bottom: 4px;
+  margin: 0 0 4px 0;
+  line-height: 1.25;
 }
 
 .tour-hero-info p {
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   color: var(--checkout-muted);
+  margin: 0 0 8px 0;
+}
+
+.ref-highlight {
+  color: var(--checkout-gold);
+  font-family: monospace;
+  font-weight: 600;
+}
+
+.tour-highlights-pills {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.tour-pill {
+  font-size: 0.72rem;
+  color: #E2E2E8;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+
+@media (max-width: 600px) {
+  .tour-hero-preview {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .tour-img-wrap {
+    width: 100%;
+    height: 140px;
+  }
 }
 
 /* Form Fields */
@@ -485,6 +608,18 @@ body.checkout-body {
 .btn-voucher-wa:hover {
   background: #20BD5A;
   transform: translateY(-2px);
+}
+
+.btn-voucher-pdf {
+  background: linear-gradient(135deg, #C5A47E 0%, #B38E65 100%);
+  color: #0E0F12;
+  border: none;
+}
+
+.btn-voucher-pdf:hover {
+  background: linear-gradient(135deg, #D4AF37 0%, #C5A47E 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(197, 164, 126, 0.35);
 }
 
 .btn-voucher-print {
@@ -1040,5 +1175,15 @@ body.checkout-body {
     line-height: 1.5 !important;
   }
 }
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.spin-icon {
+  animation: spin 1s linear infinite;
+  display: inline-block;
+}
+
 
 

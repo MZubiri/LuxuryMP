@@ -10,7 +10,9 @@ const appState = {
   exchangeRateUsdToPen: 3.80,
   activeCategory: 'all',
   selectedTour: null,
-  tours: []
+  tours: [],
+  categories: [],
+  testimonials: []
 };
 
 // Bilingual Dictionary (EN / ES)
@@ -19,16 +21,27 @@ const translations = {
     topBarTag: "OFFICIAL LICENSED OPERATOR",
     topBarRuc: "RUC: 20601622492",
     topBarLic: "GERCETUR CERTIFIED • MINCETUR AUTHORIZED • ESNNA COMPLIANT",
-    navExpeditions: "Expeditions",
+    navExpeditions: "Experiences",
     navRail: "Hiram Bingham Rail",
     navPhilosophy: "The Belmond Distinction",
     navChronicles: "Guest Chronicles",
+    navBlog: "Blog & Guides",
     navContact: "Concierge",
+    blogKicker: "ANDEAN GAZETTE & EXPERIENCE JOURNAL",
+    blogTitle: "Luxury Travel Guides & Chronicles",
+    blogSubtitle: "Expert insights on Andean weather, official visa protocols, ancient heritage, and bespoke journey planning.",
+    blogCatClimate: "Planning & Climate",
+    blogCatVisas: "Visas & Requirements",
+    blogCatTraditions: "Ancient Traditions",
+    blogCatLuxury: "Luxury Tour Guide",
+    blogCatAmazon: "Amazon & Lodges",
+    blogReadArticle: "Read Complete Article →",
+    blogViewAll: "EXPLORE ALL TRAVEL GUIDES & ARTICLES IN OFFICIAL BLOG",
     btnBespokeInquiry: "Bespoke Inquiry",
     heroBadge: "HAUTE COUTURE ANDEAN TRAVEL • EST. 2016",
     heroHeadline: "The Art of Andean Wonder",
     heroSubhead: "Bespoke journeys aboard the Belmond Hiram Bingham, private tours led by certified master archaeologists, and handcrafted luxury across the Inca empire.",
-    btnHeroExplore: "Explore Our Journeys",
+    btnHeroExplore: "Explore Our Experiences",
     btnHeroConcierge: "Consult Private Concierge",
     cred1: "Tailor-Made Private Journeys",
     cred2: "Belmond Preferred Access & Priority Logistics",
@@ -43,14 +56,21 @@ const translations = {
     optValley: "Sacred Valley & Shamanic Ritual",
     optAndean: "Belmond Andean Explorer Sleeper",
     optGlamping: "Inca Trail VIP Glamping",
-    kickerExpeditions: "OUR CURATED EXPEDITIONS",
+    optCuscoGolden: "Cusco Golden City (5 Days)",
+    optInkaterra: "Inkaterra Hacienda Concepcion (3 Days)",
+    optLuxuryMp: "Luxury Machu Picchu Peru (7 Days)",
+    optMpExpress: "Machu Picchu Express (4 Days)",
+    optGrandPeru: "Peru Travel Package: Coast, Amazon & Andes (9 Days)",
+    optTambopataMp: "Tambopata & Machu Picchu (9 Days)",
+    kickerExpeditions: "OUR CURATED EXPERIENCES",
     titleExpeditions: "The Andean Collections",
     introExpeditions: "Each journey is meticulously orchestrated down to the finest nuance: private collector train carriages, world-renowned Andean culinary pairings, and exclusive sanctuary entries.",
-    catAll: "All Expeditions",
+    catAll: "All Experiences",
     catRail: "Luxury Rail",
     catSanctuary: "Sanctuary Privé",
     catValley: "Sacred Valley & Mysticism",
     catGlamping: "VIP Glamping",
+    catAmazon: "Amazon & Rainforest Lodges",
     kickerPhilosophy: "THE HAUTE COUTURE DIFFERENCE",
     titlePhilosophy: "Unrivalled Exclusivity in the Cloud Forest",
     bodyPhilosophy1: "While standard tourism subjects travelers to exhausting queues and crowded buses, Luxury Machupicchu Peru choreographs every arrival with seamless distinction.",
@@ -87,8 +107,8 @@ const translations = {
     labelDuration: "Estimated Duration",
     labelNotes: "Special Wishes or Preferences",
     btnSubmitConcierge: "DISPATCH VIP INQUIRY",
-    footerDesc: "Official luxury travel atelier dedicated to private, bespoke expeditions through the Sacred Valley, Machu Picchu Sanctuary, and the High Andes.",
-    footerExpeditions: "Expeditions",
+    footerDesc: "Official luxury travel atelier dedicated to private, bespoke experiences through the Sacred Valley, Machu Picchu Sanctuary, and the High Andes.",
+    footerExpeditions: "Experiences",
     footerCertifications: "Certifications",
     footerConciergeDirect: "Direct Contact",
     waTooltip: "VIP Concierge 24/7",
@@ -110,9 +130,9 @@ const translations = {
     modalDining: "Gourmet Dining",
     modalTransfer: "Private Transfer",
     modalIncludedTitle: "Curated Inclusions",
-    modalReserveBtn: "Reserve This Journey With Concierge",
+    modalReserveBtn: "Reserve This Experience With Concierge",
     taxLegendTitle: "Tax Policy & Legal Notice (+ IGV / VAT)",
-    taxLegendText: "Published expedition rates are net of Peruvian Value Added Tax (+ IGV). In accordance with Legislative Decree N° 919 (Promotion of Receptive Tourism & Export of Services), non-domiciled foreign visitors are <strong>100% EXEMPT from IGV (0% VAT)</strong> upon presenting a valid foreign passport and entry migration stamp (TAM). For Peruvian citizens and resident taxpayers, 18% IGV applies with official electronic tax invoice issuance.",
+    taxLegendText: "Published experience rates are net of Peruvian Value Added Tax (+ IGV). In accordance with Legislative Decree N° 919 (Promotion of Receptive Tourism & Export of Services), non-domiciled foreign visitors are <strong>100% EXEMPT from IGV (0% VAT)</strong> upon presenting a valid foreign passport and entry migration stamp (TAM). For Peruvian citizens and resident taxpayers, 18% IGV applies with official electronic tax invoice issuance.",
     priceTaxSub: "+ IGV (Foreigners 0% VAT D.L. 919)",
     sidebarTaxSub: "+ 18% IGV Peruvians • Foreigners 0% Exempt (D.L. 919)",
     sidebarTaxLegend: "✦ Rates net + IGV. Non-resident foreigners 0% IGV under D.L. 919 • Peruvian residents +18% IGV.",
@@ -122,8 +142,8 @@ const translations = {
     btnHeroBuildPackage: "✦ Build Your Bespoke Package",
     pkgModalKicker: "HAUTE COUTURE ANDEAN TRAVEL • BESPOKE RESERVATION",
     pkgModalTitle: "Build Your Bespoke Andean Journey",
-    pkgModalSubtitle: "Personalize your private expedition: select signature rail, partner luxury hotels, tailored add-ons, and tax status with real-time live quotation.",
-    step1Title: "1. Select Base Expedition",
+    pkgModalSubtitle: "Personalize your private experience: select signature rail, partner luxury hotels, tailored add-ons, and tax status with real-time live quotation.",
+    step1Title: "1. Select Base Experience",
     step2Title: "2. Partner Luxury Hotel (Optional)",
     step3Title: "3. Preferred Luxury Train Carriage",
     step4Title: "4. Bespoke Upgrades & Signature Add-ons",
@@ -156,7 +176,7 @@ const translations = {
     btnPrintQuoteSheet: "🖨️ Print / Save as PDF",
     btnSendQuoteSheetWa: "Confirm Quotation via WhatsApp",
     qsTitle: "OFFICIAL QUOTATION SHEET",
-    qsSubtitle: "BESPOKE ANDEAN EXPEDITION PROFORMA",
+    qsSubtitle: "BESPOKE ANDEAN EXPERIENCE PROFORMA",
     docPassport: "Passport (0%)",
     docDni: "DNI (+18%)",
     docCe: "Foreign ID (+18%)",
@@ -164,22 +184,46 @@ const translations = {
     lblDepositTag: "30% Luxury Deposit Due Today",
     lblBalanceTag: "70% Balance Due upon Arrival in Cusco",
     summaryTitle: "Quotation Summary",
-    lblNetBaseSubtotal: "Net Base Subtotal:"
+    optGuest1: "1 Traveler",
+    optGuest2: "2 Travelers (Couple Privé)",
+    optGuest4: "4 Travelers (Family Suite)",
+    optGuest6: "6+ Travelers (Private Charter)",
+    accentQuote: "\"True luxury is not merely where you arrive, but the serenity with which you journey.\"",
+    accentAuthor: "— Luxury Machupicchu Concierge Desk",
+    spotlightFeat1: "✔ Private Observatory Carriage",
+    spotlightFeat2: "✔ 4-Course Degustation Brunch & Dinner",
+    spotlightFeat3: "✔ Sanctuary Lodge Afternoon Tea",
+    spotlightFeat4: "✔ Pre-Reserved Priority Entry Logistics",
+    review1Meta: "London, United Kingdom • Hiram Bingham Journey",
+    review2Meta: "New York, USA • Sacred Valley Privé",
+    review3Meta: "Zurich, Switzerland • Inca Trail VIP Glamping",
+    blogCardReadMore: "Read Complete Article →",
   },
   es: {
     topBarTag: "OPERADOR OFICIAL AUTORIZADO",
     topBarRuc: "RUC: 20601622492",
     topBarLic: "CERTIFICADO GERCETUR • AUTORIZADO POR MINCETUR • CÓDIGO ESNNA",
-    navExpeditions: "Expediciones",
+    navExpeditions: "Experiencias",
     navRail: "Tren Hiram Bingham",
     navPhilosophy: "La Distinción Belmond",
     navChronicles: "Crónicas de Huéspedes",
+    navBlog: "Blog & Guías",
     navContact: "Concierge",
+    blogKicker: "CUADERNO DE VIAJE & GACETA ANDINA",
+    blogTitle: "Guías Exclusivas, Clima & Crónicas del Perú",
+    blogSubtitle: "Conocimiento experto sobre climatología andina, visados oficiales, tradiciones milenarias y diseño de viajes de autor.",
+    blogCatClimate: "Planificación & Clima",
+    blogCatVisas: "Requisitos & Visas",
+    blogCatTraditions: "Tradiciones Milenarias",
+    blogCatLuxury: "Guía de Alta Gama",
+    blogCatAmazon: "Amazonía & Lodges",
+    blogReadArticle: "Leer Artículo Completo →",
+    blogViewAll: "EXPLORAR TODAS LAS GUÍAS Y ARTÍCULOS EN EL BLOG OFICIAL",
     btnBespokeInquiry: "Consulta a Medida",
     heroBadge: "ALTA COSTURA EN VIAJES ANDINOS • EST. 2016",
     heroHeadline: "El Arte del Asombro Andino",
     heroSubhead: "Travesías a medida a bordo del Belmond Hiram Bingham, recorridos privados con arqueólogos certificados y hospitalidad de lujo en el imperio inca.",
-    btnHeroExplore: "Explorar Expediciones",
+    btnHeroExplore: "Explorar Experiencias",
     btnHeroConcierge: "Consultar a Concierge",
     cred1: "Viajes 100% a Medida",
     cred2: "Logística y Abordaje Preferencial Belmond",
@@ -188,20 +232,27 @@ const translations = {
     plannerDateLabel: "FECHA ESTIMADA",
     plannerGuestsLabel: "VIAJEROS",
     btnPlannerSubmit: "VERIFICAR DISPONIBILIDAD",
-    optAllJourneys: "Todas las Expediciones",
+    optAllJourneys: "Todas las Experiencias",
     optHb: "Belmond Hiram Bingham Signature",
     optSanctuary: "Santuario Privé y Amanecer Sagrado",
     optValley: "Valle Sagrado y Ritual Chamánico",
     optAndean: "Belmond Andean Explorer Sleeper",
     optGlamping: "Camino Inca VIP Glamping",
-    kickerExpeditions: "NUESTRAS EXPEDICIONES DE AUTOR",
+    optCuscoGolden: "Cusco Ciudad Dorada (5 Días)",
+    optInkaterra: "Inkaterra Hacienda Concepción (3 Días)",
+    optLuxuryMp: "Machu Picchu de Lujo Perú (7 Días)",
+    optMpExpress: "Machu Picchu Express (4 Días)",
+    optGrandPeru: "Paquete Perú: Costa, Amazonía y Andes (9 Días)",
+    optTambopataMp: "Tambopata y Machu Picchu (9 Días)",
+    kickerExpeditions: "NUESTRAS EXPERIENCIAS DE AUTOR",
     titleExpeditions: "Colecciones Andinas",
     introExpeditions: "Cada travesía se orquesta con absoluta sofisticación: vagones de colección privada, maridajes de alta cocina andina y accesos preferenciales al santuario.",
-    catAll: "Todas las Expediciones",
+    catAll: "Todas las Experiencias",
     catRail: "Trenes de Lujo",
     catSanctuary: "Santuario Privé",
     catValley: "Valle Sagrado y Misticismo",
     catGlamping: "Glamping VIP",
+    catAmazon: "Amazonía y Lodges de Lujo",
     kickerPhilosophy: "LA DIFERENCIA DE ALTA COSTURA",
     titlePhilosophy: "Exclusividad Absoluta en el Bosque de Nubes",
     bodyPhilosophy1: "Mientras el turismo convencional enfrenta largas colas y transportes saturados, Luxury Machupicchu Peru programa cada llegada con distinción impecable.",
@@ -238,8 +289,8 @@ const translations = {
     labelDuration: "Duración Estimada",
     labelNotes: "Deseos Especiales o Preferencias",
     btnSubmitConcierge: "ENVIAR SOLICITUD VIP",
-    footerDesc: "Atelier de viajes de lujo dedicado a expediciones privadas por el Valle Sagrado, Machu Picchu y los Altos Andes.",
-    footerExpeditions: "Expediciones",
+    footerDesc: "Atelier de viajes de lujo dedicado a experiencias privadas por el Valle Sagrado, Machu Picchu y los Altos Andes.",
+    footerExpeditions: "Experiencias",
     footerCertifications: "Certificaciones",
     footerConciergeDirect: "Contacto Directo",
     waTooltip: "Concierge VIP 24/7",
@@ -261,7 +312,7 @@ const translations = {
     modalDining: "Alta Gastronomía",
     modalTransfer: "Traslado Privado",
     modalIncludedTitle: "Inclusiones Exclusivas",
-    modalReserveBtn: "Reservar Esta Expedición con Concierge",
+    modalReserveBtn: "Reservar Esta Experiencia con Concierge",
     taxLegendTitle: "Régimen Tributario & Leyenda Legal (+ IGV)",
     taxLegendText: "Las tarifas publicadas están expresadas en valores netos no gravados con el Impuesto General a las Ventas (+ IGV). Conforme al <strong>Decreto Legislativo N° 919</strong> (Régimen de Fomento al Turismo Receptivo y Exportación de Servicios de la República del Perú), los viajeros extranjeros no domiciliados se encuentran <strong>100% EXONERADOS del pago del IGV (0% IGV)</strong> presentando pasaporte extranjero y sello migratorio virtual (TAM). Para huéspedes peruanos o residentes extranjeros domiciliados en Perú aplica el <strong>18% de IGV</strong> con emisión obligatoria de factura o boleta electrónica SUNAT.",
     priceTaxSub: "+ IGV (Extranjeros 0% D.L. 919)",
@@ -273,8 +324,8 @@ const translations = {
     btnHeroBuildPackage: "✦ Arma tu Paquete a Medida",
     pkgModalKicker: "ALTA COSTURA ANDINA • RESERVA PERSONALIZADA",
     pkgModalTitle: "Arma tu Paquete a Medida",
-    pkgModalSubtitle: "Personalice su expedición privada: seleccione servicio de tren, hotelería de colección, experiencias de autor y condición tributaria con cotización en tiempo real.",
-    step1Title: "1. Seleccione la Expedición Base",
+    pkgModalSubtitle: "Personalice su experiencia privada: seleccione servicio de tren, hotelería de colección, experiencias de autor y condición tributaria con cotización en tiempo real.",
+    step1Title: "1. Seleccione la Experiencia Base",
     step2Title: "2. Alojamiento de Colección (Opcional)",
     step3Title: "3. Servicio de Tren Preferido",
     step4Title: "4. Experiencias Exclusivas & Add-ons de Autor",
@@ -480,44 +531,29 @@ async function loadDatabaseCatalog() {
 
 // Render Category Filter Pills dynamically from Database
 function renderCategoryFilterPills(cats) {
+  if (Array.isArray(cats) && cats.length > 0) {
+    appState.categories = cats;
+  }
+  const list = appState.categories;
   const container = document.getElementById('filterPills');
-  if (!container || !Array.isArray(cats) || cats.length === 0) return;
+  if (!container || !Array.isArray(list) || list.length === 0) return;
 
   const isEs = appState.currentLang === 'es';
-  const allText = isEs ? 'Todas las Expediciones' : 'All Expeditions';
+  const allText = isEs ? 'Todas las Experiencias' : 'All Experiences';
 
   container.innerHTML = `
     <button class="filter-pill ${appState.activeCategory === 'all' ? 'active' : ''}" data-category="all" onclick="filterTours('all', this)">
       ${allText}
     </button>
-    ${cats.map(c => {
-      const label = isEs ? (c.nameEs || c.name) : (c.nameEn || c.name);
+    ${list.map(c => {
+      const rawName = isEs ? (c.nameEs || c.name) : (c.nameEn || c.name);
+      const label = isEs 
+        ? rawName.replace(/expediciones/gi, 'Experiencias').replace(/expedici[oó]n/gi, 'Experiencia')
+        : rawName.replace(/expeditions/gi, 'Experiences').replace(/expedition/gi, 'Experience');
       const isActive = appState.activeCategory === c.slug;
       return `<button class="filter-pill ${isActive ? 'active' : ''}" data-category="${c.slug}" onclick="filterTours('${c.slug}', this)">${label}</button>`;
     }).join('')}
   `;
-}
-
-// Render Testimonials dynamically from Database
-function renderDatabaseTestimonials(testimonials) {
-  const container = document.getElementById('chroniclesGrid');
-  if (!container || !Array.isArray(testimonials) || testimonials.length === 0) return;
-
-  const isEs = appState.currentLang === 'es';
-  container.innerHTML = testimonials.map(t => {
-    const comment = (isEs ? t.commentEs : t.commentEn) || t.commentEn || t.commentEs;
-    const stars = '★'.repeat(t.rating || 5);
-    return `
-      <div class="chronicle-card">
-        <div class="chronicle-stars">${stars}</div>
-        <p class="chronicle-quote">"${comment}"</p>
-        <div class="chronicle-author">
-          <span class="author-name">${t.guestName}</span>
-          <span class="author-meta">${t.originCountry} • ${t.journeyName}</span>
-        </div>
-      </div>
-    `;
-  }).join('');
 }
 
 // Populate tour select options in booking forms
@@ -541,6 +577,48 @@ function populateTourDropdowns() {
   });
 }
 
+// Render Homepage Blog Cards dynamically with active language
+function renderHomeBlogCards() {
+  const container = document.getElementById('blogHomeGrid');
+  if (!container) return;
+  const articles = window.luxuryBlogData || window.BLOG_POSTS;
+  if (!Array.isArray(articles) || articles.length === 0) return;
+
+  const isEs = appState.currentLang === 'es';
+  const readLabel = isEs ? 'Leer Artículo Completo →' : 'Read Full Article →';
+
+  container.innerHTML = articles.map(post => {
+    const title = isEs ? (post.title?.es || post.titleEs || post.title) : (post.title?.en || post.titleEn || post.title);
+    const summary = isEs ? (post.summary?.es || post.summaryEs) : (post.summary?.en || post.summaryEn);
+    const cat = isEs ? (post.categoryLabel?.es || post.categoryEs || post.category) : (post.categoryLabel?.en || post.categoryEn || post.category);
+    const authorName = post.author?.name || post.author || 'LMP Concierge';
+    const heroImg = post.heroImage || post.coverImage || 'assets/images/hero_machu_picchu.jpg';
+    const readTimeStr = typeof post.readTime === 'number' ? `${post.readTime} min` : (post.readTime || '5 min');
+
+    return `
+      <article class="blog-card">
+        <div class="blog-card-media">
+          <img src="${heroImg}" alt="${title}" onerror="this.src='assets/images/hero_machu_picchu.jpg'" loading="lazy">
+          <span class="blog-card-category-tag">${cat}</span>
+        </div>
+        <div class="blog-card-body">
+          <div class="blog-card-meta">
+            <span>${readTimeStr}</span>
+            <span class="meta-dot">•</span>
+            <span>2026</span>
+          </div>
+          <h3 class="blog-card-title">${title}</h3>
+          <p class="blog-card-summary">${summary}</p>
+          <div class="blog-card-footer">
+            <a href="blog.html?slug=${post.slug}" class="blog-card-readlink">${readLabel}</a>
+            <span class="blog-card-readtime">${authorName}</span>
+          </div>
+        </div>
+      </article>
+    `;
+  }).join('');
+}
+
 // Language Switcher
 function setLanguage(lang) {
   if (lang !== 'en' && lang !== 'es') return;
@@ -550,12 +628,15 @@ function setLanguage(lang) {
   document.documentElement.setAttribute('lang', lang);
   document.documentElement.setAttribute('data-lang', lang);
 
-  document.getElementById('btnLangEn')?.classList.toggle('active', lang === 'en');
-  document.getElementById('btnLangEs')?.classList.toggle('active', lang === 'es');
+  document.querySelectorAll('#btnLangEn, #drawerBtnLangEn').forEach(btn => btn.classList.toggle('active', lang === 'en'));
+  document.querySelectorAll('#btnLangEs, #drawerBtnLangEs').forEach(btn => btn.classList.toggle('active', lang === 'es'));
 
   applyLanguage(lang);
+  if (appState.categories?.length) renderCategoryFilterPills(appState.categories);
+  if (appState.testimonials?.length) renderDatabaseTestimonials(appState.testimonials);
   renderTours();
   populateTourDropdowns();
+  renderHomeBlogCards();
   loadDatabaseCatalog();
 }
 
@@ -738,7 +819,7 @@ async function openTourModalBySlug(slug) {
       ${tour.galleryImages && tour.galleryImages.length > 0 ? `
         <div style="margin-bottom: 2rem;">
           <h4 style="font-family: var(--font-serif); font-size: 1.3rem; margin-bottom: 0.75rem; color: var(--color-obsidian);">
-            ${isEs ? 'Galería Fotográfica de la Expedición' : 'Expedition Photographic Chronicle'}
+            ${isEs ? 'Galería Fotográfica de la Experiencia' : 'Experience Photographic Chronicle'}
           </h4>
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
             ${tour.galleryImages.map(img => `
@@ -1030,7 +1111,7 @@ function openDrawerQuoteSheet() {
       <table class="qs-table">
         <thead>
           <tr>
-            <th>${isEs ? 'Concepto / Servicio Exclusivo' : 'Expedition Element'}</th>
+            <th>${isEs ? 'Concepto / Servicio Exclusivo' : 'Experience Element'}</th>
             <th class="tar">${isEs ? 'Cant.' : 'Qty.'}</th>
             <th class="tar">${isEs ? 'Precio Unit. (USD)' : 'Unit Price (USD)'}</th>
             <th class="tar">${isEs ? 'Subtotal (USD)' : 'Subtotal (USD)'}</th>
@@ -1040,7 +1121,7 @@ function openDrawerQuoteSheet() {
           <tr>
             <td>
               <strong class="qs-item-title">${isEs ? tour.titleEs : tour.titleEn}</strong>
-              <span class="qs-item-desc">${isEs ? tour.durationEs : tour.durationEn} • ${train} • Expedición 100% Privada</span>
+              <span class="qs-item-desc">${isEs ? tour.durationEs : tour.durationEn} • ${train} • Experiencia 100% Privada</span>
             </td>
             <td class="tar">${guests} pax</td>
             <td class="tar">${fmtUsd(tour.priceUsd)}</td>
@@ -1168,7 +1249,7 @@ async function handleBookingFormSubmit(event) {
   const waMessage = isEs
     ? `✨ *Luxury Machupicchu Peru - Solicitud de Reserva VIP*\n\n` +
       `Estimado Concierge, mi nombre es *${name}*.\n\n` +
-      `🏛️ *Expedición:* ${tourTitle}\n` +
+      `🏛️ *Experiencia:* ${tourTitle}\n` +
       `👥 *Viajeros:* ${guests} persona(s)\n` +
       `📅 *Fecha Deseada:* ${date || 'A coordinar'}\n` +
       `🚆 *Servicio Ferroviario:* ${train}\n` +
@@ -1177,7 +1258,7 @@ async function handleBookingFormSubmit(event) {
       `\nSolicito confirmación de disponibilidad y reserva oficial de boletos al santuario.`
     : `✨ *Luxury Machupicchu Peru - VIP Journey Booking Request*\n\n` +
       `Dear Concierge, my name is *${name}*.\n\n` +
-      `🏛️ *Expedition:* ${tourTitle}\n` +
+      `🏛️ *Experience:* ${tourTitle}\n` +
       `👥 *Guests:* ${guests} traveler(s)\n` +
       `📅 *Target Date:* ${date || 'To be confirmed'}\n` +
       `🚆 *Rail Service:* ${train}\n` +
@@ -1327,7 +1408,7 @@ async function handleDrawerOnlinePayment() {
     console.warn('Registro rápido local para checkout:', err);
   }
 
-  const tourTitle = (isEs ? tour.titleEs : tour.titleEn) || 'Expedición Privada Machu Picchu';
+  const tourTitle = (isEs ? tour.titleEs : tour.titleEn) || 'Experiencia Privada Machu Picchu';
   const checkoutParams = new URLSearchParams({
     amount: amountToCharge.toString(),
     currency: currencyToCharge,
@@ -1588,8 +1669,8 @@ const BUILDER_DATA = {
       pricePen: 15010,
       durationEn: '6 Days / 5 Nights',
       durationEs: '6 Días / 5 Noches',
-      nameEn: 'Grand Andean 100% Bespoke Expedition',
-      nameEs: 'Gran Expedición Andina 100% a Medida',
+      nameEn: 'Grand Andean 100% Bespoke Experience',
+      nameEs: 'Gran Experiencia Andina 100% a Medida',
       subEn: 'Full tailor-made itinerary: Lima, Cusco, Sacred Valley & Lake Titicaca',
       subEs: 'Itinerario 100% libre y personalizado por los Andes peruanos',
       tag: 'Haute Couture'
@@ -1675,8 +1756,8 @@ const BUILDER_DATA = {
       diffUsd: -450,
       nameEn: 'Private 4x4 Overland / Trek Only',
       nameEs: 'Solo Traslado Terrestre Privado 4x4 / Trek',
-      subEn: 'Private vehicular convoy or foot expedition only (-$450 USD)',
-      subEs: 'Transporte privado terrestre o expedición a pie (-$450 USD)',
+      subEn: 'Private vehicular convoy or foot experience only (-$450 USD)',
+      subEs: 'Transporte privado terrestre o experiencia a pie (-$450 USD)',
       tag: 'Ground Only'
     }
   ],
@@ -2187,7 +2268,7 @@ function openQuoteSheetModal() {
       <table class="qs-table">
         <thead>
           <tr>
-            <th>${isEs ? 'Concepto / Servicio Exclusivo' : 'Expedition Element'}</th>
+            <th>${isEs ? 'Concepto / Servicio Exclusivo' : 'Experience Element'}</th>
             <th class="tar">${isEs ? 'Cant.' : 'Qty.'}</th>
             <th class="tar">${isEs ? 'Precio Unit. (USD)' : 'Unit Price (USD)'}</th>
             <th class="tar">${isEs ? 'Subtotal (USD)' : 'Subtotal (USD)'}</th>
@@ -2316,7 +2397,7 @@ function sendQuoteSheetWhatsApp(quoteId) {
     ? `✨ *Luxury Machupicchu Peru - Hoja de Cotización Formal [${quoteId}]*\n\n` +
       `Estimado Concierge, mi nombre es *${name}* (${docType}: ${docNumber || 'Por adjuntar'}).\n\n` +
       `Adjunto la confirmación de mi Hoja de Cotización Oficial:\n` +
-      `🏛️ *Expedición:* ${document.getElementById('pkgSelectedTourSummary')?.textContent || ''}\n` +
+      `🏛️ *Experiencia:* ${document.getElementById('pkgSelectedTourSummary')?.textContent || ''}\n` +
       `⚖️ *Régimen Fiscal:* ${taxText}\n` +
       `💰 *Total a Cobrar:* ${total}\n` +
       `💳 *Anticipo del 30%:* ${document.getElementById('pkgDepositDue')?.textContent || ''}\n\n` +
@@ -2386,7 +2467,7 @@ function handlePackageBuilderWhatsApp() {
   const waMessage = isEs
     ? `✨ *Luxury Machupicchu Peru - Cotización de Paquete a Medida (Arma tu Paquete)*\n\n` +
       `Estimado Concierge, mi nombre es *${name}*.\n\n` +
-      `🏛️ *Expedición Base:* ${tour.nameEs} (${tour.durationEs})\n` +
+      `🏛️ *Experiencia Base:* ${tour.nameEs} (${tour.durationEs})\n` +
       `👥 *Viajeros:* ${travelers} persona(s)\n` +
       `📅 *Fecha Deseada:* ${date}\n` +
       `🚆 *Servicio Ferroviario:* ${rail.nameEs}\n` +
@@ -2716,7 +2797,7 @@ function handleLegalClaimSubmit(event) {
         <div class="claim-success-details">
           <div class="detail-row"><span>Fecha y Hora de Emisión:</span><strong>${dateStr}</strong></div>
           <div class="detail-row"><span>Documento de Identidad:</span><strong>${docType}: ${docNum}</strong></div>
-          <div class="detail-row"><span>Servicio Afectado:</span><strong>${service || 'Expedición Privada Machu Picchu'}</strong></div>
+          <div class="detail-row"><span>Servicio Afectado:</span><strong>${service || 'Experiencia Privada Machu Picchu'}</strong></div>
           ${amount ? `<div class="detail-row"><span>Monto Reclamado:</span><strong>${amount}</strong></div>` : ''}
           <div class="detail-row"><span>Tipo de Incidencia:</span><strong>${claimType}</strong></div>
           <div class="detail-row"><span>Copia Notificada a:</span><strong>${email}</strong></div>
@@ -2757,6 +2838,7 @@ function setupScrollListener() {
 // Global initialization on DOM ready
 document.addEventListener('DOMContentLoaded', () => {
   setupScrollListener();
+  renderHomeBlogCards();
   const btnDrawerPay = document.getElementById('btnDrawerPayOnline');
   if (btnDrawerPay) {
     btnDrawerPay.addEventListener('click', (e) => {

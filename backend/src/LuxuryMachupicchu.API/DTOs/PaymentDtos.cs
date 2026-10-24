@@ -89,3 +89,37 @@ public class CulqiWebhookResponseDto
     public string? ReferenceCode { get; set; }
     public string? BookingStatus { get; set; }
 }
+
+public class TrackPaymentIntentDto
+{
+    public string? GuestName { get; set; }
+    public string? GuestEmail { get; set; }
+    public string? GuestPhone { get; set; }
+    public decimal Amount { get; set; }
+    public string Currency { get; set; } = "USD";
+    public string? ReferenceCode { get; set; }
+    public int? BookingId { get; set; }
+    public string? TourTitle { get; set; }
+    public string? Notes { get; set; }
+}
+
+public class BookingPublicSummaryDto
+{
+    public int Id { get; set; }
+    public string ReferenceCode { get; set; } = string.Empty;
+    public int TourId { get; set; }
+    public string TourTitle { get; set; } = string.Empty;
+    public string? TourImage { get; set; }
+    public string GuestName { get; set; } = string.Empty;
+    public string GuestEmail { get; set; } = string.Empty;
+    public string GuestPhone { get; set; } = string.Empty;
+    public int NumberOfGuests { get; set; }
+    public DateTime? TravelDate { get; set; }
+    public string? TrainPreference { get; set; }
+    public decimal EstimatedTotalUsd { get; set; }
+    public decimal EstimatedTotalPen { get; set; }
+    public decimal DepositAmountUsd { get; set; }
+    public decimal DepositAmountPen { get; set; }
+    public string Status { get; set; } = string.Empty;
+}
+

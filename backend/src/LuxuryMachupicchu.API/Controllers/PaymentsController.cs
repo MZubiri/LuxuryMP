@@ -230,6 +230,7 @@ public class PaymentsController : ControllerBase
                     {
                         await _emailService.SendPaymentConfirmationAsync(booking, transaction);
                         await _emailService.SendConciergePaymentNotificationAsync(booking, transaction);
+                        await DispatchConciergeWebhookAsync(booking, transaction);
                     }
                     catch (Exception ex)
                     {
@@ -482,6 +483,7 @@ public class PaymentsController : ControllerBase
                     {
                         await _emailService.SendPaymentConfirmationAsync(booking, existingTx);
                         await _emailService.SendConciergePaymentNotificationAsync(booking, existingTx);
+                        await DispatchConciergeWebhookAsync(booking, existingTx);
                     }
                     catch (Exception ex)
                     {
@@ -712,5 +714,114 @@ public class PaymentsController : ControllerBase
             checkoutUrl,
             mode = "culqi"
         });
+    }
+
+    /// <summary>
+    /// Tracks checkout intent when guest initiates the payment flow.
+    /// Enables concierge team to assist guests with payment or banking queries.
+    /// </summary>
+    [HttpPost("track-intent")]
+    [AllowAnonymous]
+    [EnableRateLimiting("contact-policy")]
+    public async Task<IActionResult> TrackCheckoutIntent([FromBody] TrackPaymentIntentDto dto)
+    {
+        if (dto == null) return BadRequest();
+
+        _logger.LogInformation("Checkout intent registered: Guest '{GuestName}', Email '{Email}', Amount {Amount} {Currency}, Ref: {Ref}",
+            dto.GuestName, dto.GuestEmail, dto.Amount, dto.Currency, dto.ReferenceCode);
+
+        if (dto.BookingId.HasValue)
+        {
+            var booking = await _context.BookingInquiries.FindAsync(dto.BookingId.Value);
+            if (booking != null && booking.Status == "Pending")
+            {
+                var note = $" [Checkout intent: {DateTime.UtcNow:yyyy-MM-dd HH:mm} UTC - {dto.Currency} {dto.Amount:N2}]";
+                if (string.IsNullOrWhiteSpace(booking.SpecialRequests) || !booking.SpecialRequests.Contains("Checkout intent"))
+                {
+                    booking.SpecialRequests = (booking.SpecialRequests + note).Trim();
+                    await _context.SaveChangesAsync();
+                }
+            }
+        }
+
+        return Ok(new { success = true, message = "Checkout intent tracked successfully." });
+    }
+
+    /// <summary>
+    /// Safe public summary for checkout portal to prefill booking/tour info.
+    /// </summary>
+    [HttpGet("booking-summary/{id}")]
+    [AllowAnonymous]
+    public async Task<ActionResult<BookingPublicSummaryDto>> GetBookingPublicSummary(int id)
+    {
+        var booking = await _context.BookingInquiries
+            .Include(b => b.Tour)
+            .AsNoTracking()
+            .FirstOrDefaultAsync(b => b.Id == id);
+
+        if (booking == null)
+        {
+            return NotFound(new { message = $"Booking {id} not found." });
+        }
+
+        var tourTitle = booking.Tour?.TitleEs ?? booking.Tour?.TitleEn ?? "Expedición Privada Machu Picchu";
+        var tourImage = !string.IsNullOrWhiteSpace(booking.Tour?.MainImageUrl) 
+            ? booking.Tour.MainImageUrl 
+            : "assets/images/hiram_bingham_main.jpg";
+
+        var depositUsd = Math.Round(booking.EstimatedTotalUsd * 0.30m, 2);
+        var depositPen = Math.Round(booking.EstimatedTotalPen * 0.30m, 2);
+
+        return Ok(new BookingPublicSummaryDto
+        {
+            Id = booking.Id,
+            ReferenceCode = $"RES-{booking.Id:D4}",
+            TourId = booking.TourId ?? 0,
+            TourTitle = tourTitle,
+            TourImage = tourImage,
+            GuestName = booking.FullName,
+            GuestEmail = booking.Email,
+            GuestPhone = booking.Phone,
+            NumberOfGuests = booking.NumberOfGuests,
+            TravelDate = booking.TravelDate,
+            TrainPreference = booking.TrainPreference,
+            EstimatedTotalUsd = booking.EstimatedTotalUsd,
+            EstimatedTotalPen = booking.EstimatedTotalPen,
+            DepositAmountUsd = depositUsd > 0 ? depositUsd : 241.00m,
+            DepositAmountPen = depositPen > 0 ? depositPen : 915.00m,
+            Status = booking.Status
+        });
+    }
+
+    private async Task DispatchConciergeWebhookAsync(BookingInquiry? booking, PaymentTransaction transaction)
+    {
+        var webhookUrl = _configuration["CONCIERGE_NOTIFICATION_WEBHOOK"];
+        if (string.IsNullOrWhiteSpace(webhookUrl)) return;
+
+        try
+        {
+            var payload = new
+            {
+                event_name = "payment_confirmed",
+                reference_code = transaction.ReferenceCode,
+                amount = transaction.Amount,
+                currency = transaction.Currency,
+                guest_name = transaction.CustomerName,
+                guest_email = transaction.CustomerEmail,
+                guest_phone = transaction.CustomerPhone,
+                authorization_code = transaction.CulqiAuthorizationCode,
+                charge_id = transaction.CulqiChargeId,
+                payment_method = transaction.PaymentMethod,
+                timestamp = DateTime.UtcNow
+            };
+
+            var client = _httpClientFactory.CreateClient();
+            var content = new StringContent(JsonSerializer.Serialize(payload), Encoding.UTF8, "application/json");
+            await client.PostAsync(webhookUrl, content);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning(ex, "Failed to dispatch concierge webhook notification.");
+        }
     }
 }

@@ -279,26 +279,37 @@ body.luxury-body {
   align-items: center;
   border: 1px solid var(--color-sand-border);
   border-radius: 999px;
-  padding: 0.12rem 0.45rem;
+  padding: 0.15rem 0.5rem;
   background: #FFFFFF;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
 }
 
 .pill-btn {
   background: transparent;
   border: none;
   font-family: var(--font-sans);
-  font-size: 0.64rem;
+  font-size: 0.72rem;
   font-weight: 500;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.08em;
   color: var(--color-text-muted);
   cursor: pointer;
-  padding: 0.1rem 0.25rem;
+  padding: 0.25rem 0.5rem;
+  min-height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
   transition: var(--transition-fast);
+}
+
+.pill-btn:hover {
+  color: var(--color-gold);
 }
 
 .pill-btn.active {
   color: var(--color-obsidian);
-  font-weight: 600;
+  font-weight: 700;
+  background: rgba(197, 164, 126, 0.15);
 }
 
 .pill-divider {
@@ -2497,12 +2508,13 @@ body.luxury-body {
   }
 
   .utility-pill {
-    padding: 0.08rem 0.35rem;
+    padding: 0.12rem 0.4rem;
   }
 
   .pill-btn {
-    font-size: 0.6rem;
-    padding: 0.08rem 0.15rem;
+    font-size: 0.68rem;
+    padding: 0.2rem 0.35rem;
+    min-height: 26px;
   }
 
   .header-logo-img {
@@ -5215,9 +5227,15 @@ body.luxury-body {
 /* Certificate Cards & Grid */
 .legal-cert-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 1.5rem;
   margin: 1.5rem 0 2rem;
+}
+
+@media (min-width: 1080px) {
+  .legal-cert-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
 }
 
 .legal-cert-card {
@@ -5411,6 +5429,52 @@ body.luxury-body {
   background: var(--color-gold);
   color: #FFFFFF;
   border-color: var(--color-gold);
+}
+
+/* ESNNA Hero Feature Card */
+.legal-esnna-hero-card {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  background: #FFFFFF;
+  border: 1px solid var(--color-sand-border);
+  border-radius: 8px;
+  padding: 1.75rem 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+}
+
+.legal-esnna-logo-box {
+  flex-shrink: 0;
+  width: 140px;
+  height: 180px;
+  background: #FFFFFF;
+  border: 1px solid var(--color-sand-border);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+}
+
+.legal-esnna-logo-box img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+@media (max-width: 768px) {
+  .legal-esnna-hero-card {
+    flex-direction: column;
+    text-align: center;
+    padding: 1.5rem;
+    gap: 1.25rem;
+  }
+  .legal-esnna-logo-box {
+    margin: 0 auto;
+  }
 }
 
 /* Dedicated Legal Page Layout */

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Luxury Machupicchu Peru | Haute Couture Andean Travel & Private Expeditions</title>
+  <title>Luxury Machupicchu Peru | Haute Couture Andean Travel & Private Experiences</title>
   <meta name="description" content="Experience Machu Picchu with unparalleled distinction. Private journeys aboard the Belmond Hiram Bingham, certified master archaeologist curation, and seamless luxury travel across the Andes.">
   <link rel="canonical" href="https://nuevo.lmptravel.com/">
   <link rel="icon" type="image/png" href="assets/images/logo-travel.png">
@@ -24,7 +24,7 @@
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Luxury Machupicchu Peru | Haute Couture Andean Travel">
-  <meta name="twitter:description" content="Bespoke expeditions, Belmond Hiram Bingham rail and official Machu Picchu access with Luxury Machupicchu Peru.">
+  <meta name="twitter:description" content="Bespoke experiences, Belmond Hiram Bingham rail and official Machu Picchu access with Luxury Machupicchu Peru.">
   <meta name="twitter:image" content="https://nuevo.lmptravel.com/assets/images/hero_machu_picchu.jpg">
 
   <!-- Fonts & Styles -->
@@ -32,6 +32,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Montserrat:wght@200;300;400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css?v=20261023_prod6">
+  <link rel="stylesheet" href="blog.css?v=20261024_prod1">
 
   <!-- Official Schema.org Structured Data (TravelAgency & TouristDestination) -->
   <script type="application/ld+json">
@@ -128,10 +129,11 @@
       </div>
 
       <nav class="desktop-nav" id="desktopNav">
-        <a href="#expeditions" class="nav-link" data-i18n="navExpeditions">Expeditions</a>
+        <a href="#expeditions" class="nav-link" data-i18n="navExpeditions">Experiences</a>
         <a href="#rail-journeys" class="nav-link" data-i18n="navRail">Hiram Bingham Rail</a>
         <a href="#philosophy" class="nav-link" data-i18n="navPhilosophy">The Belmond Distinction</a>
         <a href="#chronicles" class="nav-link" data-i18n="navChronicles">Guest Chronicles</a>
+        <a href="#blog" class="nav-link" data-i18n="navBlog">Blog & Guías</a>
         <a href="#contact" class="nav-link" data-i18n="navContact">Concierge</a>
         <button type="button" class="btn-nav-package" onclick="openCustomPackageModal()"><span data-i18n="navBuildPackage">✦ Arma tu Paquete</span></button>
       </nav>
@@ -173,12 +175,25 @@
       <button class="drawer-close" id="drawerClose" onclick="toggleMenu()" aria-label="Close Menu">✕</button>
     </div>
     <div class="drawer-links">
-      <a href="#expeditions" onclick="toggleMenu()" data-i18n="navExpeditions">Expeditions</a>
+      <a href="#expeditions" onclick="toggleMenu()" data-i18n="navExpeditions">Experiences</a>
       <a href="#rail-journeys" onclick="toggleMenu()" data-i18n="navRail">Hiram Bingham Rail</a>
       <a href="#philosophy" onclick="toggleMenu()" data-i18n="navPhilosophy">The Belmond Distinction</a>
       <a href="#chronicles" onclick="toggleMenu()" data-i18n="navChronicles">Guest Chronicles</a>
+      <a href="#blog" onclick="toggleMenu()" data-i18n="navBlog">Blog & Guías</a>
       <a href="#contact" onclick="toggleMenu()" data-i18n="navContact">Concierge</a>
       <a href="#" onclick="toggleMenu(); openCustomPackageModal(); return false;" class="nav-link" style="color: var(--color-gold); font-weight: 600;" data-i18n="navBuildPackage">✦ Arma tu Paquete</a>
+    </div>
+    <div class="drawer-utilities" style="padding: 1rem 1.5rem; border-top: 1px solid var(--color-sand-border); display: flex; align-items: center; justify-content: space-between; gap: 0.75rem;">
+      <div class="utility-pill" id="drawerLangPill">
+        <button class="pill-btn active" id="drawerBtnLangEn" onclick="setLanguage('en')">EN</button>
+        <span class="pill-divider">/</span>
+        <button class="pill-btn" id="drawerBtnLangEs" onclick="setLanguage('es')">ES</button>
+      </div>
+      <div class="utility-pill" id="drawerCurrencyPill">
+        <button class="pill-btn active" id="drawerBtnUsd" onclick="setCurrency('USD')">USD $</button>
+        <span class="pill-divider">/</span>
+        <button class="pill-btn" id="drawerBtnPen" onclick="setCurrency('PEN')">PEN S/.</button>
+      </div>
     </div>
     <div class="drawer-footer">
       <p class="drawer-phone">VIP Concierge: +(51) 958 195 840</p>
@@ -243,7 +258,7 @@
   <section class="booking-planner-section" id="bookingPlanner">
     <div class="planner-container">
       <div class="planner-box">
-        <!-- Destination / Expedition Type -->
+        <!-- Destination / Experience Type -->
         <div class="planner-col">
           <label class="planner-label" for="plannerJourney" data-i18n="plannerJourneyLabel">JOURNEY EXPERIENCE</label>
           <select class="planner-select" id="plannerJourney">
@@ -253,6 +268,12 @@
             <option value="sacred-valley" data-i18n="optValley">Sacred Valley & Shamanic Ritual</option>
             <option value="andean-explorer" data-i18n="optAndean">Belmond Andean Explorer Sleeper</option>
             <option value="inca-trail-glamping" data-i18n="optGlamping">Inca Trail VIP Glamping</option>
+            <option value="cusco-golden-city" data-i18n="optCuscoGolden">Cusco Golden City (5 Days)</option>
+            <option value="inkaterra-hacienda-concepcion" data-i18n="optInkaterra">Inkaterra Hacienda Concepcion (3 Days)</option>
+            <option value="luxury-machu-picchu-peru" data-i18n="optLuxuryMp">Luxury Machu Picchu Peru (7 Days)</option>
+            <option value="machu-picchu-express" data-i18n="optMpExpress">Machu Picchu Express (4 Days)</option>
+            <option value="peru-travel-package" data-i18n="optGrandPeru">Peru Travel Package: Coast, Amazon & Andes (9 Days)</option>
+            <option value="tambopata-machu-picchu" data-i18n="optTambopataMp">Tambopata & Machu Picchu (9 Days)</option>
           </select>
         </div>
 
@@ -270,10 +291,10 @@
         <div class="planner-col">
           <label class="planner-label" for="plannerGuests" data-i18n="plannerGuestsLabel">GUESTS</label>
           <select class="planner-select" id="plannerGuests">
-            <option value="1">1 Guest</option>
-            <option value="2" selected>2 Guests (Couple Privé)</option>
-            <option value="4">4 Guests (Family Suite)</option>
-            <option value="6">6+ Guests (Private Charter)</option>
+            <option value="1" data-i18n="optGuest1">1 Traveler</option>
+            <option value="2" selected data-i18n="optGuest2">2 Travelers (Couple Privé)</option>
+            <option value="4" data-i18n="optGuest4">4 Travelers (Family Suite)</option>
+            <option value="6" data-i18n="optGuest6">6+ Travelers (Private Charter)</option>
           </select>
         </div>
 
@@ -290,7 +311,7 @@
   <!-- Curated Expeditions Portfolio -->
   <section class="expeditions-section" id="expeditions">
     <div class="section-header-editorial">
-      <span class="editorial-kicker" data-i18n="kickerExpeditions">OUR CURATED EXPEDITIONS</span>
+      <span class="editorial-kicker" data-i18n="kickerExpeditions">OUR CURATED EXPERIENCES</span>
       <h2 class="editorial-title" data-i18n="titleExpeditions">The Andean Collections</h2>
       <p class="editorial-intro" data-i18n="introExpeditions">
         Each journey is meticulously orchestrated down to the finest nuance: private collector train carriages, world-renowned Andean culinary pairings, and exclusive sanctuary entries.
@@ -298,11 +319,12 @@
 
       <!-- Category Filter Pills -->
       <div class="filter-pills-row" id="filterPills">
-        <button class="filter-pill active" data-category="all" onclick="filterTours('all', this)" data-i18n="catAll">All Expeditions</button>
+        <button class="filter-pill active" data-category="all" onclick="filterTours('all', this)" data-i18n="catAll">All Experiences</button>
         <button class="filter-pill" data-category="luxury-rail-journeys" onclick="filterTours('luxury-rail-journeys', this)" data-i18n="catRail">Luxury Rail</button>
         <button class="filter-pill" data-category="sanctuary-prive" onclick="filterTours('sanctuary-prive', this)" data-i18n="catSanctuary">Sanctuary Privé</button>
         <button class="filter-pill" data-category="sacred-valley-mysticism" onclick="filterTours('sacred-valley-mysticism', this)" data-i18n="catValley">Sacred Valley & Mysticism</button>
         <button class="filter-pill" data-category="vip-glamping-expeditions" onclick="filterTours('vip-glamping-expeditions', this)" data-i18n="catGlamping">VIP Glamping</button>
+        <button class="filter-pill" data-category="amazon-rainforest" onclick="filterTours('amazon-rainforest', this)" data-i18n="catAmazon">Amazon & Rainforest Lodges</button>
       </div>
     </div>
 
@@ -323,7 +345,7 @@
       <div class="tax-legend-body">
         <h4 class="tax-legend-title" data-i18n="taxLegendTitle">Tax Policy & Legal Notice (+ IGV / VAT)</h4>
         <p class="tax-legend-text" data-i18n="taxLegendText">
-          Published expedition rates are net of Peruvian Value Added Tax (+ IGV). In accordance with Legislative Decree N° 919 (Promotion of Receptive Tourism & Export of Services), non-domiciled foreign visitors are <strong>100% EXEMPT from IGV (0% VAT)</strong> upon presenting a valid foreign passport and entry migration stamp (TAM). For Peruvian citizens and resident taxpayers, 18% IGV applies with official electronic tax invoice issuance.
+          Published experience rates are net of Peruvian Value Added Tax (+ IGV). In accordance with Legislative Decree N° 919 (Promotion of Receptive Tourism & Export of Services), non-domiciled foreign visitors are <strong>100% EXEMPT from IGV (0% VAT)</strong> upon presenting a valid foreign passport and entry migration stamp (TAM). For Peruvian citizens and resident taxpayers, 18% IGV applies with official electronic tax invoice issuance.
         </p>
       </div>
     </div>
@@ -365,8 +387,8 @@
         <div class="philosophy-image-frame">
           <img src="assets/images/philosophy_moray.jpg" alt="Sacred Valley of the Incas - Moray Terraces" class="frame-img-primary">
           <div class="frame-accent-box">
-            <span class="accent-quote">"True luxury is not merely where you arrive, but the serenity with which you journey."</span>
-            <span class="accent-author">— Luxury Machupicchu Concierge Desk</span>
+            <span class="accent-quote" data-i18n="accentQuote">"True luxury is not merely where you arrive, but the serenity with which you journey."</span>
+            <span class="accent-author" data-i18n="accentAuthor">— Luxury Machupicchu Concierge Desk</span>
           </div>
         </div>
       </div>
@@ -383,10 +405,10 @@
           Named after the explorer who reintroduced the citadel to the world, this train embodies the glamorous golden age of 1920s travel. Bar cars with baby grand pianos, fine wines, and privileged citadel access.
         </p>
         <div class="spotlight-features">
-          <span>✔ Private Observatory Carriage</span>
-          <span>✔ 4-Course Degustation Brunch & Dinner</span>
-          <span>✔ Sanctuary Lodge Afternoon Tea</span>
-          <span>✔ Pre-Reserved Priority Entry Logistics</span>
+          <span data-i18n="spotlightFeat1">✔ Private Observatory Carriage</span>
+          <span data-i18n="spotlightFeat2">✔ 4-Course Degustation Brunch & Dinner</span>
+          <span data-i18n="spotlightFeat3">✔ Sanctuary Lodge Afternoon Tea</span>
+          <span data-i18n="spotlightFeat4">✔ Pre-Reserved Priority Entry Logistics</span>
         </div>
         <div class="spotlight-actions">
           <a href="tour.html?slug=belmond-hiram-bingham-pinnacle" class="btn-hero-gold" style="text-decoration: none;">
@@ -415,7 +437,7 @@
         </p>
         <div class="chronicle-author">
           <span class="author-name">Sir Jonathan & Lady Cavendish</span>
-          <span class="author-meta">London, United Kingdom • Hiram Bingham Journey</span>
+          <span class="author-meta" data-i18n="review1Meta">London, United Kingdom • Hiram Bingham Journey</span>
         </div>
       </div>
 
@@ -426,7 +448,7 @@
         </p>
         <div class="chronicle-author">
           <span class="author-name">Eleanor Vance-Montgomery</span>
-          <span class="author-meta">New York, USA • Sacred Valley Privé</span>
+          <span class="author-meta" data-i18n="review2Meta">New York, USA • Sacred Valley Privé</span>
         </div>
       </div>
 
@@ -437,9 +459,134 @@
         </p>
         <div class="chronicle-author">
           <span class="author-name">Dr. Marcus & Hélène Weber</span>
-          <span class="author-meta">Zurich, Switzerland • Inca Trail VIP Glamping</span>
+          <span class="author-meta" data-i18n="review3Meta">Zurich, Switzerland • Inca Trail VIP Glamping</span>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- Andean Gazette & Travel Guide Blog Section -->
+  <section class="luxury-blog-section" id="blog">
+    <div class="section-header">
+      <span class="section-kicker" data-i18n="blogKicker">CUADERNO DE VIAJE & GACETA ANDINA</span>
+      <h2 class="section-title" data-i18n="blogTitle">Guías Exclusivas, Clima & Crónicas del Perú</h2>
+      <p class="section-subtitle" data-i18n="blogSubtitle">
+        Conocimiento experto sobre climatología andina, visados oficiales, tradiciones milenarias y diseño de viajes de autor.
+      </p>
+    </div>
+
+    <div class="blog-home-grid" id="blogHomeGrid">
+      <!-- Article 1: When to Go -->
+      <article class="blog-card">
+        <div class="blog-card-media">
+          <img src="https://lmptravel.com/wp-content/uploads/2022/12/machupicchu-nublado.jpg" alt="When to go Peru" onerror="this.src='assets/images/hero_machu_picchu.jpg'" loading="lazy">
+          <span class="blog-card-category-tag" data-i18n="blogCatClimate">Planificación & Clima</span>
+        </div>
+        <div class="blog-card-body">
+          <div class="blog-card-meta">
+            <span>5 min</span>
+            <span class="meta-dot">•</span>
+            <span>2026</span>
+          </div>
+          <h3 class="blog-card-title">Cuándo Viajar a Perú: Clima, Temporadas y Salud</h3>
+          <p class="blog-card-summary">Guía estacional completa: costa, sierra andina y selva amazónica. Consejos para evitar el soroche y aprovechar la mejor luz en Machu Picchu.</p>
+          <div class="blog-card-footer">
+            <a href="blog.html?slug=when-to-go-peru" class="blog-card-readlink" data-i18n="blogReadArticle">Leer Artículo Completo →</a>
+            <span class="blog-card-readtime">LMP Concierge</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Article 2: Useful Information & Visas -->
+      <article class="blog-card">
+        <div class="blog-card-media">
+          <img src="https://lmptravel.com/wp-content/uploads/2025/03/lima-land-inkas.gif" alt="Useful Information About Peru" onerror="this.src='assets/images/Cusco.jpg'" loading="lazy">
+          <span class="blog-card-category-tag" data-i18n="blogCatVisas">Requisitos & Visas</span>
+        </div>
+        <div class="blog-card-body">
+          <div class="blog-card-meta">
+            <span>4 min</span>
+            <span class="meta-dot">•</span>
+            <span>2026</span>
+          </div>
+          <h3 class="blog-card-title">Información Útil: Pasaportes, Visas y Aduanas</h3>
+          <p class="blog-card-summary">Normas oficiales de Migraciones Perú: vigencia de 6 meses, exención de visa de turista de 90 días para viajeros de EE.UU. y Europa, y 0% de IGV.</p>
+          <div class="blog-card-footer">
+            <a href="blog.html?slug=useful-information-about-peru" class="blog-card-readlink" data-i18n="blogReadArticle">Leer Artículo Completo →</a>
+            <span class="blog-card-readtime">LMP Legal</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Article 3: Ancient Traditions & Wonders -->
+      <article class="blog-card">
+        <div class="blog-card-media">
+          <img src="https://lmptravel.com/wp-content/uploads/2025/04/mosaico-primcipal-peru-1-e1744780425609.gif" alt="Peru ancient traditions" onerror="this.src='assets/images/hero_machu_picchu.jpg'" loading="lazy">
+          <span class="blog-card-category-tag" data-i18n="blogCatTraditions">Tradiciones Milenarias</span>
+        </div>
+        <div class="blog-card-body">
+          <div class="blog-card-meta">
+            <span>7 min</span>
+            <span class="meta-dot">•</span>
+            <span>2026</span>
+          </div>
+          <h3 class="blog-card-title">Perú: País de Tradiciones Milenarias y Maravillas</h3>
+          <p class="blog-card-summary">Un viaje por Lima, Paracas, Arequipa, Lago Titicaca, Cusco imperial, Machu Picchu, Montaña de 7 Colores y Laguna Humantay.</p>
+          <div class="blog-card-footer">
+            <a href="blog.html?slug=peru-a-country-of-ancient-traditions" class="blog-card-readlink" data-i18n="blogReadArticle">Leer Artículo Completo →</a>
+            <span class="blog-card-readtime">LMP Historian</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Article 4: Guide to Planning a Luxury Tour -->
+      <article class="blog-card">
+        <div class="blog-card-media">
+          <img src="https://lmptravel.com/wp-content/uploads/2025/03/peru-llama-web-1.png" alt="Luxury tour of Peru" onerror="this.src='assets/images/spotlight_hiram_bingham.jpg'" loading="lazy">
+          <span class="blog-card-category-tag" data-i18n="blogCatLuxury">Guía de Alta Gama</span>
+        </div>
+        <div class="blog-card-body">
+          <div class="blog-card-meta">
+            <span>6 min</span>
+            <span class="meta-dot">•</span>
+            <span>2026</span>
+          </div>
+          <h3 class="blog-card-title">Guía de Alta Gama para Planificar su Viaje por Perú</h3>
+          <p class="blog-card-summary">Claves maestras: trenes Belmond de época, arqueólogos privados, aclimatación en el Valle Sagrado y reservas con 4 a 6 meses de anticipación.</p>
+          <div class="blog-card-footer">
+            <a href="blog.html?slug=guide-to-planning-a-luxury-tour-of-peru" class="blog-card-readlink" data-i18n="blogReadArticle">Leer Artículo Completo →</a>
+            <span class="blog-card-readtime">Maritza Miranda</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Article 5: Inkaterra Hacienda Concepcion -->
+      <article class="blog-card">
+        <div class="blog-card-media">
+          <img src="https://lmptravel.com/wp-content/uploads/2023/02/inkaterra_hacienda_concepcion_lmp_travel.jpg" alt="Inkaterra Hacienda Concepcion" onerror="this.src='assets/images/Iquitos.jpg'" loading="lazy">
+          <span class="blog-card-category-tag" data-i18n="blogCatAmazon">Amazonía & Lodges</span>
+        </div>
+        <div class="blog-card-body">
+          <div class="blog-card-meta">
+            <span>6 min</span>
+            <span class="meta-dot">•</span>
+            <span>2026</span>
+          </div>
+          <h3 class="blog-card-title">Inkaterra Hacienda Concepción: Selva de Lujo (3D/2N)</h3>
+          <p class="blog-card-summary">Experiencia exclusiva en Tambopata: río Madre de Dios, nutrias gigantes en Lago Sandoval y puentes colgantes a 30m en el dosel selvático.</p>
+          <div class="blog-card-footer">
+            <a href="blog.html?slug=inkaterra-hacienda-concepcion" class="blog-card-readlink" data-i18n="blogReadArticle">Leer Artículo Completo →</a>
+            <span class="blog-card-readtime">Naturalist Team</span>
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <div class="blog-home-actions">
+      <a href="blog.html" class="btn-view-all-blog">
+        <span data-i18n="blogViewAll">EXPLORAR TODAS LAS GUÍAS Y ARTÍCULOS EN EL BLOG OFICIAL</span>
+        <span>→</span>
+      </a>
     </div>
   </section>
 
@@ -512,7 +659,7 @@
                 <option value="Hiram Bingham & Machu Picchu">Belmond Hiram Bingham & Citadel</option>
                 <option value="Sacred Valley & Mysticism">Sacred Valley, Maras & Shamanic Blessing</option>
                 <option value="Belmond Andean Explorer">Belmond Andean Explorer Sleeper (Cusco to Puno)</option>
-                <option value="Inca Trail VIP Glamping">Inca Trail VIP Glamping Expedition</option>
+                <option value="Inca Trail VIP Glamping">Inca Trail VIP Glamping Experience</option>
                 <option value="Complete Grand Andean Tour">Grand Andean Tour (Lima, Cusco, Sanctuary, Lake Titicaca)</option>
               </select>
             </div>
@@ -556,7 +703,7 @@
         <span class="brand-title">LUXURY MACHUPICCHU</span>
         <span class="brand-subtitle">PERU</span>
         <p class="footer-desc" data-i18n="footerDesc">
-          Official luxury travel atelier dedicated to private, bespoke expeditions through the Sacred Valley, Machu Picchu Sanctuary, and the High Andes.
+          Official luxury travel atelier dedicated to private, bespoke experiences through the Sacred Valley, Machu Picchu Sanctuary, and the High Andes.
         </p>
         <p class="footer-legal-tag">
           <strong>Luxury Machupicchu Peru E.I.R.L (LMP TRAVEL)</strong><br>
@@ -574,13 +721,25 @@
       </div>
 
       <div class="footer-col">
-        <h4 class="footer-title" data-i18n="footerExpeditions">Expeditions</h4>
+        <h4 class="footer-title" data-i18n="footerExpeditions">Experiences</h4>
         <ul class="footer-links">
           <li><a href="tour.html?slug=belmond-hiram-bingham-pinnacle">Belmond Hiram Bingham</a></li>
           <li><a href="tour.html?slug=belmond-hiram-bingham-pinnacle">Machu Picchu Sanctuary Privé</a></li>
           <li><a href="tour.html?slug=sacred-valley-prive-shamanic-ritual">Sacred Valley & Q'ero Shaman</a></li>
           <li><a href="tour.html?slug=belmond-andean-explorer-cusco-titicaca">Belmond Andean Explorer</a></li>
           <li><a href="tour.html?slug=classic-inca-trail-vip-glamping">Inca Trail VIP Glamping</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4 class="footer-title">Blog & Guías</h4>
+        <ul class="footer-links">
+          <li><a href="blog.html?slug=when-to-go-peru">Cuándo Viajar a Perú (Clima)</a></li>
+          <li><a href="blog.html?slug=useful-information-about-peru">Requisitos de Entrada & Visas</a></li>
+          <li><a href="blog.html?slug=peru-a-country-of-ancient-traditions">Tradiciones Milenarias</a></li>
+          <li><a href="blog.html?slug=guide-to-planning-a-luxury-tour-of-peru">Guía de Viaje de Lujo</a></li>
+          <li><a href="blog.html?slug=inkaterra-hacienda-concepcion">Inkaterra Hacienda Concepción</a></li>
+          <li><a href="blog.html" style="color: var(--color-gold); font-weight: 600;">Ver Todo el Blog ↗</a></li>
         </ul>
       </div>
 
@@ -615,7 +774,7 @@
 
     <div class="footer-bottom">
       <div class="footer-bottom-inner">
-        <p>© 2026 Luxury Machupicchu Peru E.I.R.L. All rights reserved. Not affiliated with Belmond Ltd.; official partner providing verified bookings on Belmond rail journeys.</p>
+        <p>© 2026 Luxury Machupicchu Peru E.I.R.L. All rights reserved. Private Haute Couture Travel Atelier.</p>
         <div class="footer-bottom-links">
           <a href="legal.html#licencias" onclick="openClaimModal('licenses'); return false;">Licencias Oficiales</a>
           <span>•</span>
@@ -812,7 +971,7 @@
         <span class="pkg-builder-kicker" data-i18n="pkgModalKicker">ALTA COSTURA ANDINA • RESERVA PERSONALIZADA</span>
         <h2 class="pkg-builder-title" data-i18n="pkgModalTitle">Arma tu Paquete a Medida</h2>
         <p class="pkg-builder-sub" data-i18n="pkgModalSubtitle">
-          Personalice su expedición privada: seleccione servicio de tren, hotelería de colección, experiencias de autor y condición tributaria con cotización en tiempo real.
+          Personalice su experiencia privada: seleccione servicio de tren, hotelería de colección, experiencias de autor y condición tributaria con cotización en tiempo real.
         </p>
       </div>
 
@@ -824,7 +983,7 @@
           <div class="pkg-step-block">
             <div class="pkg-step-header">
               <span class="pkg-step-num">1</span>
-              <h3 class="pkg-step-title" data-i18n="step1Title">1. Seleccione la Expedición Base</h3>
+              <h3 class="pkg-step-title" data-i18n="step1Title">1. Seleccione la Experiencia Base</h3>
             </div>
             <div class="pkg-cards-grid" id="pkgTourCardsGrid">
               <!-- Dynamically populated via JS -->
@@ -1187,7 +1346,7 @@
             <h4>4. Políticas de Cancelación y Reembolso</h4>
             <ul>
               <li>Cancelaciones con más de 30 días: Se reembolsa el saldo a favor deduciendo costos oficiales no reembolsables del santuario y ferrocarriles.</li>
-              <li>Cancelaciones entre 29 y 15 días: Penalidad del 50% del valor de la expedición.</li>
+              <li>Cancelaciones entre 29 y 15 días: Penalidad del 50% del valor de la experiencia.</li>
               <li>Cancelaciones con menos de 14 días o No-Show: Penalidad del 100% sin derecho a reembolso.</li>
             </ul>
 
@@ -1305,7 +1464,7 @@
               <div class="claim-form-section-title" style="margin-top: 1.5rem;">2. Identificación del Bien o Servicio Contratado</div>
               <div class="claim-grid-2">
                 <div class="form-field">
-                  <label for="claimService">Expedición o Servicio Contratado *</label>
+                  <label for="claimService">Experiencia o Servicio Contratado *</label>
                   <input type="text" id="claimService" required placeholder="Ej. Belmond Hiram Bingham Pinnacle / Sacred Valley Privé">
                 </div>
                 <div class="form-field">
@@ -1363,6 +1522,7 @@
     </div>
   </div>
 
+  <script src="blog-data.js?v=20261024_prod1"></script>
   <script src="app.js?v=20261023_prod6"></script>
 </body>
 </html>

@@ -58,6 +58,66 @@
     </image:image>
   </url>
   <url>
+    <loc>https://nuevo.lmptravel.com/tour.html?slug=cusco-golden-city</loc>
+    <lastmod>2026-10-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://lmptravel.com/wp-content/uploads/2023/02/cuscogolden.jpg</image:loc>
+      <image:title>Cusco Golden City - 5 Days Luxury Experience</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://nuevo.lmptravel.com/tour.html?slug=inkaterra-hacienda-concepcion</loc>
+    <lastmod>2026-10-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://lmptravel.com/wp-content/uploads/2023/02/inkaterra_tambopata_840px.jpg</image:loc>
+      <image:title>Inkaterra Hacienda Concepción - 3 Days Amazon Rainforest Sanctuary</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://nuevo.lmptravel.com/tour.html?slug=luxury-machu-picchu-peru</loc>
+    <lastmod>2026-10-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+    <image:image>
+      <image:loc>https://lmptravel.com/wp-content/uploads/2023/01/01_machu_picchu.jpg</image:loc>
+      <image:title>Luxury Machu Picchu Peru - 7 Days Belmond Signature Experience</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://nuevo.lmptravel.com/tour.html?slug=machu-picchu-express</loc>
+    <lastmod>2026-10-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://lmptravel.com/wp-content/uploads/2024/10/mapi5.jpg</image:loc>
+      <image:title>Machu Picchu Express - 4 Days Private Journey</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://nuevo.lmptravel.com/tour.html?slug=peru-travel-package</loc>
+    <lastmod>2026-10-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+    <image:image>
+      <image:loc>https://lmptravel.com/wp-content/uploads/2023/02/Lima_grande.jpg</image:loc>
+      <image:title>Peru Travel Package: Coast, Amazon &amp; Andes - 9 Days Grand Tour</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://nuevo.lmptravel.com/tour.html?slug=tambopata-machu-picchu</loc>
+    <lastmod>2026-10-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+    <image:image>
+      <image:loc>https://lmptravel.com/wp-content/uploads/2023/01/tambopata_840px.jpg</image:loc>
+      <image:title>Tambopata &amp; Machu Picchu - 9 Days Wildlife &amp; Citadel Experience</image:title>
+    </image:image>
+  </url>
+  <url>
     <loc>https://nuevo.lmptravel.com/checkout.html</loc>
     <lastmod>2026-10-23</lastmod>
     <changefreq>monthly</changefreq>
@@ -68,5 +128,61 @@
     <lastmod>2026-10-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://nuevo.lmptravel.com/blog.html</loc>
+    <lastmod>2026-10-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://nuevo.lmptravel.com/blog.html?slug=when-to-go-peru</loc>
+    <lastmod>2026-10-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://lmptravel.com/wp-content/uploads/2022/12/machupicchu-nublado.jpg</image:loc>
+      <image:title>When to Go to Peru: Climate, Seasons &amp; Health Guide</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://nuevo.lmptravel.com/blog.html?slug=useful-information-about-peru</loc>
+    <lastmod>2026-10-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://lmptravel.com/wp-content/uploads/2023/04/useful-information-about-peru.jpg</image:loc>
+      <image:title>Essential Travel Information About Peru: Visas, Currency &amp; Safety</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://nuevo.lmptravel.com/blog.html?slug=peru-a-country-of-ancient-traditions</loc>
+    <lastmod>2026-10-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://lmptravel.com/wp-content/uploads/2023/04/costumbres-del-peru.jpg</image:loc>
+      <image:title>Peru: A Country of Ancient Traditions &amp; Living Heritage</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://nuevo.lmptravel.com/blog.html?slug=guide-to-planning-a-luxury-tour-of-peru</loc>
+    <lastmod>2026-10-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://lmptravel.com/wp-content/uploads/2025/03/peru-llama-web-1.png</image:loc>
+      <image:title>Guide to Planning a Luxury Tour of Peru: Haute Couture Travel</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://nuevo.lmptravel.com/blog.html?slug=inkaterra-hacienda-concepcion</loc>
+    <lastmod>2026-10-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://lmptravel.com/wp-content/uploads/2023/02/inkaterra_hacienda_concepcion_lmp_travel.jpg</image:loc>
+      <image:title>Inkaterra Hacienda Concepción: 3D/2N Luxury Amazon Rainforest Sanctuary</image:title>
+    </image:image>
   </url>
 </urlset>

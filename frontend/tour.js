@@ -18,14 +18,14 @@ const translations = {
     topBarTag: "OFFICIAL LICENSED OPERATOR",
     topBarRuc: "RUC: 20601622492",
     topBarLic: "GERCETUR CERTIFIED • MINCETUR AUTHORIZED • ESNNA COMPLIANT",
-    navExpeditions: "Expeditions",
+    navExpeditions: "Experiences",
     navRail: "Hiram Bingham Rail",
     navPhilosophy: "The Belmond Distinction",
     navChronicles: "Guest Chronicles",
     navContact: "Concierge",
     btnBespokeInquiry: "Bespoke Inquiry",
     bcHome: "Home",
-    bcExpeditions: "Expeditions",
+    bcExpeditions: "Experiences",
     lblDuration: "DURATION",
     lblAltitude: "MAX ALTITUDE",
     lblPace: "PACE & COMFORT",
@@ -33,8 +33,8 @@ const translations = {
     valGuiding: "Certified Archaeologist",
     lblCulinary: "GASTRONOMY",
     valCulinary: "Degustation & Wine Pairing",
-    titleOverview: "Expedition Narrative & Highlights",
-    titleHighlights: "Key Expedition Privileges",
+    titleOverview: "Experience Narrative & Highlights",
+    titleHighlights: "Key Experience Privileges",
     titleGallery: "Photographic Chronicle",
     titleItinerary: "Day-by-Day Curated Itinerary",
     titleInclusions: "Curated Inclusions & Transparency",
@@ -43,7 +43,7 @@ const translations = {
     titleHotels: "Curated Partner Hotel Collection",
     descHotels: "Elevate your Andean stay with our handpicked sanctuary and historic partner properties, where our guests receive preferred check-in, room upgrades subject to availability, and private concierge coordination:",
     titleAdvisory: "Travel Advisory & High-Altitude Guidelines",
-    dossierTitle: "Private Expedition Dossier (PDF)",
+    dossierTitle: "Private Experience Dossier (PDF)",
     dossierSubtitle: "Generate an elegant, printable dossier of this itinerary with daily schedules, logistical specifications, and partner properties.",
     btnDossierPrint: "Print / Download Dossier (PDF)",
     sidebarPriceFrom: "From / Per Traveler",
@@ -63,12 +63,12 @@ const translations = {
     g4: "24/7 Dedicated In-Country Concierge",
     kickerRelated: "CURATED ALTERNATIVES",
     titleRelated: "Complementary Andean Collections",
-    footerDesc: "Official luxury travel atelier dedicated to private, bespoke expeditions through the Sacred Valley, Machu Picchu Sanctuary, and the High Andes.",
-    footerExpeditions: "Expeditions",
+    footerDesc: "Official luxury travel atelier dedicated to private, bespoke experiences through the Sacred Valley, Machu Picchu Sanctuary, and the High Andes.",
+    footerExpeditions: "Experiences",
     footerCertifications: "Certifications",
     footerConciergeDirect: "Direct Contact",
     waTooltip: "VIP Concierge 24/7",
-    btnViewItinerary: "View Expedition",
+    btnViewItinerary: "View Experience",
     pricePerPerson: "From",
     dayPrefix: "Day",
     modalDining: "Gourmet Dining",
@@ -76,7 +76,7 @@ const translations = {
     titleGeoAltitude: "Geographic Location & Altitude Profile",
     descGeoAltitude: "Destinations included in this journey, featuring elevation above sea level and ambient oxygen saturation.",
     tagPeruCircuit: "PERU LUXURY CORRIDOR",
-    titleMapCard: "Expedition Location & Geographic Map",
+    titleMapCard: "Experience Location & Geographic Map",
     tagAltitudeProfile: "PHYSIOLOGICAL COMFORT",
     titleAltitudeCard: "Altitude Profile & Acclimatization",
     lblStartingAlt: "Starting Altitude",
@@ -90,8 +90,8 @@ const translations = {
     perkMedicalDesc: "Private vehicles carry certified supplemental oxygen concentrators and pulse oximeters.",
     perkInfusionsTitle: "Ancestral Teas:",
     perkInfusionsDesc: "Complimentary sacred Coca and Muña (Andean mint) infusions served upon arrival to soothe digestion.",
-    circuitHighlight: "Active Expedition Corridor",
-    destAll: "Perú (Overview)",
+    circuitHighlight: "Active Experience Corridor",
+    destAll: "Peru (Overview)",
     destCusco: "Cusco",
     destMp: "Machu Picchu",
     destArq: "Arequipa",
@@ -105,7 +105,7 @@ const translations = {
     statusExtension: "Available on Custom Extensions",
     climateLabel: "Atmosphere & Climate",
     highlightsLabel: "Signature Highlights",
-    interactiveMapHint: "Click any destination or chip to inspect regional altitude, atmosphere, and expedition details.",
+    interactiveMapHint: "Click any destination or chip to inspect regional altitude, atmosphere, and experience details.",
     priceTaxSub: "+ IGV (Foreigners 0% VAT D.L. 919)",
     sidebarTaxSub: "+ 18% IGV Peruvians • Foreigners 0% Exempt (D.L. 919)",
     sidebarTaxLegend: "✦ Rates net + IGV. Non-resident foreigners 0% IGV under D.L. 919 • Peruvian residents +18% IGV.",
@@ -114,8 +114,8 @@ const translations = {
     btnHeroBuildPackage: "✦ Build Your Bespoke Package",
     pkgModalKicker: "HAUTE COUTURE ANDEAN TRAVEL • BESPOKE RESERVATION",
     pkgModalTitle: "Build Your Bespoke Andean Journey",
-    pkgModalSubtitle: "Personalize your private expedition: select signature rail, partner luxury hotels, tailored add-ons, and tax status with real-time live quotation.",
-    step1Title: "1. Select Base Expedition",
+    pkgModalSubtitle: "Personalize your private experience: select signature rail, partner luxury hotels, tailored add-ons, and tax status with real-time live quotation.",
+    step1Title: "1. Select Base Experience",
     step2Title: "2. Partner Luxury Hotel (Optional)",
     step3Title: "3. Preferred Luxury Train Carriage",
     step4Title: "4. Bespoke Upgrades & Signature Add-ons",
@@ -152,7 +152,7 @@ const translations = {
     btnPrintQuoteSheet: "🖨️ Print / Save as PDF",
     btnSendQuoteSheetWa: "Confirm Quotation via WhatsApp",
     qsTitle: "OFFICIAL QUOTATION SHEET",
-    qsSubtitle: "BESPOKE ANDEAN EXPEDITION PROFORMA",
+    qsSubtitle: "BESPOKE ANDEAN EXPERIENCE PROFORMA",
     btnReserveNowJump: "Reserve / Book This Journey",
     labelEmail: "Email Address *",
     lblNetBaseSubtotal: "Net Base Subtotal:",
@@ -170,20 +170,20 @@ const translations = {
     guest6: "6+ Private Charter",
     carriagePullman: "Belmond Pullman Suite Carriage (Gourmet Dining)",
     carriageObservatory: "Observation Bar Car & Panoramic Lounge",
-    carriagePresidential: "Presidential / Fully Tailored Expedition"
+    carriagePresidential: "Presidential / Fully Tailored Experience"
   },
   es: {
     topBarTag: "OPERADOR OFICIAL AUTORIZADO",
     topBarRuc: "RUC: 20601622492",
     topBarLic: "CERTIFICADO GERCETUR • AUTORIZADO POR MINCETUR • CÓDIGO ESNNA",
-    navExpeditions: "Expediciones",
+    navExpeditions: "Experiencias",
     navRail: "Tren Hiram Bingham",
     navPhilosophy: "La Distinción Belmond",
     navChronicles: "Crónicas de Huéspedes",
     navContact: "Concierge",
     btnBespokeInquiry: "Consulta a Medida",
     bcHome: "Inicio",
-    bcExpeditions: "Expediciones",
+    bcExpeditions: "Experiencias",
     lblDuration: "DURACIÓN",
     lblAltitude: "ALTITUD MÁXIMA",
     lblPace: "RITMO Y CONFORT",
@@ -191,8 +191,8 @@ const translations = {
     valGuiding: "Arqueólogo Colegiado",
     lblCulinary: "GASTRONOMÍA",
     valCulinary: "Degustación y Maridaje",
-    titleOverview: "Narrativa de la Expedición y Destacados",
-    titleHighlights: "Privilegios Clave de la Expedición",
+    titleOverview: "Narrativa de la Experiencia y Destacados",
+    titleHighlights: "Privilegios Clave de la Experiencia",
     titleGallery: "Crónica Fotográfica",
     titleItinerary: "Itinerario Detallado Día por Día",
     titleInclusions: "Inclusiones Exclusivas y Transparencia",
@@ -201,7 +201,7 @@ const translations = {
     titleHotels: "Colección de Hoteles de Lujo Asociados",
     descHotels: "Eleve su estadía andina con nuestra selección de hoteles históricos y santuarios asociados, donde nuestros viajeros reciben check-in preferencial, upgrades de habitación sujetos a disponibilidad y atención personalizada de concierge:",
     titleAdvisory: "Recomendaciones de Viaje y Protocolo de Altitud",
-    dossierTitle: "Dossier Privado de la Expedición (PDF)",
+    dossierTitle: "Dossier Privado de la Experiencia (PDF)",
     dossierSubtitle: "Genere un documento elegante e imprimible con el cronograma diario completo, especificaciones logísticas y propiedades asociadas.",
     btnDossierPrint: "Imprimir / Descargar Dossier (PDF)",
     sidebarPriceFrom: "Desde / Por Viajero",
@@ -221,20 +221,20 @@ const translations = {
     g4: "Concierge Dedicado en Destino 24/7",
     kickerRelated: "ALTERNATIVAS DE AUTOR",
     titleRelated: "Colecciones Andinas Complementarias",
-    footerDesc: "Atelier de viajes de lujo dedicado a expediciones privadas por el Valle Sagrado, Machu Picchu y los Altos Andes.",
-    footerExpeditions: "Expediciones",
+    footerDesc: "Atelier de viajes de lujo dedicado a experiencias privadas por el Valle Sagrado, Machu Picchu y los Altos Andes.",
+    footerExpeditions: "Experiencias",
     footerCertifications: "Certificaciones",
     footerConciergeDirect: "Contacto Directo",
     waTooltip: "Concierge VIP 24/7",
-    btnViewItinerary: "Ver Expedición",
+    btnViewItinerary: "Ver Experiencia",
     pricePerPerson: "Desde",
     dayPrefix: "Día",
     modalDining: "Alta Gastronomía",
     modalTransfer: "Logística Privada",
     titleGeoAltitude: "Ubicación Geográfica y Perfil de Altura",
-    descGeoAltitude: "Destinos comprendidos en esta expedición, con información de altitud sobre el nivel del mar y nivel de oxígeno.",
+    descGeoAltitude: "Destinos comprendidos en esta experiencia, con información de altitud sobre el nivel del mar y nivel de oxígeno.",
     tagPeruCircuit: "CORREDOR DE LUJO EN PERÚ",
-    titleMapCard: "Ubicación Geográfica y Mapa de la Expedición",
+    titleMapCard: "Ubicación Geográfica y Mapa de la Experiencia",
     tagAltitudeProfile: "CONFORT FISIOLÓGICO",
     titleAltitudeCard: "Perfil de Altura y Aclimatación",
     lblStartingAlt: "Altitud Inicial",
@@ -248,7 +248,7 @@ const translations = {
     perkMedicalDesc: "Nuestros vehículos privados cuentan con concentradores de oxígeno medicinal y oxímetros digitales.",
     perkInfusionsTitle: "Infusiones Ancestrales:",
     perkInfusionsDesc: "Infusiones sagradas de Coca y Muña andina servidas a la llegada para favorecer la digestión y oxigenación.",
-    circuitHighlight: "Corredor Activo de la Expedición",
+    circuitHighlight: "Corredor Activo de la Experiencia",
     destAll: "Perú (General)",
     destCusco: "Cusco",
     destMp: "Machu Picchu",
@@ -263,7 +263,7 @@ const translations = {
     statusExtension: "Disponible en Extensiones a Medida",
     climateLabel: "Atmósfera y Clima",
     highlightsLabel: "Atractivos Destacados",
-    interactiveMapHint: "Haga clic en cualquier destino o botón para consultar altitud, clima y detalles de la expedición.",
+    interactiveMapHint: "Haga clic en cualquier destino o botón para consultar altitud, clima y detalles de la experiencia.",
     priceTaxSub: "+ IGV (Extranjeros 0% D.L. 919)",
     sidebarTaxSub: "+ 18% IGV Nacionales • Exonerado Extranjeros (D.L. 919)",
     sidebarTaxLegend: "✦ Tarifas netas + IGV. Extranjeros 0% IGV según D.L. 919 • Residentes peruanos +18% IGV.",
@@ -272,8 +272,8 @@ const translations = {
     btnHeroBuildPackage: "✦ Arma tu Paquete a Medida",
     pkgModalKicker: "ALTA COSTURA ANDINA • RESERVA PERSONALIZADA",
     pkgModalTitle: "Arma tu Paquete a Medida",
-    pkgModalSubtitle: "Personalice su expedición privada: seleccione servicio de tren, hotelería de colección, experiencias de autor y condición tributaria con cotización en tiempo real.",
-    step1Title: "1. Seleccione la Expedición Base",
+    pkgModalSubtitle: "Personalice su experiencia privada: seleccione servicio de tren, hotelería de colección, servicios de autor y condición tributaria con cotización en tiempo real.",
+    step1Title: "1. Seleccione la Experiencia Base",
     step2Title: "2. Alojamiento de Colección (Opcional)",
     step3Title: "3. Servicio de Tren Preferido",
     step4Title: "4. Experiencias Exclusivas & Add-ons de Autor",
@@ -310,8 +310,8 @@ const translations = {
     btnPrintQuoteSheet: "🖨️ Imprimir / Guardar en PDF",
     btnSendQuoteSheetWa: "Confirmar Cotización vía WhatsApp",
     qsTitle: "HOJA DE COTIZACIÓN FORMAL",
-    qsSubtitle: "PROFORMA DE EXPEDICIÓN PRIVADA",
-    btnReserveNowJump: "Reservar / Cotizar Esta Expedición",
+    qsSubtitle: "PROFORMA DE EXPERIENCIA PRIVADA",
+    btnReserveNowJump: "Reservar / Cotizar Esta Experiencia",
     labelEmail: "Correo Electrónico *",
     lblNetBaseSubtotal: "Subtotal Neto Base:",
     lblDepositTag: "30% Anticipo de Garantía (Cobro Hoy)",
@@ -328,7 +328,7 @@ const translations = {
     guest6: "6+ Charter Privado",
     carriagePullman: "Vagón Belmond Pullman Suite (Alta Gastronomía)",
     carriageObservatory: "Coche Bar Observatorio & Salón Panorámico",
-    carriagePresidential: "Vagón Presidencial / Expedición a Medida"
+    carriagePresidential: "Vagón Presidencial / Experiencia a Medida"
   }
 };
 
@@ -527,6 +527,24 @@ const STATIC_LOCATIONS = {
     altitude: '106 msnm / 348 ft',
     oxygenEn: '100% (sea level)',
     oxygenEs: '100% (nivel del mar)'
+  },
+  lima: {
+    id: 'lima',
+    nameEn: 'Lima (Pacific Coast)',
+    nameEs: 'Lima (Costa del Pacífico)',
+    image: 'https://lmptravel.com/wp-content/uploads/2023/02/Lima_840px.jpg',
+    altitude: '154 msnm / 505 ft',
+    oxygenEn: '100% (sea level)',
+    oxygenEs: '100% (nivel del mar)'
+  },
+  tambopata: {
+    id: 'tambopata',
+    nameEn: 'Tambopata National Reserve',
+    nameEs: 'Reserva Nacional Tambopata',
+    image: 'https://lmptravel.com/wp-content/uploads/2023/02/inkaterra_tambopata_840px.jpg',
+    altitude: '183 msnm / 600 ft',
+    oxygenEn: '100% (Amazon basin)',
+    oxygenEs: '100% (cuenca amazónica)'
   }
 };
 
@@ -647,7 +665,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         appState.tour = fallbackTour;
       }
     } else {
-      throw new Error('Expedition not found in database');
+      throw new Error('Experience not found in database');
     }
 
     renderTourPage();
@@ -659,7 +677,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 function showTourLoadingState() {
   const heading = document.getElementById('heroTourTitle');
-  if (heading) heading.textContent = 'Sincronizando Expedición...';
+  if (heading) heading.textContent = 'Sincronizando Experiencia...';
   const narrative = document.getElementById('tourLongNarrative');
   if (narrative) {
     narrative.innerHTML = '<span style="color:var(--color-sand);">Cargando información oficial desde la base de datos de Luxury Machupicchu...</span>';
@@ -669,19 +687,19 @@ function showTourLoadingState() {
 function showTourNotFoundState() {
   const isEs = appState.currentLang === 'es';
   const heading = document.getElementById('heroTourTitle');
-  if (heading) heading.textContent = isEs ? 'Expedición No Encontrada' : 'Expedition Not Found';
+  if (heading) heading.textContent = isEs ? 'Experiencia No Encontrada' : 'Experience Not Found';
   const narrative = document.getElementById('tourLongNarrative');
   if (narrative) {
     narrative.innerHTML = `
       <div style="padding: 2.5rem 1.5rem; background: rgba(18, 19, 22, 0.85); border: 1px solid var(--color-gold); border-radius: 6px; text-align: center;">
         <h3 style="font-family: var(--font-serif); font-size: 1.5rem; color: #fff; margin-bottom: 1rem;">
-          ${isEs ? 'Expedición no disponible en el catálogo activo' : 'Expedition unavailable in active catalog'}
+          ${isEs ? 'Experiencia no disponible en el catálogo activo' : 'Experience unavailable in active catalog'}
         </h3>
         <p style="color: var(--color-sand); font-size: 0.95rem; margin-bottom: 1.5rem;">
-          ${isEs ? 'La expedición que busca puede haber sido actualizada o archivada en el Atelier Central.' : 'The expedition you requested may have been archived or updated in our Central Atelier.'}
+          ${isEs ? 'La experiencia que busca puede haber sido actualizada o archivada en el Atelier Central.' : 'The experience you requested may have been archived or updated in our Central Atelier.'}
         </p>
         <a href="index.html#expeditions" class="btn-hero-gold" style="display: inline-block; text-decoration: none; padding: 0.75rem 1.8rem;">
-          ${isEs ? 'Explorar Colección de Expediciones' : 'Explore Expeditions Collection'}
+          ${isEs ? 'Explorar Colección de Experiencias' : 'Explore Experiences Collection'}
         </a>
       </div>
     `;
@@ -725,8 +743,8 @@ function setLanguage(lang) {
   document.documentElement.setAttribute('lang', lang);
   document.documentElement.setAttribute('data-lang', lang);
 
-  document.getElementById('btnLangEn')?.classList.toggle('active', lang === 'en');
-  document.getElementById('btnLangEs')?.classList.toggle('active', lang === 'es');
+  document.querySelectorAll('#btnLangEn, #drawerBtnLangEn').forEach(b => b.classList.toggle('active', lang === 'en'));
+  document.querySelectorAll('#btnLangEs, #drawerBtnLangEs').forEach(b => b.classList.toggle('active', lang === 'es'));
 
   renderTourPage();
 }
@@ -1186,7 +1204,7 @@ function openSidebarQuoteSheet() {
       <table class="qs-table">
         <thead>
           <tr>
-            <th>${isEs ? 'Concepto / Servicio Exclusivo' : 'Expedition Element'}</th>
+            <th>${isEs ? 'Concepto / Servicio Exclusivo' : 'Experience Element'}</th>
             <th class="tar">${isEs ? 'Cant.' : 'Qty.'}</th>
             <th class="tar">${isEs ? 'Precio Unit. (USD)' : 'Unit Price (USD)'}</th>
             <th class="tar">${isEs ? 'Subtotal (USD)' : 'Subtotal (USD)'}</th>
@@ -1196,7 +1214,7 @@ function openSidebarQuoteSheet() {
           <tr>
             <td>
               <strong class="qs-item-title">${isEs ? tour.titleEs : tour.titleEn}</strong>
-              <span class="qs-item-desc">${isEs ? tour.durationEs : tour.durationEn} • ${carriage} • Expedición 100% Privada</span>
+              <span class="qs-item-desc">${isEs ? tour.durationEs : tour.durationEn} • ${carriage} • Experiencia 100% Privada</span>
             </td>
             <td class="tar">${guests} pax</td>
             <td class="tar">${fmtUsd(tour.priceUsd)}</td>
@@ -1324,7 +1342,7 @@ function injectSchemaJsonLd(tour) {
     "name": isEs ? tour.titleEs : tour.titleEn,
     "description": isEs ? tour.subtitleEs : tour.subtitleEn,
     "image": `http://localhost:4173/${tour.mainImageUrl}`,
-    "touristType": ["Haute Couture Travel", "Cultural Heritage", "Private Expeditions"],
+    "touristType": ["Haute Couture Travel", "Cultural Heritage", "Private Experiences"],
     "offers": {
       "@type": "Offer",
       "price": tour.priceUsd.toString(),
@@ -1407,7 +1425,7 @@ function handleSidebarBookingSubmit(event) {
   const waMessage = isEs
     ? `✨ *Luxury Machupicchu Peru - Solicitud de Reserva VIP*\n\n` +
       `Estimado Concierge, mi nombre es *${name}*.\n\n` +
-      `🏛️ *Expedición:* ${tourTitle}\n` +
+      `🏛️ *Experiencia:* ${tourTitle}\n` +
       `👥 *Viajeros:* ${guests} persona(s)\n` +
       `📅 *Fecha Deseada:* ${date || 'A coordinar'}\n` +
       `🚆 *Preferencia de Servicio:* ${carriage}\n` +
@@ -1417,7 +1435,7 @@ function handleSidebarBookingSubmit(event) {
       `\nSolicito confirmación de disponibilidad para esta salida 100% privada.`
     : `✨ *Luxury Machupicchu Peru - VIP Journey Booking Request*\n\n` +
       `Dear Concierge, my name is *${name}*.\n\n` +
-      `🏛️ *Expedition:* ${tourTitle}\n` +
+      `🏛️ *Experience:* ${tourTitle}\n` +
       `👥 *Guests:* ${guests} traveler(s)\n` +
       `📅 *Target Date:* ${date || 'To be confirmed'}\n` +
       `🚆 *Preferred Carriage:* ${carriage}\n` +
@@ -1548,7 +1566,7 @@ async function handleSidebarOnlinePayment() {
     console.warn('Registro local completado:', err);
   }
 
-  const tourTitle = (isEs ? tour.titleEs : tour.titleEn) || 'Expedición Privada Machu Picchu';
+  const tourTitle = (isEs ? tour.titleEs : tour.titleEn) || 'Experiencia Privada Machu Picchu';
   const checkoutParams = new URLSearchParams({
     amount: amountToCharge.toString(),
     currency: currencyToCharge,
@@ -1699,8 +1717,8 @@ const BUILDER_DATA = {
       pricePen: 15010,
       durationEn: '6 Days / 5 Nights',
       durationEs: '6 Días / 5 Noches',
-      nameEn: 'Grand Andean 100% Bespoke Expedition',
-      nameEs: 'Gran Expedición Andina 100% a Medida',
+      nameEn: 'Grand Andean 100% Bespoke Experience',
+      nameEs: 'Gran Experiencia Andina 100% a Medida',
       subEn: 'Full tailor-made itinerary: Lima, Cusco, Sacred Valley & Lake Titicaca',
       subEs: 'Itinerario 100% libre y personalizado por los Andes peruanos',
       tag: 'Haute Couture'
@@ -1786,8 +1804,8 @@ const BUILDER_DATA = {
       diffUsd: -450,
       nameEn: 'Private 4x4 Overland / Trek Only',
       nameEs: 'Solo Traslado Terrestre Privado 4x4 / Trek',
-      subEn: 'Private vehicular convoy or foot expedition only (-$450 USD)',
-      subEs: 'Transporte privado terrestre o expedición a pie (-$450 USD)',
+      subEn: 'Private vehicular convoy or foot experience only (-$450 USD)',
+      subEs: 'Transporte privado terrestre o experiencia a pie (-$450 USD)',
       tag: 'Ground Only'
     }
   ],
@@ -2248,7 +2266,7 @@ function openQuoteSheetModal() {
       <table class="qs-table">
         <thead>
           <tr>
-            <th>${isEs ? 'Concepto / Servicio Exclusivo' : 'Expedition Element'}</th>
+            <th>${isEs ? 'Concepto / Servicio Exclusivo' : 'Experience Element'}</th>
             <th class="tar">${isEs ? 'Cant.' : 'Qty.'}</th>
             <th class="tar">${isEs ? 'Precio Unit. (USD)' : 'Unit Price (USD)'}</th>
             <th class="tar">${isEs ? 'Subtotal (USD)' : 'Subtotal (USD)'}</th>
@@ -2405,7 +2423,7 @@ function handlePackageBuilderWhatsApp() {
   const waMessage = isEs
     ? `✨ *Luxury Machupicchu Peru - Cotización de Paquete a Medida (Arma tu Paquete)*\n\n` +
       `Estimado Concierge, mi nombre es *${name}*.\n\n` +
-      `🏛️ *Expedición Base:* ${tour.nameEs} (${tour.durationEs})\n` +
+      `🏛️ *Experiencia Base:* ${tour.nameEs} (${tour.durationEs})\n` +
       `👥 *Viajeros:* ${travelers} persona(s)\n` +
       `📅 *Fecha Deseada:* ${date}\n` +
       `🚆 *Servicio Ferroviario:* ${rail.nameEs}\n` +
@@ -2735,7 +2753,7 @@ function handleLegalClaimSubmit(event) {
         <div class="claim-success-details">
           <div class="detail-row"><span>Fecha y Hora de Emisión:</span><strong>${dateStr}</strong></div>
           <div class="detail-row"><span>Documento de Identidad:</span><strong>${docType}: ${docNum}</strong></div>
-          <div class="detail-row"><span>Servicio Afectado:</span><strong>${service || 'Expedición Privada Machu Picchu'}</strong></div>
+          <div class="detail-row"><span>Servicio Afectado:</span><strong>${service || 'Experiencia Privada Machu Picchu'}</strong></div>
           ${amount ? `<div class="detail-row"><span>Monto Reclamado:</span><strong>${amount}</strong></div>` : ''}
           <div class="detail-row"><span>Tipo de Incidencia:</span><strong>${claimType}</strong></div>
           <div class="detail-row"><span>Copia Notificada a:</span><strong>${email}</strong></div>

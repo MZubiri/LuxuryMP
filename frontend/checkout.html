@@ -16,13 +16,16 @@
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
   <!-- Main Luxury CSS -->
-  <link rel="stylesheet" href="styles.css?v=20261023_prod13">
+  <link rel="stylesheet" href="styles.css?v=20261023_prod14">
 
   <!-- Culqi Checkout v4 Official JS SDK -->
   <script src="https://checkout.culqi.com/js/v4"></script>
 
+  <!-- html2pdf for 1-click instant official voucher PDF generation -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
   <!-- Modular Stylesheet (Separation of Concerns) -->
-  <link rel="stylesheet" href="checkout.css?v=20261023_prod13">
+  <link rel="stylesheet" href="checkout.css?v=20261023_prod14">
 </head>
 <body class="checkout-body">
 
@@ -31,18 +34,18 @@
     <div class="security-badges">
       <span class="sec-badge">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-        Cifrado Bancario SSL 256-Bit
+        <span data-i18n="secSsl">Cifrado Bancario SSL 256-Bit</span>
       </span>
       <span class="sec-badge">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-        PCI-DSS Nivel 1 Compliant
+        <span>PCI-DSS Nivel 1 Compliant</span>
       </span>
       <span class="sec-badge">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
-        Culqi Authorized Merchant
+        <span data-i18n="secAuthorized">Culqi Authorized Merchant</span>
       </span>
     </div>
-    <div>
+    <div class="sec-bar-right">
       <span>RUC: 20601622492 • Luxury Machupicchu Peru E.I.R.L</span>
     </div>
   </div>
@@ -54,13 +57,23 @@
         <img src="assets/images/logo-travel.png" alt="Luxury Machupicchu Peru" class="checkout-brand-logo">
         <div>
           <span class="checkout-brand-title">LUXURY MACHUPICCHU PERU</span>
-          <span class="checkout-brand-sub">Portal de Pago y Depósito Seguro</span>
+          <span class="checkout-brand-sub" data-i18n="brandSub">Portal de Pago y Depósito Seguro</span>
         </div>
       </a>
-      <a href="index.html" class="checkout-back-link">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-        Volver a la Web
-      </a>
+
+      <div class="checkout-header-actions">
+        <!-- Language Switcher -->
+        <div class="lang-switch-wrap" role="group" aria-label="Language Selector">
+          <button type="button" class="lang-btn active" id="langBtnEs" onclick="setLanguage('es')">ES</button>
+          <span class="lang-divider">|</span>
+          <button type="button" class="lang-btn" id="langBtnEn" onclick="setLanguage('en')">EN</button>
+        </div>
+
+        <a href="index.html" class="checkout-back-link" id="navBackLink">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+          <span data-i18n="backToWeb">Volver a la Web</span>
+        </a>
+      </div>
     </div>
   </header>
 
@@ -75,94 +88,101 @@
       
       <!-- LEFT: CUSTOMER & JOURNEY DETAILS -->
       <div class="checkout-card">
-        <span class="card-kicker">INFORMACIÓN DEL PASAJERO & VIAJE</span>
-        <h1 class="card-title" id="checkoutJourneyTitle">Confirmación de Reserva Exclusiva</h1>
+        <span class="card-kicker" data-i18n="cardKicker">INFORMACIÓN DEL PASAJERO & VIAJE</span>
+        <h1 class="card-title" id="checkoutJourneyTitle" data-i18n="cardTitle">Confirmación de Reserva Exclusiva</h1>
 
-        <!-- Preview Card -->
-        <div class="tour-hero-preview">
-          <div class="tour-icon-wrap">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+        <!-- Tour Visual Preview Card -->
+        <div class="tour-hero-preview" id="tourHeroCard">
+          <div class="tour-img-wrap">
+            <img id="previewTourImg" src="assets/images/hiram_bingham_main.jpg" alt="Experiencia de Lujo" class="tour-thumb-img">
+            <div class="tour-badge-vip" data-i18n="badgeVip">Ultra-Lujo Privado</div>
           </div>
           <div class="tour-hero-info">
-            <h3 id="previewTourName">Expedición Privada Machu Picchu</h3>
-            <p id="previewRefCode">Referencia: RES-PENDIENTE • Concierge Atelier</p>
+            <span class="tour-category-tag" id="previewCategoryTag" data-i18n="tourCategoryTag">Experiencia de Alta Gama</span>
+            <h3 id="previewTourName">Experiencia Privada Machu Picchu</h3>
+            <p id="previewRefCode"><span data-i18n="labelRef">Referencia:</span> <span class="ref-highlight" id="previewRefHighlight">RES-PENDIENTE</span> • <span data-i18n="conciergeAtelier">Concierge Atelier</span></p>
+            <div class="tour-highlights-pills">
+              <span class="tour-pill" data-i18n="pillSanctuary">✓ Permisos Santuario</span>
+              <span class="tour-pill" data-i18n="pillTrain">✓ Tren de Gran Lujo</span>
+              <span class="tour-pill" data-i18n="pillGuide">✓ Guía Privado Exclusivo</span>
+            </div>
           </div>
         </div>
 
         <form id="clientDetailsForm">
           <div class="form-group-grid">
             <div>
-              <label class="form-label" for="clientFullName">Nombre Completo del Titular *</label>
-              <input type="text" id="clientFullName" class="form-control-luxury" placeholder="Ej. Lord Arthur Hastings" required>
+              <label class="form-label" for="clientFullName" data-i18n="labelFullName">Nombre Completo del Titular *</label>
+              <input type="text" id="clientFullName" class="form-control-luxury" placeholder="Ej. Lord Arthur Hastings" data-i18n-ph="phFullName" required>
             </div>
             <div>
-              <label class="form-label" for="clientEmail">Correo Electrónico (para voucher) *</label>
-              <input type="email" id="clientEmail" class="form-control-luxury" placeholder="arthur@domain.com" required>
+              <label class="form-label" for="clientEmail" data-i18n="labelEmail">Correo Electrónico (para voucher) *</label>
+              <input type="email" id="clientEmail" class="form-control-luxury" placeholder="arthur@domain.com" data-i18n-ph="phEmail" required>
             </div>
           </div>
 
           <div class="form-group-grid">
             <div>
-              <label class="form-label" for="clientPhone">Teléfono / WhatsApp Internacional *</label>
-              <input type="tel" id="clientPhone" class="form-control-luxury" placeholder="+1 (555) 019-2834" required>
+              <label class="form-label" for="clientPhone" data-i18n="labelPhone">Teléfono / WhatsApp Internacional *</label>
+              <input type="tel" id="clientPhone" class="form-control-luxury" placeholder="+1 (555) 019-2834" data-i18n-ph="phPhone" required>
             </div>
             <div>
-              <label class="form-label" for="clientCurrency">Moneda de Pago</label>
+              <label class="form-label" for="clientCurrency" data-i18n="labelCurrency">Moneda de Pago</label>
               <select id="clientCurrency" class="form-control-luxury" onchange="handleCurrencyChange(this.value)">
-                <option value="USD">Dólares Americanos (USD $)</option>
-                <option value="PEN">Soles Peruanos (PEN S/.)</option>
+                <option value="USD" data-i18n="optUsd">Dólares Americanos (USD $)</option>
+                <option value="PEN" data-i18n="optPen">Soles Peruanos (PEN S/.)</option>
               </select>
             </div>
           </div>
 
           <div class="form-group-full">
-            <label class="form-label" for="clientNotes">Observaciones o Solicitud Especial (Opcional)</label>
-            <input type="text" id="clientNotes" class="form-control-luxury" placeholder="Dietas especiales, suite contigua, horarios de tren...">
+            <label class="form-label" for="clientNotes" data-i18n="labelNotes">Observaciones o Solicitud Especial (Opcional)</label>
+            <input type="text" id="clientNotes" class="form-control-luxury" placeholder="Dietas especiales, suite contigua, horarios de tren..." data-i18n-ph="phNotes">
           </div>
         </form>
 
         <div class="checkout-disclaimer">
-          <p>Al procesar su pago, se generará de inmediato una confirmación electrónica vinculada al sistema de Concierge y se actualizará su reserva en tiempo real.</p>
+          <p data-i18n="disclaimerText">Al procesar su pago, se generará de inmediato una confirmación electrónica vinculada al sistema de Concierge y se actualizará su reserva en tiempo real.</p>
         </div>
       </div>
 
       <!-- RIGHT: ORDER SUMMARY & CULQI MODAL TRIGGER -->
       <aside class="summary-card">
-        <h2 class="summary-title">Resumen de Pago</h2>
+        <h2 class="summary-title" data-i18n="summaryTitle">Resumen de Pago</h2>
 
         <div class="summary-row">
-          <span>Concepto</span>
-          <span id="summaryConcept">Depósito de Reserva (30%)</span>
+          <span data-i18n="summaryConceptLabel">Concepto</span>
+          <span id="summaryConcept" data-i18n="summaryConceptVal">Depósito de Reserva (30%)</span>
         </div>
 
         <div class="summary-row">
-          <span>Referencia de Pago</span>
+          <span data-i18n="summaryRefLabel">Referencia de Pago</span>
           <span id="summaryPrefId" class="summary-code-val">—</span>
         </div>
 
         <div class="summary-row">
-          <span>Pasarela de Pago</span>
+          <span data-i18n="summaryGatewayLabel">Pasarela de Pago</span>
           <span class="summary-gateway-badge">Culqi Checkout v4</span>
         </div>
 
         <div class="summary-row">
-          <span>Tipo de Transacción</span>
-          <span class="badge-deposit" id="summaryTypeBadge">Depósito Oficial</span>
+          <span data-i18n="summaryTypeLabel">Tipo de Transacción</span>
+          <span class="badge-deposit" id="summaryTypeBadge" data-i18n="summaryTypeVal">Depósito Oficial</span>
         </div>
 
         <div class="summary-row total-row">
-          <span>Total a Pagar</span>
+          <span data-i18n="summaryTotalLabel">Total a Pagar</span>
           <div class="total-amount-display" id="summaryTotalDisplay">$0.00 USD</div>
         </div>
 
         <!-- PAY WITH CULQI BUTTON -->
         <button type="button" class="btn-culqi-pay" id="btnPayWithCulqi" onclick="initiateCulqiPayment()">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
-          <span id="btnPayText">Pagar con Tarjeta o Yape</span>
+          <span id="btnPayText" data-i18n="btnPayText">Pagar con Tarjeta o Yape</span>
         </button>
 
         <div class="payment-methods-accepted">
-          <span class="payment-methods-label">Tarjetas & Billeteras Aceptadas</span>
+          <span class="payment-methods-label" data-i18n="paymentMethodsLabel">Tarjetas & Billeteras Aceptadas</span>
           <div class="payment-cards-icons">
             <span class="card-pill">VISA</span>
             <span class="card-pill">MASTERCARD</span>
@@ -180,77 +200,81 @@
       <!-- Encabezado para Impresión / PDF -->
       <div class="voucher-print-header">
         <div class="voucher-print-brand">LUXURY MACHUPICCHU PERU</div>
-        <div class="voucher-print-tagline">Haute Couture Andean Travel & Private Expeditions • RUC: 20601622492 • DIRCETUR Reg. N° 299-2016-GR CUSCO</div>
-        <div class="voucher-print-doc">COMPROBANTE OFICIAL DE RESERVA Y PAGO BANCARIO</div>
+        <div class="voucher-print-tagline">Haute Couture Andean Travel & Private Experiences • RUC: 20601622492 • DIRCETUR Reg. N° 299-2016-GR CUSCO</div>
+        <div class="voucher-print-doc" data-i18n="voucherDocTitle">COMPROBANTE OFICIAL DE RESERVA Y PAGO BANCARIO</div>
       </div>
 
       <div class="voucher-icon-success">
         <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
       </div>
-      <h2 class="voucher-title">¡Transacción Exitosa!</h2>
-      <p class="voucher-subtitle">Su depósito de viaje ha sido procesado de manera segura a través de Culqi.</p>
+      <h2 class="voucher-title" data-i18n="voucherTitle">¡Transacción Exitosa!</h2>
+      <p class="voucher-subtitle" data-i18n="voucherSub">Su depósito de viaje ha sido procesado de manera segura a través de Culqi.</p>
 
       <!-- Notificación Formal de Emisión y Despacho -->
       <div class="voucher-notice-banner">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
-        <span>Comprobante oficial emitido y enviado a: <strong id="voucherNoticeEmail">—</strong>. Copia enviada a Atelier Concierge 24/7.</span>
+        <span><span data-i18n="voucherSentTo">Comprobante oficial emitido y enviado a:</span> <strong id="voucherNoticeEmail">—</strong>. <span data-i18n="voucherConciergeCopy">Copia enviada a Atelier Concierge 24/7.</span></span>
       </div>
 
       <div class="voucher-details-box">
         <div class="voucher-grid">
           <div class="voucher-item voucher-item-full">
-            <label>Expedición Seleccionada</label>
+            <label data-i18n="voucherItemExpedition">Experiencia Seleccionada</label>
             <span id="voucherTourTitle">—</span>
           </div>
           <div class="voucher-item">
-            <label>Titular de la Reserva</label>
+            <label data-i18n="voucherItemGuest">Titular de la Reserva</label>
             <span id="voucherGuestName">—</span>
           </div>
           <div class="voucher-item">
-            <label>Referencia de Reserva</label>
+            <label data-i18n="voucherItemRef">Referencia de Reserva</label>
             <span id="voucherRefCode" class="voucher-code-highlight">—</span>
           </div>
           <div class="voucher-item">
-            <label>Monto Pagado</label>
+            <label data-i18n="voucherItemAmount">Monto Pagado</label>
             <span id="voucherAmount">—</span>
           </div>
           <div class="voucher-item">
-            <label>Método / Tarjeta</label>
+            <label data-i18n="voucherItemCard">Método / Tarjeta</label>
             <span id="voucherCard">—</span>
           </div>
           <div class="voucher-item">
-            <label>Código de Cargo (Culqi)</label>
+            <label data-i18n="voucherItemChargeId">Código de Cargo (Culqi)</label>
             <span id="voucherChargeId" class="voucher-code-highlight">—</span>
           </div>
           <div class="voucher-item">
-            <label>Código de Autorización</label>
+            <label data-i18n="voucherItemAuthCode">Código de Autorización</label>
             <span id="voucherAuthCode">—</span>
           </div>
           <div class="voucher-item">
-            <label>Fecha y Hora</label>
+            <label data-i18n="voucherItemDate">Fecha y Hora</label>
             <span id="voucherDate">—</span>
           </div>
           <div class="voucher-item">
-            <label>Estado de la Transacción</label>
-            <span class="voucher-status-paid">✓ Aprobado / Liquidado</span>
+            <label data-i18n="voucherItemStatus">Estado de la Transacción</label>
+            <span class="voucher-status-paid" data-i18n="voucherStatusPaid">✓ Aprobado / Liquidado</span>
           </div>
         </div>
       </div>
 
       <!-- Pie de página para Impresión / PDF -->
       <div class="voucher-print-footer">
-        <p>Este comprobante certifica la confirmación de su pago seguro procesado bajo estándares PCI-DSS Nivel 1 a través de Culqi.</p>
+        <p data-i18n="voucherPrintFoot1">Este comprobante certifica la confirmación de su pago seguro procesado bajo estándares PCI-DSS Nivel 1 a través de Culqi.</p>
         <p>Luxury Machupicchu Peru E.I.R.L • Portal de Panes 123, Plaza de Armas, Cusco, Perú • Tel: +51 958 195 840 • info@lmptravel.com</p>
       </div>
 
       <div class="voucher-actions">
         <a href="#" class="btn-voucher-action btn-voucher-wa" id="btnVoucherWhatsApp" target="_blank">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
-          Notificar a mi Concierge Personal
+          <span data-i18n="btnNotifyConcierge">Notificar a mi Concierge Personal</span>
         </a>
+        <button type="button" class="btn-voucher-action btn-voucher-pdf" id="btnVoucherPdf" onclick="downloadVoucherPDF()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+          <span data-i18n="btnDownloadPdf">Descargar PDF Oficial</span>
+        </button>
         <button type="button" class="btn-voucher-action btn-voucher-print" onclick="window.print()">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
-          Imprimir / Guardar Voucher
+          <span data-i18n="btnPrintVoucher">Imprimir / Guardar Voucher</span>
         </button>
       </div>
     </div>
@@ -261,20 +285,20 @@
   <footer class="checkout-footer">
     <p>© 2026 Luxury Machupicchu Peru E.I.R.L (LMP TRAVEL) • RUC: 20601622492 • DIRCETUR Reg. N° 299-2016-GR CUSCO</p>
     <div class="checkout-compliance-nav">
-      <a href="legal.html#licencias" target="_blank" class="checkout-compliance-link">Licencias & MINCETUR</a>
+      <a href="legal.html#licencias" target="_blank" class="checkout-compliance-link" data-i18n="linkLicenses">Licencias & MINCETUR</a>
       <span>•</span>
-      <a href="legal.html#terminos" target="_blank" class="checkout-compliance-link">Términos & Condiciones</a>
+      <a href="legal.html#terminos" target="_blank" class="checkout-compliance-link" data-i18n="linkTerms">Términos & Condiciones</a>
       <span>•</span>
-      <a href="legal.html#privacidad" target="_blank" class="checkout-compliance-link">Política de Privacidad</a>
+      <a href="legal.html#privacidad" target="_blank" class="checkout-compliance-link" data-i18n="linkPrivacy">Política de Privacidad</a>
       <span>•</span>
       <a href="legal.html#esnna" target="_blank" class="checkout-compliance-link">Código ESNNA</a>
       <span>•</span>
-      <a href="legal.html#libro-reclamaciones" target="_blank" class="checkout-compliance-link">Libro de Reclamaciones</a>
+      <a href="legal.html#libro-reclamaciones" target="_blank" class="checkout-compliance-link" data-i18n="linkClaims">Libro de Reclamaciones</a>
     </div>
-    <p class="checkout-compliance-footnote">Portal Oficial de Pagos y Reservas • Pasarela Bancaria Integrada con Culqi (PCI-DSS Nivel 1 Compliant)</p>
+    <p class="checkout-compliance-footnote" data-i18n="complianceFootnote">Portal Oficial de Pagos y Reservas • Pasarela Bancaria Integrada con Culqi (PCI-DSS Nivel 1 Compliant)</p>
   </footer>
 
   <!-- Checkout Logic -->
-  <script src="checkout.js?v=20261023_prod13"></script>
+  <script src="checkout.js?v=20261023_prod14"></script>
 </body>
 </html>

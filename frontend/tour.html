@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title id="pageTitle">Expedition Details | Luxury Machupicchu Peru</title>
-  <meta name="description" id="pageMetaDesc" content="Detailed luxury expedition itinerary, private master archaeologist curation, Belmond train logistics and official sanctuary access with Luxury Machupicchu Peru.">
+  <title id="pageTitle">Experience Details | Luxury Machupicchu Peru</title>
+  <meta name="description" id="pageMetaDesc" content="Detailed luxury experience itinerary, private master archaeologist curation, Belmond train logistics and official sanctuary access with Luxury Machupicchu Peru.">
   <link rel="canonical" id="canonicalTag" href="https://nuevo.lmptravel.com/tour.html">
   <link rel="icon" type="image/png" href="assets/images/logo-travel.png">
   <link rel="apple-touch-icon" href="assets/images/logo-travel.png">
@@ -13,16 +13,16 @@
   <meta property="og:type" content="article">
   <meta property="og:site_name" content="Luxury Machupicchu Peru">
   <meta property="og:url" id="ogUrl" content="https://nuevo.lmptravel.com/tour.html">
-  <meta property="og:title" id="ogTitle" content="Expedition Details | Luxury Machupicchu Peru">
-  <meta property="og:description" id="ogDesc" content="Detailed luxury expedition itinerary, private master archaeologist curation, Belmond train logistics and official sanctuary access with Luxury Machupicchu Peru.">
+  <meta property="og:title" id="ogTitle" content="Experience Details | Luxury Machupicchu Peru">
+  <meta property="og:description" id="ogDesc" content="Detailed luxury experience itinerary, private master archaeologist curation, Belmond train logistics and official sanctuary access with Luxury Machupicchu Peru.">
   <meta property="og:image" id="ogImage" content="https://nuevo.lmptravel.com/assets/images/hero_machu_picchu.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" id="twTitle" content="Expedition Details | Luxury Machupicchu Peru">
-  <meta name="twitter:description" id="twDesc" content="Detailed luxury expedition itinerary with Luxury Machupicchu Peru.">
+  <meta name="twitter:title" id="twTitle" content="Experience Details | Luxury Machupicchu Peru">
+  <meta name="twitter:description" id="twDesc" content="Detailed luxury experience itinerary with Luxury Machupicchu Peru.">
   <meta name="twitter:image" id="twImage" content="https://nuevo.lmptravel.com/assets/images/hero_machu_picchu.jpg">
 
   <!-- Fonts & Styles -->
@@ -70,10 +70,11 @@
       </div>
 
       <nav class="desktop-nav" id="desktopNav">
-        <a href="index.html#expeditions" class="nav-link" data-i18n="navExpeditions">Expeditions</a>
+        <a href="index.html#expeditions" class="nav-link" data-i18n="navExpeditions">Experiences</a>
         <a href="index.html#rail-journeys" class="nav-link" data-i18n="navRail">Hiram Bingham Rail</a>
         <a href="index.html#philosophy" class="nav-link" data-i18n="navPhilosophy">The Belmond Distinction</a>
         <a href="index.html#chronicles" class="nav-link" data-i18n="navChronicles">Guest Chronicles</a>
+        <a href="blog.html" class="nav-link" data-i18n="navBlog">Blog & Guías</a>
         <a href="index.html#contact" class="nav-link" data-i18n="navContact">Concierge</a>
         <button type="button" class="btn-nav-package" onclick="openCustomPackageModal(appState.tour?.slug)"><span data-i18n="navBuildPackage">✦ Arma tu Paquete</span></button>
       </nav>
@@ -115,12 +116,25 @@
       <button class="drawer-close" id="drawerClose" onclick="toggleMenu()" aria-label="Close Menu">✕</button>
     </div>
     <div class="drawer-links">
-      <a href="index.html#expeditions" onclick="toggleMenu()" data-i18n="navExpeditions">Expeditions</a>
+      <a href="index.html#expeditions" onclick="toggleMenu()" data-i18n="navExpeditions">Experiences</a>
       <a href="index.html#rail-journeys" onclick="toggleMenu()" data-i18n="navRail">Hiram Bingham Rail</a>
       <a href="index.html#philosophy" onclick="toggleMenu()" data-i18n="navPhilosophy">The Belmond Distinction</a>
       <a href="index.html#chronicles" onclick="toggleMenu()" data-i18n="navChronicles">Guest Chronicles</a>
+      <a href="blog.html" onclick="toggleMenu()" data-i18n="navBlog">Blog & Guías</a>
       <a href="index.html#contact" onclick="toggleMenu()" data-i18n="navContact">Concierge</a>
       <a href="#" onclick="toggleMenu(); openCustomPackageModal(appState.tour?.slug); return false;" class="nav-link" style="color: var(--color-gold); font-weight: 600;" data-i18n="navBuildPackage">✦ Arma tu Paquete</a>
+    </div>
+    <div class="drawer-utilities" style="padding: 1rem 1.5rem; border-top: 1px solid var(--color-sand-border); display: flex; align-items: center; justify-content: space-between; gap: 0.75rem;">
+      <div class="utility-pill" id="drawerLangPill">
+        <button class="pill-btn active" id="drawerBtnLangEn" onclick="setLanguage('en')">EN</button>
+        <span class="pill-divider">/</span>
+        <button class="pill-btn" id="drawerBtnLangEs" onclick="setLanguage('es')">ES</button>
+      </div>
+      <div class="utility-pill" id="drawerCurrencyPill">
+        <button class="pill-btn active" id="drawerBtnUsd" onclick="setCurrency('USD')">USD $</button>
+        <span class="pill-divider">/</span>
+        <button class="pill-btn" id="drawerBtnPen" onclick="setCurrency('PEN')">PEN S/.</button>
+      </div>
     </div>
     <div class="drawer-footer">
       <p class="drawer-phone">VIP Concierge: +(51) 958 195 840</p>
@@ -133,9 +147,9 @@
     <div class="tour-breadcrumb-inner">
       <a href="index.html" data-i18n="bcHome">Home</a>
       <span class="tour-breadcrumb-separator">/</span>
-      <a href="index.html#expeditions" data-i18n="bcExpeditions">Expeditions</a>
+      <a href="index.html#expeditions" data-i18n="bcExpeditions">Experiences</a>
       <span class="tour-breadcrumb-separator">/</span>
-      <span class="tour-breadcrumb-current" id="breadcrumbCurrentTitle">Loading Expedition...</span>
+      <span class="tour-breadcrumb-current" id="breadcrumbCurrentTitle">Loading Experience...</span>
     </div>
   </div>
 
@@ -145,7 +159,7 @@
       <div class="tour-hero-badges-row" id="heroBadgesRow">
         <span class="tour-hero-badge" id="heroStyleTag">Signature Journey</span>
       </div>
-      <h1 class="tour-hero-title" id="heroTourTitle">Expedition Title</h1>
+      <h1 class="tour-hero-title" id="heroTourTitle">Experience Title</h1>
       <p class="tour-hero-subtitle" id="heroTourSubtitle">Detailed subtitle describing the high-end journey.</p>
 
       <div class="tour-hero-stats-row">
@@ -186,7 +200,7 @@
         <section class="tour-overview-block">
           <h2 class="detail-section-title">
             <span class="title-crest">✦</span>
-            <span data-i18n="titleOverview">Expedition Narrative & Highlights</span>
+            <span data-i18n="titleOverview">Experience Narrative & Highlights</span>
           </h2>
           <p class="tour-narrative-text" id="tourLongNarrative">
             Every nuance of this journey has been calibrated to deliver unhurried immersion in Andean heritage.
@@ -194,7 +208,7 @@
 
           <!-- Highlights Card -->
           <div class="detail-highlights-box">
-            <h4 data-i18n="titleHighlights">Key Expedition Privileges</h4>
+            <h4 data-i18n="titleHighlights">Key Experience Privileges</h4>
             <ul class="detail-highlights-list" id="tourHighlightsList">
               <!-- Injected via JavaScript -->
             </ul>
@@ -280,7 +294,7 @@
               <select id="sidebarCarriage" class="sidebar-select">
                 <option value="Pullman Suite Carriage" data-i18n="carriagePullman">Belmond Pullman Suite Carriage (Gourmet Dining)</option>
                 <option value="Observatory Carriage" data-i18n="carriageObservatory">Observation Bar Car & Panoramic Lounge</option>
-                <option value="Presidential / Custom Private" data-i18n="carriagePresidential">Presidential / Fully Tailored Expedition</option>
+                <option value="Presidential / Custom Private" data-i18n="carriagePresidential">Presidential / Fully Tailored Experience</option>
               </select>
             </div>
 
@@ -446,7 +460,7 @@
       <section class="tour-dossier-block fullwidth-block">
         <div class="dossier-download-box fullwidth-dossier-box">
           <div class="dossier-text">
-            <h4 data-i18n="dossierTitle">Private Expedition Dossier (PDF)</h4>
+            <h4 data-i18n="dossierTitle">Private Experience Dossier (PDF)</h4>
             <p data-i18n="dossierSubtitle">Generate an elegant, printable dossier of this itinerary with daily schedules, logistical specifications, and partner properties.</p>
           </div>
           <div class="dossier-actions">
@@ -456,7 +470,7 @@
             </button>
             <button class="btn-scroll-booking" onclick="document.getElementById('bookingSection').scrollIntoView({behavior: 'smooth', block: 'center'})">
               <span>✦</span>
-              <span data-i18n="btnReserveNowJump">Reservar / Cotizar Esta Expedición</span>
+              <span data-i18n="btnReserveNowJump">Reservar / Cotizar Esta Experiencia</span>
             </button>
           </div>
         </div>
@@ -488,7 +502,7 @@
           <span class="brand-subtitle">PERU</span>
         </div>
         <p class="footer-brand-desc" data-i18n="footerDesc">
-          Official luxury travel atelier dedicated to private, bespoke expeditions through the Sacred Valley, Machu Picchu Sanctuary, and the High Andes.
+          Official luxury travel atelier dedicated to private, bespoke experiences through the Sacred Valley, Machu Picchu Sanctuary, and the High Andes.
         </p>
         <div class="footer-legal-badges" style="margin-bottom: 0.75rem;">
           <span class="legal-badge">RUC: 20601622492</span>
@@ -506,7 +520,7 @@
       </div>
 
       <div class="footer-col">
-        <h4 class="footer-heading" data-i18n="footerExpeditions">Expeditions</h4>
+        <h4 class="footer-heading" data-i18n="footerExpeditions">Experiences</h4>
         <ul class="footer-links">
           <li><a href="tour.html?slug=belmond-hiram-bingham-pinnacle">Belmond Hiram Bingham</a></li>
           <li><a href="tour.html?slug=sacred-valley-prive-shamanic-ritual">Sacred Valley & Shamanic Ritual</a></li>
@@ -542,6 +556,8 @@
           © 2026 Luxury Machupicchu Peru E.I.R.L. All Rights Reserved. Private Haute Couture Travel Atelier.
         </p>
         <div class="footer-legal-links">
+          <a href="blog.html" style="color: var(--color-gold); font-weight: 600;">Blog & Guías ↗</a>
+          <span class="divider">•</span>
           <a href="legal.html#licencias" onclick="openClaimModal('licenses'); return false;">Licencias Oficiales</a>
           <span class="divider">•</span>
           <a href="legal.html#terminos" onclick="openClaimModal('terms'); return false;">Terms & Conditions</a>
@@ -582,7 +598,7 @@
         <span class="pkg-builder-kicker" data-i18n="pkgModalKicker">ALTA COSTURA ANDINA • RESERVA PERSONALIZADA</span>
         <h2 class="pkg-builder-title" data-i18n="pkgModalTitle">Arma tu Paquete a Medida</h2>
         <p class="pkg-builder-sub" data-i18n="pkgModalSubtitle">
-          Personalice su expedición privada: seleccione servicio de tren, hotelería de colección, experiencias de autor y condición tributaria con cotización en tiempo real.
+          Personalice su experiencia privada: seleccione servicio de tren, hotelería de colección, servicios de autor y condición tributaria con cotización en tiempo real.
         </p>
       </div>
 
@@ -594,7 +610,7 @@
           <div class="pkg-step-block">
             <div class="pkg-step-header">
               <span class="pkg-step-num">1</span>
-              <h3 class="pkg-step-title" data-i18n="step1Title">1. Seleccione la Expedición Base</h3>
+              <h3 class="pkg-step-title" data-i18n="step1Title">1. Seleccione la Experiencia Base</h3>
             </div>
             <div class="pkg-cards-grid" id="pkgTourCardsGrid">
               <!-- Dynamically populated via JS -->
@@ -917,6 +933,22 @@
                 <a href="assets/images/legal/licencia_apertura_lmp_travel.jpg" target="_blank" class="btn-cert-view">Ver Licencia HD</a>
               </div>
             </div>
+
+            <!-- Cert 4: Código ESNNA -->
+            <div class="legal-cert-card">
+              <div class="legal-cert-img-wrap contain-img">
+                <img src="assets/images/legal/Logo-ESNNA-Nacional.jpg" alt="Logo Oficial ESNNA Nacional">
+                <span class="legal-cert-badge">MINCETUR • ESNNA</span>
+              </div>
+              <div class="legal-cert-body">
+                <h4 class="legal-cert-title">Código ESNNA Nacional</h4>
+                <span class="legal-cert-issuer">MINISTERIO DE COMERCIO EXTERIOR Y TURISMO</span>
+                <p class="legal-cert-meta">
+                  Suscrito ante GERCETUR Cusco para la prevención de la explotación sexual en turismo.
+                </p>
+                <a href="legal.html#esnna" class="btn-cert-view">Ver Código ESNNA</a>
+              </div>
+            </div>
           </div>
 
           <div style="text-align: center; margin-top: 1.5rem;">
@@ -957,7 +989,7 @@
             <h4>4. Políticas de Cancelación y Reembolso</h4>
             <ul>
               <li>Cancelaciones con más de 30 días: Se reembolsa el saldo a favor deduciendo costos oficiales no reembolsables del santuario y ferrocarriles.</li>
-              <li>Cancelaciones entre 29 y 15 días: Penalidad del 50% del valor de la expedición.</li>
+              <li>Cancelaciones entre 29 y 15 días: Penalidad del 50% del valor de la experiencia.</li>
               <li>Cancelaciones con menos de 14 días o No-Show: Penalidad del 100% sin derecho a reembolso.</li>
             </ul>
 
@@ -1075,7 +1107,7 @@
               <div class="claim-form-section-title" style="margin-top: 1.5rem;">2. Identificación del Bien o Servicio Contratado</div>
               <div class="claim-grid-2">
                 <div class="form-field">
-                  <label for="claimService">Expedición o Servicio Contratado *</label>
+                  <label for="claimService">Experiencia o Servicio Contratado *</label>
                   <input type="text" id="claimService" required placeholder="Ej. Belmond Hiram Bingham Pinnacle / Sacred Valley Privé">
                 </div>
                 <div class="form-field">
